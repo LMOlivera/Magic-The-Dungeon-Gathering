@@ -7,12 +7,21 @@
  *   - its colors join the player's (a colorless player takes them; others add them)
  *   - its mana cost is added to the player's, symbol by symbol: {1}{B} + {R} = {1}{B}{R}
  *   - the player chooses which of its creature types to add to theirs
+ *   - its other card types (Enchantment, Artifact, Land) and Legendary join the player's
+ *   - it gains what rules/cards.js gives for its rules text (keywords and abilities)
  */
 
 import { combineManaCosts } from '../shared/mana.js';
+import { CARD_RULES } from '../rules/cards.js';
+import { addKeywords } from '../rules/keywords.js';
 
 export const COLOR_ORDER = ['W', 'U', 'B', 'R', 'G'];
 export const COLOR_NAMES = { W: 'white', U: 'blue', B: 'black', R: 'red', G: 'green' };
+/**
+ * What a creature's type line can have before "Creature", in the order it prints
+ * them. Legendary is a supertype, not a card type, but it joins the player's too.
+ */
+export const CARD_TYPE_ORDER = ['Legendary', 'Enchantment', 'Artifact', 'Land'];
 
 /**
  * The part of the card that gets absorbed. Most cards have one; for cards with
@@ -26,7 +35,20 @@ export function frontFace(card) {
     typeLine: face.typeLine || card.typeLine,
     power: face.power ?? card.power,
     toughness: face.toughness ?? card.toughness,
+    text: face.text ?? card.text ?? '',
   };
+}
+
+/**
+ * What the player gains from the card's rules text, as decided in rules/cards.js.
+ *   reviewed   false when the card has rules text nobody has decided about yet
+ *   keywords   keyword names, abilities  other abilities as text
+ */
+export function textToAbsorb(card) {
+  const face = frontFace(card);
+  const rules = Object.hasOwn(CARD_RULES, face.name) ? CARD_RULES[face.name] : null;
+  if (!rules) return { reviewed: !face.text.trim(), keywords: [], abilities: [] };
+  return { reviewed: true, keywords: [...(rules.keywords || [])], abilities: [...(rules.abilities || [])] };
 }
 
 export function isCreatureCard(card) {
@@ -37,6 +59,18 @@ export function isCreatureCard(card) {
 export function subtypesOf(typeLine) {
   const [, subtypes] = String(typeLine).split(' — ');
   return subtypes ? subtypes.trim().split(/\s+/) : [];
+}
+
+/** "Legendary Enchantment Creature — Nymph" -> ['Legendary', 'Enchantment'] */
+export function cardTypesOf(typeLine) {
+  const [types] = String(typeLine).split(' — ');
+  const words = types.trim().split(/\s+/);
+  return CARD_TYPE_ORDER.filter((type) => words.includes(type));
+}
+
+/** The player's type line: "Enchantment Creature — Human Nymph". */
+export function typeLineOf({ cardTypes = [], types }) {
+  return `${[...CARD_TYPE_ORDER.filter((type) => cardTypes.includes(type)), 'Creature'].join(' ')} — ${types.join(' ')}`;
 }
 
 /** A printed power or toughness as a number, or null when it isn't one (like "*"). */
@@ -64,9 +98,18 @@ export function describeColors(colors) {
  *   colors                  the player's colors afterwards
  *   manaCost                the player's mana cost afterwards
  *   newTypes                its creature types the player doesn't have yet
+ *   cardTypes               the player's card types afterwards, besides Creature
+ *   keywords, abilities     everything its text gives (textToAbsorb)
+ *   keywordsAfter           the player's keywords afterwards ("Modular 1" twice is "Modular 2")
+ *   newKeywords, newAbilities  what the player doesn't have yet, or has with a new number
+ *   hasText                 the card has rules text
+ *   textReviewed            false when that text hasn't been decided about (nothing is gained)
  */
 export function absorbPreview(player, card) {
   const face = frontFace(card);
+  const text = textToAbsorb(card);
+  const keywords = player.keywords || [];
+  const keywordsAfter = addKeywords(keywords, text.keywords);
   return {
     name: face.name,
     addPower: statValue(face.power),
@@ -76,6 +119,14 @@ export function absorbPreview(player, card) {
     colors: mergeColors(player.colors, card.colors || []),
     manaCost: combineManaCosts(player.manaCost, face.manaCost),
     newTypes: subtypesOf(face.typeLine).filter((type) => !player.types.includes(type)),
+    cardTypes: CARD_TYPE_ORDER.filter((type) => (player.cardTypes || []).includes(type) || cardTypesOf(face.typeLine).includes(type)),
+    keywords: text.keywords,
+    abilities: text.abilities,
+    keywordsAfter,
+    newKeywords: keywordsAfter.filter((keyword) => !keywords.includes(keyword)),
+    newAbilities: text.abilities.filter((ability) => !player.abilities.includes(ability)),
+    hasText: Boolean(face.text.trim()),
+    textReviewed: text.reviewed,
   };
 }
 
@@ -97,6 +148,9 @@ export function absorbCreature(player, card, choices = {}) {
     colors: preview.colors,
     manaCost: preview.manaCost,
     types: [...player.types, ...preview.newTypes.filter((type) => chosen.has(type))],
+    cardTypes: preview.cardTypes,
+    keywords: preview.keywordsAfter,
+    abilities: [...player.abilities, ...preview.newAbilities],
     absorbed: [...(player.absorbed || []), { id: card.id, name: preview.name }],
     booster: null,
   };

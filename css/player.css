@@ -75,6 +75,18 @@
 .absorb__options { display: flex; flex-wrap: wrap; gap: 8px 18px; }
 .absorb__options label { display: flex; align-items: center; gap: 8px; cursor: pointer; }
 .absorb__options input { width: 18px; height: 18px; accent-color: var(--torch); }
+/* What the card's rules text gives, with each keyword's rule in this game. */
+.absorb__abilities { padding: 12px 14px; border: 1px solid var(--stone-600); border-radius: 6px; }
+.absorb__abilities h4 { margin: 0 0 6px; font-size: 1rem; font-weight: 500; }
+.absorb__ability-list { display: grid; gap: 6px; margin: 0; padding: 0; list-style: none; }
+.absorb__ability-list strong { color: var(--torch); font-weight: 500; }
+/* Explained phrases and mana symbols inside an ability, on the dark dialog. */
+.absorb__ability-list .kw { text-decoration-color: var(--ash); }
+.absorb__ability-list .mana { width: 1em; height: 1em; vertical-align: -0.15em; border-radius: 50%; }
+.absorb__ability-list .mana--text { display: inline-grid; place-items: center; background: #cbc4bb; color: #1d1915; font-size: 0.65em; font-weight: 700; }
+.absorb__ability-list .changes__same { font-size: 0.9em; }
+.absorb__abilities .note { margin: 6px 0 0; }
+.absorb__ability-list:empty + .note { margin-top: 0; }
 .absorb__stats { display: flex; flex-direction: column; gap: 12px; }
 .absorb__stats:empty { display: none; }
 .absorb__stats .input { max-width: 8em; }
@@ -85,8 +97,11 @@
 .pc.is-card-only { grid-template-columns: minmax(0, 1fr); justify-items: center; align-items: start; gap: 24px; }
 .pc.is-card-only .pc__panel { justify-self: stretch; max-width: none; }
 .pc.is-card-only .pc__panel > :not(.back) { display: none !important; }
-.pc.is-card-only .card-stage { padding: 24px 0 8px; }
-.pc.is-card-only .card { zoom: 1.25; }
+/* Scaled with transform, not zoom: zoom changes how the browser reports sizes,
+   and the card measures its text to fit it. The padding makes room for the
+   extra 25%, which a transform doesn't take in the layout. */
+.pc.is-card-only .card-stage { padding: 72px 0 56px; }
+.pc.is-card-only .card { transform: rotate(-4deg) scale(1.25); }
 /* The card takes focus after absorbing so screen readers announce it; no outline needed. */
 #pc-card:focus { outline: none; }
 .pc__card-foot { display: flex; flex-direction: column; align-items: center; gap: 12px; }
@@ -94,6 +109,12 @@
 .absorb-caption { min-height: 1.5em; margin: 0; color: var(--bone); font-weight: 500; text-align: center; }
 .absorb-caption:empty { visibility: hidden; }
 .action--big { padding: 14px 22px; font-size: 1.125rem; }
+
+/* +1/+1 counters under the card. */
+.counters { display: flex; align-items: center; gap: 10px; }
+.counters__label { color: var(--ash); }
+.counters__step { min-width: 44px; min-height: 44px; padding: 0; font-size: 1.25rem; line-height: 1; }
+.counters__value { min-width: 3.5em; font-family: var(--font-display); font-size: 1.5rem; text-align: center; }
 
 /* ---------- Absorb animation ---------- */
 /* The creature flies into the card and fades out. */

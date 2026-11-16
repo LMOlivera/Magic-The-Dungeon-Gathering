@@ -9,14 +9,16 @@
  */
 
 import { $, el } from '../shared/dom.js';
-import { renderCard, fitCardText, artBoxRatio, fillManaCost } from '../shared/card.js';
+import { renderCard, fitCardText, artBoxRatio, fillManaCost, abilityNodes } from '../shared/card.js';
 import { storageWorks, readJSON, writeJSON, removeKey } from '../shared/storage.js';
 import { putImage, getImage, deleteImage, imagesPersist, dataUrlToBlob } from '../shared/images.js';
 import {
   SAVE_VERSION, FLAVOR_MAX,
-  cleanName, newPlayer, withFlavor, withArt, withoutArt, withBooster, toCardData, upgradeSave,
+  cleanName, newPlayer, withFlavor, withArt, withoutArt, withBooster, withCounters, describeCounters,
+  toCardData, upgradeSave,
 } from './model.js';
-import { isCreatureCard, absorbPreview, absorbCreature, describeColors } from './absorb.js';
+import { isCreatureCard, absorbPreview, absorbCreature, describeColors, typeLineOf } from './absorb.js';
+import { keywordRule, parseKeyword } from '../rules/keywords.js';
 import { makeBooster } from './booster.js';
 import { loadPool, cardImageUrl } from '../shared/cards.js';
 import { renderBooster } from '../shared/booster-ui.js';
@@ -118,6 +120,8 @@ export async function initPlayerView() {
       $('pc-art-skip').textContent = editingArt ? 'Use the default art' : 'Skip for now';
       $('pc-art-skip').hidden = editingArt && !player.hasArt;
       $('pc-art-cancel').hidden = !editingArt;
+    } else if (step === 'card') {
+      $('pc-counter-value').textContent = describeCounters(player.counters || 0);
     } else if (step === 'sheet') {
       $('pc-edit-art').hidden = !player.hasArtSource;
       if (document.activeElement !== flavorInput) flavorInput.value = player.flavor || '';
@@ -277,6 +281,16 @@ export async function initPlayerView() {
   $('pc-reset').addEventListener('click', startOver);
   $('pc-reset-card').addEventListener('click', startOver);
 
+  /* ----- Counters ----- */
+  function changeCounters(by) {
+    if (!player || animating) return;
+    player = withCounters(player, (player.counters || 0) + by);
+    save();
+    render();
+  }
+  $('pc-counter-up').addEventListener('click', () => changeCounters(1));
+  $('pc-counter-down').addEventListener('click', () => changeCounters(-1));
+
   /* ----- Boosters and absorbing ----- */
   const boosterDialog = $('pc-booster');
   const confirmButton = $('pc-booster-confirm');
@@ -367,13 +381,48 @@ export async function initPlayerView() {
 
   function renderChanges() {
     const after = absorbCreature(player, absorbing, absorbChoices());
+    // Power and toughness as the card shows them, with the counters.
+    const [now, then] = [toCardData(player), toCardData(after)];
     const capital = (text) => text[0].toUpperCase() + text.slice(1);
     $('pc-absorb-changes').replaceChildren(
-      changeRow('Power / toughness', `${player.power}/${player.toughness}`, `${after.power}/${after.toughness}`),
+      changeRow('Power / toughness', `${now.power}/${now.toughness}`, `${then.power}/${then.toughness}`),
       changeRow('Colors', capital(describeColors(player.colors)), capital(describeColors(after.colors))),
       changeRow('Mana cost', () => manaCostNode(player.manaCost), () => manaCostNode(after.manaCost), player.manaCost === after.manaCost),
-      changeRow('Types', player.types.join(' '), after.types.join(' ')),
+      changeRow('Type', typeLineOf(player), typeLineOf(after)),
     );
+  }
+
+  /**
+   * What the card's rules text gives: each keyword with what it does in this game,
+   * and the other abilities as they will read on the card.
+   */
+  function showAbilities(preview) {
+    const items = [];
+    for (const keyword of preview.keywords) {
+      const item = el('li');
+      item.append(el('strong', null, keyword), ` — ${keywordRule(keyword) || 'Not defined yet.'}`);
+      const { name } = parseKeyword(keyword);
+      const result = preview.keywordsAfter.find((had) => parseKeyword(had).name === name);
+      if (result !== keyword) item.append(el('span', 'changes__same', ` (adds to yours: you’ll have ${result})`));
+      else if (!preview.newKeywords.includes(keyword)) item.append(el('span', 'changes__same', ' (you already have it)'));
+      items.push(item);
+    }
+    for (const ability of preview.abilities) {
+      const item = el('li');
+      item.append(...abilityNodes(ability));
+      if (!preview.newAbilities.includes(ability)) item.append(el('span', 'changes__same', ' (you already have it)'));
+      items.push(item);
+    }
+    $('pc-absorb-ability-list').replaceChildren(...items);
+
+    let note = '';
+    if (!preview.textReviewed) note = 'Its rules text isn’t part of the game yet, so you don’t gain it.';
+    else if (preview.hasText && !items.length) note = 'Its rules text does nothing in the dungeon.';
+    const noteEl = $('pc-absorb-ability-note');
+    noteEl.textContent = note;
+    noteEl.hidden = !note;
+    $('pc-absorb-abilities-title').textContent = items.length ? 'Abilities you gain' : 'Rules text';
+    $('pc-absorb-abilities').hidden = !items.length && !note;
   }
 
   /** A number field for a stat the card doesn't print as a number, like "*". */
@@ -412,6 +461,7 @@ export async function initPlayerView() {
     noTypes.hidden = options.length > 0;
     noTypes.textContent = 'It has no creature types you don\u2019t already have.';
 
+    showAbilities(preview);
     renderChanges();
     $('pc-booster-pick').hidden = true;
     $('pc-absorb').hidden = false;
@@ -463,7 +513,12 @@ export async function initPlayerView() {
   const refitText = () => fitCardText(card);
   window.addEventListener('hashchange', refitText);
   window.addEventListener('resize', refitText);
-  if (document.fonts && document.fonts.ready) document.fonts.ready.then(refitText);
+  if (document.fonts) {
+    // ready can resolve before the card's fonts even start loading, so also
+    // refit every time a font finishes loading.
+    document.fonts.ready.then(refitText);
+    document.fonts.addEventListener('loadingdone', refitText);
+  }
 
   // Another tab changed or cleared the card.
   window.addEventListener('storage', async (event) => {

@@ -4,18 +4,23 @@ import { readFileSync } from 'node:fs';
 
 import {
   frontFace, isCreatureCard, subtypesOf, statValue, mergeColors, describeColors,
-  absorbPreview, absorbCreature,
+  absorbPreview, absorbCreature, textToAbsorb, cardTypesOf, typeLineOf,
 } from '../js/player/absorb.js';
 import { newPlayer, withBooster } from '../js/player/model.js';
+import { CARD_RULES } from '../js/rules/cards.js';
+import { keywordRule, parseKeyword, addKeywords } from '../js/rules/keywords.js';
+import { TERMS } from '../js/rules/terms.js';
 
 /** A pool card with only the fields absorbing uses. */
-function creature(name, { cost = '{1}', colors = [], type = 'Creature — Beast', power = '1', toughness = '1', faces = [] } = {}) {
-  return { id: `id-${name}`, name, manaCost: cost, colors, typeLine: type, power, toughness, faces };
+function creature(name, { cost = '{1}', colors = [], type = 'Creature — Beast', power = '1', toughness = '1', text = '', faces = [] } = {}) {
+  return { id: `id-${name}`, name, manaCost: cost, colors, typeLine: type, power, toughness, text, faces };
 }
 
 const turtle = creature('Aegis Turtle', { cost: '{U}', colors: ['U'], type: 'Creature — Turtle', power: '0', toughness: '5' });
 const vampire = creature('Vampire Noble', { cost: '{2}{B}', colors: ['B'], type: 'Creature — Vampire Noble', power: '3', toughness: '2' });
-const ornithopter = creature('Ornithopter', { cost: '{0}', type: 'Artifact Creature — Thopter', power: '0', toughness: '2' });
+const ornithopter = creature('Ornithopter', { cost: '{0}', type: 'Artifact Creature — Thopter', power: '0', toughness: '2', text: 'Flying' });
+const sniper = creature('Dragon Sniper', { cost: '{G}', colors: ['G'], type: 'Creature — Human Archer', text: 'Reach, vigilance, deathtouch' });
+const unreviewed = creature('Not Reviewed Yet', { text: 'When this creature enters, draw a card.' });
 
 test('absorbing a creature adds its power and toughness', () => {
   const player = absorbCreature(newPlayer('Ana'), turtle);
@@ -145,4 +150,69 @@ test('the card frame follows the colors: grey, the color, or gold for several', 
   assert.equal(frameFor(['W']), 'W');
   assert.equal(frameFor(['U', 'B']), 'gold');
   assert.equal(frameFor(['W', 'U', 'B', 'R', 'G']), 'gold');
+});
+
+test('keywords from rules/cards.js are absorbed, without repeats', () => {
+  const flier = absorbCreature(newPlayer('Ana'), ornithopter);
+  assert.deepEqual(flier.keywords, ['Flying']);
+  const both = absorbCreature(flier, sniper);
+  assert.deepEqual(both.keywords, ['Flying', 'Reach', 'Vigilance', 'Deathtouch']);
+  assert.deepEqual(absorbCreature(both, ornithopter).keywords, both.keywords, 'no repeats');
+  assert.deepEqual(absorbPreview(flier, ornithopter).newKeywords, []);
+});
+
+test('rules text nobody has decided about gives nothing yet', () => {
+  const preview = absorbPreview(newPlayer('Ana'), unreviewed);
+  assert.equal(preview.hasText, true);
+  assert.equal(preview.textReviewed, false);
+  const player = absorbCreature(newPlayer('Ana'), unreviewed);
+  assert.deepEqual(player.keywords, []);
+  assert.deepEqual(player.abilities, []);
+  assert.equal(textToAbsorb(turtle).reviewed, true, 'no text, nothing to decide');
+});
+
+test('rules/cards.js only uses defined keywords and names cards of the pool', () => {
+  const { cards } = JSON.parse(readFileSync(new URL('../data/level1.json', import.meta.url), 'utf8'));
+  const names = new Set(cards.flatMap((poolCard) => [poolCard.name, ...(poolCard.faces || []).map((face) => face.name)]));
+  for (const [name, rules] of Object.entries(CARD_RULES)) {
+    assert.ok(names.has(name), `${name} is not in the pool`);
+    for (const keyword of rules.keywords || []) assert.ok(keywordRule(keyword), `${name}: ${keyword} has no rule in rules/keywords.js`);
+  }
+});
+
+test('other card types join the player type line', () => {
+  assert.deepEqual(cardTypesOf('Legendary Enchantment Creature — Nymph'), ['Legendary', 'Enchantment']);
+  assert.equal(typeLineOf({ cardTypes: ['Artifact', 'Legendary'], types: ['Human'] }), 'Legendary Artifact Creature — Human');
+  assert.deepEqual(cardTypesOf('Creature — Turtle'), []);
+  const nymph = creature('Alseid of Life\'s Bounty', { cost: '{W}', colors: ['W'], type: 'Enchantment Creature — Nymph' });
+  const thopter = absorbCreature(newPlayer('Ana'), ornithopter);
+  assert.deepEqual(thopter.cardTypes, ['Artifact']);
+  const both = absorbCreature(thopter, nymph, { types: ['Nymph'] });
+  assert.deepEqual(both.cardTypes, ['Enchantment', 'Artifact'], 'printed order, no repeats');
+  assert.equal(typeLineOf(both), 'Enchantment Artifact Creature — Human Nymph');
+  assert.equal(typeLineOf(newPlayer('Ana')), 'Creature — Human');
+});
+
+test('every phrase in rules/terms.js shows up in some ability', () => {
+  const abilities = Object.values(CARD_RULES).flatMap((rules) => rules.abilities || []);
+  for (const term of TERMS) {
+    assert.equal(term.pattern.flags.includes('g'), false, `${term.title}: no g flag`);
+    assert.ok(abilities.some((ability) => term.pattern.test(ability)), `${term.title} matches no ability`);
+  }
+});
+
+test('keywords with a number add up', () => {
+  assert.deepEqual(parseKeyword('Modular 2'), { name: 'Modular', value: 2 });
+  assert.deepEqual(parseKeyword('First strike'), { name: 'First strike', value: null });
+  assert.deepEqual(addKeywords(['Lifelink', 'Modular 1'], ['Modular 1', 'Lifelink', 'Flying']), ['Lifelink', 'Modular 2', 'Flying']);
+  assert.deepEqual(addKeywords(['Modular'], ['Modular 1']), ['Modular 1'], 'a save from before numbers');
+  assert.match(keywordRule('Modular 2'), /2 \+1\/\+1 counters/);
+  assert.match(keywordRule('Modular 1'), /1 \+1\/\+1 counter on/);
+
+  const worker = creature('Arcbound Worker', { type: 'Artifact Creature — Construct', power: '0', toughness: '0', text: 'Modular 1' });
+  const once = absorbCreature(newPlayer('Ana'), worker);
+  assert.deepEqual(once.keywords, ['Modular 1']);
+  const preview = absorbPreview(once, worker);
+  assert.deepEqual(preview.newKeywords, ['Modular 2']);
+  assert.deepEqual(absorbCreature(once, worker).keywords, ['Modular 2']);
 });

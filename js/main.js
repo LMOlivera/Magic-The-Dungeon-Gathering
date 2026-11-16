@@ -8,6 +8,7 @@
 import { $ } from './shared/dom.js';
 import { renderCard } from './shared/card.js';
 import { initPlayerView } from './player/view.js';
+import { initTooltips } from './shared/tooltip.js';
 
 const views = {
   'home': $('view-home'),
@@ -45,4 +46,5 @@ renderCard($('home-card'), {
   flavor: 'Everyone walks in as a 1/1.',
 });
 
+initTooltips();
 initPlayerView();

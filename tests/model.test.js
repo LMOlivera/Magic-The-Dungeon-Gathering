@@ -3,7 +3,8 @@ import assert from 'node:assert/strict';
 
 import {
   SAVE_VERSION, FLAVOR_MAX,
-  cleanName, newPlayer, withFlavor, withArt, withoutArt, withBooster, toCardData, upgradeSave,
+  cleanName, newPlayer, withFlavor, withArt, withoutArt, withBooster, withCounters, describeCounters,
+  toCardData, upgradeSave,
 } from '../js/player/model.js';
 
 test('a new player is a colorless 1/1 Human with cost {0} and a sealed name', () => {
@@ -60,7 +61,8 @@ test('the basic card has no rules text; flavor and art pass through', () => {
   const player = withFlavor(newPlayer('Ana'), 'Born in a tavern.');
   const data = toCardData(player, 'blob:photo');
   assert.equal(data.name, 'Ana');
-  assert.equal(data.rulesText, '');
+  assert.deepEqual(data.keywords, []);
+  assert.deepEqual(data.abilities, []);
   assert.equal(data.flavor, 'Born in a tavern.');
   assert.equal(data.artUrl, 'blob:photo');
   assert.equal(toCardData(player).artUrl, null);
@@ -169,4 +171,40 @@ test('upgradeSave handles the earliest v1 saves: no flavor, no original photo', 
   const skipped = upgradeSave({ version: 1, name: 'Ana', art: null, artChosen: true });
   assert.deepEqual(skipped.images, {});
   assert.equal(skipped.player.hasArt, false);
+});
+
+test('upgradeSave keeps v4 abilities and adds keywords', () => {
+  const v4 = { ...newPlayer('Ana'), version: 4, abilities: ['Old note'] };
+  delete v4.keywords;
+  const { player } = upgradeSave(v4);
+  assert.equal(player.version, SAVE_VERSION);
+  assert.deepEqual(player.keywords, []);
+  assert.deepEqual(player.abilities, ['Old note']);
+});
+
+test('upgradeSave adds card types to v5 saves', () => {
+  const v5 = { ...newPlayer('Ana'), version: 5 };
+  delete v5.cardTypes;
+  const { player } = upgradeSave(v5);
+  assert.equal(player.version, SAVE_VERSION);
+  assert.deepEqual(player.cardTypes, []);
+});
+
+test('+1/+1 counters show on the card power and toughness', () => {
+  const player = withCounters({ ...newPlayer('Ana'), power: 2, toughness: 3 }, 2);
+  assert.equal(player.power, 2, 'the absorbed power stays apart');
+  assert.equal(`${toCardData(player).power}/${toCardData(player).toughness}`, '4/5');
+  const shrunk = withCounters(player, -1);
+  assert.equal(`${toCardData(shrunk).power}/${toCardData(shrunk).toughness}`, '1/2');
+  assert.equal(describeCounters(2), '+2/+2');
+  assert.equal(describeCounters(-1), '-1/-1');
+  assert.equal(describeCounters(0), '0');
+});
+
+test('upgradeSave adds counters to v6 saves', () => {
+  const v6 = { ...newPlayer('Ana'), version: 6 };
+  delete v6.counters;
+  const { player } = upgradeSave(v6);
+  assert.equal(player.version, SAVE_VERSION);
+  assert.equal(player.counters, 0);
 });

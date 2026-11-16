@@ -136,3 +136,22 @@ textarea.input { resize: vertical; min-height: 4.5em; line-height: 1.4; }
   /* Still turns, slowly: it's the only sign that work is in progress. */
   .busy__spinner { animation-duration: 2.4s; }
 }
+
+/* ---------- Tooltip (shared/tooltip.js) ----------
+   One bubble for the page, placed next to the element it explains. */
+.tooltip {
+  position: fixed;
+  inset: auto;
+  margin: 0;
+  z-index: 1000;
+  max-width: min(280px, calc(100vw - 16px));
+  padding: 8px 11px;
+  border: 1px solid var(--stone-600);
+  border-radius: 6px;
+  background: var(--stone-800);
+  color: var(--bone);
+  font: 0.9375rem/1.35 var(--font-body);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.55);
+  pointer-events: none;
+}
+.tooltip strong { display: block; margin-bottom: 2px; color: var(--torch); font-weight: 500; }

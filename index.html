@@ -111,6 +111,12 @@
   <!-- Only once the card has absorbed something: the page then shows just the card. -->
   <div class="pc__card-foot" id="pc-card-foot" hidden>
     <p class="absorb-caption" id="pc-absorb-caption" role="status"></p>
+    <div class="counters" role="group" aria-labelledby="pc-counters-label">
+      <span class="counters__label" id="pc-counters-label">+1/+1 counters</span>
+      <button class="action counters__step" type="button" id="pc-counter-down" aria-label="Remove a +1/+1 counter">&minus;</button>
+      <output class="counters__value" id="pc-counter-value" aria-live="polite">0</output>
+      <button class="action counters__step" type="button" id="pc-counter-up" aria-label="Add a +1/+1 counter">+</button>
+    </div>
     <button class="action action--quiet" type="button" id="pc-reset-card">Start over</button>
   </div>
 
@@ -144,6 +150,11 @@
     <section id="pc-absorb" hidden>
       <p class="note">This is what your card becomes.</p>
       <dl class="changes" id="pc-absorb-changes"></dl>
+      <section class="absorb__abilities" id="pc-absorb-abilities" aria-labelledby="pc-absorb-abilities-title" hidden>
+        <h4 id="pc-absorb-abilities-title">Abilities you gain</h4>
+        <ul class="absorb__ability-list" id="pc-absorb-ability-list"></ul>
+        <p class="note" id="pc-absorb-ability-note" hidden></p>
+      </section>
       <div class="absorb__stats" id="pc-absorb-stats"></div>
       <fieldset class="absorb__types" id="pc-absorb-types">
         <legend>Add its creature types to yours?</legend>

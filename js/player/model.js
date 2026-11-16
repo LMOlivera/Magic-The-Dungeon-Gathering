@@ -6,7 +6,7 @@
  * (shared/images.js) and the sheet only remembers whether they exist.
  */
 
-export const SAVE_VERSION = 4;
+export const SAVE_VERSION = 7;
 export const FLAVOR_MAX = 110;
 
 /** Collapses runs of whitespace and trims. An empty result means "no name". */
@@ -28,10 +28,13 @@ export function newPlayer(name, now = new Date()) {
     flavor: '',
     manaCost: '{0}',      // Scryfall notation; absorbed creatures add their symbols, see shared/mana.js
     colors: [],           // W U B R G letters; empty means colorless
+    cardTypes: [],        // besides Creature: Legendary, Enchantment, Artifact, Land (see player/absorb.js)
     types: ['Human'],
-    power: 1,
+    power: 1,             // what absorbing gave; the card also adds the counters
     toughness: 1,
-    abilities: [],
+    counters: 0,          // +1/+1 counters the player keeps track of; below 0 they are -1/-1 counters
+    keywords: [],         // keyword names, see rules/keywords.js
+    abilities: [],        // other abilities, as text
     absorbed: [],         // [{ id, name }] of every card absorbed, in order
     booster: null,        // { cardIds } of an opened booster not yet picked from
     createdAt: now.toISOString(),
@@ -57,6 +60,21 @@ export function withoutArt(player) {
   return { ...player, artChosen: true, hasArt: false, hasArtSource: false, artCrop: null };
 }
 
+/**
+ * The player put a counter on or took one off. +1/+1 and -1/-1 counters cancel
+ * out, as in Magic, so one number is enough: 2 is two +1/+1, -1 is one -1/-1.
+ */
+export function withCounters(player, counters) {
+  return { ...player, counters: Number.isInteger(counters) ? counters : 0 };
+}
+
+/** "+2/+2", "-1/-1" or "0" */
+export function describeCounters(counters) {
+  if (!counters) return '0';
+  const sign = counters > 0 ? '+' : '-';
+  return `${sign}${Math.abs(counters)}/${sign}${Math.abs(counters)}`;
+}
+
 /** What shared/card.js needs to draw this player. artUrl is the photo, if any. */
 export function toCardData(player, artUrl) {
   return {
@@ -64,10 +82,12 @@ export function toCardData(player, artUrl) {
     placeholderName: 'Human',
     cost: player.manaCost,
     colors: player.colors,
+    cardTypes: player.cardTypes,
     types: player.types,
-    power: player.power,
-    toughness: player.toughness,
-    rulesText: player.abilities.join(', '),
+    power: player.power + (player.counters || 0),
+    toughness: player.toughness + (player.counters || 0),
+    keywords: player.keywords,
+    abilities: player.abilities,
     flavor: player.flavor,
     artUrl: artUrl || null,
   };
@@ -120,6 +140,21 @@ export function upgradeSave(saved) {
   if (data.version === 3) {
     const { cost, ...rest } = data;
     data = { ...rest, version: 4, manaCost: rest.manaCost ?? `{${Number.isInteger(cost) && cost > 0 ? cost : 0}}` };
+  }
+
+  // v5 keeps keywords apart from the other abilities, to explain them.
+  if (data.version === 4) {
+    data = { ...data, version: 5, keywords: data.keywords ?? [], abilities: data.abilities ?? [] };
+  }
+
+  // v6 adds the card types besides Creature. Older saves never kept them.
+  if (data.version === 5) {
+    data = { ...data, version: 6, cardTypes: data.cardTypes ?? [] };
+  }
+
+  // v7 adds the +1/+1 counters.
+  if (data.version === 6) {
+    data = { ...data, version: 7, counters: data.counters ?? 0 };
   }
 
   return { status: 'ok', player: data, images };
