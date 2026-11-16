@@ -20,8 +20,6 @@ Then open `http://localhost:8000`.
 npm test         # node --test
 ```
 
-`BoosterTest.html` is a test page for boosters: `http://localhost:8000/BoosterTest.html`.
-
 ## Card rules
 
 What each card gives the player is decided card by card, in `js/rules/`:
