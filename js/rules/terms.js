@@ -1,7 +1,7 @@
 /**
  * Phrases in card text that mean something particular in this game. On the
  * player's card (and the absorb screen) they get a tooltip, like keywords.
- * Rules in DESIGN.md, section 5 ("El texto de reglas").
+ * Rules in DESIGN.md, section 5 ("Rules text").
  *
  *   pattern  what to look for in an ability's text (no g flag and no capturing
  *            groups: use (?:...); the case is ignored)
