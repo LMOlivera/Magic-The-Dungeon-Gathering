@@ -70,6 +70,19 @@ export const CARD_RULES = {
       'Tap five untapped Vampires you control: Gain control of target creature. It becomes a Vampire in addition to its other types.',
     ],
   },
+  // Kept as printed, like Akki Ember-Keeper: only the player's own Humans count.
+  // Its counters go on the Player Card's +1/+1 counters.
+  // A Sliver lord: absorbing it makes the player a Sliver, and they count
+  // themselves, so it simply gives them what it gives Slivers.
+  // Kept as printed. The player is a Vampire and counts themselves, and "another
+  // creature" includes monsters: each creature that dies gives them a +1/+1 counter.
+  'Cordial Vampire': {
+    abilities: ['Whenever this creature or another creature dies, put a +1/+1 counter on each Vampire you control.'],
+  },
+  'Cloudshredder Sliver': { keywords: ['Flying', 'Haste'] },
+  'Champion of the Parish': {
+    abilities: ['Whenever another Human you control enters, put a +1/+1 counter on this creature.'],
+  },
   'Ardent Recruit': {
     abilities: ['Metalcraft — This creature gets +2/+2 as long as you control three or more artifacts.'],
   },
@@ -98,6 +111,18 @@ export const CARD_RULES = {
   'Arboreal Grazer': {
     keywords: ['Reach'],
     abilities: ['When this creature enters, you may put a land card from your hand onto the battlefield tapped.'],
+  },
+  'Devoted Retainer': { keywords: ['Bushido 1'] },
+  // Kept as printed, like Akki Ember-Keeper, for when summoning comes to the game.
+  'Doomed Traveler': {
+    abilities: ['When this creature dies, create a 1/1 white Spirit creature token with flying.'],
+  },
+  // Kept as printed: "other" and "another" leave the player out, like Captivating Vampire.
+  'Dropkick Bomber': {
+    abilities: [
+      'Other Goblins you control get +1/+1.',
+      '{R}: Until end of turn, another target Goblin you control gains flying and "When this creature deals combat damage, sacrifice it."',
+    ],
   },
   'Dragon Sniper': { keywords: ['Reach', 'Vigilance', 'Deathtouch'] },
   'Ornithopter': { keywords: ['Flying'] },

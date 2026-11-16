@@ -91,7 +91,8 @@
    just its back link and the card sits centered, a bit bigger. */
 .pc.is-card-only { grid-template-columns: minmax(0, 1fr); justify-items: center; align-items: start; gap: 24px; }
 .pc.is-card-only .pc__panel { justify-self: stretch; max-width: none; }
-.pc.is-card-only .pc__panel > :not(.back) { display: none !important; }
+/* The back link stays, and so does the error box (opening a booster can fail). */
+.pc.is-card-only .pc__panel > :not(.back):not(#pc-error) { display: none !important; }
 /* Scaled with transform, not zoom: zoom changes how the browser reports sizes,
    and the card measures its text to fit it. The padding makes room for the
    extra 25%, which a transform doesn't take in the layout. */

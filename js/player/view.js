@@ -21,7 +21,7 @@ import {
 } from './model.js';
 import { isCreatureCard, absorbPreview, absorbCreature, describeColors, typeLineOf } from './absorb.js';
 import { keywordRule, parseKeyword } from '../rules/keywords.js';
-import { makeBooster } from './booster.js';
+import { makeBooster, boosterPool } from './booster.js';
 import {
   withTransformed, untransformAll, withTransformName, withTransformArt, withoutTransformArt,
 } from './transform.js';
@@ -476,7 +476,8 @@ export async function initPlayerView() {
       const cards = player.booster.cardIds.map((id) => byId.get(id));
       if (cards.length && cards.every(Boolean)) return cards;
     }
-    const cards = makeBooster(pool);
+    const cards = makeBooster(boosterPool(pool, player));
+    if (!cards.length) return cards; // nothing left to deal
     player = withBooster(player, cards.map((poolCard) => poolCard.id));
     save();
     return cards;
@@ -497,7 +498,8 @@ export async function initPlayerView() {
     $('pc-booster-status').textContent = `${boosterCard.name} picked. Confirm it, or pick another card.`;
   }
 
-  $('pc-open-booster').addEventListener('click', async () => {
+  async function openBooster() {
+    if (animating) return;
     showError('');
     let pool;
     try {
@@ -507,6 +509,10 @@ export async function initPlayerView() {
       return;
     }
     boosterCards = currentBooster(pool);
+    if (!boosterCards.length) {
+      showError('You have absorbed every creature in the pool. There is nothing left to open.');
+      return;
+    }
     picked = null;
     confirmButton.hidden = true;
     $('pc-booster-status').textContent = 'Pick one card to absorb.';
@@ -514,7 +520,10 @@ export async function initPlayerView() {
     showPickStep();
     render();
     boosterDialog.showModal();
-  });
+  }
+  // The first one from the sheet, the next ones from under the card.
+  $('pc-open-booster').addEventListener('click', openBooster);
+  $('pc-open-another').addEventListener('click', openBooster);
 
   $('pc-booster-close').addEventListener('click', () => boosterDialog.close());
 

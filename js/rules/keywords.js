@@ -19,7 +19,7 @@ const counters = (n) => `${n} +1/+1 counter${n === 1 ? '' : 's'}`;
 const MANA_KEYWORDS = new Set(['Ward', 'Madness']);
 
 /** Keywords whose numbers add up when absorbed twice. Any other keeps the one the player had. */
-const ADDS_UP = new Set(['Modular', 'Ward']);
+const ADDS_UP = new Set(['Modular', 'Ward', 'Bushido']);
 
 export const KEYWORDS = {
   Vigilance: 'Enemies will focus their attacks on players with Vigilance.',
@@ -28,6 +28,8 @@ export const KEYWORDS = {
   Lifelink: 'Damage you deal heals you by the same amount.',
   Deathtouch: 'WIP', // too strong as "any damage destroys"; to be defined
   'First strike': 'You act before everyone else in the round.',
+  Bushido: (n) => `Whenever you attack or are attacked, you get +${n}/+${n} until end of turn.`,
+  Haste: 'When combat starts, you go before everyone without haste. Everyone with haste rolls a d20 too, to set the order among them.',
   Ward: (n) => `Whenever a monster targets you with a spell or ability, it's countered unless that monster pays ${n} mana.`,
   // Kept from Magic in case hands and discarding come to the game.
   Madness: (n) => `If you discard this card, discard it into exile. When you do, cast it for its madness cost (${n} mana) or put it into your graveyard.`,

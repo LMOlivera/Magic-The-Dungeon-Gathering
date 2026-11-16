@@ -40,7 +40,9 @@ The players apply these rules. The app doesn't run them; at most it offers count
 - [DECIDED] Absorbed instants and sorceries make up the player's spell list, which they can cast on their turn.
 - [DECIDED] The player's life is their toughness; their starting life ("starting life total") is the toughness they have when combat starts.
 - [PROPOSED] Power = damage per attack. Toughness = maximum life. Damage lasts for the whole combat and the player heals when moving to another room.
-- [PROPOSED] Round order: first all the players, then all the enemies. On their turn, a player attacks or casts spells.
+- [DECIDED] **Turn order:** whenever a combat starts, players and enemies roll a d20 to set the order of turns. Creatures with Haste go first; if several have Haste, they roll too, and they go first in that order, then everyone else.
+  - [PENDING] Whether the app helps with the roll (for example on the Game screen) or it's done with real dice at the table.
+- [PROPOSED] On their turn, a player attacks or casts spells. (This replaces the proposed round order "first all the players, then all the enemies".)
 - [PROPOSED] Mana: 1 per turn, of a color the player chooses among theirs; it builds up during combat and is lost when combat ends. While colorless, the player generates colorless mana, which only pays generic costs.
 - [PROPOSED] Death: the player is out until the room is over. If everyone falls, the game is over.
 - [PENDING] Mana curve. At 1 per turn, a cost-6 spell takes 6 turns. Alternative: a land-like curve (turn 1 gives 1, turn 2 gives 2...) without building up.
@@ -52,6 +54,8 @@ The players apply these rules. The app doesn't run them; at most it offers count
 - [DECIDED] Only the player who defeats the monster gets the XP.
 - [DECIDED] On leveling up, the player opens a booster.
 - [DECIDED] Each booster has 3 cards.
+- [DECIDED] For now, a booster doesn't deal cards the player already absorbed. It may not stay: it's one switch, `NO_REPEATS` in `js/player/booster.js`.
+  - Chosen while implementing, not confirmed: if fewer than 3 cards are left, the booster has the ones left; with none left, the Player Card says there's nothing left to open.
 - [DECIDED] The name of the player's card is set when it's created. It can only change after opening a booster.
 - [PROPOSED] Each enemy gives XP equal to its mana value.
 - [PROPOSED] Catch-up for whoever falls behind: the lowest-level player opens 4-card boosters instead of 3.
@@ -99,6 +103,8 @@ General rules:
 - [DECIDED] **Tapping ({T}):** the player always taps to attack, as in Magic. An ability with {T} taps them too, so using it ends their turn.
 - [DECIDED] **"When this creature enters"** on the player's card means when combat starts. If a card exiles the player and returns them to the battlefield, they enter again and the ability triggers again, so it can trigger several times.
 - [DECIDED] **"Sacrifice this creature"** on the player's card means the player sacrifices themselves: they die to trigger the effect.
+- [DECIDED] **Slivers:** a Sliver's "Sliver creatures you control" includes the player themselves when they are a Sliver (and absorbing one makes them one). So a Sliver gives the player directly what it gives Slivers: its keywords go on the keyword line, with their tooltip.
+- [DECIDED] The same goes for other creature types: "each Vampire you control" includes the player when they are a Vampire (Cordial Vampire). Text that says "other" or "another" ("Other Vampire creatures", "another Human") leaves the player out.
 - [DECIDED] **Party:** a card's "party" is the group of players. It counts up to one each of Cleric, Rogue, Warrior and Wizard among their creature types; a full party has all four.
 - [DECIDED] **The player's artifacts:** "artifacts you control" are only the player's own artifacts.
   - Chosen while implementing, not confirmed: the player counts, if they're an Artifact Creature, and so do the artifacts they absorbed.
@@ -137,7 +143,13 @@ Card by card (all [DECIDED]):
 - **Boggart Cursecrafter:** gives Deathtouch and keeps its text as printed, like Akki Ember-Keeper: only the player's own Goblins count.
 - **Captivating Vampire:** keeps its text as printed, like Akki Ember-Keeper: only the player's own Vampires count.
 - **Cecil, Dark Knight:** gives Deathtouch and keeps Darkness ("Cecil" becomes "this creature"). Transforms into Cecil, Redeemed Paladin: +2/+1, Lifelink and Protect.
+- **Champion of the Parish:** keeps its text as printed, like Akki Ember-Keeper: only the player's own Humans count. Its counters go on the Player Card's +1/+1 counters.
+- **Cloudshredder Sliver:** gives Flying and Haste (the player is a Sliver and counts themselves).
+- **Cordial Vampire:** keeps its text as printed. The player is a Vampire and counts themselves, and "another creature" includes monsters: whenever a creature dies, the player gets a +1/+1 counter.
+- **Devoted Retainer:** gives Bushido 1.
+- **Doomed Traveler:** keeps its text as printed, like Akki Ember-Keeper.
 - **Dragon Sniper:** gives Reach, Vigilance and Deathtouch.
+- **Dropkick Bomber:** keeps its text as printed; "other" and "another" leave the player out, like Captivating Vampire.
 - **Ornithopter:** gives Flying.
 - **Smitten Swordmaster:** gives Lifelink (only the creature, not its adventure).
 - Creatures without text (Aegis Turtle, Phyrexian Walker, Vampire Noble) need no review.
@@ -150,7 +162,9 @@ Still open:
 ## 6. Keywords (table rules)
 
 - [DECIDED] **Vigilance:** enemies focus their attacks on players with Vigilance. Text: "Enemies will focus their attacks on players with Vigilance." Replaces the earlier version ("becomes the focus of every enemy until they die").
-- [PROPOSED] **First strike:** acts first in the round.
+- [DECIDED] **Bushido N:** whenever the player attacks someone or is attacked, they get +N/+N until end of turn, kept as combat bonuses. It stacks: Bushido 1 + Bushido 1 = Bushido 2. Text: "Whenever you attack or are attacked, you get +N/+N until end of turn."
+- [DECIDED] **Haste:** goes first in the turn order (section 3). Text: "When combat starts, you go before everyone without haste. Everyone with haste rolls a d20 too, to set the order among them."
+- [PROPOSED] **First strike:** acts first in the round. [PENDING] With the d20 turn order and Haste, this needs another meaning.
 - [DECIDED] **Lifelink:** heals the player by the damage they deal. Text: "Damage you deal heals you by the same amount."
 - [DECIDED] **Flying:** as in Magic, where only creatures with flying or reach can block it: only creatures with flying or reach can defend themselves against its attacks. Text: "Only creatures with flying or reach can defend themselves against your attacks."
 - [DECIDED] **Reach:** can defend against creatures with flying, as in Magic, where it lets a creature block them (rule 702.17). It doesn't help attack them. Text: "You can defend yourself against creatures with flying."
@@ -276,7 +290,8 @@ The code is already split following the architecture in section 9.
   - [DECIDED] When absorbing, the values can be seen loading into the card: the creature flies into the card and each value that changes (power/toughness, colors, cost, types, abilities) updates in turn, with a caption saying what changed. With "reduce motion" turned on in the system, the card changes all at once.
   - [DECIDED] After the first absorption, the Player Card page shows only the current card.
   - Chosen while implementing, not confirmed: that view keeps the "Back to start" link and a discreet "Start over" under the card, along with the counters, the bonuses and the transform buttons.
-  - [PENDING] How the next boosters are opened, and whether flavor text and art can be edited afterwards, since the card-only view doesn't have those controls.
+  - [DECIDED] Under the card there's an "Open a booster" button, to keep opening boosters (and test the cards).
+  - [PENDING] Whether that button stays as it is or boosters are earned some other way (on leveling up, section 4), and whether flavor text and art can be edited afterwards, since the card-only view doesn't have those controls.
   - An open booster stays saved until a card is absorbed. Closing it or reloading the page shows the same cards.
   - The card paints the player's color circles, and the type line shrinks to fit, like the name.
   - [DECIDED] Step 1: name the card. It stays set (see section 4).

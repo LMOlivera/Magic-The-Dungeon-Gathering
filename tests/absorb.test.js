@@ -205,6 +205,8 @@ test('keywords with a number add up', () => {
   assert.deepEqual(addKeywords(['Ward {1}'], ['Ward {2}']), ['Ward {3}'], 'mana numbers keep their braces');
   assert.match(keywordRule('Ward {2}'), /pays 2 mana/);
   assert.deepEqual(addKeywords(['Madness {0}'], ['Madness {1}']), ['Madness {0}'], 'Madness costs do not add up');
+  assert.deepEqual(addKeywords(['Bushido 1'], ['Bushido 1']), ['Bushido 2'], 'Bushido stacks');
+  assert.match(keywordRule('Bushido 2'), /\+2\/\+2/);
   assert.deepEqual(addKeywords(['Lifelink', 'Modular 1'], ['Modular 1', 'Lifelink', 'Flying']), ['Lifelink', 'Modular 2', 'Flying']);
   assert.deepEqual(addKeywords(['Modular'], ['Modular 1']), ['Modular 1'], 'a save from before numbers');
   assert.match(keywordRule('Modular 2'), /2 \+1\/\+1 counters/);

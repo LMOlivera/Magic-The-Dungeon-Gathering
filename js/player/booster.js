@@ -4,6 +4,16 @@
 
 export const BOOSTER_SIZE = 3;
 
+/** Cards the player already absorbed don't come up again. Set to false to allow repeats. */
+export const NO_REPEATS = true;
+
+/** The cards a booster for this player can deal: the pool minus what they already absorbed (with NO_REPEATS). */
+export function boosterPool(pool, player, noRepeats = NO_REPEATS) {
+  if (!noRepeats) return pool;
+  const absorbed = new Set((player.absorbed || []).map((card) => card.id));
+  return pool.filter((card) => !absorbed.has(card.id));
+}
+
 /**
  * Picks `size` different cards from the pool, each equally likely.
  * random is a function returning a number in [0, 1), like Math.random.
