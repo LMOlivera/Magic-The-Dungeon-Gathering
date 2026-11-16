@@ -173,7 +173,9 @@ test('rules/cards.js only uses defined keywords and names cards of the pool', ()
   const names = new Set(cards.flatMap((poolCard) => [poolCard.name, ...(poolCard.faces || []).map((face) => face.name)]));
   for (const [name, rules] of Object.entries(CARD_RULES)) {
     assert.ok(names.has(name), `${name} is not in the pool`);
-    for (const keyword of rules.keywords || []) assert.ok(keywordRule(keyword), `${name}: ${keyword} has no rule in rules/keywords.js`);
+    for (const keyword of [...(rules.keywords || []), ...(rules.grants?.keywords || [])]) {
+      assert.ok(keywordRule(keyword), `${name}: ${keyword} has no rule in rules/keywords.js`);
+    }
   }
 });
 
@@ -191,7 +193,11 @@ test('other card types join the player type line', () => {
 });
 
 test('every phrase in rules/terms.js shows up in some ability', () => {
-  const abilities = Object.values(CARD_RULES).flatMap((rules) => rules.abilities || []);
+  const abilities = Object.values(CARD_RULES).flatMap((rules) => [
+    ...(rules.abilities || []),
+    ...(rules.grants?.abilities || []),
+    ...(rules.transform?.abilities || []),
+  ]);
   for (const term of TERMS) {
     assert.equal(term.pattern.flags.includes('g'), false, `${term.title}: no g flag`);
     assert.ok(abilities.some((ability) => term.pattern.test(ability)), `${term.title} matches no ability`);

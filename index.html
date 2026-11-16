@@ -114,6 +114,16 @@
     <button class="action action--primary" type="button" id="pc-open-another">Open a booster</button>
     <!-- Cards that transform: turn over, and edit the other face. Filled in by player/view.js. -->
     <div class="transforms" id="pc-transforms"></div>
+    <!-- Equipment, Auras and the spell list. Filled in by player/view.js. -->
+    <section class="gear" id="pc-gear" aria-labelledby="pc-gear-title" hidden>
+      <h3 id="pc-gear-title">Equipment, items and auras</h3>
+      <ul class="gear__list" id="pc-gear-list"></ul>
+    </section>
+    <section class="gear" id="pc-spells" aria-labelledby="pc-spells-title" hidden>
+      <h3 id="pc-spells-title">Spells</h3>
+      <p class="note">Each spell can be cast once per combat.</p>
+      <ul class="gear__list" id="pc-spell-list"></ul>
+    </section>
     <!-- What the player keeps track of at the table. The card's power and toughness add all of it. -->
     <div class="trackers">
       <div class="tracker" role="group" aria-labelledby="pc-counters-label">
@@ -134,7 +144,8 @@
         <output class="tracker__value" id="pc-bonus-toughness-value" aria-live="polite">0</output>
         <button class="action tracker__step" type="button" id="pc-bonus-toughness-up" aria-label="Raise the bonus toughness">+</button>
       </div>
-      <button class="action action--quiet trackers__clear" type="button" id="pc-bonus-clear">Combat over: clear bonuses, turn back</button>
+      <button class="action action--quiet trackers__clear" type="button" id="pc-bonus-clear">Combat over</button>
+      <p class="note trackers__note">Clears the bonuses, returns your spells, puts back what you took off and turns your card back.</p>
     </div>
     <button class="action action--quiet" type="button" id="pc-reset-card">Start over</button>
   </div>

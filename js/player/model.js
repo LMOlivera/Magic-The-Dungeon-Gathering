@@ -1,4 +1,6 @@
 import { transformedFace, shownTransform } from './transform.js';
+import { attachedEffects } from './gear.js';
+import { addKeywords } from '../rules/keywords.js';
 
 /**
  * The player's character sheet as plain data. No DOM and no storage here,
@@ -8,7 +10,7 @@ import { transformedFace, shownTransform } from './transform.js';
  * (shared/images.js) and the sheet only remembers whether they exist.
  */
 
-export const SAVE_VERSION = 9;
+export const SAVE_VERSION = 10;
 export const FLAVOR_MAX = 110;
 
 /** Collapses runs of whitespace and trims. An empty result means "no name". */
@@ -41,6 +43,9 @@ export function newPlayer(name, now = new Date()) {
     abilities: [],        // other abilities, as text
     absorbed: [],         // [{ id, name, keywords, abilities }] of every card absorbed, in order
     transforms: [],       // cards that can turn the Player Card over, see player/transform.js
+    equipment: [],        // Equipment the player has on, see player/gear.js
+    auras: [],            // Auras on the player, for good
+    spells: [],           // the spell list: instants and sorceries
     booster: null,        // { cardIds } of an opened booster not yet picked from
     createdAt: now.toISOString(),
   };
@@ -97,6 +102,7 @@ export function describeCounters(counters) {
  */
 export function toCardData(player, artUrl, transformArt = []) {
   const face = transformedFace(player);
+  const gear = attachedEffects(player);
   const shown = shownTransform(player);
   const other = shown === -1 ? null : player.transforms[shown];
   return {
@@ -106,10 +112,10 @@ export function toCardData(player, artUrl, transformArt = []) {
     colors: player.colors,
     cardTypes: player.cardTypes,
     types: player.types,
-    power: player.power + (player.counters || 0) + (player.bonusPower || 0) + face.power,
-    toughness: player.toughness + (player.counters || 0) + (player.bonusToughness || 0) + face.toughness,
-    keywords: face.keywords,
-    abilities: face.abilities,
+    power: player.power + (player.counters || 0) + (player.bonusPower || 0) + face.power + gear.power,
+    toughness: player.toughness + (player.counters || 0) + (player.bonusToughness || 0) + face.toughness + gear.toughness,
+    keywords: addKeywords(face.keywords, gear.keywords),
+    abilities: [...face.abilities, ...gear.abilities.filter((ability) => !face.abilities.includes(ability))],
     flavor: player.flavor,
     artUrl: (other && other.hasArt ? transformArt[shown] : artUrl) || null,
     transformed: Boolean(other),
@@ -188,6 +194,11 @@ export function upgradeSave(saved) {
   // v9 adds the cards that transform.
   if (data.version === 8) {
     data = { ...data, version: 9, transforms: data.transforms ?? [] };
+  }
+
+  // v10 adds Equipment, Auras and the spell list.
+  if (data.version === 9) {
+    data = { ...data, version: 10, equipment: data.equipment ?? [], auras: data.auras ?? [], spells: data.spells ?? [] };
   }
 
   return { status: 'ok', player: data, images };

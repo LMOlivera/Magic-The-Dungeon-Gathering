@@ -116,6 +116,24 @@
 .card.is-flipping { animation: card-flip 0.6s ease-in-out; }
 @keyframes card-flip { 50% { rotate: y 90deg; } }
 
+/* Equipment, Auras and spells under the card. */
+.gear { width: min(420px, 100%); }
+.gear h3 { margin: 0 0 8px; font-family: var(--font-display); font-size: 1.5rem; font-weight: 600; line-height: 1; }
+.gear .note { margin: 0 0 8px; }
+.gear__list { display: grid; gap: 8px; margin: 0; padding: 0; list-style: none; }
+.gear__item { padding: 10px 12px; border: 1px solid var(--stone-600); border-radius: 6px; background: var(--stone-800); }
+.gear__item.is-cast { opacity: 0.6; }
+.gear__head { display: flex; align-items: center; gap: 8px; }
+.gear__head strong { flex: 1 1 auto; min-width: 0; overflow-wrap: anywhere; }
+.gear__head .changes__mana { flex: none; }
+.gear__action { flex: none; min-height: 40px; padding: 6px 12px; }
+.gear__tag { flex: none; color: var(--ash); font-size: 0.875rem; }
+.gear__summary, .gear__text { margin: 4px 0 0; color: var(--ash); }
+.gear__text { color: var(--bone); }
+.gear .kw { text-decoration-color: var(--ash); }
+.gear .mana { width: 1em; height: 1em; vertical-align: -0.15em; border-radius: 50%; }
+.trackers__note { margin: 0; text-align: center; }
+
 /* Counters and bonuses under the card (step buttons big enough for a thumb). */
 .trackers { display: grid; gap: 8px; justify-items: center; }
 .tracker { display: grid; grid-template-columns: 8.5em 44px 3.5em 44px; align-items: center; gap: 8px; }

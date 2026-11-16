@@ -68,15 +68,32 @@ The players apply these rules. The app doesn't run them; at most it offers count
 
 ## 5. What absorbing each kind of card gives
 
-All [PROPOSED], except the creature row, whose core (color, type, stats) is [DECIDED].
-
 | Card | What the player gets |
 |---|---|
-| Creature | +P/+T, its color, its creature types and its keyword abilities |
-| Instant / sorcery | Joins the spell list; adds its color |
-| Equipment / Aura | A permanent stat bonus |
-| Land | +1 mana per turn of that color |
-| Everything else (planeswalkers, complex enchantments) | Depends on the pool the author puts together |
+| Creature | [DECIDED] +P/+T, its colors, its cost, its creature types, and its text decided card by card (below) |
+| Equipment | [DECIDED] The player equips it and gets what it grants. It stays its own card, so something can destroy it, and then that's lost. Adds its colors and cost. |
+| Aura | [DECIDED] A permanent bonus: the player enchants themselves for good. Adds its colors and cost. |
+| Instant / sorcery | [DECIDED] Joins the spell list (section 3). Adds its colors and cost. |
+| Item (an artifact or enchantment that isn't an Equipment or Aura) | [DECIDED] Kept with the Equipment until it's used, then it's gone (Seal of Fire). Adds its colors and cost. |
+| Land | [PROPOSED] +1 mana per turn of that color (there are no lands left in the test pool) |
+| Everything else | [PENDING] Case by case |
+
+- [DECIDED] Cards that aren't creatures add their colors and their mana cost, like creatures, but not their types: absorbing an Equipment doesn't make the player an Artifact Creature.
+- [DECIDED] Some creatures may have abilities that destroy Equipment or artifacts and can target them.
+- Chosen while implementing, not confirmed:
+  - The Equip cost is ignored: the player is equipped as soon as they absorb it.
+  - What an Equipment or Aura grants is written in `js/rules/cards.js` (`grants`). "Equipped creature" and "enchanted creature" are the player, and abilities granted in quotes ("Equipped creature has '…'") become the player's own abilities.
+  - Under the card, "Equipment and auras" lists what the player has on. Each Equipment has a "Destroyed" button (also for sacrificing it, like Blazing Torch); Auras have none, since they're for good.
+  - Under the card, "Spells" lists the spell list with each spell's cost and text. "Cast" puts it in the graveyard and "Combat over" brings every spell back.
+  - Spells are cast as printed, so they need no entry in `js/rules/cards.js`.
+  - Ethereal Armor's "each enchantment you control" counts the player's Auras. Blessing of the Nephilim's bonus follows the player's colors.
+  - Equipment, Auras and items with no entry in `js/rules/cards.js` stay out of boosters until they're decided.
+  - An Equipment or Aura can have a button that takes it off for the rest of the combat (`toggle`); while off it grants nothing, and "Combat over" puts it back.
+- [DECIDED] **Blinding Powder:** "Unattach" takes it off until the next combat; then it's back on by itself.
+- [DECIDED] **Carapace:** instead of "Sacrifice this Aura: Regenerate", when the player dies they come back without the Aura, and it returns when combat is over. Its text on the card: "When you would die, you come back instead, without Carapace. Carapace returns when combat is over." Under the card, "Revived" takes it off.
+- [DECIDED] **Cartouche of Zeal:** gives its +1/+1 and Haste and starts on, like any Aura. "Target creature can't block this turn" is WIP (its tooltip says so).
+- [DECIDED] **Seal of Fire:** an item, used once: "Used" gets rid of it.
+- [DECIDED] **Bagel and Schmear** and **Desert** were taken out of the pool (`level1.txt` and `data/level1.json`).
 
 - [PROPOSED] When absorbing, the app adds up the stats, colors and types by itself and records the absorbed card on the sheet. The player can correct the result by hand.
 
@@ -119,7 +136,7 @@ General rules:
 - [DECIDED] **+1/+1 counters:** the player keeps track of them on the Player Card, with buttons under the card to add and remove them. The card's power and toughness include them.
   - Chosen while implementing, not confirmed: -1/-1 counters go in the same number, as a negative, because in Magic a +1/+1 and a -1/-1 counter cancel out.
 - [DECIDED] **Combat bonuses:** bonuses worked out again during combat are kept on the Player Card, under the card, like the counters: "Bonus power" and "Bonus toughness". The card's power and toughness include them.
-  - Chosen while implementing, not confirmed: the "Combat over: clear bonuses, turn back" button resets them to 0 when combat ends. They also serve for other cards' "+N/+N until end of turn".
+  - Chosen while implementing, not confirmed: the "Combat over" button resets them to 0 when combat ends (it also brings the spells back and turns the card back to its front). They also serve for other cards' "+N/+N until end of turn".
 - [DECIDED] **Cards that transform** (double-faced, like Cecil, Dark Knight) transform for real. On absorbing one, the player gets the front face, and the Player Card can be turned over.
   - Turned over, the player loses what the front face gave them and gets what the back face gives, plus a stat bonus: the difference between the two faces. With Cecil: 2/3 against 4/4, so +2/+1, and Deathtouch and Darkness become Lifelink and Protect.
   - [DECIDED] On getting a transformation, the player can give that face another name and another photo, if they want. Without a name or photo of its own, it uses the usual ones.
@@ -189,7 +206,6 @@ Reviewed on my own with the rules above, after the author asked me to go on alon
 
 Still open:
 
-- [PENDING] What cards that aren't creatures give. Until that's defined, Player Card boosters only bring creatures.
 - [PENDING] How the card is renamed after opening a booster (section 4). Not built yet.
 
 ## 6. Keywords (table rules)
@@ -285,6 +301,7 @@ js/
     booster.js    builds a booster from a pool (pure)
     absorb.js     absorbing a card (pure)
     transform.js  cards that transform: turning the player's card over (pure)
+    gear.js       Equipment, Auras and the spell list (pure)
     absorb-animation.js  the absorb animation on the card
   rules/          the game's own rules, written by hand (pure data)
     keywords.js   what each keyword does in this game
@@ -321,9 +338,9 @@ The code is already split following the architecture in section 9.
 
 - **Home:** done. Title, **Game** and **Player Card** buttons, and the sample starting card.
   - [DECIDED] The home card keeps the texts "Colorless. No abilities yet." and "Everyone walks in as a 1/1."
-- **Player Card:** card creation, boosters, absorbing creatures, +1/+1 counters, combat bonuses and cards that transform are done. Still missing: the other counters (damage, mana, XP, level), cards that aren't creatures, and export/import.
+- **Player Card:** card creation, boosters, absorbing creatures, Equipment, items, Auras and the spell list, +1/+1 counters, combat bonuses and cards that transform are done. Still missing: the other counters (damage, mana, XP, level) and export/import.
   - [DECIDED] On the flavor text screen, the "Open your first booster pack!" button opens the first booster.
-  - The booster deals 3 creatures from `data/level1.json`. The player picks one, confirms it, sees how their card turns out and absorbs it.
+  - The booster deals 3 cards from `data/level1.json`. Every card in the pool can come up. The player picks one, confirms it, sees how their card turns out and absorbs it.
   - [DECIDED] When absorbing, the values can be seen loading into the card: the creature flies into the card and each value that changes (power/toughness, colors, cost, types, abilities) updates in turn, with a caption saying what changed. With "reduce motion" turned on in the system, the card changes all at once.
   - [DECIDED] After the first absorption, the Player Card page shows only the current card.
   - Chosen while implementing, not confirmed: that view keeps the "Back to start" link and a discreet "Start over" under the card, along with the counters, the bonuses and the transform buttons.
@@ -338,24 +355,24 @@ The code is already split following the architecture in section 9.
   - [DECIDED] Optional flavor text.
   - [DECIDED] The player's basic card has no default text.
   - Chosen while implementing, not confirmed: the photo can be skipped and changed later; flavor text has a maximum of 110 characters; the original photo is kept so it can be cropped again.
-  - The sheet is saved in `localStorage`, under the key `mtdg.player` (format version 9). The photos go in IndexedDB (database `mtdg`, keys `player.art` and `player.artSource`; the other face of a card that transforms uses `player.transform0.art`, `player.transform1.art`, etc.). Old saves are migrated automatically when the page opens:
+  - The sheet is saved in `localStorage`, under the key `mtdg.player` (format version 10). The photos go in IndexedDB (database `mtdg`, keys `player.art` and `player.artSource`; the other face of a card that transforms uses `player.transform0.art`, `player.transform1.art`, etc.). Old saves are migrated automatically when the page opens:
     - Version 1 kept the photos inside the sheet.
     - Version 3 added absorbed cards and the open booster.
     - Version 4 keeps the full cost with its symbols. A version 3 cost only had the total, so it becomes generic mana ({2}).
     - Version 5 keeps keywords apart from the other abilities.
     - Version 6 adds the card types besides Creature. Saves from before version 6 start without card types, even if they absorbed an artifact or an enchantment.
-    - Version 7 adds +1/+1 counters, version 8 combat bonuses and version 9 cards that transform.
+    - Version 7 adds +1/+1 counters, version 8 combat bonuses, version 9 cards that transform and version 10 Equipment, Auras and the spell list.
 - **Game:** empty screen marked "Not built yet".
-- **Boosters:** the Player Card deals 3 different random creatures from the `data/level1.json` pool, shows their images from Scryfall and lets the player pick one and confirm it with "Confirm". Each card's name shows on mouse hover, even if the image hasn't loaded. (The `BoosterTest.html` proof of concept, which dealt from the whole pool, was removed.)
-  - `level1.txt` is the test card list (101 cards). The pool is rebuilt with `node scripts/build-pool.js level1.txt oracle-cards-YYYYMMDD.jsonl data/level1.json`.
+- **Boosters:** the Player Card deals 3 different random cards from the `data/level1.json` pool, shows their images from Scryfall and lets the player pick one and confirm it with "Confirm". Each card's name shows on mouse hover, even if the image hasn't loaded. (The `BoosterTest.html` proof of concept, which dealt from the whole pool, was removed.)
+  - `level1.txt` is the test card list (99 cards). The pool is rebuilt with `node scripts/build-pool.js level1.txt oracle-cards-YYYYMMDD.jsonl data/level1.json`.
   - Cards are looked up by name. Scryfall's file has a single printing per card, so the image may be from a different edition than the one in the list.
   - Images are requested from `cards.scryfall.io` with a plain `<img>` tag. No key is needed and no API calls, and Scryfall allows use from other sites.
 
 ## 11. Next steps
 
 1. Turn on GitHub Pages.
-2. Absorbing cards that aren't creatures, case by case.
-3. Character sheet: manual counters (damage, mana, XP, level), spell list, export/import.
+2. Character sheet: manual counters (damage, mana, XP, level), export/import.
+3. The rules still WIP or pending: Deathtouch, Defender, Menace, "can't block", the formation, "until end of turn".
 4. **Game** view: current room, monsters and room counter.
 
 ## 12. Discarded ideas

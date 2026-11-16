@@ -19,7 +19,8 @@ import {
   withBonus, describeBonus,
   toCardData, upgradeSave,
 } from './model.js';
-import { isCreatureCard, absorbPreview, absorbCreature, describeColors, typeLineOf } from './absorb.js';
+import { isAbsorbable, absorbPreview, absorbCard, describeColors, typeLineOf } from './absorb.js';
+import { describeGrants, grantsOf, withoutEquipment, withOff, putBackOn, withSpellCast, returnSpells } from './gear.js';
 import { keywordRule, parseKeyword } from '../rules/keywords.js';
 import { makeBooster, boosterPool } from './booster.js';
 import {
@@ -152,8 +153,11 @@ export async function initPlayerView() {
       $('pc-bonus-power-value').textContent = describeBonus(player.bonusPower);
       $('pc-bonus-toughness-value').textContent = describeBonus(player.bonusToughness);
       const anyTransformed = (player.transforms || []).some((entry) => entry.transformed);
-      $('pc-bonus-clear').disabled = !player.bonusPower && !player.bonusToughness && !anyTransformed;
+      const anyCast = (player.spells || []).some((spell) => spell.cast);
+      const anyOff = [...(player.equipment || []), ...(player.auras || [])].some((entry) => entry.off);
+      $('pc-bonus-clear').disabled = !player.bonusPower && !player.bonusToughness && !anyTransformed && !anyCast && !anyOff;
       renderTransforms();
+      renderGear();
     } else if (step === 'sheet') {
       $('pc-edit-art').hidden = !player.hasArtSource;
       if (document.activeElement !== flavorInput) flavorInput.value = player.flavor || '';
@@ -353,13 +357,98 @@ export async function initPlayerView() {
   $('pc-bonus-power-down').addEventListener('click', () => { const [p, t] = bonus(); changeBonus(p - 1, t); });
   $('pc-bonus-toughness-up').addEventListener('click', () => { const [p, t] = bonus(); changeBonus(p, t + 1); });
   $('pc-bonus-toughness-down').addEventListener('click', () => { const [p, t] = bonus(); changeBonus(p, t - 1); });
-  // Combat over: the bonuses go, and every card turned over turns back.
+  // Combat over: the bonuses go, the spells come back from the graveyard, and
+  // every card turned over turns back.
   $('pc-bonus-clear').addEventListener('click', async () => {
     if (!player || animating) return;
     const turnBack = (player.transforms || []).some((entry) => entry.transformed);
-    changeBonus(0, 0);
+    player = putBackOn(returnSpells(withBonus(player, 0, 0)));
+    save();
+    render();
     if (turnBack) await turnOver(untransformAll);
   });
+
+  /* ----- Equipment, Auras and spells ----- */
+  function gearButton(label, quiet, onClick) {
+    const button = el('button', quiet ? 'action action--quiet gear__action' : 'action gear__action', label);
+    button.type = 'button';
+    button.addEventListener('click', () => {
+      if (!animating) onClick();
+    });
+    return button;
+  }
+
+  /** One Equipment, item or Aura: what it gives, and its buttons. list is 'equipment' or 'auras'. */
+  function gearItem(entry, index, list) {
+    const grants = grantsOf(entry.name) || {};
+    const item = el('li', entry.off ? 'gear__item is-cast' : 'gear__item');
+    const head = el('div', 'gear__head');
+    head.append(el('strong', null, entry.name));
+    if (list === 'auras') head.append(el('span', 'gear__tag', 'Aura'));
+    if (grants.toggle) {
+      head.append(gearButton(entry.off ? 'Put back' : grants.toggle.label, entry.off, () => {
+        player = withOff(player, list, index, !entry.off);
+        save();
+        render();
+      }));
+    }
+    if (list === 'equipment') {
+      const label = grants.remove || 'Destroyed';
+      head.append(gearButton(label, true, () => {
+        const question = label === 'Destroyed'
+          ? `Was ${entry.name} destroyed? You lose what it gives you.`
+          : `Did you use ${entry.name}? It's gone for good.`;
+        if (!confirm(question)) return;
+        player = withoutEquipment(player, index);
+        save();
+        render();
+      }));
+    }
+    item.append(head);
+    const summary = describeGrants(entry.name);
+    if (summary) item.append(el('p', 'gear__summary', summary));
+    if (entry.off && grants.toggle) item.append(el('p', 'gear__summary', grants.toggle.note));
+    for (const ability of grants.abilities || []) {
+      const paragraph = el('p', 'gear__text');
+      paragraph.append(...abilityNodes(ability));
+      item.append(paragraph);
+    }
+    return item;
+  }
+
+  function renderGear() {
+    const items = [
+      ...(player.equipment || []).map((entry, index) => gearItem(entry, index, 'equipment')),
+      ...(player.auras || []).map((entry, index) => gearItem(entry, index, 'auras')),
+    ];
+    $('pc-gear-list').replaceChildren(...items);
+    $('pc-gear').hidden = !items.length;
+
+    const spells = (player.spells || []).map((spell, index) => {
+      const item = el('li', spell.cast ? 'gear__item is-cast' : 'gear__item');
+      const head = el('div', 'gear__head');
+      head.append(el('strong', null, spell.name), manaCostNode(spell.manaCost));
+      const cast = el('button', spell.cast ? 'action action--quiet gear__action' : 'action gear__action', spell.cast ? 'Take back' : 'Cast');
+      cast.type = 'button';
+      cast.addEventListener('click', () => {
+        if (animating) return;
+        player = withSpellCast(player, index, !spell.cast);
+        save();
+        render();
+      });
+      head.append(cast);
+      item.append(head);
+      if (spell.cast) item.append(el('p', 'gear__summary', 'In the graveyard until combat is over.'));
+      for (const line of String(spell.text || '').split('\n')) {
+        const paragraph = el('p', 'gear__text');
+        paragraph.append(...abilityNodes(line));
+        item.append(paragraph);
+      }
+      return item;
+    });
+    $('pc-spell-list').replaceChildren(...spells);
+    $('pc-spells').hidden = !spells.length;
+  }
 
   /* ----- Cards that transform ----- */
   const reducedMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -458,15 +547,15 @@ export async function initPlayerView() {
   /* ----- Boosters and absorbing ----- */
   const boosterDialog = $('pc-booster');
   const confirmButton = $('pc-booster-confirm');
-  let creaturePool = null; // creatures of the pool; only creatures can be absorbed so far
+  let absorbablePool = null; // the cards of the pool that can be absorbed so far
   let boosterCards = [];
   let boosterControls = null;
   let picked = null;       // the card clicked in the booster
   let absorbing = null;    // the card being absorbed, on the second step
 
-  async function loadCreatures() {
-    if (!creaturePool) creaturePool = (await loadPool(POOL_URL)).filter(isCreatureCard);
-    return creaturePool;
+  async function loadAbsorbable() {
+    if (!absorbablePool) absorbablePool = (await loadPool(POOL_URL)).filter(isAbsorbable);
+    return absorbablePool;
   }
 
   /** The cards of the open booster, or a new booster if none is open (or its cards left the pool). */
@@ -503,14 +592,14 @@ export async function initPlayerView() {
     showError('');
     let pool;
     try {
-      pool = await withBusy('Opening your booster\u2026', loadCreatures);
+      pool = await withBusy('Opening your booster\u2026', loadAbsorbable);
     } catch {
       showError("Couldn't load the card pool. Check your connection and try again.");
       return;
     }
     boosterCards = currentBooster(pool);
     if (!boosterCards.length) {
-      showError('You have absorbed every creature in the pool. There is nothing left to open.');
+      showError('You have absorbed every card in the pool. There is nothing left to open.');
       return;
     }
     picked = null;
@@ -552,7 +641,7 @@ export async function initPlayerView() {
   }
 
   function renderChanges() {
-    const after = absorbCreature(player, absorbing, absorbChoices());
+    const after = absorbCard(player, absorbing, absorbChoices());
     // Power and toughness as the card shows them, with the counters.
     const [now, then] = [toCardData(player), toCardData(after)];
     const capital = (text) => text[0].toUpperCase() + text.slice(1);
@@ -595,6 +684,37 @@ export async function initPlayerView() {
       );
       items.push(item);
     }
+    if (preview.grants) {
+      const item = el('li');
+      const how = {
+        equipment: 'You equip it. It stays its own card: if something destroys it, you lose what it gives you.',
+        item: 'You keep it with your Equipment until you use it.',
+        aura: 'You enchant yourself with it, for good.',
+      }[preview.kind];
+      const summary = describeGrants(preview.name);
+      item.append(el('strong', null, summary ? `${preview.name}: ${summary}` : preview.name), ` \u2014 ${how}`);
+      items.push(item);
+      for (const keyword of preview.grants.keywords || []) {
+        const line = el('li');
+        line.append(el('strong', null, keyword), ` \u2014 ${keywordRule(keyword) || 'Not defined yet.'}`);
+        items.push(line);
+      }
+      for (const ability of preview.grants.abilities || []) {
+        const line = el('li');
+        line.append(...abilityNodes(ability));
+        items.push(line);
+      }
+    }
+    if (preview.spell) {
+      const item = el('li');
+      item.append(el('strong', null, 'It joins your spell list'), ' \u2014 Cast it once per combat; after that it\u2019s in the graveyard until combat is over.');
+      items.push(item);
+      for (const line of preview.spell.text.split('\n')) {
+        const text = el('li');
+        text.append(...abilityNodes(line));
+        items.push(text);
+      }
+    }
     if (preview.transform) {
       const back = preview.transform;
       const item = el('li');
@@ -616,7 +736,7 @@ export async function initPlayerView() {
     const noteEl = $('pc-absorb-ability-note');
     noteEl.textContent = note;
     noteEl.hidden = !note;
-    $('pc-absorb-abilities-title').textContent = items.length ? 'Abilities you gain' : 'Rules text';
+    $('pc-absorb-abilities-title').textContent = !items.length ? 'Rules text' : preview.kind === 'creature' ? 'Abilities you gain' : 'What you gain';
     $('pc-absorb-abilities').hidden = !items.length && !note;
   }
 
@@ -662,7 +782,7 @@ export async function initPlayerView() {
     if (!absorbing || animating) return;
     const creature = absorbing;
     const before = player;
-    player = absorbCreature(player, creature, absorbChoices());
+    player = absorbCard(player, creature, absorbChoices());
     save();
     absorbing = null;
     picked = null;

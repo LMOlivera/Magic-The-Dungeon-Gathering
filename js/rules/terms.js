@@ -46,6 +46,11 @@ export const TERMS = [
     tip: 'Your upkeep is the start of your turn.',
   },
   {
+    pattern: /\btarget creature can't block this turn\b/i,
+    title: 'Can\'t block',
+    tip: 'WIP',
+  },
+  {
     pattern: /\bprepared\b/i,
     title: 'Prepared',
     tip: 'While prepared, you may cast a copy of this card\'s spell. A copy doesn\'t go to the graveyard like the spells on your list, so being prepared again lets you cast it again.',

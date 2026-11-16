@@ -9,6 +9,15 @@
  *              (like "*"). Without it the player is asked when absorbing.
  *   bonus      { power, toughness } added to the player's on top of the card's own
  *              stats, for a lord whose bonus reaches the player (a Sliver lord).
+ *   grants     for an Equipment or an Aura: what the equipped or enchanted creature
+ *              (the player) gets, { power, toughness, perColor, perEnchantment,
+ *              keywords, abilities }. See player/gear.js. Abilities granted in quotes
+ *              ("Equipped creature has '...'") are written as the player's own.
+ *              Also for items (an artifact or enchantment that isn't an Equipment or
+ *              Aura, like Seal of Fire): what having it gives.
+ *              toggle { label, note }: a button that takes it off until combat is over.
+ *              remove: the label of the button that gets rid of an Equipment or item
+ *              ("Destroyed" when not given).
  *   transform  for a card that transforms: its back face, { name, power, toughness,
  *              keywords, abilities }. Transformed, the player loses what the front
  *              gave and gets this instead; power and toughness are a bonus (see
@@ -104,6 +113,75 @@ export const CARD_RULES = {
   'Champion of the Parish': {
     abilities: ['Whenever another Human you control enters, put a +1/+1 counter on this creature.'],
   },
+  /* ----- Equipment: the player equips it on absorbing it (no Equip cost). ----- */
+  '+2 Mace': { grants: { power: 2, toughness: 2 } },
+  'Arc Spitter': { grants: { abilities: ['{1}: This creature deals 1 damage to target creature that\'s blocking it.'] } },
+  'Blade of the Bloodchief': {
+    grants: { abilities: ['Whenever a creature dies, put a +1/+1 counter on this creature. If this creature is a Vampire, put two +1/+1 counters on it instead.'] },
+  },
+  // Sacrificing it means pressing "Destroyed" on the Player Card.
+  // Unattached, it comes off until the next combat, then it's back on by itself.
+  'Blinding Powder': {
+    grants: {
+      abilities: ['Unattach Blinding Powder: Prevent all combat damage that would be dealt to this creature this turn.'],
+      toggle: { label: 'Unattach', note: 'Unattached until combat is over.' },
+    },
+  },
+  'Blazing Torch': {
+    grants: {
+      abilities: [
+        'This creature can\'t be blocked by Vampires or Zombies.',
+        '{T}, Sacrifice Blazing Torch: Blazing Torch deals 2 damage to any target.',
+      ],
+    },
+  },
+  'Bronze Sword': { grants: { power: 2 } },
+  'Cathar\'s Shield': { grants: { toughness: 3, keywords: ['Vigilance'] } },
+  'Honed Khopesh': { grants: { power: 1, toughness: 1 } },
+  'Kor Halberd': { grants: { power: 1, toughness: 1, keywords: ['Vigilance'] } },
+  'Spidersilk Net': { grants: { toughness: 2, keywords: ['Reach'] } },
+
+  /* ----- Auras: the player enchants themselves for good. ----- */
+  'Arcane Flight': { grants: { power: 1, toughness: 1, keywords: ['Flying'] } },
+  'Armor of Faith': { grants: { power: 1, toughness: 1, abilities: ['{W}: This creature gets +0/+1 until end of turn.'] } },
+  'Blessing of the Nephilim': { grants: { perColor: { power: 1, toughness: 1 } } },
+  // Instead of "Sacrifice this Aura: Regenerate": when the player dies, they come back
+  // without it, and it returns when combat is over.
+  'Carapace': {
+    grants: {
+      toughness: 2,
+      abilities: ['When you would die, you come back instead, without Carapace. Carapace returns when combat is over.'],
+      toggle: { label: 'Revived', note: 'Gone until combat is over: it brought you back.' },
+    },
+  },
+  // Starts on, like any Aura. "Target creature can't block this turn" is WIP (rules/terms.js).
+  'Cartouche of Zeal': {
+    grants: {
+      power: 1,
+      toughness: 1,
+      keywords: ['Haste'],
+      abilities: ['When this Aura enters, target creature can\'t block this turn.'],
+    },
+  },
+  'Deviant Glee': { grants: { power: 2, toughness: 1, abilities: ['{R}: This creature gains trample until end of turn.'] } },
+  // The enchantments the player controls are their Auras.
+  'Ethereal Armor': { grants: { perEnchantment: { power: 1, toughness: 1 }, keywords: ['First strike'] } },
+  'Flowstone Blade': { grants: { abilities: ['{R}: This creature gets +1/-1 until end of turn.'] } },
+  'Mark of the Vampire': { grants: { power: 2, toughness: 2, keywords: ['Lifelink'] } },
+  'Predator\'s Gambit': {
+    grants: {
+      power: 2,
+      toughness: 1,
+      abilities: ['This creature has intimidate as long as you control no other creatures. (It can\'t be blocked except by artifact creatures and/or creatures that share a color with it.)'],
+    },
+  },
+  'Sadistic Glee': { grants: { abilities: ['Whenever a creature dies, put a +1/+1 counter on this creature.'] } },
+
+  /* ----- Items: other artifacts and enchantments, gone once used. ----- */
+  'Seal of Fire': {
+    grants: { abilities: ['Sacrifice this enchantment: It deals 2 damage to any target.'], remove: 'Used' },
+  },
+
   // Sliver lords: absorbing one makes the player a Sliver, and they count themselves,
   // so what it gives Slivers goes straight to the player. "All Sliver creatures"
   // also reaches other Slivers (players and monsters), so that text stays on the card.
