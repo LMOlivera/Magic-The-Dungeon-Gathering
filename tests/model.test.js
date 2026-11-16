@@ -4,6 +4,7 @@ import assert from 'node:assert/strict';
 import {
   SAVE_VERSION, FLAVOR_MAX,
   cleanName, newPlayer, withFlavor, withArt, withoutArt, withBooster, withCounters, describeCounters,
+  withBonus, describeBonus,
   toCardData, upgradeSave,
 } from '../js/player/model.js';
 
@@ -207,4 +208,24 @@ test('upgradeSave adds counters to v6 saves', () => {
   const { player } = upgradeSave(v6);
   assert.equal(player.version, SAVE_VERSION);
   assert.equal(player.counters, 0);
+});
+
+test('bonuses until the end of combat show on the card and clear', () => {
+  const player = withBonus(withCounters(newPlayer('Ana'), 1), 2, 0);
+  assert.equal(`${toCardData(player).power}/${toCardData(player).toughness}`, '4/2');
+  const cleared = withBonus(player, 0, 0);
+  assert.equal(`${toCardData(cleared).power}/${toCardData(cleared).toughness}`, '2/2', 'counters stay');
+  assert.equal(describeBonus(2), '+2');
+  assert.equal(describeBonus(-1), '-1');
+  assert.equal(describeBonus(0), '0');
+});
+
+test('upgradeSave adds bonuses to v7 saves', () => {
+  const v7 = { ...newPlayer('Ana'), version: 7 };
+  delete v7.bonusPower;
+  delete v7.bonusToughness;
+  const { player } = upgradeSave(v7);
+  assert.equal(player.version, SAVE_VERSION);
+  assert.equal(player.bonusPower, 0);
+  assert.equal(player.bonusToughness, 0);
 });

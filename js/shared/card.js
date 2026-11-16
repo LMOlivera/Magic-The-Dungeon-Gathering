@@ -16,6 +16,7 @@
  *   rulesText        string, optional
  *   flavor           string, optional
  *   artUrl           string, optional; without it the default doorway is drawn
+ *   transformed      true when the card shows its other face (a moon before the name)
  */
 
 import { el } from './dom.js';
@@ -42,7 +43,7 @@ export function setFrame(target, colors) {
 
 export function describeCard(data) {
   const keywords = (data.keywords || []).map((keyword) => `, ${keyword.toLowerCase()}`).join('');
-  return `${data.name || 'Unnamed card'}: ${typeLineOf(data)}, mana cost ${describeManaCost(data.cost)}, ${describeColors(data.colors)}, ${data.power}/${data.toughness}${keywords}`;
+  return `${data.name || 'Unnamed card'}${data.transformed ? ' (transformed)' : ''}: ${typeLineOf(data)}, mana cost ${describeManaCost(data.cost)}, ${describeColors(data.colors)}, ${data.power}/${data.toughness}${keywords}`;
 }
 
 /**
@@ -59,7 +60,10 @@ function keywordLine(keywords) {
       line.append(label);
       return;
     }
-    const button = explained(label, keyword, rule);
+    // A mana number shows as its icon: "Ward {1}".
+    const content = document.createDocumentFragment();
+    content.append(...abilityNodes(label));
+    const button = explained(content, keyword.replace(/[{}]/g, ''), rule);
     button.dataset.keyword = keyword;
     line.append(button);
   });
@@ -151,6 +155,13 @@ export function renderCard(target, data) {
   setFrame(target, data.colors);
 
   const top = el('div', 'card__row');
+  // Like the moon on the back face of a real double-faced card.
+  if (data.transformed) {
+    const moon = el('span', 'card__face', '\u263E');
+    moon.title = 'Transformed';
+    moon.setAttribute('aria-hidden', 'true');
+    top.append(moon);
+  }
   const nameEl = el('span', 'card__name', name || data.placeholderName || '');
   nameEl.title = name;
   const costEl = el('span', 'card__cost');

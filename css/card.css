@@ -186,6 +186,8 @@
   cursor: help;
 }
 .kw:has(.mana) { text-decoration: none; }
+/* Before the name when the card shows its other face. */
+.card__face { flex: none; margin-right: 4px; font-size: 1.05em; line-height: 1; }
 .kw:focus-visible { outline: 2px solid var(--ember); outline-offset: 1px; border-radius: 2px; }
 /* Sits over the bottom right corner of the text box, like on a real card. */
 .card__pt {

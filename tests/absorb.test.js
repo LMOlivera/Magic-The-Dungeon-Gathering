@@ -50,24 +50,20 @@ test('the creature mana cost is added symbol by symbol', () => {
   assert.equal(absorbCreature(player, red).manaCost, '{3}{U}{B}{R}');
 });
 
-test('only the creature types the player chooses are added', () => {
-  const base = newPlayer('Ana');
-  assert.deepEqual(absorbCreature(base, vampire).types, ['Human'], 'nothing chosen');
-  assert.deepEqual(absorbCreature(base, vampire, { types: ['Noble'] }).types, ['Human', 'Noble']);
-  assert.deepEqual(absorbCreature(base, vampire, { types: ['Vampire', 'Noble'] }).types, ['Human', 'Vampire', 'Noble']);
-  assert.deepEqual(absorbCreature(base, vampire, { types: ['Dragon'] }).types, ['Human'], 'types the card lacks are ignored');
+test('all the creature types are added, without asking', () => {
+  assert.deepEqual(absorbCreature(newPlayer('Ana'), vampire).types, ['Human', 'Vampire', 'Noble']);
 });
 
-test('types the player already has are not offered again', () => {
+test('types the player already has are not repeated', () => {
   const knight = creature('Cecil', { type: 'Legendary Creature — Human Knight' });
   assert.deepEqual(absorbPreview(newPlayer('Ana'), knight).newTypes, ['Knight']);
-  assert.deepEqual(absorbCreature(newPlayer('Ana'), knight, { types: ['Human', 'Knight'] }).types, ['Human', 'Knight']);
+  assert.deepEqual(absorbCreature(newPlayer('Ana'), knight).types, ['Human', 'Knight']);
 });
 
 test('absorbing records the card, closes the booster and does not change the original player', () => {
   const before = withBooster(newPlayer('Ana'), ['a', 'b', 'c']);
   const after = absorbCreature(before, turtle);
-  assert.deepEqual(after.absorbed, [{ id: 'id-Aegis Turtle', name: 'Aegis Turtle' }]);
+  assert.deepEqual(after.absorbed, [{ id: 'id-Aegis Turtle', name: 'Aegis Turtle', keywords: [], abilities: [] }]);
   assert.equal(after.booster, null);
   assert.deepEqual(before.booster, { cardIds: ['a', 'b', 'c'] });
   assert.equal(before.power, 1);
@@ -75,7 +71,8 @@ test('absorbing records the card, closes the booster and does not change the ori
 });
 
 test('stats that are not numbers ask the player how much they add', () => {
-  const archpriest = creature('Archpriest of Iona', { cost: '{W}', colors: ['W'], type: 'Creature — Human Cleric', power: '*', toughness: '2' });
+  // A card rules/cards.js says nothing about, so the player is asked.
+  const archpriest = creature('Unreviewed Star', { cost: '{W}', colors: ['W'], type: 'Creature — Human Cleric', power: '*', toughness: '2' });
   const preview = absorbPreview(newPlayer('Ana'), archpriest);
   assert.equal(preview.addPower, null);
   assert.equal(preview.rawPower, '*');
@@ -97,7 +94,7 @@ test('two-part cards absorb their creature part', () => {
   };
   assert.equal(frontFace(adventure).name, 'Smitten Swordmaster');
   assert.ok(isCreatureCard(adventure));
-  const player = absorbCreature(newPlayer('Ana'), adventure, { types: ['Knight'] });
+  const player = absorbCreature(newPlayer('Ana'), adventure);
   assert.equal(`${player.power}/${player.toughness}`, '3/2');
   assert.deepEqual(player.colors, ['B']);
   assert.equal(player.manaCost, '{1}{B}', 'only the creature part, not the adventure');
@@ -130,7 +127,7 @@ test('every creature in the level 1 pool can be absorbed', async () => {
   let player = newPlayer('Ana');
   for (const card of creatures) {
     const preview = absorbPreview(player, card);
-    player = absorbCreature(player, card, { types: preview.newTypes, power: 1, toughness: 1 });
+    player = absorbCreature(player, card, { power: 1, toughness: 1 });
   }
   assert.ok(Number.isInteger(player.power) && Number.isInteger(player.toughness));
   assert.match(player.manaCost, /^(\{[^}]+\})+$/);
@@ -187,9 +184,9 @@ test('other card types join the player type line', () => {
   const nymph = creature('Alseid of Life\'s Bounty', { cost: '{W}', colors: ['W'], type: 'Enchantment Creature — Nymph' });
   const thopter = absorbCreature(newPlayer('Ana'), ornithopter);
   assert.deepEqual(thopter.cardTypes, ['Artifact']);
-  const both = absorbCreature(thopter, nymph, { types: ['Nymph'] });
+  const both = absorbCreature(thopter, nymph);
   assert.deepEqual(both.cardTypes, ['Enchantment', 'Artifact'], 'printed order, no repeats');
-  assert.equal(typeLineOf(both), 'Enchantment Artifact Creature — Human Nymph');
+  assert.equal(typeLineOf(both), 'Enchantment Artifact Creature — Human Thopter Nymph');
   assert.equal(typeLineOf(newPlayer('Ana')), 'Creature — Human');
 });
 
@@ -204,6 +201,10 @@ test('every phrase in rules/terms.js shows up in some ability', () => {
 test('keywords with a number add up', () => {
   assert.deepEqual(parseKeyword('Modular 2'), { name: 'Modular', value: 2 });
   assert.deepEqual(parseKeyword('First strike'), { name: 'First strike', value: null });
+  assert.deepEqual(parseKeyword('Ward {1}'), { name: 'Ward', value: 1 });
+  assert.deepEqual(addKeywords(['Ward {1}'], ['Ward {2}']), ['Ward {3}'], 'mana numbers keep their braces');
+  assert.match(keywordRule('Ward {2}'), /pays 2 mana/);
+  assert.deepEqual(addKeywords(['Madness {0}'], ['Madness {1}']), ['Madness {0}'], 'Madness costs do not add up');
   assert.deepEqual(addKeywords(['Lifelink', 'Modular 1'], ['Modular 1', 'Lifelink', 'Flying']), ['Lifelink', 'Modular 2', 'Flying']);
   assert.deepEqual(addKeywords(['Modular'], ['Modular 1']), ['Modular 1'], 'a save from before numbers');
   assert.match(keywordRule('Modular 2'), /2 \+1\/\+1 counters/);
@@ -215,4 +216,13 @@ test('keywords with a number add up', () => {
   const preview = absorbPreview(once, worker);
   assert.deepEqual(preview.newKeywords, ['Modular 2']);
   assert.deepEqual(absorbCreature(once, worker).keywords, ['Modular 2']);
+});
+
+test('rules/cards.js can say what a * stat adds, so the player is not asked', () => {
+  const archpriest = creature('Archpriest of Iona', { cost: '{W}', colors: ['W'], type: 'Creature — Human Cleric', power: '*', toughness: '2', text: 'Archpriest of Iona\'s power is equal to the number of creatures in your party.' });
+  const preview = absorbPreview(newPlayer('Ana'), archpriest);
+  assert.equal(preview.addPower, 0);
+  assert.equal(preview.addToughness, 2);
+  const player = absorbCreature(newPlayer('Ana'), archpriest, { power: '5' });
+  assert.equal(`${player.power}/${player.toughness}`, '1/3', 'the power stays the player own');
 });

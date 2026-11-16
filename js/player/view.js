@@ -5,7 +5,8 @@
  * shows only the card.
  *
  * Everything stays in this browser: the sheet in localStorage under SAVE_KEY,
- * the photos in the image store under IMAGE_KEYS.
+ * the photos in the image store under IMAGE_KEYS (and transformKeys for the
+ * other face of a card that transforms).
  */
 
 import { $, el } from '../shared/dom.js';
@@ -15,11 +16,15 @@ import { putImage, getImage, deleteImage, imagesPersist, dataUrlToBlob } from '.
 import {
   SAVE_VERSION, FLAVOR_MAX,
   cleanName, newPlayer, withFlavor, withArt, withoutArt, withBooster, withCounters, describeCounters,
+  withBonus, describeBonus,
   toCardData, upgradeSave,
 } from './model.js';
 import { isCreatureCard, absorbPreview, absorbCreature, describeColors, typeLineOf } from './absorb.js';
 import { keywordRule, parseKeyword } from '../rules/keywords.js';
 import { makeBooster } from './booster.js';
+import {
+  withTransformed, untransformAll, withTransformName, withTransformArt, withoutTransformArt,
+} from './transform.js';
 import { loadPool, cardImageUrl } from '../shared/cards.js';
 import { renderBooster } from '../shared/booster-ui.js';
 import { playAbsorb } from './absorb-animation.js';
@@ -30,6 +35,8 @@ import { createArtEditor } from './art-editor.js';
 
 const SAVE_KEY = 'mtdg.player';
 const IMAGE_KEYS = { art: 'player.art', artSource: 'player.artSource' };
+const transformKeys = (index) => ({ art: `player.transform${index}.art`, artSource: `player.transform${index}.artSource` });
+const FLIP_MS = 600; // .card.is-flipping in css/player.css
 const FALLBACK_ART_RATIO = 1.37; // .card__art aspect-ratio in css/card.css
 const POOL_URL = 'data/level1.json';
 
@@ -42,6 +49,8 @@ export async function initPlayerView() {
 
   let player = null;        // the sheet, or null before the card is named
   let artUrl = null;        // object URL of the cropped photo
+  let transformArtUrls = []; // object URLs of the other faces' photos, by index in player.transforms
+  let artTarget = null;     // whose art the camera and editor are for: null for the card, or a transform index
   let editingArt = false;   // the player came back to change the art
   let animating = false;    // the absorb animation is playing on the card
   let savedByNewer = false; // the save belongs to a newer version: don't touch it
@@ -51,6 +60,16 @@ export async function initPlayerView() {
   function setArtUrl(blob) {
     if (artUrl) URL.revokeObjectURL(artUrl);
     artUrl = blob ? URL.createObjectURL(blob) : null;
+  }
+
+  function setTransformArtUrl(index, blob) {
+    if (transformArtUrls[index]) URL.revokeObjectURL(transformArtUrls[index]);
+    transformArtUrls[index] = blob ? URL.createObjectURL(blob) : null;
+  }
+
+  function clearTransformArtUrls() {
+    for (const url of transformArtUrls) if (url) URL.revokeObjectURL(url);
+    transformArtUrls = [];
   }
 
   function save() {
@@ -81,6 +100,14 @@ export async function initPlayerView() {
     // The sheet says there is a photo but it's gone (cleared site data): show the default art.
     if (player && player.hasArt && !art) player = withoutArt(player);
     setArtUrl(art);
+
+    clearTransformArtUrls();
+    for (const [index, entry] of (player ? player.transforms || [] : []).entries()) {
+      if (!entry.hasArt) continue;
+      const other = await getImage(transformKeys(index).art);
+      if (other) setTransformArtUrl(index, other);
+      else player = withoutTransformArt(player, index);
+    }
   }
 
   /* ----- Rendering ----- */
@@ -91,7 +118,7 @@ export async function initPlayerView() {
   }
 
   function drawCard() {
-    renderCard(card, toCardData(player || newPlayer(cleanName(nameInput.value)), artUrl));
+    renderCard(card, toCardData(player || newPlayer(cleanName(nameInput.value)), artUrl, transformArtUrls));
   }
 
   function render() {
@@ -122,6 +149,11 @@ export async function initPlayerView() {
       $('pc-art-cancel').hidden = !editingArt;
     } else if (step === 'card') {
       $('pc-counter-value').textContent = describeCounters(player.counters || 0);
+      $('pc-bonus-power-value').textContent = describeBonus(player.bonusPower);
+      $('pc-bonus-toughness-value').textContent = describeBonus(player.bonusToughness);
+      const anyTransformed = (player.transforms || []).some((entry) => entry.transformed);
+      $('pc-bonus-clear').disabled = !player.bonusPower && !player.bonusToughness && !anyTransformed;
+      renderTransforms();
     } else if (step === 'sheet') {
       $('pc-edit-art').hidden = !player.hasArtSource;
       if (document.activeElement !== flavorInput) flavorInput.value = player.flavor || '';
@@ -156,18 +188,21 @@ export async function initPlayerView() {
   /* ----- Step 2: art ----- */
   const editor = createArtEditor();
   const camera = createCamera({
-    onPhoto: (photo) => frameAndKeep(photo, true),
+    onPhoto: (photo) => frameAndKeep(photo, true), // for artTarget
     onUseFile: () => captureInput.click(),
   });
 
   /**
-   * Opens the editor on a photo and keeps the result as the card's art.
+   * Opens the editor on a photo and keeps the result as the art of artTarget:
+   * the card, or the other face of a card that transforms.
    * isNew: the photo was just taken or uploaded, so the original is stored too.
    */
   async function frameAndKeep(source, isNew) {
+    const target = artTarget;
+    const keys = target === null ? IMAGE_KEYS : transformKeys(target);
     let result;
     try {
-      const crop = isNew ? null : player.artCrop;
+      const crop = isNew ? null : (target === null ? player.artCrop : player.transforms[target].artCrop);
       result = await editor.edit(source, crop, artBoxRatio(card) || FALLBACK_ART_RATIO);
     } catch {
       showError("Couldn't open that photo for editing.");
@@ -179,13 +214,19 @@ export async function initPlayerView() {
       await withBusy('Saving your art…', async () => {
         const art = await canvasToBlob(result.canvas);
         await Promise.all([
-          putImage(IMAGE_KEYS.art, art),
-          isNew ? putImage(IMAGE_KEYS.artSource, source) : null,
+          putImage(keys.art, art),
+          isNew ? putImage(keys.artSource, source) : null,
         ]);
-        player = withArt(player, result.crop, true);
-        setArtUrl(art);
+        if (target === null) {
+          player = withArt(player, result.crop, true);
+          setArtUrl(art);
+          editingArt = false;
+        } else {
+          player = withTransformArt(player, target, result.crop, true);
+          setTransformArtUrl(target, art);
+          renderTransformDialog();
+        }
         save();
-        editingArt = false;
         showError('');
         render();
       });
@@ -230,10 +271,14 @@ export async function initPlayerView() {
 
   $('pc-art-camera').addEventListener('click', () => {
     showError('');
+    artTarget = null;
     // Without a live camera, phones open their camera app from this input; desktops get a file picker.
     if (!camera.open()) captureInput.click();
   });
-  $('pc-art-upload').addEventListener('click', () => fileInput.click());
+  $('pc-art-upload').addEventListener('click', () => {
+    artTarget = null;
+    fileInput.click();
+  });
   $('pc-art-skip').addEventListener('click', useDefaultArt);
   $('pc-art-cancel').addEventListener('click', () => {
     editingArt = false;
@@ -255,6 +300,7 @@ export async function initPlayerView() {
       showError("The original photo is no longer in this browser. Use Change art to pick a new one.");
       return;
     }
+    artTarget = null;
     await frameAndKeep(source, false);
   });
 
@@ -269,8 +315,13 @@ export async function initPlayerView() {
     removeKey(SAVE_KEY);
     await deleteImage(IMAGE_KEYS.art);
     await deleteImage(IMAGE_KEYS.artSource);
+    for (const index of (player.transforms || []).keys()) {
+      await deleteImage(transformKeys(index).art);
+      await deleteImage(transformKeys(index).artSource);
+    }
     player = null;
     setArtUrl(null);
+    clearTransformArtUrls();
     editingArt = false;
     nameInput.value = '';
     flavorInput.value = '';
@@ -290,6 +341,119 @@ export async function initPlayerView() {
   }
   $('pc-counter-up').addEventListener('click', () => changeCounters(1));
   $('pc-counter-down').addEventListener('click', () => changeCounters(-1));
+
+  function changeBonus(power, toughness) {
+    if (!player || animating) return;
+    player = withBonus(player, power, toughness);
+    save();
+    render();
+  }
+  const bonus = () => [player.bonusPower || 0, player.bonusToughness || 0];
+  $('pc-bonus-power-up').addEventListener('click', () => { const [p, t] = bonus(); changeBonus(p + 1, t); });
+  $('pc-bonus-power-down').addEventListener('click', () => { const [p, t] = bonus(); changeBonus(p - 1, t); });
+  $('pc-bonus-toughness-up').addEventListener('click', () => { const [p, t] = bonus(); changeBonus(p, t + 1); });
+  $('pc-bonus-toughness-down').addEventListener('click', () => { const [p, t] = bonus(); changeBonus(p, t - 1); });
+  // Combat over: the bonuses go, and every card turned over turns back.
+  $('pc-bonus-clear').addEventListener('click', async () => {
+    if (!player || animating) return;
+    const turnBack = (player.transforms || []).some((entry) => entry.transformed);
+    changeBonus(0, 0);
+    if (turnBack) await turnOver(untransformAll);
+  });
+
+  /* ----- Cards that transform ----- */
+  const reducedMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+  /** Turns the card over: it spins and shows change(player) halfway through. */
+  async function turnOver(change) {
+    if (!player || animating) return;
+    if (reducedMotion()) {
+      player = change(player);
+      save();
+      render();
+      return;
+    }
+    animating = true;
+    card.classList.add('is-flipping');
+    try {
+      await wait(FLIP_MS / 2);
+      player = change(player);
+      save();
+      drawCard();
+      render();
+      await wait(FLIP_MS / 2);
+    } finally {
+      card.classList.remove('is-flipping');
+      animating = false;
+      render();
+    }
+  }
+
+  /** One row of buttons per card that transforms. */
+  function renderTransforms() {
+    const rows = (player.transforms || []).map((entry, index) => {
+      const flip = el('button', 'action', entry.transformed ? `Turn back into ${entry.front}` : `Transform into ${entry.back}`);
+      flip.type = 'button';
+      flip.addEventListener('click', () => turnOver((sheet) => withTransformed(sheet, index, !entry.transformed)));
+      const edit = el('button', 'action action--quiet', 'Edit other face');
+      edit.type = 'button';
+      edit.addEventListener('click', () => openTransformDialog(index));
+      return [flip, edit];
+    });
+    $('pc-transforms').replaceChildren(...rows.flat());
+  }
+
+  const transformDialog = $('pc-transform');
+  const transformName = $('pc-transform-name');
+  let transformIndex = -1; // the face the dialog is editing
+
+  function renderTransformDialog() {
+    const entry = player && player.transforms[transformIndex];
+    if (!entry) return;
+    $('pc-transform-intro').textContent =
+      `${entry.front} can transform into ${entry.back}, and your card turns over with it. Give that face its own name and art if you like.`;
+    transformName.placeholder = player.name;
+    $('pc-transform-art-status').textContent = entry.hasArt ? 'That face has its own art.' : 'That face uses your usual art.';
+    $('pc-transform-same-art').hidden = !entry.hasArt;
+  }
+
+  function openTransformDialog(index) {
+    transformIndex = index;
+    transformName.value = player.transforms[index].name || '';
+    renderTransformDialog();
+    transformDialog.showModal();
+    transformName.focus();
+  }
+
+  transformName.addEventListener('input', () => {
+    if (!player || transformIndex < 0) return;
+    player = withTransformName(player, transformIndex, transformName.value);
+    save();
+    render();
+  });
+  $('pc-transform-form').addEventListener('submit', (event) => {
+    event.preventDefault();
+    transformDialog.close();
+  });
+  $('pc-transform-camera').addEventListener('click', () => {
+    artTarget = transformIndex;
+    if (!camera.open()) captureInput.click();
+  });
+  $('pc-transform-upload').addEventListener('click', () => {
+    artTarget = transformIndex;
+    fileInput.click();
+  });
+  $('pc-transform-same-art').addEventListener('click', async () => {
+    const keys = transformKeys(transformIndex);
+    await deleteImage(keys.art);
+    await deleteImage(keys.artSource);
+    player = withoutTransformArt(player, transformIndex);
+    setTransformArtUrl(transformIndex, null);
+    save();
+    renderTransformDialog();
+    render();
+  });
 
   /* ----- Boosters and absorbing ----- */
   const boosterDialog = $('pc-booster');
@@ -354,12 +518,11 @@ export async function initPlayerView() {
 
   $('pc-booster-close').addEventListener('click', () => boosterDialog.close());
 
-  /* Second step: show what changes and ask about creature types. */
+  /* Second step: show what changes, and ask for any stat the card doesn't print as a number. */
   function absorbChoices() {
-    const types = [...$('pc-absorb-type-options').querySelectorAll('input:checked')].map((input) => input.value);
     const power = $('pc-absorb-power');
     const toughness = $('pc-absorb-toughness');
-    return { types, power: power ? power.value : undefined, toughness: toughness ? toughness.value : undefined };
+    return { power: power ? power.value : undefined, toughness: toughness ? toughness.value : undefined };
   }
 
   /** before and after are text, or functions returning a node to show (for mana symbols). */
@@ -400,7 +563,9 @@ export async function initPlayerView() {
     const items = [];
     for (const keyword of preview.keywords) {
       const item = el('li');
-      item.append(el('strong', null, keyword), ` — ${keywordRule(keyword) || 'Not defined yet.'}`);
+      const strong = el('strong');
+      strong.append(...abilityNodes(keyword));
+      item.append(strong, ` — ${keywordRule(keyword) || 'Not defined yet.'}`);
       const { name } = parseKeyword(keyword);
       const result = preview.keywordsAfter.find((had) => parseKeyword(had).name === name);
       if (result !== keyword) item.append(el('span', 'changes__same', ` (adds to yours: you’ll have ${result})`));
@@ -411,6 +576,19 @@ export async function initPlayerView() {
       const item = el('li');
       item.append(...abilityNodes(ability));
       if (!preview.newAbilities.includes(ability)) item.append(el('span', 'changes__same', ' (you already have it)'));
+      items.push(item);
+    }
+    if (preview.transform) {
+      const back = preview.transform;
+      const item = el('li');
+      const gains = [
+        ...(back.keywords || []).map((keyword) => keyword.toLowerCase()),
+        ...(back.abilities || []).map((ability) => ability.split(' \u2014 ')[0]),
+      ];
+      item.append(
+        el('strong', null, `Transforms into ${back.name}`),
+        ` \u2014 Your card can turn over. Transformed, you lose what this card gives you and get +${back.power || 0}/+${back.toughness || 0}${gains.length ? `, ${gains.join(', ')}` : ''}. You can give that face its own name and art.`,
+      );
       items.push(item);
     }
     $('pc-absorb-ability-list').replaceChildren(...items);
@@ -447,25 +625,11 @@ export async function initPlayerView() {
     if (preview.addToughness === null) stats.push(statField('pc-absorb-toughness', preview.name, 'toughness', preview.rawToughness));
     $('pc-absorb-stats').replaceChildren(...stats);
 
-    const options = preview.newTypes.map((type) => {
-      const label = el('label');
-      const box = el('input');
-      Object.assign(box, { type: 'checkbox', value: type });
-      box.addEventListener('change', renderChanges);
-      label.append(box, type);
-      return label;
-    });
-    $('pc-absorb-type-options').replaceChildren(...options);
-    $('pc-absorb-types').hidden = !options.length;
-    const noTypes = $('pc-absorb-no-types');
-    noTypes.hidden = options.length > 0;
-    noTypes.textContent = 'It has no creature types you don\u2019t already have.';
-
     showAbilities(preview);
     renderChanges();
     $('pc-booster-pick').hidden = true;
     $('pc-absorb').hidden = false;
-    (stats.length ? stats[0].querySelector('input') : options[0]?.querySelector('input') || $('pc-absorb-go')).focus();
+    (stats.length ? stats[0].querySelector('input') : $('pc-absorb-go')).focus();
   }
 
   confirmButton.addEventListener('click', () => {
@@ -497,14 +661,16 @@ export async function initPlayerView() {
         cardEl: card,
         ghostEl: $('pc-absorb-ghost'),
         captionEl: $('pc-absorb-caption'),
-        before: toCardData(before, artUrl),
-        after: toCardData(player, artUrl),
+        before: toCardData(before, artUrl, transformArtUrls),
+        after: toCardData(player, artUrl, transformArtUrls),
         creature: { name: absorbPreview(before, creature).name, imageUrl: cardImageUrl(creature) },
       });
     } finally {
       animating = false;
       render();
     }
+    // A card that transforms: offer a name and art for its other face.
+    if ((player.transforms || []).length > (before.transforms || []).length) openTransformDialog(player.transforms.length - 1);
   });
 
   /* ----- Keeping up with the page ----- */

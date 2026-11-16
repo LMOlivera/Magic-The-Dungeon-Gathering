@@ -70,11 +70,6 @@
 /* Mana symbols in the list of changes: same look as on the card, a bit bigger. */
 .changes__mana { display: inline-flex; vertical-align: middle; --mana-size: 18px !important; }
 
-.absorb__types { margin: 0; padding: 12px 14px; border: 1px solid var(--stone-600); border-radius: 6px; }
-.absorb__types legend { padding: 0 6px; font-weight: 500; }
-.absorb__options { display: flex; flex-wrap: wrap; gap: 8px 18px; }
-.absorb__options label { display: flex; align-items: center; gap: 8px; cursor: pointer; }
-.absorb__options input { width: 18px; height: 18px; accent-color: var(--torch); }
 /* What the card's rules text gives, with each keyword's rule in this game. */
 .absorb__abilities { padding: 12px 14px; border: 1px solid var(--stone-600); border-radius: 6px; }
 .absorb__abilities h4 { margin: 0 0 6px; font-size: 1rem; font-weight: 500; }
@@ -110,11 +105,23 @@
 .absorb-caption:empty { visibility: hidden; }
 .action--big { padding: 14px 22px; font-size: 1.125rem; }
 
-/* +1/+1 counters under the card. */
-.counters { display: flex; align-items: center; gap: 10px; }
-.counters__label { color: var(--ash); }
-.counters__step { min-width: 44px; min-height: 44px; padding: 0; font-size: 1.25rem; line-height: 1; }
-.counters__value { min-width: 3.5em; font-family: var(--font-display); font-size: 1.5rem; text-align: center; }
+/* Cards that transform, under the card. */
+.transforms { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px 12px; }
+.transforms:empty { display: none; }
+.transform-form { display: grid; gap: 12px; }
+.transform-form .note { margin: 0; }
+/* Turning over: the card spins on its vertical axis and changes face halfway. */
+.pc .card-stage { perspective: 1200px; }
+.card.is-flipping { animation: card-flip 0.6s ease-in-out; }
+@keyframes card-flip { 50% { rotate: y 90deg; } }
+
+/* Counters and bonuses under the card (step buttons big enough for a thumb). */
+.trackers { display: grid; gap: 8px; justify-items: center; }
+.tracker { display: grid; grid-template-columns: 8.5em 44px 3.5em 44px; align-items: center; gap: 8px; }
+.tracker__label { color: var(--ash); }
+.tracker__step { min-width: 44px; min-height: 44px; padding: 0; font-size: 1.25rem; line-height: 1; }
+.tracker__value { font-family: var(--font-display); font-size: 1.5rem; text-align: center; }
+.trackers__clear:disabled { opacity: 0.45; cursor: default; }
 
 /* ---------- Absorb animation ---------- */
 /* The creature flies into the card and fades out. */
@@ -156,5 +163,5 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .absorb-ghost, .card.is-absorbing, .card .is-changing, .pips .is-new, .card__cost .is-new { animation: none; }
+  .card.is-flipping, .absorb-ghost, .card.is-absorbing, .card .is-changing, .pips .is-new, .card__cost .is-new { animation: none; }
 }
