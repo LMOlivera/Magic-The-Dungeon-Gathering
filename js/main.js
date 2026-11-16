@@ -36,7 +36,7 @@ show();
 // The starting card everyone walks in with.
 renderCard($('home-card'), {
   name: 'Human',
-  cost: 0,
+  cost: '{0}',
   colors: [],
   types: ['Human'],
   power: 1,

@@ -6,11 +6,13 @@
 <title>Magic: The Dungeon Gathering</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://cards.scryfall.io">
 <link href="https://fonts.googleapis.com/css2?family=Alegreya+Sans:wght@400;500;700&family=Grenze+Gotisch:wght@400;600;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/base.css">
 <link rel="stylesheet" href="css/card.css">
 <link rel="stylesheet" href="css/home.css">
 <link rel="stylesheet" href="css/player.css">
+<link rel="stylesheet" href="css/booster.css">
 </head>
 <body>
 
@@ -87,6 +89,9 @@
         <div class="field__meta"><span>Saved as you type.</span><span id="pc-flavor-count">0/110</span></div>
       </div>
       <div class="actions">
+        <button class="action action--primary action--big" type="button" id="pc-open-booster">Open your first booster pack!</button>
+      </div>
+      <div class="actions">
         <button class="action" type="button" id="pc-edit-art" hidden>Edit art</button>
         <button class="action" type="button" id="pc-change-art">Change art</button>
         <button class="action action--quiet" type="button" id="pc-reset">Start over</button>
@@ -99,7 +104,14 @@
   </div>
 
   <div class="card-stage">
-    <article class="card" id="pc-card"></article>
+    <article class="card" id="pc-card" tabindex="-1"></article>
+    <img class="absorb-ghost" id="pc-absorb-ghost" alt="" hidden>
+  </div>
+
+  <!-- Only once the card has absorbed something: the page then shows just the card. -->
+  <div class="pc__card-foot" id="pc-card-foot" hidden>
+    <p class="absorb-caption" id="pc-absorb-caption" role="status"></p>
+    <button class="action action--quiet" type="button" id="pc-reset-card">Start over</button>
   </div>
 
   <dialog class="camera" id="pc-camera" aria-labelledby="pc-camera-title">
@@ -114,6 +126,35 @@
       <button class="action" type="button" id="pc-camera-fallback" hidden>Choose a photo instead</button>
       <button class="action action--quiet" type="button" id="pc-camera-close">Cancel</button>
     </div>
+  </dialog>
+
+  <dialog class="camera booster-dialog" id="pc-booster" aria-labelledby="pc-booster-title">
+    <h3 id="pc-booster-title">Booster</h3>
+
+    <section id="pc-booster-pick">
+      <p class="note" id="pc-booster-status" role="status">Pick one card to absorb.</p>
+      <ul class="booster" id="pc-booster-cards" aria-label="Booster"></ul>
+      <div class="actions booster-dialog__actions">
+        <button class="action action--primary" type="button" id="pc-booster-confirm" hidden>Confirm</button>
+        <button class="action action--quiet" type="button" id="pc-booster-close">Close</button>
+      </div>
+      <p class="note">Closing keeps this booster open. You'll see the same cards when you come back.</p>
+    </section>
+
+    <section id="pc-absorb" hidden>
+      <p class="note">This is what your card becomes.</p>
+      <dl class="changes" id="pc-absorb-changes"></dl>
+      <div class="absorb__stats" id="pc-absorb-stats"></div>
+      <fieldset class="absorb__types" id="pc-absorb-types">
+        <legend>Add its creature types to yours?</legend>
+        <div class="absorb__options" id="pc-absorb-type-options"></div>
+      </fieldset>
+      <p class="note" id="pc-absorb-no-types" hidden></p>
+      <div class="actions">
+        <button class="action action--primary" type="button" id="pc-absorb-go">Absorb</button>
+        <button class="action" type="button" id="pc-absorb-back">Back</button>
+      </div>
+    </section>
   </dialog>
 
   <dialog class="camera" id="pc-editor" aria-labelledby="pc-editor-title">

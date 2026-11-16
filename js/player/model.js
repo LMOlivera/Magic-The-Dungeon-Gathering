@@ -6,7 +6,7 @@
  * (shared/images.js) and the sheet only remembers whether they exist.
  */
 
-export const SAVE_VERSION = 2;
+export const SAVE_VERSION = 4;
 export const FLAVOR_MAX = 110;
 
 /** Collapses runs of whitespace and trims. An empty result means "no name". */
@@ -26,14 +26,21 @@ export function newPlayer(name, now = new Date()) {
     hasArtSource: false,  // so is the uncropped original, so the crop can be redone
     artCrop: null,        // { zoom, cx, cy }, see player/crop.js
     flavor: '',
-    cost: 0,
-    colors: [],
+    manaCost: '{0}',      // Scryfall notation; absorbed creatures add their symbols, see shared/mana.js
+    colors: [],           // W U B R G letters; empty means colorless
     types: ['Human'],
     power: 1,
     toughness: 1,
     abilities: [],
+    absorbed: [],         // [{ id, name }] of every card absorbed, in order
+    booster: null,        // { cardIds } of an opened booster not yet picked from
     createdAt: now.toISOString(),
   };
+}
+
+/** The player opened a booster. It stays open (also across reloads) until a card is absorbed. */
+export function withBooster(player, cardIds) {
+  return { ...player, booster: { cardIds: [...cardIds] } };
 }
 
 export function withFlavor(player, text) {
@@ -55,7 +62,7 @@ export function toCardData(player, artUrl) {
   return {
     name: player.name,
     placeholderName: 'Human',
-    cost: player.cost,
+    cost: player.manaCost,
     colors: player.colors,
     types: player.types,
     power: player.power,
@@ -101,6 +108,18 @@ export function upgradeSave(saved) {
       artCrop: hasArtSource ? artCrop ?? null : null,
       flavor: rest.flavor ?? '',
     };
+  }
+
+  // v3 added absorbing cards and opening boosters.
+  if (data.version === 2) {
+    data = { ...data, version: 3, absorbed: data.absorbed ?? [], booster: data.booster ?? null };
+  }
+
+  // v4 keeps the whole mana cost with its symbols instead of a number. A v3 cost
+  // only knew the total, so it becomes that much generic mana.
+  if (data.version === 3) {
+    const { cost, ...rest } = data;
+    data = { ...rest, version: 4, manaCost: rest.manaCost ?? `{${Number.isInteger(cost) && cost > 0 ? cost : 0}}` };
   }
 
   return { status: 'ok', player: data, images };

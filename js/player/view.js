@@ -1,19 +1,26 @@
 /**
  * The Player Card view (#view-player-card): the player's character sheet.
- * Flow: name the card, pick its art, then the finished sheet.
+ * Flow: name the card, pick its art, then the finished sheet, where the player
+ * opens their first booster. Once the card has absorbed something the page
+ * shows only the card.
  *
  * Everything stays in this browser: the sheet in localStorage under SAVE_KEY,
  * the photos in the image store under IMAGE_KEYS.
  */
 
 import { $, el } from '../shared/dom.js';
-import { renderCard, fitCardName, artBoxRatio } from '../shared/card.js';
+import { renderCard, fitCardText, artBoxRatio, fillManaCost } from '../shared/card.js';
 import { storageWorks, readJSON, writeJSON, removeKey } from '../shared/storage.js';
 import { putImage, getImage, deleteImage, imagesPersist, dataUrlToBlob } from '../shared/images.js';
 import {
   SAVE_VERSION, FLAVOR_MAX,
-  cleanName, newPlayer, withFlavor, withArt, withoutArt, toCardData, upgradeSave,
+  cleanName, newPlayer, withFlavor, withArt, withoutArt, withBooster, toCardData, upgradeSave,
 } from './model.js';
+import { isCreatureCard, absorbPreview, absorbCreature, describeColors } from './absorb.js';
+import { makeBooster } from './booster.js';
+import { loadPool, cardImageUrl } from '../shared/cards.js';
+import { renderBooster } from '../shared/booster-ui.js';
+import { playAbsorb } from './absorb-animation.js';
 import { withBusy } from '../shared/busy.js';
 import { fileToSource, canvasToBlob } from './photo.js';
 import { createCamera } from './camera.js';
@@ -21,7 +28,8 @@ import { createArtEditor } from './art-editor.js';
 
 const SAVE_KEY = 'mtdg.player';
 const IMAGE_KEYS = { art: 'player.art', artSource: 'player.artSource' };
-const FALLBACK_ART_RATIO = 248 / 196;
+const FALLBACK_ART_RATIO = 1.37; // .card__art aspect-ratio in css/card.css
+const POOL_URL = 'data/level1.json';
 
 export async function initPlayerView() {
   const card = $('pc-card');
@@ -33,6 +41,7 @@ export async function initPlayerView() {
   let player = null;        // the sheet, or null before the card is named
   let artUrl = null;        // object URL of the cropped photo
   let editingArt = false;   // the player came back to change the art
+  let animating = false;    // the absorb animation is playing on the card
   let savedByNewer = false; // the save belongs to a newer version: don't touch it
   let storageOk = storageWorks();
 
@@ -91,11 +100,15 @@ export async function initPlayerView() {
     if (savedByNewer) step = 'none';
     else if (!player) step = 'name';
     else if (!player.artChosen || editingArt) step = 'art';
+    else if ((player.absorbed || []).length) step = 'card';
     $('pc-step-name').hidden = step !== 'name';
     $('pc-step-art').hidden = step !== 'art';
     $('pc-sheet').hidden = step !== 'sheet';
+    $('view-player-card').classList.toggle('is-card-only', step === 'card');
+    $('pc-card-foot').hidden = step !== 'card';
 
-    drawCard();
+    // While the animation plays it owns the card.
+    if (!animating) drawCard();
 
     if (step === 'art') {
       $('pc-art-step').textContent = editingArt ? 'Card art' : 'Step 2 of 2';
@@ -111,7 +124,7 @@ export async function initPlayerView() {
       $('pc-flavor-count').textContent = `${flavorInput.value.length}/${FLAVOR_MAX}`;
       $('pc-summary').replaceChildren(
         el('strong', null, player.name),
-        ` walks in as a colorless ${player.power}/${player.toughness} ${player.types.join(' ')}. Open a booster to absorb your first card.`,
+        ` walks in as a ${describeColors(player.colors)} ${player.power}/${player.toughness} ${player.types.join(' ')}.`,
       );
     }
   }
@@ -247,8 +260,8 @@ export async function initPlayerView() {
     $('pc-art-camera').focus();
   });
 
-  $('pc-reset').addEventListener('click', async () => {
-    if (!confirm(`Start over? This deletes ${player.name} and its art from this browser.`)) return;
+  async function startOver() {
+    if (!player || !confirm(`Start over? This deletes ${player.name} and its art from this browser.`)) return;
     removeKey(SAVE_KEY);
     await deleteImage(IMAGE_KEYS.art);
     await deleteImage(IMAGE_KEYS.artSource);
@@ -260,15 +273,197 @@ export async function initPlayerView() {
     showError('');
     render();
     nameInput.focus();
+  }
+  $('pc-reset').addEventListener('click', startOver);
+  $('pc-reset-card').addEventListener('click', startOver);
+
+  /* ----- Boosters and absorbing ----- */
+  const boosterDialog = $('pc-booster');
+  const confirmButton = $('pc-booster-confirm');
+  let creaturePool = null; // creatures of the pool; only creatures can be absorbed so far
+  let boosterCards = [];
+  let boosterControls = null;
+  let picked = null;       // the card clicked in the booster
+  let absorbing = null;    // the card being absorbed, on the second step
+
+  async function loadCreatures() {
+    if (!creaturePool) creaturePool = (await loadPool(POOL_URL)).filter(isCreatureCard);
+    return creaturePool;
+  }
+
+  /** The cards of the open booster, or a new booster if none is open (or its cards left the pool). */
+  function currentBooster(pool) {
+    if (player.booster) {
+      const byId = new Map(pool.map((poolCard) => [poolCard.id, poolCard]));
+      const cards = player.booster.cardIds.map((id) => byId.get(id));
+      if (cards.length && cards.every(Boolean)) return cards;
+    }
+    const cards = makeBooster(pool);
+    player = withBooster(player, cards.map((poolCard) => poolCard.id));
+    save();
+    return cards;
+  }
+
+  function showPickStep() {
+    absorbing = null;
+    $('pc-booster-pick').hidden = false;
+    $('pc-absorb').hidden = true;
+    $('pc-booster-title').textContent = 'Booster';
+  }
+
+  function pickCard(boosterCard) {
+    picked = boosterCard;
+    boosterControls.setPicked(boosterCard);
+    confirmButton.textContent = `Confirm ${boosterCard.name}`;
+    confirmButton.hidden = false;
+    $('pc-booster-status').textContent = `${boosterCard.name} picked. Confirm it, or pick another card.`;
+  }
+
+  $('pc-open-booster').addEventListener('click', async () => {
+    showError('');
+    let pool;
+    try {
+      pool = await withBusy('Opening your booster\u2026', loadCreatures);
+    } catch {
+      showError("Couldn't load the card pool. Check your connection and try again.");
+      return;
+    }
+    boosterCards = currentBooster(pool);
+    picked = null;
+    confirmButton.hidden = true;
+    $('pc-booster-status').textContent = 'Pick one card to absorb.';
+    boosterControls = renderBooster($('pc-booster-cards'), boosterCards, pickCard);
+    showPickStep();
+    render();
+    boosterDialog.showModal();
+  });
+
+  $('pc-booster-close').addEventListener('click', () => boosterDialog.close());
+
+  /* Second step: show what changes and ask about creature types. */
+  function absorbChoices() {
+    const types = [...$('pc-absorb-type-options').querySelectorAll('input:checked')].map((input) => input.value);
+    const power = $('pc-absorb-power');
+    const toughness = $('pc-absorb-toughness');
+    return { types, power: power ? power.value : undefined, toughness: toughness ? toughness.value : undefined };
+  }
+
+  /** before and after are text, or functions returning a node to show (for mana symbols). */
+  function changeRow(label, before, after, same = before === after) {
+    const show = (value) => (typeof value === 'function' ? value() : value);
+    const row = el('div', 'changes__row');
+    const value = el('dd');
+    if (same) value.append(show(after), el('span', 'changes__same', ' (no change)'));
+    else value.append(show(before), el('span', 'changes__arrow', ' → '), show(after));
+    row.append(el('dt', null, label), value);
+    return row;
+  }
+
+  function manaCostNode(cost) {
+    const node = el('span', 'card__cost changes__mana');
+    fillManaCost(node, cost);
+    return node;
+  }
+
+  function renderChanges() {
+    const after = absorbCreature(player, absorbing, absorbChoices());
+    const capital = (text) => text[0].toUpperCase() + text.slice(1);
+    $('pc-absorb-changes').replaceChildren(
+      changeRow('Power / toughness', `${player.power}/${player.toughness}`, `${after.power}/${after.toughness}`),
+      changeRow('Colors', capital(describeColors(player.colors)), capital(describeColors(after.colors))),
+      changeRow('Mana cost', () => manaCostNode(player.manaCost), () => manaCostNode(after.manaCost), player.manaCost === after.manaCost),
+      changeRow('Types', player.types.join(' '), after.types.join(' ')),
+    );
+  }
+
+  /** A number field for a stat the card doesn't print as a number, like "*". */
+  function statField(id, cardName, label, raw) {
+    const field = el('div', 'field');
+    const labelEl = el('label', null, `${cardName}'s ${label} is ${raw}. How much ${label} does it add?`);
+    labelEl.htmlFor = id;
+    const input = el('input', 'input');
+    Object.assign(input, { id, type: 'number', inputMode: 'numeric', step: '1', value: '0' });
+    input.addEventListener('input', renderChanges);
+    field.append(labelEl, input);
+    return field;
+  }
+
+  function showAbsorbStep(boosterCard) {
+    absorbing = boosterCard;
+    const preview = absorbPreview(player, boosterCard);
+    $('pc-booster-title').textContent = `Absorb ${preview.name}`;
+
+    const stats = [];
+    if (preview.addPower === null) stats.push(statField('pc-absorb-power', preview.name, 'power', preview.rawPower));
+    if (preview.addToughness === null) stats.push(statField('pc-absorb-toughness', preview.name, 'toughness', preview.rawToughness));
+    $('pc-absorb-stats').replaceChildren(...stats);
+
+    const options = preview.newTypes.map((type) => {
+      const label = el('label');
+      const box = el('input');
+      Object.assign(box, { type: 'checkbox', value: type });
+      box.addEventListener('change', renderChanges);
+      label.append(box, type);
+      return label;
+    });
+    $('pc-absorb-type-options').replaceChildren(...options);
+    $('pc-absorb-types').hidden = !options.length;
+    const noTypes = $('pc-absorb-no-types');
+    noTypes.hidden = options.length > 0;
+    noTypes.textContent = 'It has no creature types you don\u2019t already have.';
+
+    renderChanges();
+    $('pc-booster-pick').hidden = true;
+    $('pc-absorb').hidden = false;
+    (stats.length ? stats[0].querySelector('input') : options[0]?.querySelector('input') || $('pc-absorb-go')).focus();
+  }
+
+  confirmButton.addEventListener('click', () => {
+    if (picked) showAbsorbStep(picked);
+  });
+
+  $('pc-absorb-back').addEventListener('click', () => {
+    showPickStep();
+    confirmButton.focus();
+  });
+
+  $('pc-absorb-go').addEventListener('click', async () => {
+    if (!absorbing || animating) return;
+    const creature = absorbing;
+    const before = player;
+    player = absorbCreature(player, creature, absorbChoices());
+    save();
+    absorbing = null;
+    picked = null;
+    boosterDialog.close();
+
+    // Switch to the card-only page, then load the new values into the card.
+    animating = true;
+    render();
+    window.scrollTo(0, 0);
+    card.focus({ preventScroll: true });
+    try {
+      await playAbsorb({
+        cardEl: card,
+        ghostEl: $('pc-absorb-ghost'),
+        captionEl: $('pc-absorb-caption'),
+        before: toCardData(before, artUrl),
+        after: toCardData(player, artUrl),
+        creature: { name: absorbPreview(before, creature).name, imageUrl: cardImageUrl(creature) },
+      });
+    } finally {
+      animating = false;
+      render();
+    }
   });
 
   /* ----- Keeping up with the page ----- */
-  // The name is measured to fit, so refit when the view appears, the window
-  // resizes or the display font finishes loading.
-  const refitName = () => fitCardName(card);
-  window.addEventListener('hashchange', refitName);
-  window.addEventListener('resize', refitName);
-  if (document.fonts && document.fonts.ready) document.fonts.ready.then(refitName);
+  // The name and type line are measured to fit, so refit when the view appears,
+  // the window resizes or the display font finishes loading.
+  const refitText = () => fitCardText(card);
+  window.addEventListener('hashchange', refitText);
+  window.addEventListener('resize', refitText);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(refitText);
 
   // Another tab changed or cleared the card.
   window.addEventListener('storage', async (event) => {
