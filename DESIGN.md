@@ -212,6 +212,7 @@ css/
   card.css        the card component
   home.css        home
   player.css      Player Card, camera and art editor
+  booster.css     the cards of a booster, to pick one
 js/
   main.js         hash navigation and home
   shared/
@@ -240,13 +241,11 @@ js/
     cards.js      what the player gets from each card's text
     terms.js      phrases in card text that mean something particular in this game, with their tooltip
   game/           doesn't exist yet; the Game part goes here
-  booster-page.js the BoosterTest.html test page
 data/
   level1.json     test pool: the cards of level1.txt with their data and image links
 scripts/
   build-pool.js   builds a pool JSON from a list and Scryfall's file
 tests/            node --test
-BoosterTest.html  boosters proof of concept
 package.json      only scripts: npm start and npm test. No dependencies.
 ```
 
@@ -295,7 +294,7 @@ The code is already split following the architecture in section 9.
     - Version 6 adds the card types besides Creature. Saves from before version 6 start without card types, even if they absorbed an artifact or an enchantment.
     - Version 7 adds +1/+1 counters, version 8 combat bonuses and version 9 cards that transform.
 - **Game:** empty screen marked "Not built yet".
-- **Boosters (proof of concept):** `BoosterTest.html` deals 3 different random cards from the `data/level1.json` pool, shows their images from Scryfall and lets you pick one and confirm it with "Confirm". Each card's name shows on mouse hover, even if the image hasn't loaded. It's only a test: it saves nothing and isn't linked from home. It deals from the whole pool, not only creatures.
+- **Boosters:** the Player Card deals 3 different random creatures from the `data/level1.json` pool, shows their images from Scryfall and lets the player pick one and confirm it with "Confirm". Each card's name shows on mouse hover, even if the image hasn't loaded. (The `BoosterTest.html` proof of concept, which dealt from the whole pool, was removed.)
   - `level1.txt` is the test card list (101 cards). The pool is rebuilt with `node scripts/build-pool.js level1.txt oracle-cards-YYYYMMDD.jsonl data/level1.json`.
   - Cards are looked up by name. Scryfall's file has a single printing per card, so the image may be from a different edition than the one in the list.
   - Images are requested from `cards.scryfall.io` with a plain `<img>` tag. No key is needed and no API calls, and Scryfall allows use from other sites.
