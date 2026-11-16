@@ -208,7 +208,10 @@ test('keywords with a number add up', () => {
   assert.deepEqual(addKeywords(['Bushido 1'], ['Bushido 1']), ['Bushido 2'], 'Bushido stacks');
   assert.match(keywordRule('Bushido 2'), /\+2\/\+2/);
   assert.deepEqual(addKeywords(['Lifelink', 'Modular 1'], ['Modular 1', 'Lifelink', 'Flying']), ['Lifelink', 'Modular 2', 'Flying']);
-  assert.deepEqual(addKeywords(['Modular'], ['Modular 1']), ['Modular 1'], 'a save from before numbers');
+  assert.deepEqual(addKeywords(['Modular'], ['Modular 1']), ['Modular 2'], 'a save from before numbers had Modular 1');
+  assert.deepEqual(addKeywords(['Exalted'], ['Exalted']), ['Exalted 2'], 'Exalted stacks without a number');
+  assert.match(keywordRule('Exalted'), /\+1\/\+1/);
+  assert.match(keywordRule('Exalted 2'), /\+2\/\+2/);
   assert.match(keywordRule('Modular 2'), /2 \+1\/\+1 counters/);
   assert.match(keywordRule('Modular 1'), /1 \+1\/\+1 counter on/);
 
@@ -227,4 +230,14 @@ test('rules/cards.js can say what a * stat adds, so the player is not asked', ()
   assert.equal(preview.addToughness, 2);
   const player = absorbCreature(newPlayer('Ana'), archpriest, { power: '5' });
   assert.equal(`${player.power}/${player.toughness}`, '1/3', 'the power stays the player own');
+});
+
+test('a Sliver lord bonus goes to the player, and two of them stack', () => {
+  const muscle = creature('Muscle Sliver', { cost: '{1}{G}', colors: ['G'], type: 'Creature — Sliver', text: 'All Sliver creatures get +1/+1.' });
+  const sinew = creature('Sinew Sliver', { cost: '{1}{W}', colors: ['W'], type: 'Creature — Sliver', text: 'All Sliver creatures get +1/+1.' });
+  const one = absorbCreature(newPlayer('Ana'), muscle);
+  assert.equal(`${one.power}/${one.toughness}`, '3/3', '1/1 + its 1/1 + its +1/+1');
+  const two = absorbCreature(one, sinew);
+  assert.equal(`${two.power}/${two.toughness}`, '5/5');
+  assert.deepEqual(two.abilities, ['All Sliver creatures get +1/+1.'], 'the same text once');
 });

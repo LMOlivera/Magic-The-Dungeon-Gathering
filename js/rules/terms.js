@@ -36,6 +36,26 @@ export const TERMS = [
     tip: 'Only your own artifacts count: you, if you are an Artifact Creature, and the artifacts you absorbed.',
   },
   {
+    pattern: /\benters tapped\b/i,
+    title: 'Enters tapped',
+    tip: 'You start each combat tapped: you pass your first turn.',
+  },
+  {
+    pattern: /\bat the beginning of your upkeep\b/i,
+    title: 'Upkeep',
+    tip: 'Your upkeep is the start of your turn.',
+  },
+  {
+    pattern: /\bprepared\b/i,
+    title: 'Prepared',
+    tip: 'While prepared, you may cast a copy of this card\'s spell. A copy doesn\'t go to the graveyard like the spells on your list, so being prepared again lets you cast it again.',
+  },
+  {
+    pattern: /\byou gain \d+ life\b|\bgained life\b/i,
+    title: 'Gain life',
+    tip: 'Gaining life heals you, but never above your toughness.',
+  },
+  {
     pattern: /\btransform it\b/i,
     title: 'Transform',
     tip: 'Use Transform under your card: it turns over to its other face until combat is over.',

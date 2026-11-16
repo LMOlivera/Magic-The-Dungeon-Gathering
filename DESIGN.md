@@ -38,13 +38,17 @@ The players apply these rules. The app doesn't run them; at most it offers count
 - [DECIDED] Turn-based, classic RPG style: enemies attack on their turn and the player on theirs.
 - [DECIDED] Each turn the player generates mana of one of their colors. Enemies generate mana too.
 - [DECIDED] Absorbed instants and sorceries make up the player's spell list, which they can cast on their turn.
+- [DECIDED] Each spell on the list can be cast once per combat: after it's cast it "goes to the graveyard" (it's back for the next combat).
 - [DECIDED] The player's life is their toughness; their starting life ("starting life total") is the toughness they have when combat starts.
 - [PROPOSED] Power = damage per attack. Toughness = maximum life. Damage lasts for the whole combat and the player heals when moving to another room.
 - [DECIDED] **Turn order:** whenever a combat starts, players and enemies roll a d20 to set the order of turns. Creatures with Haste go first; if several have Haste, they roll too, and they go first in that order, then everyone else.
   - [PENDING] Whether the app helps with the roll (for example on the Game screen) or it's done with real dice at the table.
 - [PROPOSED] On their turn, a player attacks or casts spells. (This replaces the proposed round order "first all the players, then all the enemies".)
-- [PROPOSED] Mana: 1 per turn, of a color the player chooses among theirs; it builds up during combat and is lost when combat ends. While colorless, the player generates colorless mana, which only pays generic costs.
+- [DECIDED] Mana isn't lost between rounds: it builds up, and it's lost when combat ends.
+- [PROPOSED] Mana: 1 per turn, of a color the player chooses among theirs. While colorless, the player generates colorless mana, which only pays generic costs.
 - [PROPOSED] Death: the player is out until the room is over. If everyone falls, the game is over.
+- [DECIDED] **Formation:** players have a formation, and so do enemies (who is in front, who is behind). Trample uses it. How it works is for later.
+  - [PENDING] How the formation is set and shown (on the Game screen, at the table).
 - [PENDING] Mana curve. At 1 per turn, a cost-6 spell takes 6 turns. Alternative: a land-like curve (turn 1 gives 1, turn 2 gives 2...) without building up.
 - [PENDING] What enemies spend their mana on (do they have spells of their own?).
 - [PENDING] What "this turn" and "until end of turn" mean in general (the player's turn or the round?). For now it's decided card by card.
@@ -98,10 +102,14 @@ General rules:
 - [DECIDED] Keywords aren't explained with Magic's text in parentheses (reminder text), because they work differently in this game. Each one has its own rule in `js/rules/keywords.js` (section 6):
   - The absorb screen explains what each keyword gained is for.
   - On the player's card, the keyword shows its rule in a tooltip: on mouse hover, on keyboard focus, or when tapped on the phone.
-- [DECIDED] Phrases that mean something particular in this game also show their rule in a tooltip, inside the card text and on the absorb screen, just like keywords. They're in `js/rules/terms.js`. So far: "When/Whenever this creature enters", "Sacrifice this creature", "your party" / "a full party", "artifacts you control", "transform it", "your life total", "your starting life total", and the {T} symbol.
+- [DECIDED] Phrases that mean something particular in this game also show their rule in a tooltip, inside the card text and on the absorb screen, just like keywords. They're in `js/rules/terms.js`. So far: "When/Whenever this creature enters", "enters tapped", "at the beginning of your upkeep", "prepared", "you gain N life" / "gained life", "Sacrifice this creature", "your party" / "a full party", "artifacts you control", "transform it", "your life total", "your starting life total", and the {T} symbol.
 - [DECIDED] Keywords that appear inside an ability's text (like "gains flying") don't get a tooltip. Only the ones on the keyword line do.
 - [DECIDED] **Tapping ({T}):** the player always taps to attack, as in Magic. An ability with {T} taps them too, so using it ends their turn.
 - [DECIDED] **"When this creature enters"** on the player's card means when combat starts. If a card exiles the player and returns them to the battlefield, they enter again and the ability triggers again, so it can trigger several times.
+- [DECIDED] **"Enters tapped":** the player starts each combat tapped, so they pass their first turn.
+- [DECIDED] **Upkeep:** "at the beginning of your upkeep" is the start of the player's turn.
+- [DECIDED] **Prepared:** a card with a spell of its own (like Stingerquill Voxmancer) lets the player cast a copy of that spell while prepared. A copy doesn't go to the graveyard like the spells on the list, so being prepared again lets them cast it again.
+- [DECIDED] **Gain life:** gaining life heals the player, but never above their toughness. ("You gain N life" and "gained life" show this in a tooltip.)
 - [DECIDED] **"Sacrifice this creature"** on the player's card means the player sacrifices themselves: they die to trigger the effect.
 - [DECIDED] **Slivers:** a Sliver's "Sliver creatures you control" includes the player themselves when they are a Sliver (and absorbing one makes them one). So a Sliver gives the player directly what it gives Slivers: its keywords go on the keyword line, with their tooltip.
 - [DECIDED] The same goes for other creature types: "each Vampire you control" includes the player when they are a Vampire (Cordial Vampire). Text that says "other" or "another" ("Other Vampire creatures", "another Human") leaves the player out.
@@ -149,10 +157,35 @@ Card by card (all [DECIDED]):
 - **Devoted Retainer:** gives Bushido 1.
 - **Doomed Traveler:** keeps its text as printed, like Akki Ember-Keeper.
 - **Dragon Sniper:** gives Reach, Vigilance and Deathtouch.
+- **Dryad Arbor:** its text is only reminder text; the ability it has as a Forest goes on the player's card: "{T}: Add {G}." Tapping for mana ends the player's turn, like any {T}.
 - **Dropkick Bomber:** keeps its text as printed; "other" and "another" leave the player out, like Captivating Vampire.
+- **Earth Kingdom Protectors:** gives Vigilance and keeps as printed its ability to sacrifice itself. Ally is a creature type; "another" leaves the player out.
+- **Fanatical Firebrand:** gives Haste and keeps as printed its ability to tap and sacrifice itself to deal 1 damage.
+- **Goblin Champion:** gives Haste and Exalted.
+- **Goblin Gaveleer:** gives Trample and keeps as printed its +2/+0 for each Equipment.
+- **Lancer Sliver, Striking Sliver:** give First strike ("Sliver creatures you control", so no text).
+- **Monoist Sentry:** gives Defender (WIP).
+- **Oathsworn Vampire:** keeps its text as printed. "Enters tapped" makes the player pass their first turn of each combat; the graveyard ability stays just in case.
 - **Ornithopter:** gives Flying.
+- **Phyrexian Dreadnought:** gives Trample and keeps its text as printed, a trap on purpose: it enters when combat starts, so unless the player sacrifices 12 power of creatures, they die.
+- **Putrid Goblin:** gives Persist.
+- **Stingerquill Voxmancer:** keeps its text as printed, and its spell shows as one more ability: "Its spell: Vicious Verse {B/R}, Sorcery — Vicious Verse deals 1 damage to target opponent." While prepared, the player can cast a copy of it.
+- **Vampire Lacerator:** keeps its text as printed (its upkeep is the start of the player's turn).
+- **Voracious Vampire:** gives Menace (WIP) and keeps its text as printed; the player is a Vampire, so they can be its target.
 - **Smitten Swordmaster:** gives Lifelink (only the creature, not its adventure).
 - Creatures without text (Aegis Turtle, Phyrexian Walker, Vampire Noble) need no review.
+
+Reviewed on my own with the rules above, after the author asked me to go on alone (Chosen while implementing, not confirmed; each one only applies rules already decided):
+
+- **Forge Devil, Goblin Arsonist, Goblin Swine-Rider, Hemosymbic Mite, Hollowhenge Scavenger, Kor Duelist, Myr Scrapling, Spitfire Handler, Vampire Slayer:** keep their text as printed.
+- **Goblin Instigator, Kavaron Harrier, Nested Shambler:** keep their text as printed, like Akki Ember-Keeper (they make tokens).
+- **Guul Draz Vampire:** keeps its text as printed; its +2/+1 goes in the combat bonuses.
+- **Icatian Javelineers:** keeps its text as printed; the javelin counter is kept at the table, not on the Player Card.
+- **Knucklebone Witch:** keeps its text as printed; the player is a Goblin, so their own death counts too.
+- **Sliver lords:** what a Sliver gives Slivers goes straight to the player, who is a Sliver. Cards that say "All Sliver creatures" also keep their text on the card, because it reaches other Slivers too (other players and monsters):
+  - **Heart Sliver:** Haste, plus its text. **Spinneret Sliver:** Reach, plus its text. **Winged Sliver:** Flying, plus its text.
+  - **Muscle Sliver, Sinew Sliver:** +1/+1 added to the player's power and toughness, plus their text. **Plated Sliver:** +0/+1, plus its text. Two of them stack (Muscle and Sinew give +2/+2).
+  - **Venom Sliver:** Deathtouch ("Sliver creatures you control", so no text).
 
 Still open:
 
@@ -164,7 +197,10 @@ Still open:
 - [DECIDED] **Vigilance:** enemies focus their attacks on players with Vigilance. Text: "Enemies will focus their attacks on players with Vigilance." Replaces the earlier version ("becomes the focus of every enemy until they die").
 - [DECIDED] **Bushido N:** whenever the player attacks someone or is attacked, they get +N/+N until end of turn, kept as combat bonuses. It stacks: Bushido 1 + Bushido 1 = Bushido 2. Text: "Whenever you attack or are attacked, you get +N/+N until end of turn."
 - [DECIDED] **Haste:** goes first in the turn order (section 3). Text: "When combat starts, you go before everyone without haste. Everyone with haste rolls a d20 too, to set the order among them."
-- [PROPOSED] **First strike:** acts first in the round. [PENDING] With the d20 turn order and Haste, this needs another meaning.
+- [DECIDED] **First strike:** a player with first strike hits back when attacked. A monster with first strike deals damage to whoever attacks it. Text: "Whenever a creature attacks you, you hit it back with your power."
+- [DECIDED] **Exalted:** whenever the player attacks, they get +1/+1 until end of turn, kept as combat bonuses. It stacks: two Exalted give Exalted 2 (+2/+2). Text: "Whenever you attack, you get +N/+N until end of turn."
+- [DECIDED] **Trample:** uses the formation. If the attack kills the creature in front, the damage left over hits the one behind it. Text: "If your attack kills the creature in front, the damage left over hits the one behind it."
+- [DECIDED] **Persist:** "When you die, if you have no -1/-1 counters, you come back with a -1/-1 counter." The -1/-1 counter goes in the Player Card's counters.
 - [DECIDED] **Lifelink:** heals the player by the damage they deal. Text: "Damage you deal heals you by the same amount."
 - [DECIDED] **Flying:** as in Magic, where only creatures with flying or reach can block it: only creatures with flying or reach can defend themselves against its attacks. Text: "Only creatures with flying or reach can defend themselves against your attacks."
 - [DECIDED] **Reach:** can defend against creatures with flying, as in Magic, where it lets a creature block them (rule 702.17). It doesn't help attack them. Text: "You can defend yourself against creatures with flying."
@@ -175,8 +211,8 @@ Still open:
   - Chosen while implementing, not confirmed: it adds up like Modular (Ward {1} + Ward {1} = Ward {2}), which in Magic is the same as having Ward {1} twice.
 - [DECIDED] **Madness N:** kept in case hands and discarding come later. Its rule is Magic's: "If you discard this card, discard it into exile. When you do, cast it for its madness cost (N mana) or put it into your graveyard."
   - Chosen while implementing, not confirmed: its cost doesn't add up; if the player already has Madness, they keep the one they had.
-- [PENDING] **Defender:** in Magic it prevents attacking. Since absorbing is permanent, a player with Defender could never attack again.
-- [PENDING] **Trample:** not defined.
+- [PENDING] **Defender:** in Magic it prevents attacking, and since absorbing is permanent, a player with Defender could never attack again. To be defined; meanwhile the tooltip says "WIP".
+- [PENDING] **Menace:** to be defined; meanwhile the tooltip says "WIP".
 - [PENDING] What happens if two players have Vigilance at once.
 - [PENDING] The rest of the keywords.
 - The rules in this section are in `js/rules/keywords.js`, which is the text the player sees. If a rule changes here, change it there too.

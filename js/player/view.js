@@ -587,6 +587,14 @@ export async function initPlayerView() {
       if (!preview.newAbilities.includes(ability)) item.append(el('span', 'changes__same', ' (you already have it)'));
       items.push(item);
     }
+    if (preview.bonus) {
+      const item = el('li');
+      item.append(
+        el('strong', null, `+${preview.bonus.power}/+${preview.bonus.toughness}`),
+        ' \u2014 You become a Sliver, so its bonus to Slivers is yours too. It\u2019s already in your power and toughness.',
+      );
+      items.push(item);
+    }
     if (preview.transform) {
       const back = preview.transform;
       const item = el('li');

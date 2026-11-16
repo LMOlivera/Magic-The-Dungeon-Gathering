@@ -46,11 +46,12 @@ export function frontFace(card) {
  *   keywords   keyword names, abilities  other abilities as text
  *   power, toughness  what it adds when the card's stat isn't a number, or undefined
  *   transform  its back face for a card that transforms, or null
+ *   bonus      { power, toughness } it adds on top of its stats (a Sliver lord), or null
  */
 export function textToAbsorb(card) {
   const face = frontFace(card);
   const rules = Object.hasOwn(CARD_RULES, face.name) ? CARD_RULES[face.name] : null;
-  if (!rules) return { reviewed: !face.text.trim(), keywords: [], abilities: [], transform: null };
+  if (!rules) return { reviewed: !face.text.trim(), keywords: [], abilities: [], transform: null, bonus: null };
   return {
     reviewed: true,
     keywords: [...(rules.keywords || [])],
@@ -58,6 +59,7 @@ export function textToAbsorb(card) {
     power: rules.power,
     toughness: rules.toughness,
     transform: rules.transform || null,
+    bonus: rules.bonus || null,
   };
 }
 
@@ -114,6 +116,7 @@ export function describeColors(colors) {
  *   keywordsAfter           the player's keywords afterwards ("Modular 1" twice is "Modular 2")
  *   newKeywords, newAbilities  what the player doesn't have yet, or has with a new number
  *   transform               its back face (rules/cards.js) for a card that transforms, or null
+ *   bonus                   { power, toughness } it adds on top of its stats, or null
  *   hasText                 the card has rules text
  *   textReviewed            false when that text hasn't been decided about (nothing is gained)
  */
@@ -138,6 +141,7 @@ export function absorbPreview(player, card) {
     newKeywords: keywordsAfter.filter((keyword) => !keywords.includes(keyword)),
     newAbilities: text.abilities.filter((ability) => !player.abilities.includes(ability)),
     transform: text.transform,
+    bonus: text.bonus,
     hasText: Boolean(face.text.trim()),
     textReviewed: text.reviewed,
   };
@@ -158,8 +162,8 @@ export function absorbCreature(player, card, choices = {}) {
   const transforms = player.transforms || [];
   return {
     ...player,
-    power: player.power + (preview.addPower ?? (statValue(choices.power) || 0)),
-    toughness: player.toughness + (preview.addToughness ?? (statValue(choices.toughness) || 0)),
+    power: player.power + (preview.addPower ?? (statValue(choices.power) || 0)) + (preview.bonus?.power || 0),
+    toughness: player.toughness + (preview.addToughness ?? (statValue(choices.toughness) || 0)) + (preview.bonus?.toughness || 0),
     colors: preview.colors,
     manaCost: preview.manaCost,
     types: [...player.types, ...preview.newTypes],
