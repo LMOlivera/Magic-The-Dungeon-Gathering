@@ -1,0 +1,138 @@
+/* Tokens, page shell and the controls every view shares. */
+:root {
+  /* Layout: title and menu on the left, the starting card leaning in torchlight
+     on the right. Stacks to one column on phones, menu before card. */
+  --stone-900: #15110e;
+  --stone-800: #1f1a16;
+  --stone-600: #3b332c;
+  --bone: #ece3d2;
+  --ash: #a59b8c;
+  --torch: #f0a23b;
+  --ember: #b9481c;
+  --font-display: "Grenze Gotisch", "UnifrakturCook", "Palatino Linotype", Palatino, Georgia, serif;
+  --font-body: "Alegreya Sans", "Gill Sans", "Trebuchet MS", system-ui, sans-serif;
+  color-scheme: dark;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+[hidden] { display: none !important; }
+
+html, body { height: 100%; margin: 0; }
+
+body {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--stone-900);
+  /* Map-paper grid: one square per dungeon tile. */
+  background-image:
+    radial-gradient(ellipse at 50% 40%, transparent 0%, var(--stone-900) 78%),
+    linear-gradient(rgba(236, 227, 210, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(236, 227, 210, 0.045) 1px, transparent 1px);
+  background-size: 100% 100%, 32px 32px, 32px 32px;
+  color: var(--bone);
+  font-family: var(--font-body);
+  font-size: 1.0625rem;
+  line-height: 1.5;
+}
+
+a { color: inherit; }
+:focus-visible { outline: 2px solid var(--torch); outline-offset: 3px; }
+
+/* ---------- Views ---------- */
+.view { flex: 1; width: 100%; max-width: 1040px; margin: 0 auto; padding: clamp(24px, 5vw, 56px) clamp(16px, 5vw, 48px); }
+
+/* ---------- Controls ---------- */
+.step { color: var(--torch); font-size: 0.8125rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
+.field { display: flex; flex-direction: column; gap: 6px; width: 100%; }
+.field label { font-weight: 500; }
+.input {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid var(--stone-600);
+  border-radius: 6px;
+  background: var(--stone-800);
+  color: var(--bone);
+  font: inherit;
+}
+.input:focus { border-color: var(--torch); }
+.actions { display: flex; flex-wrap: wrap; gap: 10px; }
+.action {
+  padding: 11px 18px;
+  border: 1px solid var(--stone-600);
+  border-radius: 6px;
+  background: var(--stone-800);
+  color: var(--bone);
+  font: inherit;
+  font-weight: 500;
+  cursor: pointer;
+  transition: border-color 0.15s, background-color 0.15s;
+}
+.action:hover { border-color: var(--torch); background: #26201b; }
+.action--primary { border-color: var(--torch); background: var(--torch); color: #1d1408; font-weight: 700; }
+.action--primary:hover { background: #f5b357; }
+.action--quiet { border-color: transparent; background: transparent; color: var(--ash); }
+.action--quiet:hover { border-color: transparent; background: transparent; color: var(--torch); }
+.action:disabled { opacity: 0.5; cursor: not-allowed; }
+.note { font-size: 0.95rem; }
+.alert {
+  padding: 10px 14px;
+  border: 1px solid var(--ember);
+  border-radius: 6px;
+  background: rgba(185, 72, 28, 0.15);
+  color: var(--bone) !important;
+  font-size: 0.95rem;
+}
+textarea.input { resize: vertical; min-height: 4.5em; line-height: 1.4; }
+.field__meta { display: flex; justify-content: space-between; gap: 12px; color: var(--ash); font-size: 0.875rem; }
+
+/* ---------- Busy overlay ---------- */
+.busy {
+  padding: 0;
+  border: 0;
+  outline: none;
+  overflow: visible;
+  background: transparent;
+  color: var(--bone);
+  font-weight: 500;
+  text-align: center;
+}
+.busy[open] { display: flex; flex-direction: column; align-items: center; gap: 14px; }
+.busy p { margin: 0; }
+/* Grey, not black: the page is already dark, so a dark veil wouldn't show. */
+.busy::backdrop { background: rgba(110, 106, 100, 0.6); }
+/* The short delay keeps instant tasks from flashing the overlay. It still blocks clicks right away. */
+.busy[open], .busy[open]::backdrop { animation: busy-in 0.15s ease-out 0.1s both; }
+.busy__spinner {
+  width: 46px;
+  height: 46px;
+  border: 4px solid rgba(236, 227, 210, 0.3);
+  border-top-color: var(--torch);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+@keyframes busy-in { from { opacity: 0; } }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ---------- Placeholder views ---------- */
+.stub { display: flex; flex-direction: column; align-items: flex-start; gap: 16px; max-width: 640px; }
+.stub h2 { margin: 12px 0 0; font-family: var(--font-display); font-size: clamp(2.5rem, 8vw, 4rem); font-weight: 800; line-height: 1; }
+.stub p { margin: 0; color: var(--ash); max-width: 60ch; }
+.stub .tag {
+  padding: 2px 10px;
+  border: 1px dashed var(--stone-600);
+  border-radius: 999px;
+  color: var(--torch);
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+.back { color: var(--ash); text-decoration: none; font-weight: 500; }
+.back:hover { color: var(--torch); }
+
+/* ---------- Footer ---------- */
+.foot { padding: 14px clamp(16px, 5vw, 48px) 18px; color: #7d7468; font-size: 0.8125rem; text-align: center; }
+
+@media (prefers-reduced-motion: reduce) {
+  .action { transition: none; }
+  /* Still turns, slowly: it's the only sign that work is in progress. */
+  .busy__spinner { animation-duration: 2.4s; }
+}

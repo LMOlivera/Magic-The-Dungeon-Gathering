@@ -1,0 +1,71 @@
+/* ---------- Home ---------- */
+.home {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.75fr);
+  align-items: center;
+  gap: clamp(32px, 6vw, 72px);
+}
+
+.home__copy { display: flex; flex-direction: column; gap: 28px; }
+
+.title {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  font-family: var(--font-display);
+  font-weight: 800;
+  line-height: 0.92;
+  letter-spacing: 0.005em;
+  text-wrap: balance;
+}
+.title__pre {
+  font-size: clamp(1.5rem, 4vw, 2.25rem);
+  font-weight: 400;
+  color: var(--ash);
+  margin-bottom: 0.35em;
+}
+.title__main, .title__post { font-size: clamp(3rem, 10.5vw, 6.25rem); }
+.title__main em { font-style: normal; color: var(--torch); }
+
+.lede { margin: 0; max-width: 34ch; color: var(--ash); font-size: 1.125rem; }
+
+.menu { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; max-width: 520px; }
+
+.btn {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 18px 20px 16px;
+  border: 1px solid var(--stone-600);
+  border-radius: 6px;
+  background: var(--stone-800);
+  color: var(--bone);
+  text-decoration: none;
+  transition: border-color 0.15s, transform 0.15s, background-color 0.15s;
+}
+.btn:hover { border-color: var(--torch); background: #26201b; transform: translateY(-2px); }
+.btn:active { transform: translateY(0); }
+.btn__label {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  font-family: var(--font-display);
+  font-size: 2rem;
+  font-weight: 600;
+  line-height: 1;
+}
+.btn__arrow { color: var(--torch); font-family: var(--font-body); font-size: 1.25rem; transition: transform 0.15s; }
+.btn:hover .btn__arrow { transform: translateX(4px); }
+.btn__hint { color: var(--ash); font-size: 0.95rem; line-height: 1.35; }
+
+@media (max-width: 760px) {
+  .home { grid-template-columns: minmax(0, 1fr); align-items: start; }
+}
+@media (max-width: 540px) {
+  .menu { grid-template-columns: minmax(0, 1fr); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn, .btn__arrow { transition: none; }
+}
