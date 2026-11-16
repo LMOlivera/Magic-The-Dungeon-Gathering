@@ -11,8 +11,10 @@ The design, the rules and the code structure are in [DESIGN.md](DESIGN.md).
 There is no build step and there are no dependencies. You do need a local server, because JavaScript modules don't load when the file is opened directly:
 
 ```
-npm start        # python3 -m http.server 8000
+npm start        # python3 scripts/serve.py 8000
 ```
+
+`scripts/serve.py` is Python's built-in server that also tells the browser not to cache, so an edited module always loads fresh. With a server that caches, the browser can mix old and new modules and the page breaks.
 
 Then open `http://localhost:8000`.
 

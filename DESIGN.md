@@ -215,7 +215,7 @@ Still open:
 
 ### Architecture
 
-- [PROPOSED] No build step and no dependencies: native browser modules (ES modules). GitHub Pages serves the files as they are. Since modules don't load from `file://`, development uses a local server (`python3 -m http.server`).
+- [PROPOSED] No build step and no dependencies: native browser modules (ES modules). GitHub Pages serves the files as they are. Since modules don't load from `file://`, development uses a local server: `npm start` runs `scripts/serve.py`, Python's built-in server with caching turned off, so the browser never mixes old and new modules after an edit.
 - [PROPOSED] Player Card and Game are two independent screens. They only share the card data, the card component and saving.
 - [PROPOSED] Structure (already in place):
 
@@ -259,6 +259,7 @@ data/
   level1.json     test pool: the cards of level1.txt with their data and image links
 scripts/
   build-pool.js   builds a pool JSON from a list and Scryfall's file
+  serve.py        local server for development, without caching
 tests/            node --test
 package.json      only scripts: npm start and npm test. No dependencies.
 ```
