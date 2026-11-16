@@ -6,255 +6,13 @@
 <title>Magic: The Dungeon Gathering</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://cards.scryfall.io">
 <link href="https://fonts.googleapis.com/css2?family=Alegreya+Sans:wght@400;500;700&family=Grenze+Gotisch:wght@400;600;800&display=swap" rel="stylesheet">
-<style>
-:root {
-  /* Layout: title and menu on the left, the starting card leaning in torchlight
-     on the right. Stacks to one column on phones, menu before card. */
-  --stone-900: #15110e;
-  --stone-800: #1f1a16;
-  --stone-600: #3b332c;
-  --bone: #ece3d2;
-  --ash: #a59b8c;
-  --torch: #f0a23b;
-  --ember: #b9481c;
-  --font-display: "Grenze Gotisch", "UnifrakturCook", "Palatino Linotype", Palatino, Georgia, serif;
-  --font-body: "Alegreya Sans", "Gill Sans", "Trebuchet MS", system-ui, sans-serif;
-  color-scheme: dark;
-}
-
-*, *::before, *::after { box-sizing: border-box; }
-[hidden] { display: none !important; }
-
-html, body { height: 100%; margin: 0; }
-
-body {
-  display: flex;
-  flex-direction: column;
-  background-color: var(--stone-900);
-  /* Map-paper grid: one square per dungeon tile. */
-  background-image:
-    radial-gradient(ellipse at 50% 40%, transparent 0%, var(--stone-900) 78%),
-    linear-gradient(rgba(236, 227, 210, 0.045) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(236, 227, 210, 0.045) 1px, transparent 1px);
-  background-size: 100% 100%, 32px 32px, 32px 32px;
-  color: var(--bone);
-  font-family: var(--font-body);
-  font-size: 1.0625rem;
-  line-height: 1.5;
-}
-
-a { color: inherit; }
-:focus-visible { outline: 2px solid var(--torch); outline-offset: 3px; }
-
-/* ---------- Views ---------- */
-.view { flex: 1; width: 100%; max-width: 1040px; margin: 0 auto; padding: clamp(24px, 5vw, 56px) clamp(16px, 5vw, 48px); }
-
-/* ---------- Home ---------- */
-.home {
-  display: grid;
-  grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.75fr);
-  align-items: center;
-  gap: clamp(32px, 6vw, 72px);
-}
-
-.home__copy { display: flex; flex-direction: column; gap: 28px; }
-
-.title {
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  font-family: var(--font-display);
-  font-weight: 800;
-  line-height: 0.92;
-  letter-spacing: 0.005em;
-  text-wrap: balance;
-}
-.title__pre {
-  font-size: clamp(1.5rem, 4vw, 2.25rem);
-  font-weight: 400;
-  color: var(--ash);
-  margin-bottom: 0.35em;
-}
-.title__main, .title__post { font-size: clamp(3rem, 10.5vw, 6.25rem); }
-.title__main em { font-style: normal; color: var(--torch); }
-
-.lede { margin: 0; max-width: 34ch; color: var(--ash); font-size: 1.125rem; }
-
-.menu { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; max-width: 520px; }
-
-.btn {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  padding: 18px 20px 16px;
-  border: 1px solid var(--stone-600);
-  border-radius: 6px;
-  background: var(--stone-800);
-  color: var(--bone);
-  text-decoration: none;
-  transition: border-color 0.15s, transform 0.15s, background-color 0.15s;
-}
-.btn:hover { border-color: var(--torch); background: #26201b; transform: translateY(-2px); }
-.btn:active { transform: translateY(0); }
-.btn__label {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  gap: 12px;
-  font-family: var(--font-display);
-  font-size: 2rem;
-  font-weight: 600;
-  line-height: 1;
-}
-.btn__arrow { color: var(--torch); font-family: var(--font-body); font-size: 1.25rem; transition: transform 0.15s; }
-.btn:hover .btn__arrow { transform: translateX(4px); }
-.btn__hint { color: var(--ash); font-size: 0.95rem; line-height: 1.35; }
-
-/* ---------- Starting card ---------- */
-.home__card { position: relative; display: flex; justify-content: center; }
-.home__card::before {
-  content: "";
-  position: absolute;
-  inset: -18% -25%;
-  background: radial-gradient(closest-side, rgba(240, 162, 59, 0.28), rgba(185, 72, 28, 0.1) 55%, transparent 75%);
-  animation: flicker 4.5s ease-in-out infinite;
-  pointer-events: none;
-}
-
-.card {
-  position: relative;
-  width: min(270px, 68vw);
-  aspect-ratio: 5 / 7;
-  display: grid;
-  grid-template-rows: auto minmax(0, 1fr) auto auto;
-  gap: 7px;
-  padding: 11px;
-  border: 1px solid #62594f;
-  border-radius: 14px;
-  background: linear-gradient(160deg, #4b453e, #2a2521);
-  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6);
-  transform: rotate(-4deg);
-  color: #1d1915;
-  font-size: 0.875rem;
-  line-height: 1.3;
-}
-.card__row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 8px;
-  padding: 4px 9px;
-  border-radius: 5px;
-  background: #d9d2c5;
-  font-weight: 700;
-}
-.card__name { font-family: var(--font-display); font-size: 1.3rem; font-weight: 600; line-height: 1; }
-.card__cost {
-  display: grid;
-  place-items: center;
-  width: 22px;
-  height: 22px;
-  border-radius: 50%;
-  background: #9d968b;
-  font-size: 0.85rem;
-  font-variant-numeric: tabular-nums;
-}
-.card__art {
-  position: relative;
-  overflow: hidden;
-  border-radius: 4px;
-  background:
-    repeating-linear-gradient(0deg, transparent 0 17px, rgba(0, 0, 0, 0.35) 17px 18px),
-    repeating-linear-gradient(90deg, transparent 0 35px, rgba(0, 0, 0, 0.25) 35px 36px),
-    linear-gradient(#2e2823, #191512);
-}
-/* The doorway into the first room. */
-.card__art::before {
-  content: "";
-  position: absolute;
-  left: 31%;
-  bottom: 0;
-  width: 38%;
-  height: 80%;
-  border-radius: 999px 999px 0 0;
-  background: radial-gradient(ellipse at 50% 100%, var(--torch) 0%, var(--ember) 38%, #1c0f08 78%);
-  box-shadow: 0 0 36px rgba(240, 162, 59, 0.4);
-  animation: flicker 4.5s ease-in-out infinite;
-}
-.card__art::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 9%;
-  background: linear-gradient(#0f0c0a, #1a1512);
-}
-.pips { display: flex; gap: 4px; }
-.pips span { width: 9px; height: 9px; border: 1.5px solid #8b8377; border-radius: 50%; }
-.card__text {
-  padding: 8px 9px 22px;
-  border-radius: 5px;
-  background: #e6dfd2;
-  min-height: 4.6em;
-}
-.card__text p { margin: 0; }
-.card__text em { display: block; margin-top: 4px; color: #5c544a; }
-.card__pt {
-  position: absolute;
-  right: 7px;
-  bottom: 7px;
-  padding: 2px 11px;
-  border: 1px solid #62594f;
-  border-radius: 6px;
-  background: #d9d2c5;
-  font-family: var(--font-display);
-  font-size: 1.3rem;
-  font-weight: 600;
-  line-height: 1.1;
-  font-variant-numeric: tabular-nums;
-}
-
-@keyframes flicker {
-  0%, 100% { opacity: 1; }
-  38% { opacity: 0.82; }
-  46% { opacity: 0.95; }
-  71% { opacity: 0.78; }
-}
-
-/* ---------- Placeholder views ---------- */
-.stub { display: flex; flex-direction: column; align-items: flex-start; gap: 16px; max-width: 640px; }
-.stub h2 { margin: 12px 0 0; font-family: var(--font-display); font-size: clamp(2.5rem, 8vw, 4rem); font-weight: 800; line-height: 1; }
-.stub p { margin: 0; color: var(--ash); max-width: 60ch; }
-.stub .tag {
-  padding: 2px 10px;
-  border: 1px dashed var(--stone-600);
-  border-radius: 999px;
-  color: var(--torch);
-  font-size: 0.875rem;
-  font-weight: 500;
-}
-.back { color: var(--ash); text-decoration: none; font-weight: 500; }
-.back:hover { color: var(--torch); }
-
-/* ---------- Footer ---------- */
-.foot { padding: 14px clamp(16px, 5vw, 48px) 18px; color: #7d7468; font-size: 0.8125rem; text-align: center; }
-
-/* ---------- Narrow screens ---------- */
-@media (max-width: 760px) {
-  .home { grid-template-columns: minmax(0, 1fr); align-items: start; }
-  .home__card { padding: 8px 0 24px; }
-}
-@media (max-width: 540px) {
-  .menu { grid-template-columns: minmax(0, 1fr); }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .home__card::before, .card__art::before { animation: none; }
-  .btn, .btn__arrow { transition: none; }
-}
-</style>
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/card.css">
+<link rel="stylesheet" href="css/home.css">
+<link rel="stylesheet" href="css/player.css">
+<link rel="stylesheet" href="css/booster.css">
 </head>
 <body>
 
@@ -277,26 +35,8 @@ a { color: inherit; }
       </a>
     </nav>
   </div>
-
-  <div class="home__card">
-    <article class="card" aria-label="Starting card: Human, cost 0, colorless, 1/1">
-      <div class="card__row">
-        <span class="card__name">Human</span>
-        <span class="card__cost">0</span>
-      </div>
-      <div class="card__art" role="img" aria-label="A lit doorway in a stone wall"></div>
-      <div class="card__row">
-        <span>Creature &mdash; Human</span>
-        <span class="pips" title="No colors yet" aria-label="No colors yet">
-          <span></span><span></span><span></span><span></span><span></span>
-        </span>
-      </div>
-      <div class="card__text">
-        <p>Colorless. No abilities yet.</p>
-        <p><em>Everyone walks in as a 1/1.</em></p>
-      </div>
-      <span class="card__pt">1/1</span>
-    </article>
+  <div class="card-stage">
+    <article class="card" id="home-card"></article>
   </div>
 </main>
 
@@ -307,39 +47,141 @@ a { color: inherit; }
   <p>The dungeon side goes here: room generation, monsters and the boosters they absorb.</p>
 </main>
 
-<main id="view-player-card" class="view stub" hidden>
-  <a class="back" href="#home">&larr; Back to start</a>
-  <h2 tabindex="-1">Player Card</h2>
-  <span class="tag">Not built yet</span>
-  <p>Your creature goes here: stats, colors, mana, spell list, XP and boosters.</p>
+<main id="view-player-card" class="view pc" hidden>
+  <div class="pc__panel">
+    <a class="back" href="#home">&larr; Back to start</a>
+    <h2 tabindex="-1">Player Card</h2>
+    <p class="alert" id="pc-storage-warning" hidden>This browser isn't saving data (private window or blocked storage). Your card will be lost when you close the page.</p>
+    <p class="alert" id="pc-newer" hidden>This card was saved by a newer version of the game. Reload the page to get the update; your card is untouched.</p>
+
+    <section class="pc__step" id="pc-step-name" hidden>
+      <span class="step">Step 1 of 2</span>
+      <form class="pc__step" id="pc-name-form" novalidate>
+        <div class="field">
+          <label for="pc-name">Name your card</label>
+          <input class="input" id="pc-name" autocomplete="off" spellcheck="false" placeholder="Human" required>
+        </div>
+        <p class="note">The name is sealed once you pick it. It can only change after you open your first booster.</p>
+        <div class="actions">
+          <button class="action action--primary" type="submit">Seal the name</button>
+        </div>
+      </form>
+    </section>
+
+    <section class="pc__step" id="pc-step-art" hidden>
+      <span class="step" id="pc-art-step">Step 2 of 2</span>
+      <p id="pc-art-prompt"></p>
+      <div class="actions">
+        <button class="action action--primary" type="button" id="pc-art-camera">Take a photo</button>
+        <button class="action" type="button" id="pc-art-upload">Upload a photo</button>
+        <button class="action action--quiet" type="button" id="pc-art-skip">Skip for now</button>
+        <button class="action action--quiet" type="button" id="pc-art-cancel" hidden>Cancel</button>
+      </div>
+      <p class="note">The photo is shrunk and stored in this browser only. Nothing is uploaded anywhere.</p>
+    </section>
+
+    <section class="pc__step" id="pc-sheet" hidden>
+      <p id="pc-summary"></p>
+      <p class="note">Your name is sealed until you open your first booster.</p>
+      <div class="field">
+        <label for="pc-flavor">Flavor text <span class="note">(optional)</span></label>
+        <textarea class="input" id="pc-flavor" maxlength="110" rows="3" placeholder="A line of lore for the bottom of your card."></textarea>
+        <div class="field__meta"><span>Saved as you type.</span><span id="pc-flavor-count">0/110</span></div>
+      </div>
+      <div class="actions">
+        <button class="action action--primary action--big" type="button" id="pc-open-booster">Open your first booster pack!</button>
+      </div>
+      <div class="actions">
+        <button class="action" type="button" id="pc-edit-art" hidden>Edit art</button>
+        <button class="action" type="button" id="pc-change-art">Change art</button>
+        <button class="action action--quiet" type="button" id="pc-reset">Start over</button>
+      </div>
+    </section>
+
+    <p class="alert" id="pc-error" role="alert" hidden></p>
+    <input type="file" id="pc-file" accept="image/*" hidden>
+    <input type="file" id="pc-capture" accept="image/*" capture="user" hidden>
+  </div>
+
+  <div class="card-stage">
+    <article class="card" id="pc-card" tabindex="-1"></article>
+    <img class="absorb-ghost" id="pc-absorb-ghost" alt="" hidden>
+  </div>
+
+  <!-- Only once the card has absorbed something: the page then shows just the card. -->
+  <div class="pc__card-foot" id="pc-card-foot" hidden>
+    <p class="absorb-caption" id="pc-absorb-caption" role="status"></p>
+    <button class="action action--quiet" type="button" id="pc-reset-card">Start over</button>
+  </div>
+
+  <dialog class="camera" id="pc-camera" aria-labelledby="pc-camera-title">
+    <h3 id="pc-camera-title">Card art</h3>
+    <div class="camera__frame">
+      <video id="pc-video" autoplay playsinline muted></video>
+      <p class="camera__status" id="pc-camera-status"></p>
+    </div>
+    <div class="actions">
+      <button class="action action--primary" type="button" id="pc-snap" disabled>Take photo</button>
+      <button class="action" type="button" id="pc-flip" hidden>Switch camera</button>
+      <button class="action" type="button" id="pc-camera-fallback" hidden>Choose a photo instead</button>
+      <button class="action action--quiet" type="button" id="pc-camera-close">Cancel</button>
+    </div>
+  </dialog>
+
+  <dialog class="camera booster-dialog" id="pc-booster" aria-labelledby="pc-booster-title">
+    <h3 id="pc-booster-title">Booster</h3>
+
+    <section id="pc-booster-pick">
+      <p class="note" id="pc-booster-status" role="status">Pick one card to absorb.</p>
+      <ul class="booster" id="pc-booster-cards" aria-label="Booster"></ul>
+      <div class="actions booster-dialog__actions">
+        <button class="action action--primary" type="button" id="pc-booster-confirm" hidden>Confirm</button>
+        <button class="action action--quiet" type="button" id="pc-booster-close">Close</button>
+      </div>
+      <p class="note">Closing keeps this booster open. You'll see the same cards when you come back.</p>
+    </section>
+
+    <section id="pc-absorb" hidden>
+      <p class="note">This is what your card becomes.</p>
+      <dl class="changes" id="pc-absorb-changes"></dl>
+      <div class="absorb__stats" id="pc-absorb-stats"></div>
+      <fieldset class="absorb__types" id="pc-absorb-types">
+        <legend>Add its creature types to yours?</legend>
+        <div class="absorb__options" id="pc-absorb-type-options"></div>
+      </fieldset>
+      <p class="note" id="pc-absorb-no-types" hidden></p>
+      <div class="actions">
+        <button class="action action--primary" type="button" id="pc-absorb-go">Absorb</button>
+        <button class="action" type="button" id="pc-absorb-back">Back</button>
+      </div>
+    </section>
+  </dialog>
+
+  <dialog class="camera" id="pc-editor" aria-labelledby="pc-editor-title">
+    <h3 id="pc-editor-title">Frame your art</h3>
+    <div class="editor__frame" id="pc-editor-frame" tabindex="0" aria-label="Art crop. Use the arrow keys to move the photo.">
+      <img id="pc-editor-img" alt="" draggable="false">
+    </div>
+    <p class="note editor__hint">Drag to move. Pinch, scroll or use the slider to zoom.</p>
+    <div class="field editor__zoom">
+      <label for="pc-zoom">Zoom</label>
+      <input type="range" id="pc-zoom" min="1" max="4" step="0.01" value="1">
+    </div>
+    <div class="actions">
+      <button class="action action--primary" type="button" id="pc-editor-save">Save art</button>
+      <button class="action" type="button" id="pc-editor-reset">Reset</button>
+      <button class="action action--quiet" type="button" id="pc-editor-cancel">Cancel</button>
+    </div>
+  </dialog>
 </main>
+
+<dialog class="busy" id="busy" aria-labelledby="busy-text">
+  <span class="busy__spinner" aria-hidden="true"></span>
+  <p id="busy-text" role="status">Working&hellip;</p>
+</dialog>
 
 <footer class="foot">Unofficial fan project for playing with friends. Not affiliated with or endorsed by Wizards of the Coast.</footer>
 
-<script>
-(function () {
-  var views = {
-    'home': document.getElementById('view-home'),
-    'game': document.getElementById('view-game'),
-    'player-card': document.getElementById('view-player-card')
-  };
-  var first = true;
-
-  function show() {
-    var name = location.hash.slice(1);
-    var key = views[name] ? name : 'home';
-    Object.keys(views).forEach(function (k) { views[k].hidden = k !== key; });
-    if (!first) {
-      window.scrollTo(0, 0);
-      var heading = views[key].querySelector('h1, h2');
-      if (heading) heading.focus({ preventScroll: true });
-    }
-    first = false;
-  }
-
-  window.addEventListener('hashchange', show);
-  show();
-})();
-</script>
+<script type="module" src="js/main.js"></script>
 </body>
 </html>

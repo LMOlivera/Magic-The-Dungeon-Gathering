@@ -1,0 +1,2386 @@
+{
+ "source": "Scryfall Oracle Cards",
+ "cards": [
+  {
+   "id": "e882c9f9-bf30-46b6-bedc-379d2c80e5cb",
+   "name": "+2 Mace",
+   "layout": "normal",
+   "manaCost": "{1}{W}",
+   "manaValue": 2,
+   "colors": [
+    "W"
+   ],
+   "typeLine": "Artifact — Equipment",
+   "text": "Equipped creature gets +2/+2.\nEquip {3} ({3}: Attach to target creature you control. Equip only as a sorcery.)",
+   "power": null,
+   "toughness": null,
+   "keywords": [
+    "Equip"
+   ],
+   "artist": "Jarel Threat",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/e/8/e882c9f9-bf30-46b6-bedc-379d2c80e5cb.jpg?1783926539",
+    "normal": "https://cards.scryfall.io/normal/front/e/8/e882c9f9-bf30-46b6-bedc-379d2c80e5cb.jpg?1783926539",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/e/8/e882c9f9-bf30-46b6-bedc-379d2c80e5cb.jpg?1783926539"
+   },
+   "faces": []
+  },
+  {
+   "id": "c7f2014a-fbc9-447c-a440-e06d01066bb9",
+   "name": "Aegis Turtle",
+   "layout": "normal",
+   "manaCost": "{U}",
+   "manaValue": 1,
+   "colors": [
+    "U"
+   ],
+   "typeLine": "Creature — Turtle",
+   "text": "",
+   "power": "0",
+   "toughness": "5",
+   "keywords": [],
+   "artist": "Milivoj Ćeran",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/c/7/c7f2014a-fbc9-447c-a440-e06d01066bb9.jpg?1783909083",
+    "normal": "https://cards.scryfall.io/normal/front/c/7/c7f2014a-fbc9-447c-a440-e06d01066bb9.jpg?1783909083",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/c/7/c7f2014a-fbc9-447c-a440-e06d01066bb9.jpg?1783909083"
+   },
+   "faces": []
+  },
+  {
+   "id": "c5178301-f766-48d3-af07-6bd6f822c725",
+   "name": "Aerial Volley",
+   "layout": "normal",
+   "manaCost": "{G}",
+   "manaValue": 1,
+   "colors": [
+    "G"
+   ],
+   "typeLine": "Instant",
+   "text": "Aerial Volley deals 3 damage divided as you choose among one, two, or three target creatures with flying.",
+   "power": null,
+   "toughness": null,
+   "keywords": [],
+   "artist": "Lake Hurwitz",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/c/5/c5178301-f766-48d3-af07-6bd6f822c725.jpg?1783938325",
+    "normal": "https://cards.scryfall.io/normal/front/c/5/c5178301-f766-48d3-af07-6bd6f822c725.jpg?1783938325",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/c/5/c5178301-f766-48d3-af07-6bd6f822c725.jpg?1783938325"
+   },
+   "faces": []
+  },
+  {
+   "id": "4d83e837-fcd1-4833-9117-e6f1bb53caad",
+   "name": "Akki Ember-Keeper",
+   "layout": "normal",
+   "manaCost": "{1}{R}",
+   "manaValue": 2,
+   "colors": [
+    "R"
+   ],
+   "typeLine": "Enchantment Creature — Goblin Warrior",
+   "text": "Whenever a nontoken modified creature you control dies, create a 1/1 colorless Spirit creature token. (Equipment, Auras you control, and counters are modifications.)",
+   "power": "2",
+   "toughness": "1",
+   "keywords": [],
+   "artist": "April Prime",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/4/d/4d83e837-fcd1-4833-9117-e6f1bb53caad.jpg?1783923873",
+    "normal": "https://cards.scryfall.io/normal/front/4/d/4d83e837-fcd1-4833-9117-e6f1bb53caad.jpg?1783923873",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/4/d/4d83e837-fcd1-4833-9117-e6f1bb53caad.jpg?1783923873"
+   },
+   "faces": []
+  },
+  {
+   "id": "36c8c075-9597-412e-9fc4-9d73b4405d12",
+   "name": "Alseid of Life's Bounty",
+   "layout": "normal",
+   "manaCost": "{W}",
+   "manaValue": 1,
+   "colors": [
+    "W"
+   ],
+   "typeLine": "Enchantment Creature — Nymph",
+   "text": "Lifelink\n{1}, Sacrifice this creature: Target creature or enchantment you control gains protection from the color of your choice until end of turn.",
+   "power": "1",
+   "toughness": "1",
+   "keywords": [
+    "Lifelink"
+   ],
+   "artist": "Magali Villeneuve",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/3/6/36c8c075-9597-412e-9fc4-9d73b4405d12.jpg?1783931603",
+    "normal": "https://cards.scryfall.io/normal/front/3/6/36c8c075-9597-412e-9fc4-9d73b4405d12.jpg?1783931603",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/3/6/36c8c075-9597-412e-9fc4-9d73b4405d12.jpg?1783931603"
+   },
+   "faces": []
+  },
+  {
+   "id": "424972d6-3b2c-449b-b786-749a77020fa1",
+   "name": "Ankle Biter",
+   "layout": "normal",
+   "manaCost": "{G}",
+   "manaValue": 1,
+   "colors": [
+    "G"
+   ],
+   "typeLine": "Creature — Snake",
+   "text": "Deathtouch",
+   "power": "1",
+   "toughness": "1",
+   "keywords": [
+    "Deathtouch"
+   ],
+   "artist": "Monztre",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/4/2/424972d6-3b2c-449b-b786-749a77020fa1.jpg?1783911811",
+    "normal": "https://cards.scryfall.io/normal/front/4/2/424972d6-3b2c-449b-b786-749a77020fa1.jpg?1783911811",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/4/2/424972d6-3b2c-449b-b786-749a77020fa1.jpg?1783911811"
+   },
+   "faces": []
+  },
+  {
+   "id": "9eb7b2ae-a364-485b-ae75-10dbb0af5541",
+   "name": "Arboreal Grazer",
+   "layout": "normal",
+   "manaCost": "{G}",
+   "manaValue": 1,
+   "colors": [
+    "G"
+   ],
+   "typeLine": "Creature — Sloth Beast",
+   "text": "Reach\nWhen this creature enters, you may put a land card from your hand onto the battlefield tapped.",
+   "power": "0",
+   "toughness": "3",
+   "keywords": [
+    "Reach"
+   ],
+   "artist": "Jason Rainville",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/9/e/9eb7b2ae-a364-485b-ae75-10dbb0af5541.jpg?1783907052",
+    "normal": "https://cards.scryfall.io/normal/front/9/e/9eb7b2ae-a364-485b-ae75-10dbb0af5541.jpg?1783907052",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/9/e/9eb7b2ae-a364-485b-ae75-10dbb0af5541.jpg?1783907052"
+   },
+   "faces": []
+  },
+  {
+   "id": "f95a00ed-dc77-4dcd-9e14-6902565974b5",
+   "name": "Arc Spitter",
+   "layout": "normal",
+   "manaCost": "{1}",
+   "manaValue": 1,
+   "colors": [],
+   "typeLine": "Artifact — Equipment",
+   "text": "Equipped creature has \"{1}: This creature deals 1 damage to target creature that's blocking it.\"\nEquip {1} ({1}: Attach to target creature you control. Equip only as a sorcery.)",
+   "power": null,
+   "toughness": null,
+   "keywords": [
+    "Equip"
+   ],
+   "artist": "Matt Forsyth",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/f/9/f95a00ed-dc77-4dcd-9e14-6902565974b5.jpg?1783923071",
+    "normal": "https://cards.scryfall.io/normal/front/f/9/f95a00ed-dc77-4dcd-9e14-6902565974b5.jpg?1783923071",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/f/9/f95a00ed-dc77-4dcd-9e14-6902565974b5.jpg?1783923071"
+   },
+   "faces": []
+  },
+  {
+   "id": "09fbb1c0-ba57-4a5a-8ad6-77fbc6aeeec9",
+   "name": "Arcane Flight",
+   "layout": "normal",
+   "manaCost": "{U}",
+   "manaValue": 1,
+   "colors": [
+    "U"
+   ],
+   "typeLine": "Enchantment — Aura",
+   "text": "Enchant creature\nEnchanted creature gets +1/+1 and has flying.",
+   "power": null,
+   "toughness": null,
+   "keywords": [
+    "Enchant"
+   ],
+   "artist": "Steve Prescott",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/0/9/09fbb1c0-ba57-4a5a-8ad6-77fbc6aeeec9.jpg?1783935031",
+    "normal": "https://cards.scryfall.io/normal/front/0/9/09fbb1c0-ba57-4a5a-8ad6-77fbc6aeeec9.jpg?1783935031",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/0/9/09fbb1c0-ba57-4a5a-8ad6-77fbc6aeeec9.jpg?1783935031"
+   },
+   "faces": []
+  },
+  {
+   "id": "fe4a2cb0-4129-451e-a946-a21ea646cc28",
+   "name": "Arcbound Javelineer",
+   "layout": "normal",
+   "manaCost": "{W}",
+   "manaValue": 1,
+   "colors": [
+    "W"
+   ],
+   "typeLine": "Artifact Creature — Soldier",
+   "text": "{T}, Remove X +1/+1 counters from this creature: It deals X damage to target attacking or blocking creature.\nModular 1 (This creature enters with a +1/+1 counter on it. When it dies, you may put its +1/+1 counters on target artifact creature.)",
+   "power": "0",
+   "toughness": "1",
+   "keywords": [
+    "Modular"
+   ],
+   "artist": "Eric Deschamps",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/f/e/fe4a2cb0-4129-451e-a946-a21ea646cc28.jpg?1783926897",
+    "normal": "https://cards.scryfall.io/normal/front/f/e/fe4a2cb0-4129-451e-a946-a21ea646cc28.jpg?1783926897",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/f/e/fe4a2cb0-4129-451e-a946-a21ea646cc28.jpg?1783926897"
+   },
+   "faces": []
+  },
+  {
+   "id": "9d66e724-49ee-4f08-a160-584350de1d95",
+   "name": "Arcbound Mouser",
+   "layout": "normal",
+   "manaCost": "{W}",
+   "manaValue": 1,
+   "colors": [
+    "W"
+   ],
+   "typeLine": "Artifact Creature — Cat",
+   "text": "Lifelink\nModular 1 (This creature enters with a +1/+1 counter on it. When it dies, you may put its +1/+1 counters on target artifact creature.)",
+   "power": "0",
+   "toughness": "0",
+   "keywords": [
+    "Lifelink",
+    "Modular"
+   ],
+   "artist": "Campbell White",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/9/d/9d66e724-49ee-4f08-a160-584350de1d95.jpg?1783926896",
+    "normal": "https://cards.scryfall.io/normal/front/9/d/9d66e724-49ee-4f08-a160-584350de1d95.jpg?1783926896",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/9/d/9d66e724-49ee-4f08-a160-584350de1d95.jpg?1783926896"
+   },
+   "faces": []
+  },
+  {
+   "id": "fdfc2453-5a2b-4104-bf82-84f935de7b99",
+   "name": "Arcbound Worker",
+   "layout": "normal",
+   "manaCost": "{1}",
+   "manaValue": 1,
+   "colors": [],
+   "typeLine": "Artifact Creature — Construct",
+   "text": "Modular 1 (This creature enters with a +1/+1 counter on it. When it dies, you may put its +1/+1 counters on target artifact creature.)",
+   "power": "0",
+   "toughness": "0",
+   "keywords": [
+    "Modular"
+   ],
+   "artist": "Darrell Riche",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/f/d/fdfc2453-5a2b-4104-bf82-84f935de7b99.jpg?1783939963",
+    "normal": "https://cards.scryfall.io/normal/front/f/d/fdfc2453-5a2b-4104-bf82-84f935de7b99.jpg?1783939963",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/f/d/fdfc2453-5a2b-4104-bf82-84f935de7b99.jpg?1783939963"
+   },
+   "faces": []
+  },
+  {
+   "id": "0b0b1acd-68e5-4922-8b51-06fa7eda984c",
+   "name": "Archpriest of Iona",
+   "layout": "normal",
+   "manaCost": "{W}",
+   "manaValue": 1,
+   "colors": [
+    "W"
+   ],
+   "typeLine": "Creature — Human Cleric",
+   "text": "Archpriest of Iona's power is equal to the number of creatures in your party. (Your party consists of up to one each of Cleric, Rogue, Warrior, and Wizard.)\nAt the beginning of combat on your turn, if you have a full party, target creature gets +1/+1 and gains flying until end of turn.",
+   "power": "*",
+   "toughness": "2",
+   "keywords": [],
+   "artist": "Denman Rooke",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/0/b/0b0b1acd-68e5-4922-8b51-06fa7eda984c.jpg?1783922493",
+    "normal": "https://cards.scryfall.io/normal/front/0/b/0b0b1acd-68e5-4922-8b51-06fa7eda984c.jpg?1783922493",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/0/b/0b0b1acd-68e5-4922-8b51-06fa7eda984c.jpg?1783922493"
+   },
+   "faces": []
+  },
+  {
+   "id": "3a7f9bd7-7232-4956-873d-52ff82eabfb3",
+   "name": "Ardent Recruit",
+   "layout": "normal",
+   "manaCost": "{W}",
+   "manaValue": 1,
+   "colors": [
+    "W"
+   ],
+   "typeLine": "Creature — Human Soldier",
+   "text": "Metalcraft — This creature gets +2/+2 as long as you control three or more artifacts.",
+   "power": "1",
+   "toughness": "1",
+   "keywords": [
+    "Metalcraft"
+   ],
+   "artist": "Mike Bierek",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/3/a/3a7f9bd7-7232-4956-873d-52ff82eabfb3.jpg?1783941285",
+    "normal": "https://cards.scryfall.io/normal/front/3/a/3a7f9bd7-7232-4956-873d-52ff82eabfb3.jpg?1783941285",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/3/a/3a7f9bd7-7232-4956-873d-52ff82eabfb3.jpg?1783941285"
+   },
+   "faces": []
+  },
+  {
+   "id": "4b2a5df9-cec9-4f93-b0e3-d6181eb893b1",
+   "name": "Armor of Faith",
+   "layout": "normal",
+   "manaCost": "{W}",
+   "manaValue": 1,
+   "colors": [
+    "W"
+   ],
+   "typeLine": "Enchantment — Aura",
+   "text": "Enchant creature\nEnchanted creature gets +1/+1.\n{W}: Enchanted creature gets +0/+1 until end of turn.",
+   "power": null,
+   "toughness": null,
+   "keywords": [
+    "Enchant"
+   ],
+   "artist": "Anson Maddocks",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/4/b/4b2a5df9-cec9-4f93-b0e3-d6181eb893b1.jpg?1783942644",
+    "normal": "https://cards.scryfall.io/normal/front/4/b/4b2a5df9-cec9-4f93-b0e3-d6181eb893b1.jpg?1783942644",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/4/b/4b2a5df9-cec9-4f93-b0e3-d6181eb893b1.jpg?1783942644"
+   },
+   "faces": []
+  },
+  {
+   "id": "263232df-69b8-4205-93ad-c724fe57ec11",
+   "name": "Armored Armadillo",
+   "layout": "normal",
+   "manaCost": "{W}",
+   "manaValue": 1,
+   "colors": [
+    "W"
+   ],
+   "typeLine": "Creature — Armadillo",
+   "text": "Ward {1} (Whenever this creature becomes the target of a spell or ability an opponent controls, counter it unless that player pays {1}.)\n{3}{W}: This creature gets +X/+0 until end of turn, where X is its toughness.",
+   "power": "0",
+   "toughness": "4",
+   "keywords": [
+    "Ward"
+   ],
+   "artist": "Leon Tukker",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/2/6/263232df-69b8-4205-93ad-c724fe57ec11.jpg?1783911861",
+    "normal": "https://cards.scryfall.io/normal/front/2/6/263232df-69b8-4205-93ad-c724fe57ec11.jpg?1783911861",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/2/6/263232df-69b8-4205-93ad-c724fe57ec11.jpg?1783911861"
+   },
+   "faces": []
+  },
+  {
+   "id": "3ce4e330-d878-48f3-b9fe-3158d69f2da2",
+   "name": "Assassin Initiate",
+   "layout": "normal",
+   "manaCost": "{B}",
+   "manaValue": 1,
+   "colors": [
+    "B"
+   ],
+   "typeLine": "Creature — Human Assassin",
+   "text": "{1}: This creature gains your choice of flying, deathtouch, or lifelink until end of turn.",
+   "power": "1",
+   "toughness": "1",
+   "keywords": [],
+   "artist": "Mandy Jurgens",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/3/c/3ce4e330-d878-48f3-b9fe-3158d69f2da2.jpg?1783910982",
+    "normal": "https://cards.scryfall.io/normal/front/3/c/3ce4e330-d878-48f3-b9fe-3158d69f2da2.jpg?1783910982",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/3/c/3ce4e330-d878-48f3-b9fe-3158d69f2da2.jpg?1783910982"
+   },
+   "faces": []
+  },
+  {
+   "id": "7f927f72-fc9b-444f-9e0e-78a5e8e7bcaa",
+   "name": "Bagel and Schmear",
+   "layout": "normal",
+   "manaCost": "{1}",
+   "manaValue": 1,
+   "colors": [],
+   "typeLine": "Artifact — Food",
+   "text": "Share — {W}, {T}, Sacrifice this artifact: Put a +1/+1 counter on up to one target creature. Draw a card. Activate only as a sorcery.\nNosh — {2}, {T}, Sacrifice this artifact: You gain 3 life and draw a card.",
+   "power": null,
+   "toughness": null,
+   "keywords": [
+    "Nosh",
+    "Share"
+   ],
+   "artist": "Javier Charro",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/7/f/7f927f72-fc9b-444f-9e0e-78a5e8e7bcaa.jpg?1783905307",
+    "normal": "https://cards.scryfall.io/normal/front/7/f/7f927f72-fc9b-444f-9e0e-78a5e8e7bcaa.jpg?1783905307",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/7/f/7f927f72-fc9b-444f-9e0e-78a5e8e7bcaa.jpg?1783905307"
+   },
+   "faces": []
+  },
+  {
+   "id": "396bdd5f-2aad-48ba-a4b1-f2b2365a1a53",
+   "name": "Beckon Apparition",
+   "layout": "normal",
+   "manaCost": "{W/B}",
+   "manaValue": 1,
+   "colors": [
+    "B",
+    "W"
+   ],
+   "typeLine": "Instant",
+   "text": "Exile target card from a graveyard. Create a 1/1 white and black Spirit creature token with flying.",
+   "power": null,
+   "toughness": null,
+   "keywords": [],
+   "artist": "Cliff Childs",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/3/9/396bdd5f-2aad-48ba-a4b1-f2b2365a1a53.jpg?1783933771",
+    "normal": "https://cards.scryfall.io/normal/front/3/9/396bdd5f-2aad-48ba-a4b1-f2b2365a1a53.jpg?1783933771",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/3/9/396bdd5f-2aad-48ba-a4b1-f2b2365a1a53.jpg?1783933771"
+   },
+   "faces": []
+  },
+  {
+   "id": "62bc9bff-89bd-4454-a876-53822cf48546",
+   "name": "Berserk",
+   "layout": "normal",
+   "manaCost": "{G}",
+   "manaValue": 1,
+   "colors": [
+    "G"
+   ],
+   "typeLine": "Instant",
+   "text": "Cast this spell only before the combat damage step.\nTarget creature gains trample and gets +X/+0 until end of turn, where X is its power. At the beginning of the next end step, destroy that creature if it attacked this turn.",
+   "power": null,
+   "toughness": null,
+   "keywords": [],
+   "artist": "Steve Prescott",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/6/2/62bc9bff-89bd-4454-a876-53822cf48546.jpg?1783937297",
+    "normal": "https://cards.scryfall.io/normal/front/6/2/62bc9bff-89bd-4454-a876-53822cf48546.jpg?1783937297",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/6/2/62bc9bff-89bd-4454-a876-53822cf48546.jpg?1783937297"
+   },
+   "faces": []
+  },
+  {
+   "id": "34e7bebf-1844-476c-a947-978393908fa2",
+   "name": "Blade of the Bloodchief",
+   "layout": "normal",
+   "manaCost": "{1}",
+   "manaValue": 1,
+   "colors": [],
+   "typeLine": "Artifact — Equipment",
+   "text": "Whenever a creature dies, put a +1/+1 counter on equipped creature. If equipped creature is a Vampire, put two +1/+1 counters on it instead.\nEquip {1}",
+   "power": null,
+   "toughness": null,
+   "keywords": [
+    "Equip"
+   ],
+   "artist": "Jung Park",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/3/4/34e7bebf-1844-476c-a947-978393908fa2.jpg?1783913842",
+    "normal": "https://cards.scryfall.io/normal/front/3/4/34e7bebf-1844-476c-a947-978393908fa2.jpg?1783913842",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/3/4/34e7bebf-1844-476c-a947-978393908fa2.jpg?1783913842"
+   },
+   "faces": []
+  },
+  {
+   "id": "4404fc9c-ef02-479c-9638-0cc163f0b48f",
+   "name": "Blazing Rootwalla",
+   "layout": "normal",
+   "manaCost": "{R}",
+   "manaValue": 1,
+   "colors": [
+    "R"
+   ],
+   "typeLine": "Creature — Lizard",
+   "text": "{R}: This creature gets +2/+0 until end of turn. Activate only once each turn.\nMadness {0} (If you discard this card, discard it into exile. When you do, cast it for its madness cost or put it into your graveyard.)",
+   "power": "1",
+   "toughness": "1",
+   "keywords": [
+    "Madness"
+   ],
+   "artist": "Jokubas Uogintas",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/4/4/4404fc9c-ef02-479c-9638-0cc163f0b48f.jpg?1783926849",
+    "normal": "https://cards.scryfall.io/normal/front/4/4/4404fc9c-ef02-479c-9638-0cc163f0b48f.jpg?1783926849",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/4/4/4404fc9c-ef02-479c-9638-0cc163f0b48f.jpg?1783926849"
+   },
+   "faces": []
+  },
+  {
+   "id": "ea2d3a1c-287e-4b85-8f3d-25fdcf79f47b",
+   "name": "Blazing Torch",
+   "layout": "normal",
+   "manaCost": "{1}",
+   "manaValue": 1,
+   "colors": [],
+   "typeLine": "Artifact — Equipment",
+   "text": "Equipped creature can't be blocked by Vampires or Zombies.\nEquipped creature has \"{T}, Sacrifice Blazing Torch: Blazing Torch deals 2 damage to any target.\"\nEquip {1} ({1}: Attach to target creature you control. Equip only as a sorcery.)",
+   "power": null,
+   "toughness": null,
+   "keywords": [
+    "Equip"
+   ],
+   "artist": "Scott Chou",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/e/a/ea2d3a1c-287e-4b85-8f3d-25fdcf79f47b.jpg?1783908068",
+    "normal": "https://cards.scryfall.io/normal/front/e/a/ea2d3a1c-287e-4b85-8f3d-25fdcf79f47b.jpg?1783908068",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/e/a/ea2d3a1c-287e-4b85-8f3d-25fdcf79f47b.jpg?1783908068"
+   },
+   "faces": []
+  },
+  {
+   "id": "689b4ba1-5bb5-458d-8900-19a330e0093c",
+   "name": "Blessing of the Nephilim",
+   "layout": "normal",
+   "manaCost": "{W}",
+   "manaValue": 1,
+   "colors": [
+    "W"
+   ],
+   "typeLine": "Enchantment — Aura",
+   "text": "Enchant creature\nEnchanted creature gets +1/+1 for each of its colors.",
+   "power": null,
+   "toughness": null,
+   "keywords": [
+    "Enchant"
+   ],
+   "artist": "Greg Hildebrandt",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/6/8/689b4ba1-5bb5-458d-8900-19a330e0093c.jpg?1783943449",
+    "normal": "https://cards.scryfall.io/normal/front/6/8/689b4ba1-5bb5-458d-8900-19a330e0093c.jpg?1783943449",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/6/8/689b4ba1-5bb5-458d-8900-19a330e0093c.jpg?1783943449"
+   },
+   "faces": []
+  },
+  {
+   "id": "f097fbb8-0db5-4ceb-8972-dcd21b3fb4d5",
+   "name": "Blinding Powder",
+   "layout": "normal",
+   "manaCost": "{1}",
+   "manaValue": 1,
+   "colors": [],
+   "typeLine": "Artifact — Equipment",
+   "text": "Equipped creature has \"Unattach Blinding Powder: Prevent all combat damage that would be dealt to this creature this turn.\"\nEquip {2} ({2}: Attach to target creature you control. Equip only as a sorcery.)",
+   "power": null,
+   "toughness": null,
+   "keywords": [
+    "Equip"
+   ],
+   "artist": "Greg Hildebrandt",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/f/0/f097fbb8-0db5-4ceb-8972-dcd21b3fb4d5.jpg?1783944179",
+    "normal": "https://cards.scryfall.io/normal/front/f/0/f097fbb8-0db5-4ceb-8972-dcd21b3fb4d5.jpg?1783944179",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/f/0/f097fbb8-0db5-4ceb-8972-dcd21b3fb4d5.jpg?1783944179"
+   },
+   "faces": []
+  },
+  {
+   "id": "f4ec6fc4-efbf-4071-860e-ba244e27e2d3",
+   "name": "Bloodcrazed Goblin",
+   "layout": "normal",
+   "manaCost": "{R}",
+   "manaValue": 1,
+   "colors": [
+    "R"
+   ],
+   "typeLine": "Creature — Goblin Berserker",
+   "text": "This creature can't attack unless an opponent has been dealt damage this turn.",
+   "power": "2",
+   "toughness": "2",
+   "keywords": [],
+   "artist": "Steve Prescott",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/f/4/f4ec6fc4-efbf-4071-860e-ba244e27e2d3.jpg?1783941809",
+    "normal": "https://cards.scryfall.io/normal/front/f/4/f4ec6fc4-efbf-4071-860e-ba244e27e2d3.jpg?1783941809",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/f/4/f4ec6fc4-efbf-4071-860e-ba244e27e2d3.jpg?1783941809"
+   },
+   "faces": []
+  },
+  {
+   "id": "b0b67eb9-0d88-4f2c-8063-e8bedfa78556",
+   "name": "Boggart Cursecrafter",
+   "layout": "normal",
+   "manaCost": "{B}{R}",
+   "manaValue": 2,
+   "colors": [
+    "B",
+    "R"
+   ],
+   "typeLine": "Creature — Goblin Warlock",
+   "text": "Deathtouch\nWhenever another Goblin you control dies, this creature deals 1 damage to each opponent.",
+   "power": "2",
+   "toughness": "3",
+   "keywords": [
+    "Deathtouch"
+   ],
+   "artist": "Alex Stone",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/b/0/b0b67eb9-0d88-4f2c-8063-e8bedfa78556.jpg?1783904418",
+    "normal": "https://cards.scryfall.io/normal/front/b/0/b0b67eb9-0d88-4f2c-8063-e8bedfa78556.jpg?1783904418",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/b/0/b0b67eb9-0d88-4f2c-8063-e8bedfa78556.jpg?1783904418"
+   },
+   "faces": []
+  },
+  {
+   "id": "0b33162d-8d8f-4312-b31e-04ce86e3b914",
+   "name": "Bronze Sword",
+   "layout": "normal",
+   "manaCost": "{1}",
+   "manaValue": 1,
+   "colors": [],
+   "typeLine": "Artifact — Equipment",
+   "text": "Equipped creature gets +2/+0.\nEquip {3} ({3}: Attach to target creature you control. Equip only as a sorcery.)",
+   "power": null,
+   "toughness": null,
+   "keywords": [
+    "Equip"
+   ],
+   "artist": "Kev Walker",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/0/b/0b33162d-8d8f-4312-b31e-04ce86e3b914.jpg?1783931515",
+    "normal": "https://cards.scryfall.io/normal/front/0/b/0b33162d-8d8f-4312-b31e-04ce86e3b914.jpg?1783931515",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/0/b/0b33162d-8d8f-4312-b31e-04ce86e3b914.jpg?1783931515"
+   },
+   "faces": []
+  },
+  {
+   "id": "aec5d380-d354-4750-931a-6c91853e2edc",
+   "name": "Burst Lightning",
+   "layout": "normal",
+   "manaCost": "{R}",
+   "manaValue": 1,
+   "colors": [
+    "R"
+   ],
+   "typeLine": "Instant",
+   "text": "Kicker {4} (You may pay an additional {4} as you cast this spell.)\nBurst Lightning deals 2 damage to any target. If this spell was kicked, it deals 4 damage instead.",
+   "power": null,
+   "toughness": null,
+   "keywords": [
+    "Kicker"
+   ],
+   "artist": "Vance Kovacs",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/a/e/aec5d380-d354-4750-931a-6c91853e2edc.jpg?1783909068",
+    "normal": "https://cards.scryfall.io/normal/front/a/e/aec5d380-d354-4750-931a-6c91853e2edc.jpg?1783909068",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/a/e/aec5d380-d354-4750-931a-6c91853e2edc.jpg?1783909068"
+   },
+   "faces": []
+  },
+  {
+   "id": "0f87aadf-7638-4691-b5a5-86f928e98462",
+   "name": "Captivating Vampire",
+   "layout": "normal",
+   "manaCost": "{1}{B}{B}",
+   "manaValue": 3,
+   "colors": [
+    "B"
+   ],
+   "typeLine": "Creature — Vampire",
+   "text": "Other Vampire creatures you control get +1/+1.\nTap five untapped Vampires you control: Gain control of target creature. It becomes a Vampire in addition to its other types.",
+   "power": "2",
+   "toughness": "2",
+   "keywords": [],
+   "artist": "Eric Deschamps",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/0/f/0f87aadf-7638-4691-b5a5-86f928e98462.jpg?1783908149",
+    "normal": "https://cards.scryfall.io/normal/front/0/f/0f87aadf-7638-4691-b5a5-86f928e98462.jpg?1783908149",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/0/f/0f87aadf-7638-4691-b5a5-86f928e98462.jpg?1783908149"
+   },
+   "faces": []
+  },
+  {
+   "id": "271c08b3-bb57-4626-8e2f-e09826018080",
+   "name": "Carapace",
+   "layout": "normal",
+   "manaCost": "{G}",
+   "manaValue": 1,
+   "colors": [
+    "G"
+   ],
+   "typeLine": "Enchantment — Aura",
+   "text": "Enchant creature\nEnchanted creature gets +0/+2.\nSacrifice this Aura: Regenerate enchanted creature.",
+   "power": null,
+   "toughness": null,
+   "keywords": [
+    "Regenerate",
+    "Enchant"
+   ],
+   "artist": "Anson Maddocks",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/2/7/271c08b3-bb57-4626-8e2f-e09826018080.jpg?1783942607",
+    "normal": "https://cards.scryfall.io/normal/front/2/7/271c08b3-bb57-4626-8e2f-e09826018080.jpg?1783942607",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/2/7/271c08b3-bb57-4626-8e2f-e09826018080.jpg?1783942607"
+   },
+   "faces": []
+  },
+  {
+   "id": "f5456d86-0ed1-47fa-87d7-27eedb6400c6",
+   "name": "Cartouche of Zeal",
+   "layout": "normal",
+   "manaCost": "{R}",
+   "manaValue": 1,
+   "colors": [
+    "R"
+   ],
+   "typeLine": "Enchantment — Aura Cartouche",
+   "text": "Enchant creature you control\nWhen this Aura enters, target creature can't block this turn.\nEnchanted creature gets +1/+1 and has haste. (It can attack and {T} no matter when it came under your control.)",
+   "power": null,
+   "toughness": null,
+   "keywords": [
+    "Enchant"
+   ],
+   "artist": "Kieran Yanner",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/f/5/f5456d86-0ed1-47fa-87d7-27eedb6400c6.jpg?1783908696",
+    "normal": "https://cards.scryfall.io/normal/front/f/5/f5456d86-0ed1-47fa-87d7-27eedb6400c6.jpg?1783908696",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/f/5/f5456d86-0ed1-47fa-87d7-27eedb6400c6.jpg?1783908696"
+   },
+   "faces": []
+  },
+  {
+   "id": "61c18ffa-ffff-4dc4-9db0-d5f183c35e17",
+   "name": "Cathar's Shield",
+   "layout": "normal",
+   "manaCost": "{0}",
+   "manaValue": 0,
+   "colors": [],
+   "typeLine": "Artifact — Equipment",
+   "text": "Equipped creature gets +0/+3 and has vigilance.\nEquip {3} ({3}: Attach to target creature you control. Equip only as a sorcery.)",
+   "power": null,
+   "toughness": null,
+   "keywords": [
+    "Equip"
+   ],
+   "artist": "Mark Zug",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/6/1/61c18ffa-ffff-4dc4-9db0-d5f183c35e17.jpg?1783937426",
+    "normal": "https://cards.scryfall.io/normal/front/6/1/61c18ffa-ffff-4dc4-9db0-d5f183c35e17.jpg?1783937426",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/6/1/61c18ffa-ffff-4dc4-9db0-d5f183c35e17.jpg?1783937426"
+   },
+   "faces": []
+  },
+  {
+   "id": "026e7167-d665-43d0-a51e-8df2d68cdb5e",
+   "name": "Cecil, Dark Knight // Cecil, Redeemed Paladin",
+   "layout": "transform",
+   "manaCost": "{B}",
+   "manaValue": 1,
+   "colors": [
+    "B"
+   ],
+   "typeLine": "Legendary Creature — Human Knight // Legendary Creature — Human Knight",
+   "text": "",
+   "power": "2",
+   "toughness": "3",
+   "keywords": [
+    "Lifelink",
+    "Protect",
+    "Transform",
+    "Darkness",
+    "Deathtouch"
+   ],
+   "artist": "Josu Hernaiz",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/0/2/026e7167-d665-43d0-a51e-8df2d68cdb5e.jpg?1783906631",
+    "normal": "https://cards.scryfall.io/normal/front/0/2/026e7167-d665-43d0-a51e-8df2d68cdb5e.jpg?1783906631",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/0/2/026e7167-d665-43d0-a51e-8df2d68cdb5e.jpg?1783906631"
+   },
+   "faces": [
+    {
+     "name": "Cecil, Dark Knight",
+     "manaCost": "{B}",
+     "typeLine": "Legendary Creature — Human Knight",
+     "text": "Deathtouch\nDarkness — Whenever Cecil deals damage, you lose that much life. Then if your life total is less than or equal to half your starting life total, untap Cecil and transform it.",
+     "power": "2",
+     "toughness": "3",
+     "colors": [
+      "B"
+     ],
+     "images": {
+      "small": "https://cards.scryfall.io/small/front/0/2/026e7167-d665-43d0-a51e-8df2d68cdb5e.jpg?1783906631",
+      "normal": "https://cards.scryfall.io/normal/front/0/2/026e7167-d665-43d0-a51e-8df2d68cdb5e.jpg?1783906631",
+      "artCrop": "https://cards.scryfall.io/art_crop/front/0/2/026e7167-d665-43d0-a51e-8df2d68cdb5e.jpg?1783906631"
+     }
+    },
+    {
+     "name": "Cecil, Redeemed Paladin",
+     "manaCost": "",
+     "typeLine": "Legendary Creature — Human Knight",
+     "text": "Lifelink\nProtect — Whenever Cecil attacks, other attacking creatures gain indestructible until end of turn.",
+     "power": "4",
+     "toughness": "4",
+     "colors": [
+      "W"
+     ],
+     "images": {
+      "small": "https://cards.scryfall.io/small/back/0/2/026e7167-d665-43d0-a51e-8df2d68cdb5e.jpg?1783906631",
+      "normal": "https://cards.scryfall.io/normal/back/0/2/026e7167-d665-43d0-a51e-8df2d68cdb5e.jpg?1783906631",
+      "artCrop": "https://cards.scryfall.io/art_crop/back/0/2/026e7167-d665-43d0-a51e-8df2d68cdb5e.jpg?1783906631"
+     }
+    }
+   ]
+  },
+  {
+   "id": "ec2120ff-a6d4-4192-96c0-33c139155ddf",
+   "name": "Champion of the Parish",
+   "layout": "normal",
+   "manaCost": "{W}",
+   "manaValue": 1,
+   "colors": [
+    "W"
+   ],
+   "typeLine": "Creature — Human Soldier",
+   "text": "Whenever another Human you control enters, put a +1/+1 counter on this creature.",
+   "power": "1",
+   "toughness": "1",
+   "keywords": [],
+   "artist": "Svetlin Velinov",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/e/c/ec2120ff-a6d4-4192-96c0-33c139155ddf.jpg?1783937860",
+    "normal": "https://cards.scryfall.io/normal/front/e/c/ec2120ff-a6d4-4192-96c0-33c139155ddf.jpg?1783937860",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/e/c/ec2120ff-a6d4-4192-96c0-33c139155ddf.jpg?1783937860"
+   },
+   "faces": []
+  },
+  {
+   "id": "9f523765-7704-4faf-a72b-8a2c414bb179",
+   "name": "Cloudshredder Sliver",
+   "layout": "normal",
+   "manaCost": "{R}{W}",
+   "manaValue": 2,
+   "colors": [
+    "R",
+    "W"
+   ],
+   "typeLine": "Creature — Sliver",
+   "text": "Sliver creatures you control have flying and haste.",
+   "power": "1",
+   "toughness": "1",
+   "keywords": [],
+   "artist": "Filip Burburan",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/9/f/9f523765-7704-4faf-a72b-8a2c414bb179.jpg?1783915417",
+    "normal": "https://cards.scryfall.io/normal/front/9/f/9f523765-7704-4faf-a72b-8a2c414bb179.jpg?1783915417",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/9/f/9f523765-7704-4faf-a72b-8a2c414bb179.jpg?1783915417"
+   },
+   "faces": []
+  },
+  {
+   "id": "0d91e61d-e3bf-4ddc-9f01-18b1abe35a61",
+   "name": "Cordial Vampire",
+   "layout": "normal",
+   "manaCost": "{B}{B}",
+   "manaValue": 2,
+   "colors": [
+    "B"
+   ],
+   "typeLine": "Creature — Vampire",
+   "text": "Whenever this creature or another creature dies, put a +1/+1 counter on each Vampire you control.",
+   "power": "1",
+   "toughness": "1",
+   "keywords": [],
+   "artist": "Winona Nelson",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/0/d/0d91e61d-e3bf-4ddc-9f01-18b1abe35a61.jpg?1783913876",
+    "normal": "https://cards.scryfall.io/normal/front/0/d/0d91e61d-e3bf-4ddc-9f01-18b1abe35a61.jpg?1783913876",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/0/d/0d91e61d-e3bf-4ddc-9f01-18b1abe35a61.jpg?1783913876"
+   },
+   "faces": []
+  },
+  {
+   "id": "8ab16152-4617-4deb-b995-195e21f8f485",
+   "name": "Crack the Earth",
+   "layout": "normal",
+   "manaCost": "{R}",
+   "manaValue": 1,
+   "colors": [
+    "R"
+   ],
+   "typeLine": "Sorcery — Arcane",
+   "text": "Each player sacrifices a permanent of their choice.",
+   "power": null,
+   "toughness": null,
+   "keywords": [],
+   "artist": "Wayne Reynolds",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/8/a/8ab16152-4617-4deb-b995-195e21f8f485.jpg?1783944191",
+    "normal": "https://cards.scryfall.io/normal/front/8/a/8ab16152-4617-4deb-b995-195e21f8f485.jpg?1783944191",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/8/a/8ab16152-4617-4deb-b995-195e21f8f485.jpg?1783944191"
+   },
+   "faces": []
+  },
+  {
+   "id": "c74e13eb-6f82-4db1-9d0d-8310f48d9f6d",
+   "name": "Desert",
+   "layout": "normal",
+   "manaCost": "",
+   "manaValue": 0,
+   "colors": [],
+   "typeLine": "Land — Desert",
+   "text": "{T}: Add {C}.\n{T}: This land deals 1 damage to target attacking creature. Activate only during the end of combat step.",
+   "power": null,
+   "toughness": null,
+   "keywords": [],
+   "artist": "Glen Angus",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/c/7/c74e13eb-6f82-4db1-9d0d-8310f48d9f6d.jpg?1783926159",
+    "normal": "https://cards.scryfall.io/normal/front/c/7/c74e13eb-6f82-4db1-9d0d-8310f48d9f6d.jpg?1783926159",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/c/7/c74e13eb-6f82-4db1-9d0d-8310f48d9f6d.jpg?1783926159"
+   },
+   "faces": []
+  },
+  {
+   "id": "e150896e-8745-42ac-894b-8f42a92bd7a7",
+   "name": "Deviant Glee",
+   "layout": "normal",
+   "manaCost": "{B}",
+   "manaValue": 1,
+   "colors": [
+    "B"
+   ],
+   "typeLine": "Enchantment — Aura",
+   "text": "Enchant creature\nEnchanted creature gets +2/+1 and has \"{R}: This creature gains trample until end of turn.\"",
+   "power": null,
+   "toughness": null,
+   "keywords": [
+    "Enchant"
+   ],
+   "artist": "Michael C. Hayes",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/e/1/e150896e-8745-42ac-894b-8f42a92bd7a7.jpg?1783940363",
+    "normal": "https://cards.scryfall.io/normal/front/e/1/e150896e-8745-42ac-894b-8f42a92bd7a7.jpg?1783940363",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/e/1/e150896e-8745-42ac-894b-8f42a92bd7a7.jpg?1783940363"
+   },
+   "faces": []
+  },
+  {
+   "id": "fc41d6d6-d7e5-4874-b6e2-fa4c72454f15",
+   "name": "Devoted Retainer",
+   "layout": "normal",
+   "manaCost": "{W}",
+   "manaValue": 1,
+   "colors": [
+    "W"
+   ],
+   "typeLine": "Creature — Human Samurai",
+   "text": "Bushido 1 (Whenever this creature blocks or becomes blocked, it gets +1/+1 until end of turn.)",
+   "power": "1",
+   "toughness": "1",
+   "keywords": [
+    "Bushido"
+   ],
+   "artist": "Greg Hildebrandt",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/f/c/fc41d6d6-d7e5-4874-b6e2-fa4c72454f15.jpg?1783944342",
+    "normal": "https://cards.scryfall.io/normal/front/f/c/fc41d6d6-d7e5-4874-b6e2-fa4c72454f15.jpg?1783944342",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/f/c/fc41d6d6-d7e5-4874-b6e2-fa4c72454f15.jpg?1783944342"
+   },
+   "faces": []
+  },
+  {
+   "id": "8a03d414-bff9-4aba-8b0a-0ed57982251e",
+   "name": "Doomed Traveler",
+   "layout": "normal",
+   "manaCost": "{W}",
+   "manaValue": 1,
+   "colors": [
+    "W"
+   ],
+   "typeLine": "Creature — Human Soldier",
+   "text": "When this creature dies, create a 1/1 white Spirit creature token with flying.",
+   "power": "1",
+   "toughness": "1",
+   "keywords": [],
+   "artist": "Lars Grant-West",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/8/a/8a03d414-bff9-4aba-8b0a-0ed57982251e.jpg?1783912565",
+    "normal": "https://cards.scryfall.io/normal/front/8/a/8a03d414-bff9-4aba-8b0a-0ed57982251e.jpg?1783912565",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/8/a/8a03d414-bff9-4aba-8b0a-0ed57982251e.jpg?1783912565"
+   },
+   "faces": []
+  },
+  {
+   "id": "074b1e00-45bb-4436-8f5e-058512b2d08a",
+   "name": "Dragon Sniper",
+   "layout": "normal",
+   "manaCost": "{G}",
+   "manaValue": 1,
+   "colors": [
+    "G"
+   ],
+   "typeLine": "Creature — Human Archer",
+   "text": "Reach, vigilance, deathtouch",
+   "power": "1",
+   "toughness": "1",
+   "keywords": [
+    "Reach",
+    "Vigilance",
+    "Deathtouch"
+   ],
+   "artist": "David Auden Nash",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/0/7/074b1e00-45bb-4436-8f5e-058512b2d08a.jpg?1783907344",
+    "normal": "https://cards.scryfall.io/normal/front/0/7/074b1e00-45bb-4436-8f5e-058512b2d08a.jpg?1783907344",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/0/7/074b1e00-45bb-4436-8f5e-058512b2d08a.jpg?1783907344"
+   },
+   "faces": []
+  },
+  {
+   "id": "b44f758e-716a-408e-96d4-b58403591c2a",
+   "name": "Dropkick Bomber",
+   "layout": "normal",
+   "manaCost": "{2}{R}",
+   "manaValue": 3,
+   "colors": [
+    "R"
+   ],
+   "typeLine": "Creature — Goblin Warrior",
+   "text": "Other Goblins you control get +1/+1.\n{R}: Until end of turn, another target Goblin you control gains flying and \"When this creature deals combat damage, sacrifice it.\"",
+   "power": "2",
+   "toughness": "3",
+   "keywords": [],
+   "artist": "Quintin Gleim",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/b/4/b44f758e-716a-408e-96d4-b58403591c2a.jpg?1783908953",
+    "normal": "https://cards.scryfall.io/normal/front/b/4/b44f758e-716a-408e-96d4-b58403591c2a.jpg?1783908953",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/b/4/b44f758e-716a-408e-96d4-b58403591c2a.jpg?1783908953"
+   },
+   "faces": []
+  },
+  {
+   "id": "e3ddbebf-72cd-4d1b-ba0d-d94934654ab7",
+   "name": "Dryad Arbor",
+   "layout": "normal",
+   "manaCost": "",
+   "manaValue": 0,
+   "colors": [
+    "G"
+   ],
+   "typeLine": "Land Creature — Forest Dryad",
+   "text": "(This land isn't a spell, it's affected by summoning sickness, and it has \"{T}: Add {G}.\")",
+   "power": "1",
+   "toughness": "1",
+   "keywords": [],
+   "artist": "Eric Fortune",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/e/3/e3ddbebf-72cd-4d1b-ba0d-d94934654ab7.jpg?1783909577",
+    "normal": "https://cards.scryfall.io/normal/front/e/3/e3ddbebf-72cd-4d1b-ba0d-d94934654ab7.jpg?1783909577",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/e/3/e3ddbebf-72cd-4d1b-ba0d-d94934654ab7.jpg?1783909577"
+   },
+   "faces": []
+  },
+  {
+   "id": "0bb504d2-d3de-4b09-9007-3d403fc9a216",
+   "name": "Dual Shot",
+   "layout": "normal",
+   "manaCost": "{R}",
+   "manaValue": 1,
+   "colors": [
+    "R"
+   ],
+   "typeLine": "Instant",
+   "text": "Dual Shot deals 1 damage to each of up to two target creatures.",
+   "power": null,
+   "toughness": null,
+   "keywords": [],
+   "artist": "Sara Winters",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/0/b/0bb504d2-d3de-4b09-9007-3d403fc9a216.jpg?1783935747",
+    "normal": "https://cards.scryfall.io/normal/front/0/b/0bb504d2-d3de-4b09-9007-3d403fc9a216.jpg?1783935747",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/0/b/0bb504d2-d3de-4b09-9007-3d403fc9a216.jpg?1783935747"
+   },
+   "faces": []
+  },
+  {
+   "id": "d263472e-1d75-4cb9-8f7b-986fa22bc841",
+   "name": "Earth Kingdom Protectors",
+   "layout": "normal",
+   "manaCost": "{W}",
+   "manaValue": 1,
+   "colors": [
+    "W"
+   ],
+   "typeLine": "Creature — Human Soldier Ally",
+   "text": "Vigilance\nSacrifice this creature: Another target Ally you control gains indestructible until end of turn. (Damage and effects that say \"destroy\" don't destroy it.)",
+   "power": "1",
+   "toughness": "1",
+   "keywords": [
+    "Vigilance"
+   ],
+   "artist": "Leonardo Borazio",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/d/2/d263472e-1d75-4cb9-8f7b-986fa22bc841.jpg?1783905001",
+    "normal": "https://cards.scryfall.io/normal/front/d/2/d263472e-1d75-4cb9-8f7b-986fa22bc841.jpg?1783905001",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/d/2/d263472e-1d75-4cb9-8f7b-986fa22bc841.jpg?1783905001"
+   },
+   "faces": []
+  },
+  {
+   "id": "5ed81ee8-d5e4-4127-876e-9bff81f9c726",
+   "name": "Electrickery",
+   "layout": "normal",
+   "manaCost": "{R}",
+   "manaValue": 1,
+   "colors": [
+    "R"
+   ],
+   "typeLine": "Instant",
+   "text": "Electrickery deals 1 damage to target creature you don't control.\nOverload {1}{R} (You may cast this spell for its overload cost. If you do, change \"target\" in its text to \"each.\")",
+   "power": null,
+   "toughness": null,
+   "keywords": [
+    "Overload"
+   ],
+   "artist": "Greg Staples",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/5/e/5ed81ee8-d5e4-4127-876e-9bff81f9c726.jpg?1783940356",
+    "normal": "https://cards.scryfall.io/normal/front/5/e/5ed81ee8-d5e4-4127-876e-9bff81f9c726.jpg?1783940356",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/5/e/5ed81ee8-d5e4-4127-876e-9bff81f9c726.jpg?1783940356"
+   },
+   "faces": []
+  },
+  {
+   "id": "c455c8d4-6f20-4dcb-8e82-c2bb70d6bc3e",
+   "name": "Electrostatic Bolt",
+   "layout": "normal",
+   "manaCost": "{R}",
+   "manaValue": 1,
+   "colors": [
+    "R"
+   ],
+   "typeLine": "Instant",
+   "text": "Electrostatic Bolt deals 2 damage to target creature. If it's an artifact creature, Electrostatic Bolt deals 4 damage to it instead.",
+   "power": null,
+   "toughness": null,
+   "keywords": [],
+   "artist": "Randy Gallegos",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/c/4/c455c8d4-6f20-4dcb-8e82-c2bb70d6bc3e.jpg?1783944541",
+    "normal": "https://cards.scryfall.io/normal/front/c/4/c455c8d4-6f20-4dcb-8e82-c2bb70d6bc3e.jpg?1783944541",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/c/4/c455c8d4-6f20-4dcb-8e82-c2bb70d6bc3e.jpg?1783944541"
+   },
+   "faces": []
+  },
+  {
+   "id": "fd0e8a82-0201-483e-a976-5f29764b35a4",
+   "name": "Ethereal Armor",
+   "layout": "normal",
+   "manaCost": "{W}",
+   "manaValue": 1,
+   "colors": [
+    "W"
+   ],
+   "typeLine": "Enchantment — Aura",
+   "text": "Enchant creature\nEnchanted creature gets +1/+1 for each enchantment you control and has first strike.",
+   "power": null,
+   "toughness": null,
+   "keywords": [
+    "Enchant"
+   ],
+   "artist": "Tyler Walpole",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/f/d/fd0e8a82-0201-483e-a976-5f29764b35a4.jpg?1783909513",
+    "normal": "https://cards.scryfall.io/normal/front/f/d/fd0e8a82-0201-483e-a976-5f29764b35a4.jpg?1783909513",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/f/d/fd0e8a82-0201-483e-a976-5f29764b35a4.jpg?1783909513"
+   },
+   "faces": []
+  },
+  {
+   "id": "d1296316-7781-4e98-95e6-7020648be6a5",
+   "name": "Fanatical Firebrand",
+   "layout": "normal",
+   "manaCost": "{R}",
+   "manaValue": 1,
+   "colors": [
+    "R"
+   ],
+   "typeLine": "Creature — Goblin Pirate",
+   "text": "Haste (This creature can attack and {T} as soon as it comes under your control.)\n{T}, Sacrifice this creature: It deals 1 damage to any target.",
+   "power": "1",
+   "toughness": "1",
+   "keywords": [
+    "Haste"
+   ],
+   "artist": "Wayne Reynolds",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/d/1/d1296316-7781-4e98-95e6-7020648be6a5.jpg?1783909067",
+    "normal": "https://cards.scryfall.io/normal/front/d/1/d1296316-7781-4e98-95e6-7020648be6a5.jpg?1783909067",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/d/1/d1296316-7781-4e98-95e6-7020648be6a5.jpg?1783909067"
+   },
+   "faces": []
+  },
+  {
+   "id": "2d344791-5d5c-40c5-99c7-931954ea39d1",
+   "name": "Feast of Flesh",
+   "layout": "normal",
+   "manaCost": "{B}",
+   "manaValue": 1,
+   "colors": [
+    "B"
+   ],
+   "typeLine": "Sorcery",
+   "text": "Feast of Flesh deals X damage to target creature and you gain X life, where X is 1 plus the number of cards named Feast of Flesh in all graveyards.",
+   "power": null,
+   "toughness": null,
+   "keywords": [],
+   "artist": "Volkan Baǵa",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/2/d/2d344791-5d5c-40c5-99c7-931954ea39d1.jpg?1783943351",
+    "normal": "https://cards.scryfall.io/normal/front/2/d/2d344791-5d5c-40c5-99c7-931954ea39d1.jpg?1783943351",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/2/d/2d344791-5d5c-40c5-99c7-931954ea39d1.jpg?1783943351"
+   },
+   "faces": []
+  },
+  {
+   "id": "e8630702-f973-4c08-8f45-84a3893499ad",
+   "name": "Flowstone Blade",
+   "layout": "normal",
+   "manaCost": "{R}",
+   "manaValue": 1,
+   "colors": [
+    "R"
+   ],
+   "typeLine": "Enchantment — Aura",
+   "text": "Enchant creature\n{R}: Enchanted creature gets +1/-1 until end of turn.",
+   "power": null,
+   "toughness": null,
+   "keywords": [
+    "Enchant"
+   ],
+   "artist": "Allen Williams",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/e/8/e8630702-f973-4c08-8f45-84a3893499ad.jpg?1783938472",
+    "normal": "https://cards.scryfall.io/normal/front/e/8/e8630702-f973-4c08-8f45-84a3893499ad.jpg?1783938472",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/e/8/e8630702-f973-4c08-8f45-84a3893499ad.jpg?1783938472"
+   },
+   "faces": []
+  },
+  {
+   "id": "bbc3152e-7b3b-4ac6-8b33-abfebde216aa",
+   "name": "Fog",
+   "layout": "normal",
+   "manaCost": "{G}",
+   "manaValue": 1,
+   "colors": [
+    "G"
+   ],
+   "typeLine": "Instant",
+   "text": "Prevent all combat damage that would be dealt this turn.",
+   "power": null,
+   "toughness": null,
+   "keywords": [],
+   "artist": "Jaime Jones",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/b/b/bbc3152e-7b3b-4ac6-8b33-abfebde216aa.jpg?1783937566",
+    "normal": "https://cards.scryfall.io/normal/front/b/b/bbc3152e-7b3b-4ac6-8b33-abfebde216aa.jpg?1783937566",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/b/b/bbc3152e-7b3b-4ac6-8b33-abfebde216aa.jpg?1783937566"
+   },
+   "faces": []
+  },
+  {
+   "id": "bd7308e6-4303-4f01-928b-f154b376e1a5",
+   "name": "Forge Devil",
+   "layout": "normal",
+   "manaCost": "{R}",
+   "manaValue": 1,
+   "colors": [
+    "R"
+   ],
+   "typeLine": "Creature — Devil",
+   "text": "When this creature enters, it deals 1 damage to target creature and 1 damage to you.",
+   "power": "1",
+   "toughness": "1",
+   "keywords": [],
+   "artist": "Austin Hsu",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/b/d/bd7308e6-4303-4f01-928b-f154b376e1a5.jpg?1783930393",
+    "normal": "https://cards.scryfall.io/normal/front/b/d/bd7308e6-4303-4f01-928b-f154b376e1a5.jpg?1783930393",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/b/d/bd7308e6-4303-4f01-928b-f154b376e1a5.jpg?1783930393"
+   },
+   "faces": []
+  },
+  {
+   "id": "0cf8cb1e-314a-4894-82df-f9812825f52e",
+   "name": "Galvanic Blast",
+   "layout": "normal",
+   "manaCost": "{R}",
+   "manaValue": 1,
+   "colors": [
+    "R"
+   ],
+   "typeLine": "Instant",
+   "text": "Galvanic Blast deals 2 damage to any target.\nMetalcraft — Galvanic Blast deals 4 damage instead if you control three or more artifacts.",
+   "power": null,
+   "toughness": null,
+   "keywords": [
+    "Metalcraft"
+   ],
+   "artist": "Marc Simonetti",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/0/c/0cf8cb1e-314a-4894-82df-f9812825f52e.jpg?1783930164",
+    "normal": "https://cards.scryfall.io/normal/front/0/c/0cf8cb1e-314a-4894-82df-f9812825f52e.jpg?1783930164",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/0/c/0cf8cb1e-314a-4894-82df-f9812825f52e.jpg?1783930164"
+   },
+   "faces": []
+  },
+  {
+   "id": "d933bd6f-4fe6-4f05-b907-b3c950dbd257",
+   "name": "Goblin Arsonist",
+   "layout": "normal",
+   "manaCost": "{R}",
+   "manaValue": 1,
+   "colors": [
+    "R"
+   ],
+   "typeLine": "Creature — Goblin Shaman",
+   "text": "When this creature dies, you may have it deal 1 damage to any target.",
+   "power": "1",
+   "toughness": "1",
+   "keywords": [],
+   "artist": "Wayne Reynolds",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/d/9/d933bd6f-4fe6-4f05-b907-b3c950dbd257.jpg?1783908685",
+    "normal": "https://cards.scryfall.io/normal/front/d/9/d933bd6f-4fe6-4f05-b907-b3c950dbd257.jpg?1783908685",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/d/9/d933bd6f-4fe6-4f05-b907-b3c950dbd257.jpg?1783908685"
+   },
+   "faces": []
+  },
+  {
+   "id": "9543660a-6797-4719-bbe7-ff6e40709599",
+   "name": "Goblin Champion",
+   "layout": "normal",
+   "manaCost": "{R}",
+   "manaValue": 1,
+   "colors": [
+    "R"
+   ],
+   "typeLine": "Creature — Goblin Warrior",
+   "text": "Haste\nExalted (Whenever a creature you control attacks alone, that creature gets +1/+1 until end of turn.)",
+   "power": "0",
+   "toughness": "1",
+   "keywords": [
+    "Exalted",
+    "Haste"
+   ],
+   "artist": "Kev Walker",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/9/5/9543660a-6797-4719-bbe7-ff6e40709599.jpg?1783933112",
+    "normal": "https://cards.scryfall.io/normal/front/9/5/9543660a-6797-4719-bbe7-ff6e40709599.jpg?1783933112",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/9/5/9543660a-6797-4719-bbe7-ff6e40709599.jpg?1783933112"
+   },
+   "faces": []
+  },
+  {
+   "id": "3f44f3ea-504e-4745-9716-cbe28ed7873d",
+   "name": "Goblin Gaveleer",
+   "layout": "normal",
+   "manaCost": "{R}",
+   "manaValue": 1,
+   "colors": [
+    "R"
+   ],
+   "typeLine": "Creature — Goblin Warrior",
+   "text": "Trample\nThis creature gets +2/+0 for each Equipment attached to it.",
+   "power": "1",
+   "toughness": "1",
+   "keywords": [
+    "Trample"
+   ],
+   "artist": "Svetlin Velinov",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/3/f/3f44f3ea-504e-4745-9716-cbe28ed7873d.jpg?1783930163",
+    "normal": "https://cards.scryfall.io/normal/front/3/f/3f44f3ea-504e-4745-9716-cbe28ed7873d.jpg?1783930163",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/3/f/3f44f3ea-504e-4745-9716-cbe28ed7873d.jpg?1783930163"
+   },
+   "faces": []
+  },
+  {
+   "id": "b36a1bc7-a080-4fb6-b975-c59bb33a090a",
+   "name": "Goblin Instigator",
+   "layout": "normal",
+   "manaCost": "{1}{R}",
+   "manaValue": 2,
+   "colors": [
+    "R"
+   ],
+   "typeLine": "Creature — Goblin Rogue",
+   "text": "When this creature enters, create a 1/1 red Goblin creature token.",
+   "power": "1",
+   "toughness": "1",
+   "keywords": [],
+   "artist": "Filip Burburan",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/b/3/b36a1bc7-a080-4fb6-b975-c59bb33a090a.jpg?1783917147",
+    "normal": "https://cards.scryfall.io/normal/front/b/3/b36a1bc7-a080-4fb6-b975-c59bb33a090a.jpg?1783917147",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/b/3/b36a1bc7-a080-4fb6-b975-c59bb33a090a.jpg?1783917147"
+   },
+   "faces": []
+  },
+  {
+   "id": "49980982-d534-4204-bc15-3e6c4ffa1a53",
+   "name": "Goblin Swine-Rider",
+   "layout": "normal",
+   "manaCost": "{R}",
+   "manaValue": 1,
+   "colors": [
+    "R"
+   ],
+   "typeLine": "Creature — Goblin",
+   "text": "Whenever this creature becomes blocked, it deals 2 damage to each attacking creature and each blocking creature.",
+   "power": "1",
+   "toughness": "1",
+   "keywords": [],
+   "artist": "Geofrey Darrow & I. Rabarot",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/4/9/49980982-d534-4204-bc15-3e6c4ffa1a53.jpg?1783946989",
+    "normal": "https://cards.scryfall.io/normal/front/4/9/49980982-d534-4204-bc15-3e6c4ffa1a53.jpg?1783946989",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/4/9/49980982-d534-4204-bc15-3e6c4ffa1a53.jpg?1783946989"
+   },
+   "faces": []
+  },
+  {
+   "id": "461987da-8860-4a04-8f93-d182523ca311",
+   "name": "Gut Shot",
+   "layout": "normal",
+   "manaCost": "{R/P}",
+   "manaValue": 1,
+   "colors": [
+    "R"
+   ],
+   "typeLine": "Instant",
+   "text": "({R/P} can be paid with either {R} or 2 life.)\nGut Shot deals 1 damage to any target.",
+   "power": null,
+   "toughness": null,
+   "keywords": [],
+   "artist": "Greg Staples",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/4/6/461987da-8860-4a04-8f93-d182523ca311.jpg?1783938404",
+    "normal": "https://cards.scryfall.io/normal/front/4/6/461987da-8860-4a04-8f93-d182523ca311.jpg?1783938404",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/4/6/461987da-8860-4a04-8f93-d182523ca311.jpg?1783938404"
+   },
+   "faces": []
+  },
+  {
+   "id": "f3c92575-1c97-48bf-801b-22f34040cf9a",
+   "name": "Guul Draz Vampire",
+   "layout": "normal",
+   "manaCost": "{B}",
+   "manaValue": 1,
+   "colors": [
+    "B"
+   ],
+   "typeLine": "Creature — Vampire Rogue",
+   "text": "As long as an opponent has 10 or less life, this creature gets +2/+1 and has intimidate. (It can't be blocked except by artifact creatures and/or creatures that share a color with it.)",
+   "power": "1",
+   "toughness": "1",
+   "keywords": [],
+   "artist": "Steve Argyle",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/f/3/f3c92575-1c97-48bf-801b-22f34040cf9a.jpg?1783942153",
+    "normal": "https://cards.scryfall.io/normal/front/f/3/f3c92575-1c97-48bf-801b-22f34040cf9a.jpg?1783942153",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/f/3/f3c92575-1c97-48bf-801b-22f34040cf9a.jpg?1783942153"
+   },
+   "faces": []
+  },
+  {
+   "id": "27a83ab6-0d15-49e4-90e3-b3a2a095c632",
+   "name": "Heart Sliver",
+   "layout": "normal",
+   "manaCost": "{1}{R}",
+   "manaValue": 2,
+   "colors": [
+    "R"
+   ],
+   "typeLine": "Creature — Sliver",
+   "text": "All Sliver creatures have haste.",
+   "power": "1",
+   "toughness": "1",
+   "keywords": [],
+   "artist": "Ron Spencer",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/2/7/27a83ab6-0d15-49e4-90e3-b3a2a095c632.jpg?1783946629",
+    "normal": "https://cards.scryfall.io/normal/front/2/7/27a83ab6-0d15-49e4-90e3-b3a2a095c632.jpg?1783946629",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/2/7/27a83ab6-0d15-49e4-90e3-b3a2a095c632.jpg?1783946629"
+   },
+   "faces": []
+  },
+  {
+   "id": "c14137a4-2d44-444c-ad50-e2edf9380571",
+   "name": "Hemosymbic Mite",
+   "layout": "normal",
+   "manaCost": "{G}",
+   "manaValue": 1,
+   "colors": [
+    "G"
+   ],
+   "typeLine": "Creature — Mite",
+   "text": "Whenever this creature becomes tapped, another target creature you control gets +X/+X until end of turn, where X is this creature's power.",
+   "power": "1",
+   "toughness": "1",
+   "keywords": [],
+   "artist": "Amanda Lee",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/c/1/c14137a4-2d44-444c-ad50-e2edf9380571.jpg?1783905936",
+    "normal": "https://cards.scryfall.io/normal/front/c/1/c14137a4-2d44-444c-ad50-e2edf9380571.jpg?1783905936",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/c/1/c14137a4-2d44-444c-ad50-e2edf9380571.jpg?1783905936"
+   },
+   "faces": []
+  },
+  {
+   "id": "6c9ff632-0e27-4521-9e9d-5725e618f5dd",
+   "name": "Hollowhenge Scavenger",
+   "layout": "normal",
+   "manaCost": "{3}{G}{G}",
+   "manaValue": 5,
+   "colors": [
+    "G"
+   ],
+   "typeLine": "Creature — Elemental",
+   "text": "Morbid — When this creature enters, if a creature died this turn, you gain 5 life.",
+   "power": "4",
+   "toughness": "5",
+   "keywords": [
+    "Morbid"
+   ],
+   "artist": "Slawomir Maniak",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/6/c/6c9ff632-0e27-4521-9e9d-5725e618f5dd.jpg?1783940916",
+    "normal": "https://cards.scryfall.io/normal/front/6/c/6c9ff632-0e27-4521-9e9d-5725e618f5dd.jpg?1783940916",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/6/c/6c9ff632-0e27-4521-9e9d-5725e618f5dd.jpg?1783940916"
+   },
+   "faces": []
+  },
+  {
+   "id": "c7d80b98-baa2-48ea-9611-96e64d7cb950",
+   "name": "Honed Khopesh",
+   "layout": "normal",
+   "manaCost": "{1}",
+   "manaValue": 1,
+   "colors": [],
+   "typeLine": "Artifact — Equipment",
+   "text": "Equipped creature gets +1/+1.\nEquip {1} ({1}: Attach to target creature you control. Equip only as a sorcery.)",
+   "power": null,
+   "toughness": null,
+   "keywords": [
+    "Equip"
+   ],
+   "artist": "Aaron Miller",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/c/7/c7d80b98-baa2-48ea-9611-96e64d7cb950.jpg?1783936452",
+    "normal": "https://cards.scryfall.io/normal/front/c/7/c7d80b98-baa2-48ea-9611-96e64d7cb950.jpg?1783936452",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/c/7/c7d80b98-baa2-48ea-9611-96e64d7cb950.jpg?1783936452"
+   },
+   "faces": []
+  },
+  {
+   "id": "9ccce13a-77e6-4c74-9acc-d5e7c271872a",
+   "name": "Icatian Javelineers",
+   "layout": "normal",
+   "manaCost": "{W}",
+   "manaValue": 1,
+   "colors": [
+    "W"
+   ],
+   "typeLine": "Creature — Human Soldier",
+   "text": "This creature enters with a javelin counter on it.\n{T}, Remove a javelin counter from this creature: It deals 1 damage to any target.",
+   "power": "1",
+   "toughness": "1",
+   "keywords": [],
+   "artist": "Michael Phillippi",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/9/c/9ccce13a-77e6-4c74-9acc-d5e7c271872a.jpg?1783918515",
+    "normal": "https://cards.scryfall.io/normal/front/9/c/9ccce13a-77e6-4c74-9acc-d5e7c271872a.jpg?1783918515",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/9/c/9ccce13a-77e6-4c74-9acc-d5e7c271872a.jpg?1783918515"
+   },
+   "faces": []
+  },
+  {
+   "id": "1da2a740-e4ff-4661-ba57-39b15c58e26e",
+   "name": "Kavaron Harrier",
+   "layout": "normal",
+   "manaCost": "{R}",
+   "manaValue": 1,
+   "colors": [
+    "R"
+   ],
+   "typeLine": "Artifact Creature — Robot Soldier",
+   "text": "Whenever this creature attacks, you may pay {2}. If you do, create a 2/2 colorless Robot artifact creature token that's tapped and attacking. Sacrifice that token at end of combat.",
+   "power": "2",
+   "toughness": "1",
+   "keywords": [],
+   "artist": "Hardy Fowler",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/1/d/1da2a740-e4ff-4661-ba57-39b15c58e26e.jpg?1783905954",
+    "normal": "https://cards.scryfall.io/normal/front/1/d/1da2a740-e4ff-4661-ba57-39b15c58e26e.jpg?1783905954",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/1/d/1da2a740-e4ff-4661-ba57-39b15c58e26e.jpg?1783905954"
+   },
+   "faces": []
+  },
+  {
+   "id": "7d66b355-9aff-4cce-ae4a-42b233475dcf",
+   "name": "Knucklebone Witch",
+   "layout": "normal",
+   "manaCost": "{B}",
+   "manaValue": 1,
+   "colors": [
+    "B"
+   ],
+   "typeLine": "Creature — Goblin Shaman",
+   "text": "Whenever a Goblin you control is put into a graveyard from the battlefield, you may put a +1/+1 counter on this creature.",
+   "power": "1",
+   "toughness": "1",
+   "keywords": [],
+   "artist": "Jim Pavelec",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/7/d/7d66b355-9aff-4cce-ae4a-42b233475dcf.jpg?1783942889",
+    "normal": "https://cards.scryfall.io/normal/front/7/d/7d66b355-9aff-4cce-ae4a-42b233475dcf.jpg?1783942889",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/7/d/7d66b355-9aff-4cce-ae4a-42b233475dcf.jpg?1783942889"
+   },
+   "faces": []
+  },
+  {
+   "id": "d7cd85ac-e826-4b16-b9ab-864ae2cabed1",
+   "name": "Kor Duelist",
+   "layout": "normal",
+   "manaCost": "{W}",
+   "manaValue": 1,
+   "colors": [
+    "W"
+   ],
+   "typeLine": "Creature — Kor Soldier",
+   "text": "As long as this creature is equipped, it has double strike. (It deals both first-strike and regular combat damage.)",
+   "power": "1",
+   "toughness": "1",
+   "keywords": [],
+   "artist": "Izzy",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/d/7/d7cd85ac-e826-4b16-b9ab-864ae2cabed1.jpg?1783938426",
+    "normal": "https://cards.scryfall.io/normal/front/d/7/d7cd85ac-e826-4b16-b9ab-864ae2cabed1.jpg?1783938426",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/d/7/d7cd85ac-e826-4b16-b9ab-864ae2cabed1.jpg?1783938426"
+   },
+   "faces": []
+  },
+  {
+   "id": "a4705327-ada6-4575-82fc-351e183d060e",
+   "name": "Kor Halberd",
+   "layout": "normal",
+   "manaCost": "{W}",
+   "manaValue": 1,
+   "colors": [
+    "W"
+   ],
+   "typeLine": "Artifact — Equipment",
+   "text": "Equipped creature gets +1/+1 and has vigilance.\nEquip {1} ({1}: Attach to target creature you control. Equip only as a sorcery.)",
+   "power": null,
+   "toughness": null,
+   "keywords": [
+    "Equip"
+   ],
+   "artist": "Bastien L. Deharme",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/a/4/a4705327-ada6-4575-82fc-351e183d060e.jpg?1783917057",
+    "normal": "https://cards.scryfall.io/normal/front/a/4/a4705327-ada6-4575-82fc-351e183d060e.jpg?1783917057",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/a/4/a4705327-ada6-4575-82fc-351e183d060e.jpg?1783917057"
+   },
+   "faces": []
+  },
+  {
+   "id": "9a4f8d9a-3760-449e-b8a6-72b2a641ff23",
+   "name": "Lancer Sliver",
+   "layout": "normal",
+   "manaCost": "{2}{W}",
+   "manaValue": 3,
+   "colors": [
+    "W"
+   ],
+   "typeLine": "Creature — Sliver",
+   "text": "Sliver creatures you control have first strike.",
+   "power": "2",
+   "toughness": "2",
+   "keywords": [],
+   "artist": "Lucas Graciano",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/9/a/9a4f8d9a-3760-449e-b8a6-72b2a641ff23.jpg?1783933160",
+    "normal": "https://cards.scryfall.io/normal/front/9/a/9a4f8d9a-3760-449e-b8a6-72b2a641ff23.jpg?1783933160",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/9/a/9a4f8d9a-3760-449e-b8a6-72b2a641ff23.jpg?1783933160"
+   },
+   "faces": []
+  },
+  {
+   "id": "5607e6b2-ae16-4783-9054-71adcde71e2e",
+   "name": "Light of Hope",
+   "layout": "normal",
+   "manaCost": "{W}",
+   "manaValue": 1,
+   "colors": [
+    "W"
+   ],
+   "typeLine": "Instant",
+   "text": "Choose one —\n• You gain 4 life.\n• Destroy target enchantment.\n• Put a +1/+1 counter on target creature.",
+   "power": null,
+   "toughness": null,
+   "keywords": [],
+   "artist": "Kimonas Theodossiou",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/5/6/5607e6b2-ae16-4783-9054-71adcde71e2e.jpg?1783908801",
+    "normal": "https://cards.scryfall.io/normal/front/5/6/5607e6b2-ae16-4783-9054-71adcde71e2e.jpg?1783908801",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/5/6/5607e6b2-ae16-4783-9054-71adcde71e2e.jpg?1783908801"
+   },
+   "faces": []
+  },
+  {
+   "id": "d908bf00-86ba-4911-b15b-1af2a79dff85",
+   "name": "Mark of the Vampire",
+   "layout": "normal",
+   "manaCost": "{3}{B}",
+   "manaValue": 4,
+   "colors": [
+    "B"
+   ],
+   "typeLine": "Enchantment — Aura",
+   "text": "Enchant creature\nEnchanted creature gets +2/+2 and has lifelink.",
+   "power": null,
+   "toughness": null,
+   "keywords": [
+    "Enchant"
+   ],
+   "artist": "Winona Nelson",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/d/9/d908bf00-86ba-4911-b15b-1af2a79dff85.jpg?1783930418",
+    "normal": "https://cards.scryfall.io/normal/front/d/9/d908bf00-86ba-4911-b15b-1af2a79dff85.jpg?1783930418",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/d/9/d908bf00-86ba-4911-b15b-1af2a79dff85.jpg?1783930418"
+   },
+   "faces": []
+  },
+  {
+   "id": "acc503e2-5c3a-4200-beb0-7d193d6c869e",
+   "name": "Monoist Sentry",
+   "layout": "normal",
+   "manaCost": "{B}",
+   "manaValue": 1,
+   "colors": [
+    "B"
+   ],
+   "typeLine": "Artifact Creature — Robot",
+   "text": "Defender",
+   "power": "4",
+   "toughness": "1",
+   "keywords": [
+    "Defender"
+   ],
+   "artist": "Nino Is",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/a/c/acc503e2-5c3a-4200-beb0-7d193d6c869e.jpg?1783905963",
+    "normal": "https://cards.scryfall.io/normal/front/a/c/acc503e2-5c3a-4200-beb0-7d193d6c869e.jpg?1783905963",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/a/c/acc503e2-5c3a-4200-beb0-7d193d6c869e.jpg?1783905963"
+   },
+   "faces": []
+  },
+  {
+   "id": "f36faada-4f9c-43f9-b3e4-55714737a5c9",
+   "name": "Muscle Sliver",
+   "layout": "normal",
+   "manaCost": "{1}{G}",
+   "manaValue": 2,
+   "colors": [
+    "G"
+   ],
+   "typeLine": "Creature — Sliver",
+   "text": "All Sliver creatures get +1/+1.",
+   "power": "1",
+   "toughness": "1",
+   "keywords": [],
+   "artist": "Richard Kane Ferguson",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/f/3/f36faada-4f9c-43f9-b3e4-55714737a5c9.jpg?1783938458",
+    "normal": "https://cards.scryfall.io/normal/front/f/3/f36faada-4f9c-43f9-b3e4-55714737a5c9.jpg?1783938458",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/f/3/f36faada-4f9c-43f9-b3e4-55714737a5c9.jpg?1783938458"
+   },
+   "faces": []
+  },
+  {
+   "id": "5b9072a5-bd7f-4007-a34a-ebe251c95356",
+   "name": "Myr Scrapling",
+   "layout": "normal",
+   "manaCost": "{1}",
+   "manaValue": 1,
+   "colors": [],
+   "typeLine": "Artifact Creature — Myr",
+   "text": "Sacrifice this creature: Put a +1/+1 counter on target creature.",
+   "power": "1",
+   "toughness": "1",
+   "keywords": [],
+   "artist": "Svetlin Velinov",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/5/b/5b9072a5-bd7f-4007-a34a-ebe251c95356.jpg?1783926803",
+    "normal": "https://cards.scryfall.io/normal/front/5/b/5b9072a5-bd7f-4007-a34a-ebe251c95356.jpg?1783926803",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/5/b/5b9072a5-bd7f-4007-a34a-ebe251c95356.jpg?1783926803"
+   },
+   "faces": []
+  },
+  {
+   "id": "9851f290-f502-49f8-9b48-67f7966d4e34",
+   "name": "Nested Shambler",
+   "layout": "normal",
+   "manaCost": "{B}",
+   "manaValue": 1,
+   "colors": [
+    "B"
+   ],
+   "typeLine": "Creature — Zombie",
+   "text": "When this creature dies, create X tapped 1/1 green Squirrel creature tokens, where X is this creature's power.",
+   "power": "1",
+   "toughness": "1",
+   "keywords": [],
+   "artist": "Nicholas Gregory",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/9/8/9851f290-f502-49f8-9b48-67f7966d4e34.jpg?1783926858",
+    "normal": "https://cards.scryfall.io/normal/front/9/8/9851f290-f502-49f8-9b48-67f7966d4e34.jpg?1783926858",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/9/8/9851f290-f502-49f8-9b48-67f7966d4e34.jpg?1783926858"
+   },
+   "faces": []
+  },
+  {
+   "id": "cde542de-0b87-4eb1-be05-abdb729ada10",
+   "name": "Oathsworn Vampire",
+   "layout": "normal",
+   "manaCost": "{1}{B}",
+   "manaValue": 2,
+   "colors": [
+    "B"
+   ],
+   "typeLine": "Creature — Vampire Knight",
+   "text": "This creature enters tapped.\nYou may cast this card from your graveyard if you gained life this turn.",
+   "power": "2",
+   "toughness": "2",
+   "keywords": [],
+   "artist": "Greg Opalinski",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/c/d/cde542de-0b87-4eb1-be05-abdb729ada10.jpg?1783913872",
+    "normal": "https://cards.scryfall.io/normal/front/c/d/cde542de-0b87-4eb1-be05-abdb729ada10.jpg?1783913872",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/c/d/cde542de-0b87-4eb1-be05-abdb729ada10.jpg?1783913872"
+   },
+   "faces": []
+  },
+  {
+   "id": "305078a5-ac18-4721-bba2-3434eba5b1cf",
+   "name": "Ornithopter",
+   "layout": "normal",
+   "manaCost": "{0}",
+   "manaValue": 0,
+   "colors": [],
+   "typeLine": "Artifact Creature — Thopter",
+   "text": "Flying",
+   "power": "0",
+   "toughness": "2",
+   "keywords": [
+    "Flying"
+   ],
+   "artist": "Franz Vohwinkel",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/3/0/305078a5-ac18-4721-bba2-3434eba5b1cf.jpg?1783918410",
+    "normal": "https://cards.scryfall.io/normal/front/3/0/305078a5-ac18-4721-bba2-3434eba5b1cf.jpg?1783918410",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/3/0/305078a5-ac18-4721-bba2-3434eba5b1cf.jpg?1783918410"
+   },
+   "faces": []
+  },
+  {
+   "id": "7b8197b9-0cd1-4fa1-9668-d1b5f1759151",
+   "name": "Phyrexian Dreadnought",
+   "layout": "normal",
+   "manaCost": "{1}",
+   "manaValue": 1,
+   "colors": [],
+   "typeLine": "Artifact Creature — Phyrexian Dreadnought",
+   "text": "Trample\nWhen this creature enters, sacrifice it unless you sacrifice any number of creatures with total power 12 or greater.",
+   "power": "12",
+   "toughness": "12",
+   "keywords": [
+    "Trample"
+   ],
+   "artist": "Pete Venters",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/7/b/7b8197b9-0cd1-4fa1-9668-d1b5f1759151.jpg?1783947042",
+    "normal": "https://cards.scryfall.io/normal/front/7/b/7b8197b9-0cd1-4fa1-9668-d1b5f1759151.jpg?1783947042",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/7/b/7b8197b9-0cd1-4fa1-9668-d1b5f1759151.jpg?1783947042"
+   },
+   "faces": []
+  },
+  {
+   "id": "9f8a3979-2947-4692-8b2f-d4c07c534777",
+   "name": "Phyrexian Walker",
+   "layout": "normal",
+   "manaCost": "{0}",
+   "manaValue": 0,
+   "colors": [],
+   "typeLine": "Artifact Creature — Phyrexian Construct",
+   "text": "",
+   "power": "0",
+   "toughness": "3",
+   "keywords": [],
+   "artist": "Bryan Talbot",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/9/f/9f8a3979-2947-4692-8b2f-d4c07c534777.jpg?1783946973",
+    "normal": "https://cards.scryfall.io/normal/front/9/f/9f8a3979-2947-4692-8b2f-d4c07c534777.jpg?1783946973",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/9/f/9f8a3979-2947-4692-8b2f-d4c07c534777.jpg?1783946973"
+   },
+   "faces": []
+  },
+  {
+   "id": "82846d31-4981-4ef1-85c3-703569146a84",
+   "name": "Plated Sliver",
+   "layout": "normal",
+   "manaCost": "{W}",
+   "manaValue": 1,
+   "colors": [
+    "W"
+   ],
+   "typeLine": "Creature — Sliver",
+   "text": "All Sliver creatures get +0/+1.",
+   "power": "1",
+   "toughness": "1",
+   "keywords": [],
+   "artist": "Greg Staples",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/8/2/82846d31-4981-4ef1-85c3-703569146a84.jpg?1783944927",
+    "normal": "https://cards.scryfall.io/normal/front/8/2/82846d31-4981-4ef1-85c3-703569146a84.jpg?1783944927",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/8/2/82846d31-4981-4ef1-85c3-703569146a84.jpg?1783944927"
+   },
+   "faces": []
+  },
+  {
+   "id": "88810a96-d5f8-4030-93f1-e2ad0d480317",
+   "name": "Predator's Gambit",
+   "layout": "normal",
+   "manaCost": "{B}",
+   "manaValue": 1,
+   "colors": [
+    "B"
+   ],
+   "typeLine": "Enchantment — Aura",
+   "text": "Enchant creature\nEnchanted creature gets +2/+1.\nEnchanted creature has intimidate as long as its controller controls no other creatures. (It can't be blocked except by artifact creatures and/or creatures that share a color with it.)",
+   "power": null,
+   "toughness": null,
+   "keywords": [
+    "Enchant"
+   ],
+   "artist": "Zoltan Boros",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/8/8/88810a96-d5f8-4030-93f1-e2ad0d480317.jpg?1783940692",
+    "normal": "https://cards.scryfall.io/normal/front/8/8/88810a96-d5f8-4030-93f1-e2ad0d480317.jpg?1783940692",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/8/8/88810a96-d5f8-4030-93f1-e2ad0d480317.jpg?1783940692"
+   },
+   "faces": []
+  },
+  {
+   "id": "333406d5-abcc-4629-a33b-395d0662ba1b",
+   "name": "Putrid Goblin",
+   "layout": "normal",
+   "manaCost": "{1}{B}",
+   "manaValue": 2,
+   "colors": [
+    "B"
+   ],
+   "typeLine": "Creature — Zombie Goblin",
+   "text": "Persist (When this creature dies, if it had no -1/-1 counters on it, return it to the battlefield under its owner's control with a -1/-1 counter on it.)",
+   "power": "2",
+   "toughness": "2",
+   "keywords": [
+    "Persist"
+   ],
+   "artist": "Winona Nelson",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/3/3/333406d5-abcc-4629-a33b-395d0662ba1b.jpg?1783933123",
+    "normal": "https://cards.scryfall.io/normal/front/3/3/333406d5-abcc-4629-a33b-395d0662ba1b.jpg?1783933123",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/3/3/333406d5-abcc-4629-a33b-395d0662ba1b.jpg?1783933123"
+   },
+   "faces": []
+  },
+  {
+   "id": "d9e1959c-b87b-4e17-a0d2-0489ea79220b",
+   "name": "Sadistic Glee",
+   "layout": "normal",
+   "manaCost": "{B}",
+   "manaValue": 1,
+   "colors": [
+    "B"
+   ],
+   "typeLine": "Enchantment — Aura",
+   "text": "Enchant creature\nWhenever a creature dies, put a +1/+1 counter on enchanted creature.",
+   "power": null,
+   "toughness": null,
+   "keywords": [
+    "Enchant"
+   ],
+   "artist": "Pete Venters",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/d/9/d9e1959c-b87b-4e17-a0d2-0489ea79220b.jpg?1783946636",
+    "normal": "https://cards.scryfall.io/normal/front/d/9/d9e1959c-b87b-4e17-a0d2-0489ea79220b.jpg?1783946636",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/d/9/d9e1959c-b87b-4e17-a0d2-0489ea79220b.jpg?1783946636"
+   },
+   "faces": []
+  },
+  {
+   "id": "210f4f5a-4a36-4f2f-8821-d04f3f52c8db",
+   "name": "Seal of Fire",
+   "layout": "normal",
+   "manaCost": "{R}",
+   "manaValue": 1,
+   "colors": [
+    "R"
+   ],
+   "typeLine": "Enchantment",
+   "text": "Sacrifice this enchantment: It deals 2 damage to any target.",
+   "power": null,
+   "toughness": null,
+   "keywords": [],
+   "artist": "Christopher Moeller",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/2/1/210f4f5a-4a36-4f2f-8821-d04f3f52c8db.jpg?1783938737",
+    "normal": "https://cards.scryfall.io/normal/front/2/1/210f4f5a-4a36-4f2f-8821-d04f3f52c8db.jpg?1783938737",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/2/1/210f4f5a-4a36-4f2f-8821-d04f3f52c8db.jpg?1783938737"
+   },
+   "faces": []
+  },
+  {
+   "id": "1ecc983e-bbe3-4bc1-97e9-e40ead987ef0",
+   "name": "Sinew Sliver",
+   "layout": "normal",
+   "manaCost": "{1}{W}",
+   "manaValue": 2,
+   "colors": [
+    "W"
+   ],
+   "typeLine": "Creature — Sliver",
+   "text": "All Sliver creatures get +1/+1.",
+   "power": "1",
+   "toughness": "1",
+   "keywords": [],
+   "artist": "Steven Belledin",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/1/e/1ecc983e-bbe3-4bc1-97e9-e40ead987ef0.jpg?1783915445",
+    "normal": "https://cards.scryfall.io/normal/front/1/e/1ecc983e-bbe3-4bc1-97e9-e40ead987ef0.jpg?1783915445",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/1/e/1ecc983e-bbe3-4bc1-97e9-e40ead987ef0.jpg?1783915445"
+   },
+   "faces": []
+  },
+  {
+   "id": "1cd477f5-53e9-446a-b717-5796d87672ba",
+   "name": "Smitten Swordmaster // Curry Favor",
+   "layout": "adventure",
+   "manaCost": "{1}{B} // {B}",
+   "manaValue": 2,
+   "colors": [
+    "B"
+   ],
+   "typeLine": "Creature — Human Knight // Sorcery — Adventure",
+   "text": "",
+   "power": "2",
+   "toughness": "1",
+   "keywords": [
+    "Lifelink"
+   ],
+   "artist": "Taylor Ingvarsson",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/1/c/1cd477f5-53e9-446a-b717-5796d87672ba.jpg?1783917152",
+    "normal": "https://cards.scryfall.io/normal/front/1/c/1cd477f5-53e9-446a-b717-5796d87672ba.jpg?1783917152",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/1/c/1cd477f5-53e9-446a-b717-5796d87672ba.jpg?1783917152"
+   },
+   "faces": [
+    {
+     "name": "Smitten Swordmaster",
+     "manaCost": "{1}{B}",
+     "typeLine": "Creature — Human Knight",
+     "text": "Lifelink",
+     "power": "2",
+     "toughness": "1",
+     "colors": null,
+     "images": null
+    },
+    {
+     "name": "Curry Favor",
+     "manaCost": "{B}",
+     "typeLine": "Sorcery — Adventure",
+     "text": "You gain X life and each opponent loses X life, where X is the number of Knights you control.",
+     "power": null,
+     "toughness": null,
+     "colors": null,
+     "images": null
+    }
+   ]
+  },
+  {
+   "id": "9561b47c-b863-463a-8a10-56fede2cb42c",
+   "name": "Spidersilk Net",
+   "layout": "normal",
+   "manaCost": "{0}",
+   "manaValue": 0,
+   "colors": [],
+   "typeLine": "Artifact — Equipment",
+   "text": "Equipped creature gets +0/+2 and has reach. (It can block creatures with flying.)\nEquip {2} ({2}: Attach to target creature you control. Equip only as a sorcery.)",
+   "power": null,
+   "toughness": null,
+   "keywords": [
+    "Equip"
+   ],
+   "artist": "Steve Argyle",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/9/5/9561b47c-b863-463a-8a10-56fede2cb42c.jpg?1783938567",
+    "normal": "https://cards.scryfall.io/normal/front/9/5/9561b47c-b863-463a-8a10-56fede2cb42c.jpg?1783938567",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/9/5/9561b47c-b863-463a-8a10-56fede2cb42c.jpg?1783938567"
+   },
+   "faces": []
+  },
+  {
+   "id": "7f86e30d-d9e8-48f7-8bd1-f2645f0ab3f4",
+   "name": "Spinneret Sliver",
+   "layout": "normal",
+   "manaCost": "{1}{G}",
+   "manaValue": 2,
+   "colors": [
+    "G"
+   ],
+   "typeLine": "Creature — Sliver",
+   "text": "All Sliver creatures have reach.",
+   "power": "2",
+   "toughness": "2",
+   "keywords": [],
+   "artist": "Michael Sutfin",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/7/f/7f86e30d-d9e8-48f7-8bd1-f2645f0ab3f4.jpg?1783927770",
+    "normal": "https://cards.scryfall.io/normal/front/7/f/7f86e30d-d9e8-48f7-8bd1-f2645f0ab3f4.jpg?1783927770",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/7/f/7f86e30d-d9e8-48f7-8bd1-f2645f0ab3f4.jpg?1783927770"
+   },
+   "faces": []
+  },
+  {
+   "id": "efe72820-952f-4c53-9ee7-ea7ea54fc848",
+   "name": "Spitfire Handler",
+   "layout": "normal",
+   "manaCost": "{1}{R}",
+   "manaValue": 2,
+   "colors": [
+    "R"
+   ],
+   "typeLine": "Creature — Goblin",
+   "text": "This creature can't block creatures with power greater than this creature's power.\n{R}: This creature gets +1/+0 until end of turn.",
+   "power": "1",
+   "toughness": "1",
+   "keywords": [],
+   "artist": "Jim Nelson",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/e/f/efe72820-952f-4c53-9ee7-ea7ea54fc848.jpg?1783945047",
+    "normal": "https://cards.scryfall.io/normal/front/e/f/efe72820-952f-4c53-9ee7-ea7ea54fc848.jpg?1783945047",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/e/f/efe72820-952f-4c53-9ee7-ea7ea54fc848.jpg?1783945047"
+   },
+   "faces": []
+  },
+  {
+   "id": "84b1c268-3b8a-41b6-92e3-a2ce0cc3d738",
+   "name": "Stingerquill Voxmancer // Vicious Verse",
+   "layout": "prepare",
+   "manaCost": "{B/R} // {B/R}",
+   "manaValue": 1,
+   "colors": [
+    "B",
+    "R"
+   ],
+   "typeLine": "Creature — Goblin Sorcerer // Sorcery",
+   "text": "",
+   "power": "1",
+   "toughness": "2",
+   "keywords": [
+    "Prepared"
+   ],
+   "artist": "Igor Grechanyi",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/8/4/84b1c268-3b8a-41b6-92e3-a2ce0cc3d738.jpg?1788329418",
+    "normal": "https://cards.scryfall.io/normal/front/8/4/84b1c268-3b8a-41b6-92e3-a2ce0cc3d738.jpg?1788329418",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/8/4/84b1c268-3b8a-41b6-92e3-a2ce0cc3d738.jpg?1788329418"
+   },
+   "faces": [
+    {
+     "name": "Stingerquill Voxmancer",
+     "manaCost": "{B/R}",
+     "typeLine": "Creature — Goblin Sorcerer",
+     "text": "At the beginning of your upkeep, if this creature isn't prepared, it becomes prepared. (While it's prepared, you may cast a copy of its spell. Doing so unprepares it.)",
+     "power": "1",
+     "toughness": "2",
+     "colors": null,
+     "images": null
+    },
+    {
+     "name": "Vicious Verse",
+     "manaCost": "{B/R}",
+     "typeLine": "Sorcery",
+     "text": "Vicious Verse deals 1 damage to target opponent.",
+     "power": null,
+     "toughness": null,
+     "colors": null,
+     "images": null
+    }
+   ]
+  },
+  {
+   "id": "d4652793-6f02-4bb6-8f71-eef302a001c6",
+   "name": "Striking Sliver",
+   "layout": "normal",
+   "manaCost": "{R}",
+   "manaValue": 1,
+   "colors": [
+    "R"
+   ],
+   "typeLine": "Creature — Sliver",
+   "text": "Sliver creatures you control have first strike. (They deal combat damage before creatures without first strike.)",
+   "power": "1",
+   "toughness": "1",
+   "keywords": [],
+   "artist": "Aaron J. Riley",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/d/4/d4652793-6f02-4bb6-8f71-eef302a001c6.jpg?1783915431",
+    "normal": "https://cards.scryfall.io/normal/front/d/4/d4652793-6f02-4bb6-8f71-eef302a001c6.jpg?1783915431",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/d/4/d4652793-6f02-4bb6-8f71-eef302a001c6.jpg?1783915431"
+   },
+   "faces": []
+  },
+  {
+   "id": "0c947c96-b4a5-4c3b-aacb-85ee0bf3afda",
+   "name": "Vampire Lacerator",
+   "layout": "normal",
+   "manaCost": "{B}",
+   "manaValue": 1,
+   "colors": [
+    "B"
+   ],
+   "typeLine": "Creature — Vampire Warrior",
+   "text": "At the beginning of your upkeep, you lose 1 life unless an opponent has 10 or less life.",
+   "power": "2",
+   "toughness": "2",
+   "keywords": [],
+   "artist": "Steve Argyle",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/0/c/0c947c96-b4a5-4c3b-aacb-85ee0bf3afda.jpg?1783935156",
+    "normal": "https://cards.scryfall.io/normal/front/0/c/0c947c96-b4a5-4c3b-aacb-85ee0bf3afda.jpg?1783935156",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/0/c/0c947c96-b4a5-4c3b-aacb-85ee0bf3afda.jpg?1783935156"
+   },
+   "faces": []
+  },
+  {
+   "id": "b2435f17-0378-4480-8d56-d256245c7ced",
+   "name": "Vampire Noble",
+   "layout": "normal",
+   "manaCost": "{2}{B}",
+   "manaValue": 3,
+   "colors": [
+    "B"
+   ],
+   "typeLine": "Creature — Vampire Noble",
+   "text": "",
+   "power": "3",
+   "toughness": "2",
+   "keywords": [],
+   "artist": "Ryan Alexander Lee",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/b/2/b2435f17-0378-4480-8d56-d256245c7ced.jpg?1783937761",
+    "normal": "https://cards.scryfall.io/normal/front/b/2/b2435f17-0378-4480-8d56-d256245c7ced.jpg?1783937761",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/b/2/b2435f17-0378-4480-8d56-d256245c7ced.jpg?1783937761"
+   },
+   "faces": []
+  },
+  {
+   "id": "a8f6f03b-5a4e-4532-9c9e-24c75df2769f",
+   "name": "Vampire Slayer",
+   "layout": "normal",
+   "manaCost": "{1}{W}",
+   "manaValue": 2,
+   "colors": [
+    "W"
+   ],
+   "typeLine": "Creature — Human Soldier",
+   "text": "Whenever this creature deals damage to a Vampire, destroy that creature.",
+   "power": "2",
+   "toughness": "2",
+   "keywords": [],
+   "artist": "Tomas Duchek",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/a/8/a8f6f03b-5a4e-4532-9c9e-24c75df2769f.jpg?1783924905",
+    "normal": "https://cards.scryfall.io/normal/front/a/8/a8f6f03b-5a4e-4532-9c9e-24c75df2769f.jpg?1783924905",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/a/8/a8f6f03b-5a4e-4532-9c9e-24c75df2769f.jpg?1783924905"
+   },
+   "faces": []
+  },
+  {
+   "id": "a5f8f9e9-4505-485a-b6c6-a92a4da5155a",
+   "name": "Venom Sliver",
+   "layout": "normal",
+   "manaCost": "{1}{G}",
+   "manaValue": 2,
+   "colors": [
+    "G"
+   ],
+   "typeLine": "Creature — Sliver",
+   "text": "Sliver creatures you control have deathtouch. (Any amount of damage a creature with deathtouch deals to a creature is enough to destroy it.)",
+   "power": "1",
+   "toughness": "1",
+   "keywords": [],
+   "artist": "Uriah Voth",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/a/5/a5f8f9e9-4505-485a-b6c6-a92a4da5155a.jpg?1783915421",
+    "normal": "https://cards.scryfall.io/normal/front/a/5/a5f8f9e9-4505-485a-b6c6-a92a4da5155a.jpg?1783915421",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/a/5/a5f8f9e9-4505-485a-b6c6-a92a4da5155a.jpg?1783915421"
+   },
+   "faces": []
+  },
+  {
+   "id": "d66a9f1b-31c8-4557-888b-a927922d37af",
+   "name": "Voracious Vampire",
+   "layout": "normal",
+   "manaCost": "{2}{B}",
+   "manaValue": 3,
+   "colors": [
+    "B"
+   ],
+   "typeLine": "Creature — Vampire Knight",
+   "text": "Menace\nWhen this creature enters, target Vampire you control gets +1/+1 and gains menace until end of turn.",
+   "power": "2",
+   "toughness": "2",
+   "keywords": [
+    "Menace"
+   ],
+   "artist": "Kieran Yanner",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/d/6/d66a9f1b-31c8-4557-888b-a927922d37af.jpg?1783935303",
+    "normal": "https://cards.scryfall.io/normal/front/d/6/d66a9f1b-31c8-4557-888b-a927922d37af.jpg?1783935303",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/d/6/d66a9f1b-31c8-4557-888b-a927922d37af.jpg?1783935303"
+   },
+   "faces": []
+  },
+  {
+   "id": "eb1fcaf2-fee3-4088-83e1-bcb72e8c0e88",
+   "name": "Winged Sliver",
+   "layout": "normal",
+   "manaCost": "{1}{U}",
+   "manaValue": 2,
+   "colors": [
+    "U"
+   ],
+   "typeLine": "Creature — Sliver",
+   "text": "All Sliver creatures have flying.",
+   "power": "1",
+   "toughness": "1",
+   "keywords": [],
+   "artist": "Anthony S. Waters",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/e/b/eb1fcaf2-fee3-4088-83e1-bcb72e8c0e88.jpg?1783915437",
+    "normal": "https://cards.scryfall.io/normal/front/e/b/eb1fcaf2-fee3-4088-83e1-bcb72e8c0e88.jpg?1783915437",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/e/b/eb1fcaf2-fee3-4088-83e1-bcb72e8c0e88.jpg?1783915437"
+   },
+   "faces": []
+  }
+ ]
+}
