@@ -91,8 +91,8 @@
    just its back link and the card sits centered, a bit bigger. */
 .pc.is-card-only { grid-template-columns: minmax(0, 1fr); justify-items: center; align-items: start; gap: 24px; }
 .pc.is-card-only .pc__panel { justify-self: stretch; max-width: none; }
-/* The back link stays, and so does the error box (opening a booster can fail). */
-.pc.is-card-only .pc__panel > :not(.back):not(#pc-error) { display: none !important; }
+/* The navigation stays, and so does the error box (opening a booster can fail). */
+.pc.is-card-only .pc__panel > :not(.pc__nav):not(#pc-error) { display: none !important; }
 /* Scaled with transform, not zoom: zoom changes how the browser reports sizes,
    and the card measures its text to fit it. The padding makes room for the
    extra 25%, which a transform doesn't take in the layout. */
@@ -183,4 +183,38 @@
 
 @media (prefers-reduced-motion: reduce) {
   .card.is-flipping, .absorb-ghost, .card.is-absorbing, .card .is-changing, .pips .is-new, .card__cost .is-new { animation: none; }
+}
+
+/* ---------- The menu of cards ---------- */
+.pc__nav { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 20px; }
+.back--button { padding: 0; border: 0; background: none; font: inherit; font-weight: 500; cursor: pointer; }
+.pc.is-menu { grid-template-columns: minmax(0, 1fr); }
+.pc.is-menu .card-stage { display: none; }
+.roster { display: grid; gap: 10px; margin: 0; padding: 0; list-style: none; }
+.roster__card {
+  display: grid;
+  grid-template-columns: 64px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border: 1px solid var(--stone-600);
+  border-radius: 8px;
+  background: var(--stone-800);
+}
+.roster__art {
+  width: 64px;
+  aspect-ratio: 1.37;
+  overflow: hidden;
+  border-radius: 4px;
+  background: linear-gradient(#2e2823, #191512);
+}
+.roster__art img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.roster__info { display: grid; min-width: 0; }
+.roster__name { overflow-wrap: anywhere; font-family: var(--font-display); font-size: 1.35rem; font-weight: 600; line-height: 1.1; }
+.roster__line { color: var(--ash); font-size: 0.9375rem; overflow-wrap: anywhere; }
+.roster__actions { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 6px; }
+@media (max-width: 480px) {
+  .roster__card { grid-template-columns: 56px minmax(0, 1fr); }
+  .roster__art { width: 56px; }
+  .roster__actions { grid-column: 1 / -1; justify-content: flex-start; }
 }

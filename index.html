@@ -49,10 +49,22 @@
 
 <main id="view-player-card" class="view pc" hidden>
   <div class="pc__panel">
-    <a class="back" href="#home">&larr; Back to start</a>
+    <nav class="pc__nav" aria-label="Player Card">
+      <a class="back" href="#home">&larr; Back to start</a>
+      <button class="back back--button" type="button" id="pc-to-menu" hidden>Your cards</button>
+    </nav>
     <h2 tabindex="-1">Player Card</h2>
     <p class="alert" id="pc-storage-warning" hidden>This browser isn't saving data (private window or blocked storage). Your card will be lost when you close the page.</p>
     <p class="alert" id="pc-newer" hidden>This card was saved by a newer version of the game. Reload the page to get the update; your card is untouched.</p>
+
+    <!-- The cards saved in this browser. Filled in by player/view.js. -->
+    <section class="pc__step" id="pc-step-menu" hidden>
+      <p class="note">Your cards in this browser. Play one, or make a new one for another game.</p>
+      <ul class="roster" id="pc-roster"></ul>
+      <div class="actions">
+        <button class="action action--primary" type="button" id="pc-new-card">New card</button>
+      </div>
+    </section>
 
     <section class="pc__step" id="pc-step-name" hidden>
       <span class="step">Step 1 of 2</span>
@@ -64,6 +76,7 @@
         <p class="note">The name is sealed once you pick it. It can only change after you open your first booster.</p>
         <div class="actions">
           <button class="action action--primary" type="submit">Seal the name</button>
+          <button class="action action--quiet" type="button" id="pc-name-cancel" hidden>Back to your cards</button>
         </div>
       </form>
     </section>
@@ -94,7 +107,7 @@
       <div class="actions">
         <button class="action" type="button" id="pc-edit-art" hidden>Edit art</button>
         <button class="action" type="button" id="pc-change-art">Change art</button>
-        <button class="action action--quiet" type="button" id="pc-reset">Start over</button>
+        <button class="action action--quiet" type="button" id="pc-reset">Delete card</button>
       </div>
     </section>
 
@@ -147,7 +160,7 @@
       <button class="action action--quiet trackers__clear" type="button" id="pc-bonus-clear">Combat over</button>
       <p class="note trackers__note">Clears the bonuses, returns your spells, puts back what you took off and turns your card back.</p>
     </div>
-    <button class="action action--quiet" type="button" id="pc-reset-card">Start over</button>
+    <button class="action action--quiet" type="button" id="pc-reset-card">Delete card</button>
   </div>
 
   <dialog class="camera" id="pc-camera" aria-labelledby="pc-camera-title">

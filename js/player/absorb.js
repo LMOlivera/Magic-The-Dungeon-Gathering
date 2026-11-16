@@ -163,6 +163,9 @@ export function absorbPreview(player, card) {
     bonus: text.bonus,
     hasText: Boolean(face.text.trim()),
     textReviewed: text.reviewed,
+    kind: 'creature',
+    grants: null,
+    spell: null,
   };
 }
 

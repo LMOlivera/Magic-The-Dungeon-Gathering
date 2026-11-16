@@ -106,3 +106,18 @@ test('an item like Seal of Fire is kept with the Equipment until used', () => {
   assert.equal(toCardData(player).abilities.length, 1);
   assert.deepEqual(toCardData(withoutEquipment(player, 0)).abilities, []);
 });
+
+test('absorbCard absorbs every creature of the pool as a creature', () => {
+  const { cards } = JSON.parse(readFileSync(new URL('../data/level1.json', import.meta.url), 'utf8'));
+  for (const poolCard of cards.filter((c) => kindOf(c) === 'creature')) {
+    assert.equal(absorbPreview(newPlayer('Ana'), poolCard).kind, 'creature', poolCard.name);
+    const player = absorbCard(newPlayer('Ana'), poolCard, { power: 0, toughness: 0 });
+    assert.equal(player.absorbed.length, 1);
+    assert.ok(player.types.length > 1 || poolCard.typeLine.includes('Human'), `${poolCard.name} adds its types`);
+  }
+  const cecil = cards.find((c) => c.name.startsWith('Cecil'));
+  const withCecil = absorbCard(newPlayer('Ana'), cecil);
+  assert.equal(withCecil.transforms.length, 1, 'Cecil can transform');
+  assert.equal(`${withCecil.power}/${withCecil.toughness}`, '3/4');
+  assert.deepEqual(toCardData(withCecil).keywords, ['Deathtouch']);
+});

@@ -302,6 +302,7 @@ js/
     absorb.js     absorbing a card (pure)
     transform.js  cards that transform: turning the player's card over (pure)
     gear.js       Equipment, Auras and the spell list (pure)
+    roster.js     the cards saved in this browser, and their storage keys (pure)
     absorb-animation.js  the absorb animation on the card
   rules/          the game's own rules, written by hand (pure data)
     keywords.js   what each keyword does in this game
@@ -339,6 +340,8 @@ The code is already split following the architecture in section 9.
 - **Home:** done. Title, **Game** and **Player Card** buttons, and the sample starting card.
   - [DECIDED] The home card keeps the texts "Colorless. No abilities yet." and "Everyone walks in as a 1/1."
 - **Player Card:** card creation, boosters, absorbing creatures, Equipment, items, Auras and the spell list, +1/+1 counters, combat bonuses and cards that transform are done. Still missing: the other counters (damage, mana, XP, level) and export/import.
+  - [DECIDED] A browser can keep several player cards, for whoever wants more than one game. Going to Player Card with no cards starts a new one; with some, it shows a menu of the cards ("Your cards") to play one, delete one or make another.
+  - Chosen while implementing, not confirmed: each card on the menu shows its photo, name, type line, power/toughness and how many cards it absorbed. From a card, "Your cards" (next to "Back to start") goes back to the menu, and coming to Player Card always opens on the menu. "Start over" became "Delete card", which goes back to the menu.
   - [DECIDED] On the flavor text screen, the "Open your first booster pack!" button opens the first booster.
   - The booster deals 3 cards from `data/level1.json`. Every card in the pool can come up. The player picks one, confirms it, sees how their card turns out and absorbs it.
   - [DECIDED] When absorbing, the values can be seen loading into the card: the creature flies into the card and each value that changes (power/toughness, colors, cost, types, abilities) updates in turn, with a caption saying what changed. With "reduce motion" turned on in the system, the card changes all at once.
@@ -355,7 +358,10 @@ The code is already split following the architecture in section 9.
   - [DECIDED] Optional flavor text.
   - [DECIDED] The player's basic card has no default text.
   - Chosen while implementing, not confirmed: the photo can be skipped and changed later; flavor text has a maximum of 110 characters; the original photo is kept so it can be cropped again.
-  - The sheet is saved in `localStorage`, under the key `mtdg.player` (format version 10). The photos go in IndexedDB (database `mtdg`, keys `player.art` and `player.artSource`; the other face of a card that transforms uses `player.transform0.art`, `player.transform1.art`, etc.). Old saves are migrated automatically when the page opens:
+  - The list of cards is saved in `localStorage` under `mtdg.players`, and each card's sheet under `mtdg.player.<id>` (format version 10). The photos go in IndexedDB (database `mtdg`, keys `player.<id>.art` and `player.<id>.artSource`; the other face of a card that transforms uses `player.<id>.transform0.art`, etc.). The keys are in `js/player/roster.js`.
+  - Before there could be several cards, the only card was saved under `mtdg.player` with its photos under `player.art`, `player.artSource` and `player.transform0.art`. When the page opens it becomes the first card of the list; the old keys are removed only once its photos are under the new ones.
+  - When a card is made, the page asks the browser to keep the data (`navigator.storage.persist()`), so it isn't cleared when the device runs low on space. Safari on iPhone still clears a site's data after 7 days without visiting it, unless the page was added to the home screen; export/import (section 11) is the real backup.
+  - Old saves are migrated automatically when the page opens:
     - Version 1 kept the photos inside the sheet.
     - Version 3 added absorbed cards and the open booster.
     - Version 4 keeps the full cost with its symbols. A version 3 cost only had the total, so it becomes generic mana ({2}).

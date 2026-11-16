@@ -1,12 +1,13 @@
 /**
  * The Player Card view (#view-player-card): the player's character sheet.
- * Flow: name the card, pick its art, then the finished sheet, where the player
- * opens their first booster. Once the card has absorbed something the page
- * shows only the card.
+ * A browser can keep several cards. With none, the page starts a new one; with
+ * some, it opens on the menu of cards ("Your cards") to play, delete or make one.
+ * Flow of a new card: name it, pick its art, then the finished sheet, where the
+ * player opens their first booster. Once the card has absorbed something the
+ * page shows only the card.
  *
- * Everything stays in this browser: the sheet in localStorage under SAVE_KEY,
- * the photos in the image store under IMAGE_KEYS (and transformKeys for the
- * other face of a card that transforms).
+ * Everything stays in this browser, under the keys of player/roster.js: the list
+ * of cards and each card's sheet in localStorage, the photos in the image store.
  */
 
 import { $, el } from '../shared/dom.js';
@@ -33,10 +34,11 @@ import { withBusy } from '../shared/busy.js';
 import { fileToSource, canvasToBlob } from './photo.js';
 import { createCamera } from './camera.js';
 import { createArtEditor } from './art-editor.js';
+import {
+  ROSTER_KEY, OLD_SHEET_KEY, sheetKey, imageKeys, transformImageKeys, newRoster, readRoster, withCard,
+  withoutCard, newCardId, allImageKeys, oldImageMoves,
+} from './roster.js';
 
-const SAVE_KEY = 'mtdg.player';
-const IMAGE_KEYS = { art: 'player.art', artSource: 'player.artSource' };
-const transformKeys = (index) => ({ art: `player.transform${index}.art`, artSource: `player.transform${index}.artSource` });
 const FLIP_MS = 600; // .card.is-flipping in css/player.css
 const FALLBACK_ART_RATIO = 1.37; // .card__art aspect-ratio in css/card.css
 const POOL_URL = 'data/level1.json';
@@ -48,6 +50,9 @@ export async function initPlayerView() {
   const fileInput = $('pc-file');
   const captureInput = $('pc-capture');
 
+  let roster = newRoster(); // the cards saved in this browser
+  let currentId = null;     // the card being played, or null on the menu or while making one
+  let creating = false;     // making a new card (the name step) instead of showing the menu
   let player = null;        // the sheet, or null before the card is named
   let artUrl = null;        // object URL of the cropped photo
   let transformArtUrls = []; // object URLs of the other faces' photos, by index in player.transforms
@@ -58,6 +63,50 @@ export async function initPlayerView() {
   let storageOk = storageWorks();
 
   /* ----- Loading and saving ----- */
+  // The current card's photos.
+  const artKeys = () => imageKeys(currentId);
+  const transformKeys = (index) => transformImageKeys(currentId, index);
+
+  function saveRoster() {
+    if (!writeJSON(ROSTER_KEY, roster)) storageOk = false;
+  }
+
+  /**
+   * Before there could be several cards, the only one was saved under the old keys.
+   * It becomes the first card of the roster; the old keys are removed only once its
+   * photos are safely under the new ones.
+   */
+  async function moveOldCard() {
+    const old = readJSON(OLD_SHEET_KEY);
+    if (!old || readRoster(readJSON(ROSTER_KEY))) return;
+    const id = newCardId();
+    const moves = oldImageMoves(id, old);
+    let moved = true;
+    for (const [from, to] of moves) {
+      const blob = await getImage(from);
+      if (blob) moved = (await putImage(to, blob)) && moved;
+    }
+    if (!moved || !writeJSON(sheetKey(id), old) || !writeJSON(ROSTER_KEY, withCard(newRoster(), id))) return;
+    removeKey(OLD_SHEET_KEY);
+    for (const [from] of moves) await deleteImage(from);
+  }
+
+  function loadRoster() {
+    roster = readRoster(readJSON(ROSTER_KEY)) || newRoster();
+  }
+
+  /** The menu again: no card is being played. */
+  function showMenu() {
+    currentId = null;
+    player = null;
+    creating = false;
+    editingArt = false;
+    savedByNewer = false;
+    setArtUrl(null);
+    clearTransformArtUrls();
+    showError('');
+  }
+
   function setArtUrl(blob) {
     if (artUrl) URL.revokeObjectURL(artUrl);
     artUrl = blob ? URL.createObjectURL(blob) : null;
@@ -74,11 +123,13 @@ export async function initPlayerView() {
   }
 
   function save() {
-    if (!writeJSON(SAVE_KEY, player)) storageOk = false;
+    if (currentId && !writeJSON(sheetKey(currentId), player)) storageOk = false;
   }
 
+  /** Loads the current card. */
   async function load() {
-    const saved = readJSON(SAVE_KEY);
+    if (!currentId) return;
+    const saved = readJSON(sheetKey(currentId));
     const upgraded = upgradeSave(saved);
     savedByNewer = upgraded.status === 'newer';
     player = upgraded.status === 'ok' ? upgraded.player : null;
@@ -89,7 +140,7 @@ export async function initPlayerView() {
       let moved = true;
       for (const [name, dataUrl] of Object.entries(upgraded.images)) {
         try {
-          moved = (await putImage(IMAGE_KEYS[name], dataUrlToBlob(dataUrl))) && moved;
+          moved = (await putImage(artKeys()[name], dataUrlToBlob(dataUrl))) && moved;
         } catch {
           moved = false;
         }
@@ -97,7 +148,7 @@ export async function initPlayerView() {
       if (moved) save();
     }
 
-    const art = player && player.hasArt ? await getImage(IMAGE_KEYS.art) : null;
+    const art = player && player.hasArt ? await getImage(artKeys().art) : null;
     // The sheet says there is a photo but it's gone (cleared site data): show the default art.
     if (player && player.hasArt && !art) player = withoutArt(player);
     setArtUrl(art);
@@ -128,9 +179,14 @@ export async function initPlayerView() {
 
     let step = 'sheet';
     if (savedByNewer) step = 'none';
+    else if (!currentId && roster.ids.length && !creating) step = 'menu';
     else if (!player) step = 'name';
     else if (!player.artChosen || editingArt) step = 'art';
     else if ((player.absorbed || []).length) step = 'card';
+    $('pc-step-menu').hidden = step !== 'menu';
+    $('view-player-card').classList.toggle('is-menu', step === 'menu');
+    $('pc-to-menu').hidden = step === 'menu' || step === 'name' || !roster.ids.length;
+    $('pc-name-cancel').hidden = !roster.ids.length;
     $('pc-step-name').hidden = step !== 'name';
     $('pc-step-art').hidden = step !== 'art';
     $('pc-sheet').hidden = step !== 'sheet';
@@ -138,9 +194,11 @@ export async function initPlayerView() {
     $('pc-card-foot').hidden = step !== 'card';
 
     // While the animation plays it owns the card.
-    if (!animating) drawCard();
+    if (!animating && step !== 'menu') drawCard();
 
-    if (step === 'art') {
+    if (step === 'menu') {
+      renderMenu();
+    } else if (step === 'art') {
       $('pc-art-step').textContent = editingArt ? 'Card art' : 'Step 2 of 2';
       $('pc-art-prompt').replaceChildren(
         'Give ', el('strong', null, player.name), ' some card art: take a photo now or upload one.',
@@ -183,10 +241,109 @@ export async function initPlayerView() {
       return;
     }
     showError('');
+    currentId = newCardId();
+    creating = false;
     player = newPlayer(name);
     save();
+    roster = withCard(roster, currentId);
+    saveRoster();
+    // Ask the browser not to clear the cards when the device runs low on space.
+    if (navigator.storage && navigator.storage.persist) navigator.storage.persist().catch(() => {});
     render();
     $('pc-art-camera').focus();
+  });
+
+  $('pc-name-cancel').addEventListener('click', () => {
+    showMenu();
+    nameInput.value = '';
+    render();
+  });
+
+  /* ----- The menu of cards ----- */
+  let menuUrls = []; // object URLs of the photos on the menu
+
+  async function renderMenu() {
+    for (const url of menuUrls) URL.revokeObjectURL(url);
+    menuUrls = [];
+    const rows = [];
+    for (const id of roster.ids) {
+      const upgraded = upgradeSave(readJSON(sheetKey(id)));
+      const sheet = upgraded.status === 'ok' ? upgraded.player : null;
+      const row = el('li', 'roster__card');
+      const thumb = el('div', 'roster__art');
+      const info = el('div', 'roster__info');
+      if (sheet) {
+        const data = toCardData(sheet);
+        info.append(
+          el('strong', 'roster__name', sheet.name),
+          el('span', 'roster__line', `${typeLineOf(sheet)} \u00b7 ${data.power}/${data.toughness}`),
+          el('span', 'roster__line', `${(sheet.absorbed || []).length} cards absorbed`),
+        );
+        if (sheet.hasArt) {
+          getImage(imageKeys(id).art).then((blob) => {
+            if (!blob || !thumb.isConnected) return;
+            const url = URL.createObjectURL(blob);
+            menuUrls.push(url);
+            const img = el('img');
+            img.src = url;
+            img.alt = '';
+            thumb.append(img);
+          });
+        }
+      } else {
+        info.append(el('strong', 'roster__name', upgraded.status === 'newer' ? 'Saved by a newer version' : 'Unreadable card'));
+      }
+      const play = el('button', 'action action--primary', 'Play');
+      play.type = 'button';
+      play.disabled = !sheet && upgraded.status !== 'newer';
+      play.addEventListener('click', () => openCard(id));
+      const remove = el('button', 'action action--quiet', 'Delete');
+      remove.type = 'button';
+      remove.addEventListener('click', () => deleteCard(id, sheet));
+      const actions = el('div', 'roster__actions');
+      actions.append(play, remove);
+      row.append(thumb, info, actions);
+      rows.push(row);
+    }
+    $('pc-roster').replaceChildren(...rows);
+  }
+
+  async function openCard(id) {
+    showMenu();
+    currentId = id;
+    await load();
+    render();
+    window.scrollTo(0, 0);
+  }
+
+  async function deleteCard(id, sheet) {
+    const name = sheet ? sheet.name : 'this card';
+    if (!confirm(`Delete ${name}? This deletes the card and its art from this browser.`)) return;
+    removeKey(sheetKey(id));
+    for (const key of allImageKeys(id, sheet)) await deleteImage(key);
+    roster = withoutCard(roster, id);
+    saveRoster();
+    if (currentId === id) showMenu();
+    nameInput.value = '';
+    flavorInput.value = '';
+    render();
+    if (!roster.ids.length) nameInput.focus();
+  }
+
+  $('pc-new-card').addEventListener('click', () => {
+    showMenu();
+    creating = true;
+    nameInput.value = '';
+    flavorInput.value = '';
+    render();
+    nameInput.focus();
+  });
+
+  $('pc-to-menu').addEventListener('click', () => {
+    if (animating) return;
+    showMenu();
+    render();
+    window.scrollTo(0, 0);
   });
 
   /* ----- Step 2: art ----- */
@@ -203,7 +360,7 @@ export async function initPlayerView() {
    */
   async function frameAndKeep(source, isNew) {
     const target = artTarget;
-    const keys = target === null ? IMAGE_KEYS : transformKeys(target);
+    const keys = target === null ? artKeys() : transformKeys(target);
     let result;
     try {
       const crop = isNew ? null : (target === null ? player.artCrop : player.transforms[target].artCrop);
@@ -240,8 +397,8 @@ export async function initPlayerView() {
   }
 
   async function useDefaultArt() {
-    await deleteImage(IMAGE_KEYS.art);
-    await deleteImage(IMAGE_KEYS.artSource);
+    await deleteImage(artKeys().art);
+    await deleteImage(artKeys().artSource);
     player = withoutArt(player);
     setArtUrl(null);
     save();
@@ -299,7 +456,7 @@ export async function initPlayerView() {
   });
 
   $('pc-edit-art').addEventListener('click', async () => {
-    const source = await getImage(IMAGE_KEYS.artSource);
+    const source = await getImage(artKeys().artSource);
     if (!source) {
       showError("The original photo is no longer in this browser. Use Change art to pick a new one.");
       return;
@@ -314,27 +471,12 @@ export async function initPlayerView() {
     $('pc-art-camera').focus();
   });
 
-  async function startOver() {
-    if (!player || !confirm(`Start over? This deletes ${player.name} and its art from this browser.`)) return;
-    removeKey(SAVE_KEY);
-    await deleteImage(IMAGE_KEYS.art);
-    await deleteImage(IMAGE_KEYS.artSource);
-    for (const index of (player.transforms || []).keys()) {
-      await deleteImage(transformKeys(index).art);
-      await deleteImage(transformKeys(index).artSource);
-    }
-    player = null;
-    setArtUrl(null);
-    clearTransformArtUrls();
-    editingArt = false;
-    nameInput.value = '';
-    flavorInput.value = '';
-    showError('');
-    render();
-    nameInput.focus();
-  }
-  $('pc-reset').addEventListener('click', startOver);
-  $('pc-reset-card').addEventListener('click', startOver);
+  // Deleting the card being played goes back to the menu (or to a new card when it was the last).
+  const deleteCurrent = () => {
+    if (player && currentId) deleteCard(currentId, player);
+  };
+  $('pc-reset').addEventListener('click', deleteCurrent);
+  $('pc-reset-card').addEventListener('click', deleteCurrent);
 
   /* ----- Counters ----- */
   function changeCounters(by) {
@@ -815,6 +957,13 @@ export async function initPlayerView() {
   // the window resizes or the display font finishes loading.
   const refitText = () => fitCardText(card);
   window.addEventListener('hashchange', refitText);
+  // Coming to the Player Card opens the menu of cards (or a new card when there are none).
+  window.addEventListener('hashchange', () => {
+    if (location.hash !== '#player-card' || animating) return;
+    loadRoster();
+    showMenu();
+    render();
+  });
   window.addEventListener('resize', refitText);
   if (document.fonts) {
     // ready can resolve before the card's fonts even start loading, so also
@@ -823,14 +972,17 @@ export async function initPlayerView() {
     document.fonts.addEventListener('loadingdone', refitText);
   }
 
-  // Another tab changed or cleared the card.
+  // Another tab changed the cards.
   window.addEventListener('storage', async (event) => {
-    if (event.key !== SAVE_KEY && event.key !== null) return;
+    if (event.key !== null && event.key !== ROSTER_KEY && !(currentId && event.key === sheetKey(currentId))) return;
+    loadRoster();
+    if (currentId && !roster.ids.includes(currentId)) showMenu();
     editingArt = false;
     await load();
     render();
   });
 
-  await load();
+  await moveOldCard();
+  loadRoster();
   render();
 }
