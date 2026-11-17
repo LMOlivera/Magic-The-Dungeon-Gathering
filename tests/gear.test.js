@@ -58,8 +58,8 @@ test('an Aura is for good, and a bonus per color follows the colors', () => {
 
 test('instants and sorceries join the spell list, cast once per combat', () => {
   let player = absorbCard(newPlayer('Ana'), bolt);
-  assert.deepEqual(player.colors, ['R']);
-  assert.equal(player.manaCost, '{R}');
+  assert.deepEqual(player.colors, [], 'a spell adds no colors');
+  assert.equal(player.manaCost, '{0}', 'its cost is what casting it costs');
   assert.equal(player.spells.length, 1);
   assert.equal(player.spells[0].name, 'Burst Lightning');
   assert.equal(player.spells[0].cast, false);

@@ -10,8 +10,9 @@
  *   - its other card types (Enchantment, Artifact, Land) and Legendary join the player's
  *   - it gains what rules/cards.js gives for its rules text (keywords and abilities)
  *
- * Equipment, Auras, instants and sorceries add their colors and mana cost the same
- * way, but not their types; what else they give is in player/gear.js.
+ * Equipment, Auras and items add their colors and mana cost the same way, but not
+ * their types. Instants and sorceries only join the spell list: their cost is what
+ * casting them costs. What else they give is in player/gear.js.
  */
 
 import { combineManaCosts } from '../shared/mana.js';
@@ -169,18 +170,22 @@ export function absorbPreview(player, card) {
   };
 }
 
-/** absorbPreview for a card that isn't a creature: only its colors and cost change the card itself. */
+/**
+ * absorbPreview for a card that isn't a creature: only its colors and cost change the
+ * card itself, and a spell changes nothing (it only joins the spell list).
+ */
 function gearPreview(player, card, face, kind) {
   const grants = kind === 'equipment' || kind === 'aura' || kind === 'item' ? grantsOf(face.name) : null;
   const keywords = player.keywords || [];
+  const isSpell = kind === 'spell';
   return {
     name: face.name,
     addPower: 0,
     addToughness: 0,
     rawPower: face.power,
     rawToughness: face.toughness,
-    colors: mergeColors(player.colors, card.colors || []),
-    manaCost: combineManaCosts(player.manaCost, face.manaCost),
+    colors: isSpell ? player.colors : mergeColors(player.colors, card.colors || []),
+    manaCost: isSpell ? player.manaCost : combineManaCosts(player.manaCost, face.manaCost),
     newTypes: [],
     cardTypes: player.cardTypes || [],
     keywords: [],

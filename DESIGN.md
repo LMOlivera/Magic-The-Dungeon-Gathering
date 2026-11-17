@@ -73,12 +73,13 @@ The players apply these rules. The app doesn't run them; at most it offers count
 | Creature | [DECIDED] +P/+T, its colors, its cost, its creature types, and its text decided card by card (below) |
 | Equipment | [DECIDED] The player equips it and gets what it grants. It stays its own card, so something can destroy it, and then that's lost. Adds its colors and cost. |
 | Aura | [DECIDED] A permanent bonus: the player enchants themselves for good. Adds its colors and cost. |
-| Instant / sorcery | [DECIDED] Joins the spell list (section 3). Adds its colors and cost. |
+| Instant / sorcery | [DECIDED] Only joins the spell list (section 3). Its cost isn't added: it's what casting the spell costs. |
 | Item (an artifact or enchantment that isn't an Equipment or Aura) | [DECIDED] Kept with the Equipment until it's used, then it's gone (Seal of Fire). Adds its colors and cost. |
 | Land | [PROPOSED] +1 mana per turn of that color (there are no lands left in the test pool) |
 | Everything else | [PENDING] Case by case |
 
-- [DECIDED] Cards that aren't creatures add their colors and their mana cost, like creatures, but not their types: absorbing an Equipment doesn't make the player an Artifact Creature.
+- [DECIDED] Equipment, Auras and items add their colors and their mana cost, like creatures, but not their types: absorbing an Equipment doesn't make the player an Artifact Creature.
+- [DECIDED] Instants and sorceries add neither their cost nor (chosen while implementing, not confirmed) their colors: they only join the spell list.
 - [DECIDED] Some creatures may have abilities that destroy Equipment or artifacts and can target them.
 - Chosen while implementing, not confirmed:
   - The Equip cost is ignored: the player is equipped as soon as they absorb it.
