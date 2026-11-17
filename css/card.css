@@ -73,6 +73,8 @@
   font-weight: 700;
 }
 .card__name {
+  /* Fills the free space in the bar, which is what fitCardText measures. */
+  flex: 1 1 0;
   min-width: 0;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -91,6 +93,17 @@
   border-radius: 50%;
   box-shadow: -1px 1.5px 0 #14110f;
 }
+/* Symbols inside the text box, as big as the letters around them. */
+.card__text .mana {
+  display: inline-block;
+  width: 0.95em;
+  height: 0.95em;
+  margin: 0 0.05em;
+  border-radius: 50%;
+  vertical-align: -0.12em;
+  box-shadow: -0.5px 1px 0 #14110f;
+}
+.card__text .mana--text { display: inline-grid; place-items: center; background: #cbc4bb; font-size: 0.6em; font-weight: 700; line-height: 1; }
 /* When the image can't load. */
 .card__cost .mana--text {
   display: grid;
@@ -139,7 +152,7 @@
 /* A player's photo replaces the doorway. */
 .card__art--photo::before, .card__art--photo::after { content: none; }
 .card__art img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-.card__type { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.card__type { flex: 1 1 0; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .pips { display: flex; flex: none; gap: 4px; }
 .pips span { width: 9px; height: 9px; border: 1.5px solid #8b8377; border-radius: 50%; }
 /* Simple filled circles, never the official mana symbols. */
@@ -159,7 +172,23 @@
 }
 .card__text p { margin: 0; overflow-wrap: anywhere; }
 .card__flavor { color: #5c544a; font-size: 0.86em; font-style: italic; line-height: 1.25; }
+.card__text p + p { margin-top: 3px; }
 .card__text p + .card__flavor { margin-top: 4px; }
+/* A keyword with a rule: looks like card text, explains itself in a tooltip. */
+.kw {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-decoration: underline dotted rgba(29, 25, 21, 0.55);
+  text-underline-offset: 2px;
+  cursor: help;
+}
+.kw:has(.mana) { text-decoration: none; }
+/* Before the name when the card shows its other face. */
+.card__face { flex: none; margin-right: 4px; font-size: 1.05em; line-height: 1; }
+.kw:focus-visible { outline: 2px solid var(--ember); outline-offset: 1px; border-radius: 2px; }
 /* Sits over the bottom right corner of the text box, like on a real card. */
 .card__pt {
   position: absolute;

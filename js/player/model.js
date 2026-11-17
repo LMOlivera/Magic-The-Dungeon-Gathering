@@ -1,3 +1,7 @@
+import { transformedFace, shownTransform } from './transform.js';
+import { attachedEffects } from './gear.js';
+import { addKeywords } from '../rules/keywords.js';
+
 /**
  * The player's character sheet as plain data. No DOM and no storage here,
  * so everything in this file can be tested with `node --test`.
@@ -6,7 +10,7 @@
  * (shared/images.js) and the sheet only remembers whether they exist.
  */
 
-export const SAVE_VERSION = 4;
+export const SAVE_VERSION = 10;
 export const FLAVOR_MAX = 110;
 
 /** Collapses runs of whitespace and trims. An empty result means "no name". */
@@ -28,11 +32,20 @@ export function newPlayer(name, now = new Date()) {
     flavor: '',
     manaCost: '{0}',      // Scryfall notation; absorbed creatures add their symbols, see shared/mana.js
     colors: [],           // W U B R G letters; empty means colorless
+    cardTypes: [],        // besides Creature: Legendary, Enchantment, Artifact, Land (see player/absorb.js)
     types: ['Human'],
-    power: 1,
+    power: 1,             // what absorbing gave; the card also adds the counters
     toughness: 1,
-    abilities: [],
-    absorbed: [],         // [{ id, name }] of every card absorbed, in order
+    counters: 0,          // +1/+1 counters the player keeps track of; below 0 they are -1/-1 counters
+    bonusPower: 0,        // bonuses until the end of combat, like +2/+0; the card adds them too
+    bonusToughness: 0,
+    keywords: [],         // keyword names, see rules/keywords.js
+    abilities: [],        // other abilities, as text
+    absorbed: [],         // [{ id, name, keywords, abilities }] of every card absorbed, in order
+    transforms: [],       // cards that can turn the Player Card over, see player/transform.js
+    equipment: [],        // Equipment the player has on, see player/gear.js
+    auras: [],            // Auras on the player, for good
+    spells: [],           // the spell list: instants and sorceries
     booster: null,        // { cardIds } of an opened booster not yet picked from
     createdAt: now.toISOString(),
   };
@@ -57,19 +70,55 @@ export function withoutArt(player) {
   return { ...player, artChosen: true, hasArt: false, hasArtSource: false, artCrop: null };
 }
 
-/** What shared/card.js needs to draw this player. artUrl is the photo, if any. */
-export function toCardData(player, artUrl) {
+/**
+ * The player put a counter on or took one off. +1/+1 and -1/-1 counters cancel
+ * out, as in Magic, so one number is enough: 2 is two +1/+1, -1 is one -1/-1.
+ */
+export function withCounters(player, counters) {
+  return { ...player, counters: Number.isInteger(counters) ? counters : 0 };
+}
+
+/** Bonuses until the end of combat. Clearing them is withBonus(player, 0, 0). */
+export function withBonus(player, power, toughness) {
+  const whole = (value) => (Number.isInteger(value) ? value : 0);
+  return { ...player, bonusPower: whole(power), bonusToughness: whole(toughness) };
+}
+
+/** "+2", "-1" or "0" */
+export function describeBonus(value) {
+  return value > 0 ? `+${value}` : String(value || 0);
+}
+
+/** "+2/+2", "-1/-1" or "0" */
+export function describeCounters(counters) {
+  if (!counters) return '0';
+  const sign = counters > 0 ? '+' : '-';
+  return `${sign}${Math.abs(counters)}/${sign}${Math.abs(counters)}`;
+}
+
+/**
+ * What shared/card.js needs to draw this player. artUrl is the photo, if any;
+ * transformArt holds the photos of the other faces, by their index in player.transforms.
+ */
+export function toCardData(player, artUrl, transformArt = []) {
+  const face = transformedFace(player);
+  const gear = attachedEffects(player);
+  const shown = shownTransform(player);
+  const other = shown === -1 ? null : player.transforms[shown];
   return {
-    name: player.name,
+    name: (other && other.name) || player.name,
     placeholderName: 'Human',
     cost: player.manaCost,
     colors: player.colors,
+    cardTypes: player.cardTypes,
     types: player.types,
-    power: player.power,
-    toughness: player.toughness,
-    rulesText: player.abilities.join(', '),
+    power: player.power + (player.counters || 0) + (player.bonusPower || 0) + face.power + gear.power,
+    toughness: player.toughness + (player.counters || 0) + (player.bonusToughness || 0) + face.toughness + gear.toughness,
+    keywords: addKeywords(face.keywords, gear.keywords),
+    abilities: [...face.abilities, ...gear.abilities.filter((ability) => !face.abilities.includes(ability))],
     flavor: player.flavor,
-    artUrl: artUrl || null,
+    artUrl: (other && other.hasArt ? transformArt[shown] : artUrl) || null,
+    transformed: Boolean(other),
   };
 }
 
@@ -120,6 +169,36 @@ export function upgradeSave(saved) {
   if (data.version === 3) {
     const { cost, ...rest } = data;
     data = { ...rest, version: 4, manaCost: rest.manaCost ?? `{${Number.isInteger(cost) && cost > 0 ? cost : 0}}` };
+  }
+
+  // v5 keeps keywords apart from the other abilities, to explain them.
+  if (data.version === 4) {
+    data = { ...data, version: 5, keywords: data.keywords ?? [], abilities: data.abilities ?? [] };
+  }
+
+  // v6 adds the card types besides Creature. Older saves never kept them.
+  if (data.version === 5) {
+    data = { ...data, version: 6, cardTypes: data.cardTypes ?? [] };
+  }
+
+  // v7 adds the +1/+1 counters.
+  if (data.version === 6) {
+    data = { ...data, version: 7, counters: data.counters ?? 0 };
+  }
+
+  // v8 adds the bonuses until the end of combat.
+  if (data.version === 7) {
+    data = { ...data, version: 8, bonusPower: data.bonusPower ?? 0, bonusToughness: data.bonusToughness ?? 0 };
+  }
+
+  // v9 adds the cards that transform.
+  if (data.version === 8) {
+    data = { ...data, version: 9, transforms: data.transforms ?? [] };
+  }
+
+  // v10 adds Equipment, Auras and the spell list.
+  if (data.version === 9) {
+    data = { ...data, version: 10, equipment: data.equipment ?? [], auras: data.auras ?? [], spells: data.spells ?? [] };
   }
 
   return { status: 'ok', player: data, images };

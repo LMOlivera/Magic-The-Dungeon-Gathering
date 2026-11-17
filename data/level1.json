@@ -397,29 +397,6 @@
    "faces": []
   },
   {
-   "id": "7f927f72-fc9b-444f-9e0e-78a5e8e7bcaa",
-   "name": "Bagel and Schmear",
-   "layout": "normal",
-   "manaCost": "{1}",
-   "manaValue": 1,
-   "colors": [],
-   "typeLine": "Artifact — Food",
-   "text": "Share — {W}, {T}, Sacrifice this artifact: Put a +1/+1 counter on up to one target creature. Draw a card. Activate only as a sorcery.\nNosh — {2}, {T}, Sacrifice this artifact: You gain 3 life and draw a card.",
-   "power": null,
-   "toughness": null,
-   "keywords": [
-    "Nosh",
-    "Share"
-   ],
-   "artist": "Javier Charro",
-   "images": {
-    "small": "https://cards.scryfall.io/small/front/7/f/7f927f72-fc9b-444f-9e0e-78a5e8e7bcaa.jpg?1783905307",
-    "normal": "https://cards.scryfall.io/normal/front/7/f/7f927f72-fc9b-444f-9e0e-78a5e8e7bcaa.jpg?1783905307",
-    "artCrop": "https://cards.scryfall.io/art_crop/front/7/f/7f927f72-fc9b-444f-9e0e-78a5e8e7bcaa.jpg?1783905307"
-   },
-   "faces": []
-  },
-  {
    "id": "396bdd5f-2aad-48ba-a4b1-f2b2365a1a53",
    "name": "Beckon Apparition",
    "layout": "normal",
@@ -911,26 +888,6 @@
     "small": "https://cards.scryfall.io/small/front/8/a/8ab16152-4617-4deb-b995-195e21f8f485.jpg?1783944191",
     "normal": "https://cards.scryfall.io/normal/front/8/a/8ab16152-4617-4deb-b995-195e21f8f485.jpg?1783944191",
     "artCrop": "https://cards.scryfall.io/art_crop/front/8/a/8ab16152-4617-4deb-b995-195e21f8f485.jpg?1783944191"
-   },
-   "faces": []
-  },
-  {
-   "id": "c74e13eb-6f82-4db1-9d0d-8310f48d9f6d",
-   "name": "Desert",
-   "layout": "normal",
-   "manaCost": "",
-   "manaValue": 0,
-   "colors": [],
-   "typeLine": "Land — Desert",
-   "text": "{T}: Add {C}.\n{T}: This land deals 1 damage to target attacking creature. Activate only during the end of combat step.",
-   "power": null,
-   "toughness": null,
-   "keywords": [],
-   "artist": "Glen Angus",
-   "images": {
-    "small": "https://cards.scryfall.io/small/front/c/7/c74e13eb-6f82-4db1-9d0d-8310f48d9f6d.jpg?1783926159",
-    "normal": "https://cards.scryfall.io/normal/front/c/7/c74e13eb-6f82-4db1-9d0d-8310f48d9f6d.jpg?1783926159",
-    "artCrop": "https://cards.scryfall.io/art_crop/front/c/7/c74e13eb-6f82-4db1-9d0d-8310f48d9f6d.jpg?1783926159"
    },
    "faces": []
   },

@@ -1,9 +1,4 @@
-/* BoosterTest.html: a booster of full card images from Scryfall. */
-
-.bt { display: flex; flex-direction: column; align-items: flex-start; gap: 16px; }
-.bt h1 { margin: 12px 0 0; font-family: var(--font-display); font-size: clamp(2.5rem, 8vw, 4rem); font-weight: 800; line-height: 1; }
-.bt p { margin: 0; color: var(--ash); }
-.bt .alert { align-self: stretch; }
+/* A booster of full card images from Scryfall (shared/booster-ui.js), in the Player Card's booster dialog. */
 
 .booster {
   display: grid;

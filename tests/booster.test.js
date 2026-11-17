@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 
-import { BOOSTER_SIZE, makeBooster } from '../js/player/booster.js';
+import { BOOSTER_SIZE, makeBooster, boosterPool } from '../js/player/booster.js';
 import { parseListLine, nameKeys, toPoolCard } from '../scripts/build-pool.js';
 import { sideCount, cardImageUrl } from '../js/shared/cards.js';
 
@@ -104,4 +104,16 @@ test('adventure-style cards have two parts but one printed side', () => {
   assert.equal(card.faces.length, 2);
   assert.equal(sideCount(card), 1);
   assert.equal(cardImageUrl(card, 0), 'n');
+});
+
+test('boosters leave out the cards the player already absorbed', () => {
+  const pool = ['a', 'b', 'c', 'd'].map((id) => ({ id }));
+  const player = { absorbed: [{ id: 'b', name: 'B' }, { id: 'd', name: 'D' }] };
+  assert.deepEqual(boosterPool(pool, player).map((card) => card.id), ['a', 'c']);
+  assert.equal(boosterPool(pool, player, false), pool, 'repeats allowed');
+  assert.deepEqual(boosterPool(pool, { absorbed: [] }), pool);
+  for (let seed = 1; seed < 20; seed++) {
+    const booster = makeBooster(boosterPool(pool, player), BOOSTER_SIZE, fakeRandom(seed));
+    assert.ok(booster.every((card) => card.id !== 'b' && card.id !== 'd'));
+  }
 });

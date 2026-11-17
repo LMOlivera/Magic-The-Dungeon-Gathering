@@ -1,15 +1,16 @@
 /**
  * The absorb animation: the creature flies into the player's card, then each
- * value that changes loads in turn (power/toughness, colors, cost, types) while
+ * value that changes loads in turn (power/toughness, colors, cost, types,
+ * abilities) while
  * a caption says what changed. Styled in css/player.css.
  *
  * It only touches the card's elements in place; at the end the card is drawn
  * again from the final data, so nothing the animation does can stick.
  */
 
-import { renderCard, fitCardText, setFrame, fillManaCost } from '../shared/card.js';
+import { renderCard, fitCardText, setFrame, fillManaCost, fillCardText } from '../shared/card.js';
 import { newSymbols } from '../shared/mana.js';
-import { COLOR_ORDER, describeColors } from './absorb.js';
+import { COLOR_ORDER, describeColors, typeLineOf } from './absorb.js';
 
 const GHOST_MS = 1100;  // must match .absorb-ghost in css/player.css
 const COUNT_MS = 700;   // a number ticking from its old to its new value
@@ -109,16 +110,36 @@ export async function playAbsorb({ cardEl, ghostEl, captionEl, before, after, cr
     });
   }
 
-  const addedTypes = after.types.filter((type) => !before.types.includes(type));
-  if (addedTypes.length) {
+  if (typeLineOf(before) !== typeLineOf(after)) {
     steps.push({
-      caption: `Types: ${before.types.join(' ')} → ${after.types.join(' ')}`,
+      caption: `Type: ${typeLineOf(before)} → ${typeLineOf(after)}`,
       async run() {
         const typeEl = cardEl.querySelector('.card__type');
-        typeEl.textContent = `Creature — ${after.types.join(' ')}`;
+        typeEl.textContent = typeLineOf(after);
         typeEl.title = typeEl.textContent;
         fitCardText(cardEl);
         flash(typeEl);
+        await wait(COUNT_MS);
+      },
+    });
+  }
+
+  const addedKeywords = (after.keywords || []).filter((keyword) => !(before.keywords || []).includes(keyword));
+  const addedAbilities = (after.abilities || []).filter((ability) => !(before.abilities || []).includes(ability));
+  if (addedKeywords.length || addedAbilities.length) {
+    const gained = addedKeywords.map((keyword, index) => (index ? keyword.toLowerCase() : keyword));
+    if (addedAbilities.length) gained.push(addedAbilities.length === 1 ? 'a new ability' : `${addedAbilities.length} new abilities`);
+    steps.push({
+      caption: `Abilities: gains ${gained.join(', ')}`,
+      async run() {
+        const box = cardEl.querySelector('.card__text');
+        fillCardText(box, after);
+        fitCardText(cardEl);
+        // Only the new parts light up.
+        for (const node of box.querySelectorAll('.card__keywords .kw, .card__ability')) {
+          const isNew = node.classList.contains('kw') ? addedKeywords.includes(node.dataset.keyword) : addedAbilities.includes(node.dataset.ability);
+          if (isNew) flash(node);
+        }
         await wait(COUNT_MS);
       },
     });

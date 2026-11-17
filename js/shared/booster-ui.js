@@ -1,6 +1,6 @@
 /**
  * Draws the cards of a booster as full card images from Scryfall, each a button
- * to pick it. Styled by css/booster.css. Used by the Player Card and BoosterTest.html.
+ * to pick it. Styled by css/booster.css. Used by the Player Card.
  */
 
 import { el } from './dom.js';

@@ -4,18 +4,23 @@ import { readFileSync } from 'node:fs';
 
 import {
   frontFace, isCreatureCard, subtypesOf, statValue, mergeColors, describeColors,
-  absorbPreview, absorbCreature,
+  absorbPreview, absorbCreature, textToAbsorb, cardTypesOf, typeLineOf,
 } from '../js/player/absorb.js';
 import { newPlayer, withBooster } from '../js/player/model.js';
+import { CARD_RULES } from '../js/rules/cards.js';
+import { keywordRule, parseKeyword, addKeywords } from '../js/rules/keywords.js';
+import { TERMS } from '../js/rules/terms.js';
 
 /** A pool card with only the fields absorbing uses. */
-function creature(name, { cost = '{1}', colors = [], type = 'Creature — Beast', power = '1', toughness = '1', faces = [] } = {}) {
-  return { id: `id-${name}`, name, manaCost: cost, colors, typeLine: type, power, toughness, faces };
+function creature(name, { cost = '{1}', colors = [], type = 'Creature — Beast', power = '1', toughness = '1', text = '', faces = [] } = {}) {
+  return { id: `id-${name}`, name, manaCost: cost, colors, typeLine: type, power, toughness, text, faces };
 }
 
 const turtle = creature('Aegis Turtle', { cost: '{U}', colors: ['U'], type: 'Creature — Turtle', power: '0', toughness: '5' });
 const vampire = creature('Vampire Noble', { cost: '{2}{B}', colors: ['B'], type: 'Creature — Vampire Noble', power: '3', toughness: '2' });
-const ornithopter = creature('Ornithopter', { cost: '{0}', type: 'Artifact Creature — Thopter', power: '0', toughness: '2' });
+const ornithopter = creature('Ornithopter', { cost: '{0}', type: 'Artifact Creature — Thopter', power: '0', toughness: '2', text: 'Flying' });
+const sniper = creature('Dragon Sniper', { cost: '{G}', colors: ['G'], type: 'Creature — Human Archer', text: 'Reach, vigilance, deathtouch' });
+const unreviewed = creature('Not Reviewed Yet', { text: 'When this creature enters, draw a card.' });
 
 test('absorbing a creature adds its power and toughness', () => {
   const player = absorbCreature(newPlayer('Ana'), turtle);
@@ -45,24 +50,20 @@ test('the creature mana cost is added symbol by symbol', () => {
   assert.equal(absorbCreature(player, red).manaCost, '{3}{U}{B}{R}');
 });
 
-test('only the creature types the player chooses are added', () => {
-  const base = newPlayer('Ana');
-  assert.deepEqual(absorbCreature(base, vampire).types, ['Human'], 'nothing chosen');
-  assert.deepEqual(absorbCreature(base, vampire, { types: ['Noble'] }).types, ['Human', 'Noble']);
-  assert.deepEqual(absorbCreature(base, vampire, { types: ['Vampire', 'Noble'] }).types, ['Human', 'Vampire', 'Noble']);
-  assert.deepEqual(absorbCreature(base, vampire, { types: ['Dragon'] }).types, ['Human'], 'types the card lacks are ignored');
+test('all the creature types are added, without asking', () => {
+  assert.deepEqual(absorbCreature(newPlayer('Ana'), vampire).types, ['Human', 'Vampire', 'Noble']);
 });
 
-test('types the player already has are not offered again', () => {
+test('types the player already has are not repeated', () => {
   const knight = creature('Cecil', { type: 'Legendary Creature — Human Knight' });
   assert.deepEqual(absorbPreview(newPlayer('Ana'), knight).newTypes, ['Knight']);
-  assert.deepEqual(absorbCreature(newPlayer('Ana'), knight, { types: ['Human', 'Knight'] }).types, ['Human', 'Knight']);
+  assert.deepEqual(absorbCreature(newPlayer('Ana'), knight).types, ['Human', 'Knight']);
 });
 
 test('absorbing records the card, closes the booster and does not change the original player', () => {
   const before = withBooster(newPlayer('Ana'), ['a', 'b', 'c']);
   const after = absorbCreature(before, turtle);
-  assert.deepEqual(after.absorbed, [{ id: 'id-Aegis Turtle', name: 'Aegis Turtle' }]);
+  assert.deepEqual(after.absorbed, [{ id: 'id-Aegis Turtle', name: 'Aegis Turtle', keywords: [], abilities: [] }]);
   assert.equal(after.booster, null);
   assert.deepEqual(before.booster, { cardIds: ['a', 'b', 'c'] });
   assert.equal(before.power, 1);
@@ -70,7 +71,8 @@ test('absorbing records the card, closes the booster and does not change the ori
 });
 
 test('stats that are not numbers ask the player how much they add', () => {
-  const archpriest = creature('Archpriest of Iona', { cost: '{W}', colors: ['W'], type: 'Creature — Human Cleric', power: '*', toughness: '2' });
+  // A card rules/cards.js says nothing about, so the player is asked.
+  const archpriest = creature('Unreviewed Star', { cost: '{W}', colors: ['W'], type: 'Creature — Human Cleric', power: '*', toughness: '2' });
   const preview = absorbPreview(newPlayer('Ana'), archpriest);
   assert.equal(preview.addPower, null);
   assert.equal(preview.rawPower, '*');
@@ -92,7 +94,7 @@ test('two-part cards absorb their creature part', () => {
   };
   assert.equal(frontFace(adventure).name, 'Smitten Swordmaster');
   assert.ok(isCreatureCard(adventure));
-  const player = absorbCreature(newPlayer('Ana'), adventure, { types: ['Knight'] });
+  const player = absorbCreature(newPlayer('Ana'), adventure);
   assert.equal(`${player.power}/${player.toughness}`, '3/2');
   assert.deepEqual(player.colors, ['B']);
   assert.equal(player.manaCost, '{1}{B}', 'only the creature part, not the adventure');
@@ -125,7 +127,7 @@ test('every creature in the level 1 pool can be absorbed', async () => {
   let player = newPlayer('Ana');
   for (const card of creatures) {
     const preview = absorbPreview(player, card);
-    player = absorbCreature(player, card, { types: preview.newTypes, power: 1, toughness: 1 });
+    player = absorbCreature(player, card, { power: 1, toughness: 1 });
   }
   assert.ok(Number.isInteger(player.power) && Number.isInteger(player.toughness));
   assert.match(player.manaCost, /^(\{[^}]+\})+$/);
@@ -145,4 +147,103 @@ test('the card frame follows the colors: grey, the color, or gold for several', 
   assert.equal(frameFor(['W']), 'W');
   assert.equal(frameFor(['U', 'B']), 'gold');
   assert.equal(frameFor(['W', 'U', 'B', 'R', 'G']), 'gold');
+});
+
+test('keywords from rules/cards.js are absorbed, without repeats', () => {
+  const flier = absorbCreature(newPlayer('Ana'), ornithopter);
+  assert.deepEqual(flier.keywords, ['Flying']);
+  const both = absorbCreature(flier, sniper);
+  assert.deepEqual(both.keywords, ['Flying', 'Reach', 'Vigilance', 'Deathtouch']);
+  assert.deepEqual(absorbCreature(both, ornithopter).keywords, both.keywords, 'no repeats');
+  assert.deepEqual(absorbPreview(flier, ornithopter).newKeywords, []);
+});
+
+test('rules text nobody has decided about gives nothing yet', () => {
+  const preview = absorbPreview(newPlayer('Ana'), unreviewed);
+  assert.equal(preview.hasText, true);
+  assert.equal(preview.textReviewed, false);
+  const player = absorbCreature(newPlayer('Ana'), unreviewed);
+  assert.deepEqual(player.keywords, []);
+  assert.deepEqual(player.abilities, []);
+  assert.equal(textToAbsorb(turtle).reviewed, true, 'no text, nothing to decide');
+});
+
+test('rules/cards.js only uses defined keywords and names cards of the pool', () => {
+  const { cards } = JSON.parse(readFileSync(new URL('../data/level1.json', import.meta.url), 'utf8'));
+  const names = new Set(cards.flatMap((poolCard) => [poolCard.name, ...(poolCard.faces || []).map((face) => face.name)]));
+  for (const [name, rules] of Object.entries(CARD_RULES)) {
+    assert.ok(names.has(name), `${name} is not in the pool`);
+    for (const keyword of [...(rules.keywords || []), ...(rules.grants?.keywords || [])]) {
+      assert.ok(keywordRule(keyword), `${name}: ${keyword} has no rule in rules/keywords.js`);
+    }
+  }
+});
+
+test('other card types join the player type line', () => {
+  assert.deepEqual(cardTypesOf('Legendary Enchantment Creature — Nymph'), ['Legendary', 'Enchantment']);
+  assert.equal(typeLineOf({ cardTypes: ['Artifact', 'Legendary'], types: ['Human'] }), 'Legendary Artifact Creature — Human');
+  assert.deepEqual(cardTypesOf('Creature — Turtle'), []);
+  const nymph = creature('Alseid of Life\'s Bounty', { cost: '{W}', colors: ['W'], type: 'Enchantment Creature — Nymph' });
+  const thopter = absorbCreature(newPlayer('Ana'), ornithopter);
+  assert.deepEqual(thopter.cardTypes, ['Artifact']);
+  const both = absorbCreature(thopter, nymph);
+  assert.deepEqual(both.cardTypes, ['Enchantment', 'Artifact'], 'printed order, no repeats');
+  assert.equal(typeLineOf(both), 'Enchantment Artifact Creature — Human Thopter Nymph');
+  assert.equal(typeLineOf(newPlayer('Ana')), 'Creature — Human');
+});
+
+test('every phrase in rules/terms.js shows up in some ability', () => {
+  const abilities = Object.values(CARD_RULES).flatMap((rules) => [
+    ...(rules.abilities || []),
+    ...(rules.grants?.abilities || []),
+    ...(rules.transform?.abilities || []),
+  ]);
+  for (const term of TERMS) {
+    assert.equal(term.pattern.flags.includes('g'), false, `${term.title}: no g flag`);
+    assert.ok(abilities.some((ability) => term.pattern.test(ability)), `${term.title} matches no ability`);
+  }
+});
+
+test('keywords with a number add up', () => {
+  assert.deepEqual(parseKeyword('Modular 2'), { name: 'Modular', value: 2 });
+  assert.deepEqual(parseKeyword('First strike'), { name: 'First strike', value: null });
+  assert.deepEqual(parseKeyword('Ward {1}'), { name: 'Ward', value: 1 });
+  assert.deepEqual(addKeywords(['Ward {1}'], ['Ward {2}']), ['Ward {3}'], 'mana numbers keep their braces');
+  assert.match(keywordRule('Ward {2}'), /pays 2 mana/);
+  assert.deepEqual(addKeywords(['Madness {0}'], ['Madness {1}']), ['Madness {0}'], 'Madness costs do not add up');
+  assert.deepEqual(addKeywords(['Bushido 1'], ['Bushido 1']), ['Bushido 2'], 'Bushido stacks');
+  assert.match(keywordRule('Bushido 2'), /\+2\/\+2/);
+  assert.deepEqual(addKeywords(['Lifelink', 'Modular 1'], ['Modular 1', 'Lifelink', 'Flying']), ['Lifelink', 'Modular 2', 'Flying']);
+  assert.deepEqual(addKeywords(['Modular'], ['Modular 1']), ['Modular 2'], 'a save from before numbers had Modular 1');
+  assert.deepEqual(addKeywords(['Exalted'], ['Exalted']), ['Exalted 2'], 'Exalted stacks without a number');
+  assert.match(keywordRule('Exalted'), /\+1\/\+1/);
+  assert.match(keywordRule('Exalted 2'), /\+2\/\+2/);
+  assert.match(keywordRule('Modular 2'), /2 \+1\/\+1 counters/);
+  assert.match(keywordRule('Modular 1'), /1 \+1\/\+1 counter on/);
+
+  const worker = creature('Arcbound Worker', { type: 'Artifact Creature — Construct', power: '0', toughness: '0', text: 'Modular 1' });
+  const once = absorbCreature(newPlayer('Ana'), worker);
+  assert.deepEqual(once.keywords, ['Modular 1']);
+  const preview = absorbPreview(once, worker);
+  assert.deepEqual(preview.newKeywords, ['Modular 2']);
+  assert.deepEqual(absorbCreature(once, worker).keywords, ['Modular 2']);
+});
+
+test('rules/cards.js can say what a * stat adds, so the player is not asked', () => {
+  const archpriest = creature('Archpriest of Iona', { cost: '{W}', colors: ['W'], type: 'Creature — Human Cleric', power: '*', toughness: '2', text: 'Archpriest of Iona\'s power is equal to the number of creatures in your party.' });
+  const preview = absorbPreview(newPlayer('Ana'), archpriest);
+  assert.equal(preview.addPower, 0);
+  assert.equal(preview.addToughness, 2);
+  const player = absorbCreature(newPlayer('Ana'), archpriest, { power: '5' });
+  assert.equal(`${player.power}/${player.toughness}`, '1/3', 'the power stays the player own');
+});
+
+test('a Sliver lord bonus goes to the player, and two of them stack', () => {
+  const muscle = creature('Muscle Sliver', { cost: '{1}{G}', colors: ['G'], type: 'Creature — Sliver', text: 'All Sliver creatures get +1/+1.' });
+  const sinew = creature('Sinew Sliver', { cost: '{1}{W}', colors: ['W'], type: 'Creature — Sliver', text: 'All Sliver creatures get +1/+1.' });
+  const one = absorbCreature(newPlayer('Ana'), muscle);
+  assert.equal(`${one.power}/${one.toughness}`, '3/3', '1/1 + its 1/1 + its +1/+1');
+  const two = absorbCreature(one, sinew);
+  assert.equal(`${two.power}/${two.toughness}`, '5/5');
+  assert.deepEqual(two.abilities, ['All Sliver creatures get +1/+1.'], 'the same text once');
 });
