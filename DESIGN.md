@@ -38,7 +38,7 @@ The players apply these rules. The app doesn't run them; at most it offers count
 - [DECIDED] Turn-based, classic RPG style: enemies attack on their turn and the player on theirs.
 - [DECIDED] Each turn the player generates mana of one of their colors. Enemies generate mana too.
 - [DECIDED] Absorbed instants and sorceries make up the player's spell list, which they can cast on their turn.
-- [DECIDED] Each spell on the list can be cast once per combat: after it's cast it "goes to the graveyard" (it's back for the next combat).
+- [DECIDED] Each spell on the list can be cast once per combat: after it's cast it "goes to the graveyard", and it comes back when combat is over.
 - [DECIDED] The player's life is their toughness; their starting life ("starting life total") is the toughness they have when combat starts.
 - [PROPOSED] Power = damage per attack. Toughness = maximum life. Damage lasts for the whole combat and the player heals when moving to another room.
 - [DECIDED] **Turn order:** whenever a combat starts, players and enemies roll a d20 to set the order of turns. Creatures with Haste go first; if several have Haste, they roll too, and they go first in that order, then everyone else.
@@ -73,13 +73,13 @@ The players apply these rules. The app doesn't run them; at most it offers count
 | Creature | [DECIDED] +P/+T, its colors, its cost, its creature types, and its text decided card by card (below) |
 | Equipment | [DECIDED] The player equips it and gets what it grants. It stays its own card, so something can destroy it, and then that's lost. Adds its colors and cost. |
 | Aura | [DECIDED] A permanent bonus: the player enchants themselves for good. Adds its colors and cost. |
-| Instant / sorcery | [DECIDED] Only joins the spell list (section 3). Its cost isn't added: it's what casting the spell costs. |
+| Instant / sorcery | [DECIDED] Joins the spell list (section 3) and adds its colors. Its cost isn't added: it's what casting the spell costs. |
 | Item (an artifact or enchantment that isn't an Equipment or Aura) | [DECIDED] Kept with the Equipment until it's used, then it's gone (Seal of Fire). Adds its colors and cost. |
 | Land | [PROPOSED] +1 mana per turn of that color (there are no lands left in the test pool) |
 | Everything else | [PENDING] Case by case |
 
 - [DECIDED] Equipment, Auras and items add their colors and their mana cost, like creatures, but not their types: absorbing an Equipment doesn't make the player an Artifact Creature.
-- [DECIDED] Instants and sorceries add neither their cost nor (chosen while implementing, not confirmed) their colors: they only join the spell list.
+- [DECIDED] Instants and sorceries add their colors (so the player can make the mana to cast them) but not their cost.
 - [DECIDED] Some creatures may have abilities that destroy Equipment or artifacts and can target them.
 - Chosen while implementing, not confirmed:
   - The Equip cost is ignored: the player is equipped as soon as they absorb it.
@@ -202,7 +202,7 @@ Reviewed on my own with the rules above, after the author asked me to go on alon
 - **Guul Draz Vampire:** keeps its text as printed; its +2/+1 goes in the combat bonuses.
 - **Icatian Javelineers:** keeps its text as printed; the javelin counter is kept at the table, not on the Player Card.
 - **Knucklebone Witch:** keeps its text as printed; the player is a Goblin, so their own death counts too.
-- **Sliver lords:** what a Sliver gives Slivers goes straight to the player, who is a Sliver. Cards that say "All Sliver creatures" also keep their text on the card, because it reaches other Slivers too (other players and monsters):
+- **Sliver lords:** what a Sliver gives Slivers goes straight to the player, who is a Sliver. [DECIDED] Cards that say "All Sliver creatures" reach every Sliver, other players and monsters included, so they also keep their text on the card:
   - **Heart Sliver:** Haste, plus its text. **Spinneret Sliver:** Reach, plus its text. **Winged Sliver:** Flying, plus its text.
   - **Muscle Sliver, Sinew Sliver:** +1/+1 added to the player's power and toughness, plus their text. **Plated Sliver:** +0/+1, plus its text. Two of them stack (Muscle and Sinew give +2/+2).
   - **Venom Sliver:** Deathtouch ("Sliver creatures you control", so no text).
@@ -263,7 +263,7 @@ Still open:
 
 - [DECIDED] Free hosting, static site, JavaScript only.
 - [DECIDED] All state is saved in each user's browser. Nothing leaves the device.
-- [PROPOSED] GitHub Pages: a static site in a public repo. Limits: 1 GB per site and a soft cap of 100 GB of traffic per month.
+- [DECIDED] GitHub Pages (in use): a static site in a public repo. Limits: 1 GB per site and a soft cap of 100 GB of traffic per month.
 - [PROPOSED] The state goes in `localStorage`, always with `try/catch`, with a version number and migrations so games aren't lost when the format changes.
 - [PROPOSED] The art photos are kept apart, in IndexedDB, so they aren't rewritten on every change and don't hit the roughly 5 MB cap of `localStorage`.
 - [PROPOSED] Export and import the character as JSON (or a code to copy), because clearing the browser's data deletes the game.
@@ -379,10 +379,9 @@ The code is already split following the architecture in section 9.
 
 ## 11. Next steps
 
-1. Turn on GitHub Pages.
-2. Character sheet: manual counters (damage, mana, XP, level), export/import.
-3. The rules still WIP or pending: Deathtouch, Defender, Menace, "can't block", the formation, "until end of turn".
-4. **Game** view: current room, monsters and room counter.
+1. Character sheet: manual counters (damage, mana, XP, level), export/import.
+2. The rules still WIP or pending: Deathtouch, Defender, Menace, "can't block", the formation, "until end of turn".
+3. **Game** view: current room, monsters and room counter.
 
 ## 12. Discarded ideas
 
