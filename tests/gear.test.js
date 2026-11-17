@@ -98,13 +98,16 @@ test('Equipment and Auras with a toggle come off for the combat and grant nothin
   assert.equal(`${toCardData(back).power}/${toCardData(back).toughness}`, '1/3');
 });
 
-test('an item like Seal of Fire is kept with the Equipment until used', () => {
+test('an item like Seal of Fire is kept with the Equipment, and sacrificing it lasts the combat', () => {
   const seal = card('Seal of Fire', 'Enchantment', '{R}', ['R'], 'Sacrifice this enchantment: It deals 2 damage to any target.');
   const player = absorbCard(newPlayer('Ana'), seal);
   assert.deepEqual(player.equipment.map((entry) => entry.name), ['Seal of Fire']);
   assert.deepEqual(player.auras, []);
   assert.equal(toCardData(player).abilities.length, 1);
   assert.deepEqual(toCardData(withoutEquipment(player, 0)).abilities, []);
+  const sacrificed = withOff(player, 'equipment', 0, true);
+  assert.deepEqual(toCardData(sacrificed).abilities, []);
+  assert.equal(putBackOn(sacrificed).equipment[0].off, false, 'back when combat is over');
 });
 
 test('absorbCard absorbs every creature of the pool as a creature', () => {

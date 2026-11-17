@@ -6,11 +6,12 @@
  *              stays its own object, so something can destroy it, and then that's lost.
  *              player.equipment: [{ id, name, off }]
  *   Items      other artifacts and enchantments that aren't Auras (like Seal of Fire):
- *              kept with the Equipment, and gone once used.
+ *              kept with the Equipment. Sacrificing one only lasts the combat (its toggle).
  *   Auras      a permanent bonus: the player enchants themselves for good.
  *              player.auras: [{ id, name, off }]
- *   off        an Equipment or Aura with a `toggle` (rules/cards.js) can be taken off
- *              for the rest of the combat, like Blinding Powder ("Unattach") or Carapace;
+ *   off        an Equipment, item or Aura with a `toggle` (rules/cards.js) can be taken off
+ *              for the rest of the combat, like Blinding Powder ("Unattach"), Carapace
+ *              or Seal of Fire ("Sacrificed");
  *              while off it grants nothing, and "Combat over" puts it back.
  *   Spells     join the spell list. Each can be cast once per combat; after that it's
  *              in the graveyard until combat is over.

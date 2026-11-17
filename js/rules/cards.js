@@ -177,9 +177,13 @@ export const CARD_RULES = {
   },
   'Sadistic Glee': { grants: { abilities: ['Whenever a creature dies, put a +1/+1 counter on this creature.'] } },
 
-  /* ----- Items: other artifacts and enchantments, gone once used. ----- */
+  /* ----- Items: other artifacts and enchantments. ----- */
+  // Sacrificing it only lasts the combat: it's back when combat is over.
   'Seal of Fire': {
-    grants: { abilities: ['Sacrifice this enchantment: It deals 2 damage to any target.'], remove: 'Used' },
+    grants: {
+      abilities: ['Sacrifice this enchantment: It deals 2 damage to any target.'],
+      toggle: { label: 'Sacrificed', note: 'Sacrificed until combat is over.' },
+    },
   },
 
   // Sliver lords: absorbing one makes the player a Sliver, and they count themselves,

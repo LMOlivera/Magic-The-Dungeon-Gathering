@@ -74,7 +74,7 @@ The players apply these rules. The app doesn't run them; at most it offers count
 | Equipment | [DECIDED] The player equips it and gets what it grants. It stays its own card, so something can destroy it, and then that's lost. Adds its colors and cost. |
 | Aura | [DECIDED] A permanent bonus: the player enchants themselves for good. Adds its colors and cost. |
 | Instant / sorcery | [DECIDED] Joins the spell list (section 3) and adds its colors. Its cost isn't added: it's what casting the spell costs. |
-| Item (an artifact or enchantment that isn't an Equipment or Aura) | [DECIDED] Kept with the Equipment until it's used, then it's gone (Seal of Fire). Adds its colors and cost. |
+| Item (an artifact or enchantment that isn't an Equipment or Aura) | [DECIDED] Kept with the Equipment (Seal of Fire). Sacrificing it only lasts the combat: it's back when combat is over. Adds its colors and cost. |
 | Land | [PROPOSED] +1 mana per turn of that color (there are no lands left in the test pool) |
 | Everything else | [PENDING] Case by case |
 
@@ -93,7 +93,7 @@ The players apply these rules. The app doesn't run them; at most it offers count
 - [DECIDED] **Blinding Powder:** "Unattach" takes it off until the next combat; then it's back on by itself.
 - [DECIDED] **Carapace:** instead of "Sacrifice this Aura: Regenerate", when the player dies they come back without the Aura, and it returns when combat is over. Its text on the card: "When you would die, you come back instead, without Carapace. Carapace returns when combat is over." Under the card, "Revived" takes it off.
 - [DECIDED] **Cartouche of Zeal:** gives its +1/+1 and Haste and starts on, like any Aura. "Target creature can't block this turn" is WIP (its tooltip says so).
-- [DECIDED] **Seal of Fire:** an item, used once: "Used" gets rid of it.
+- [DECIDED] **Seal of Fire:** an item. Sacrificing it takes it away for the rest of the combat ("Sacrificed" under the card), and "Combat over" brings it back.
 - [DECIDED] **Bagel and Schmear** and **Desert** were taken out of the pool (`level1.txt` and `data/level1.json`).
 
 - [PROPOSED] When absorbing, the app adds up the stats, colors and types by itself and records the absorbed card on the sheet. The player can correct the result by hand.

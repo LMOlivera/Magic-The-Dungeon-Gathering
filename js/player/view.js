@@ -830,7 +830,7 @@ export async function initPlayerView() {
       const item = el('li');
       const how = {
         equipment: 'You equip it. It stays its own card: if something destroys it, you lose what it gives you.',
-        item: 'You keep it with your Equipment until you use it.',
+        item: 'You keep it with your Equipment. Sacrificing it only lasts the combat: it\u2019s back when combat is over.',
         aura: 'You enchant yourself with it, for good.',
       }[preview.kind];
       const summary = describeGrants(preview.name);
