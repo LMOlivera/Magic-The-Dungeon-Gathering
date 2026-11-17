@@ -624,7 +624,7 @@ export async function initPlayerView() {
   /** One row of buttons per card that transforms. */
   function renderTransforms() {
     const rows = (player.transforms || []).map((entry, index) => {
-      const flip = el('button', 'action', entry.transformed ? `Turn back into ${entry.front}` : `Transform into ${entry.back}`);
+      const flip = el('button', 'action', entry.transformed ? 'Turn back' : 'Transform');
       flip.type = 'button';
       flip.addEventListener('click', () => turnOver((sheet) => withTransformed(sheet, index, !entry.transformed)));
       const edit = el('button', 'action action--quiet', 'Edit other face');
@@ -929,9 +929,19 @@ export async function initPlayerView() {
     absorbing = null;
     picked = null;
     boosterDialog.close();
+    // From here the animation owns the card, so nothing draws the new values early.
+    animating = true;
+
+    // A card that transforms: ask for its other face's name and art right away. The card
+    // is already saved, so a reload now loses nothing ("Edit other face" is under the card).
+    if ((player.transforms || []).length > (before.transforms || []).length) {
+      await new Promise((resolve) => {
+        transformDialog.addEventListener('close', resolve, { once: true });
+        openTransformDialog(player.transforms.length - 1);
+      });
+    }
 
     // Switch to the card-only page, then load the new values into the card.
-    animating = true;
     render();
     window.scrollTo(0, 0);
     card.focus({ preventScroll: true });
@@ -948,8 +958,6 @@ export async function initPlayerView() {
       animating = false;
       render();
     }
-    // A card that transforms: offer a name and art for its other face.
-    if ((player.transforms || []).length > (before.transforms || []).length) openTransformDialog(player.transforms.length - 1);
   });
 
   /* ----- Keeping up with the page ----- */

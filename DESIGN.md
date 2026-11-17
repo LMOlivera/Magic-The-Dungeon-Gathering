@@ -141,8 +141,10 @@ General rules:
 - [DECIDED] **Cards that transform** (double-faced, like Cecil, Dark Knight) transform for real. On absorbing one, the player gets the front face, and the Player Card can be turned over.
   - Turned over, the player loses what the front face gave them and gets what the back face gives, plus a stat bonus: the difference between the two faces. With Cecil: 2/3 against 4/4, so +2/+1, and Deathtouch and Darkness become Lifelink and Protect.
   - [DECIDED] On getting a transformation, the player can give that face another name and another photo, if they want. Without a name or photo of its own, it uses the usual ones.
+  - [DECIDED] The dialog for that name and photo opens as soon as the player presses "Absorb", before the animation, so it can't be missed. The card is already saved by then, so reloading loses nothing; the absorb animation plays once the dialog is closed.
   - Chosen while implementing, not confirmed:
-    - Under the card are the buttons "Transform into …" / "Turn back into …" and "Edit other face" (which opens the name and photo again).
+    - [DECIDED] Under the card, the button just says "Transform" (not the card's name). Turned over, it says "Turn back".
+    - Under the card there's also "Edit other face" (which opens the name and photo again).
     - The card spins when it turns over, and turned over it shows a moon (☾) before the name, like the back face of double-faced cards.
     - It lasts until combat ends: "Combat over" clears the bonuses and turns the card back to its front.
     - If another absorbed card also gives a keyword or ability of the front face, the player keeps it when turned over.
