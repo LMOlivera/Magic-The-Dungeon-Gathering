@@ -2,6 +2,7 @@ import { transformedFace, shownTransform } from './transform.js';
 import { attachedEffects } from './gear.js';
 import { addKeywords } from '../rules/keywords.js';
 import { devotionBonus } from './absorb.js';
+import { newStart, START_POINTS } from './start.js';
 
 /**
  * The player's character sheet as plain data. No DOM and no storage here,
@@ -11,7 +12,7 @@ import { devotionBonus } from './absorb.js';
  * (shared/images.js) and the sheet only remembers whether they exist.
  */
 
-export const SAVE_VERSION = 10;
+export const SAVE_VERSION = 12;
 export const FLAVOR_MAX = 110;
 
 /** Collapses runs of whitespace and trims. An empty result means "no name". */
@@ -47,14 +48,21 @@ export function newPlayer(name, now = new Date()) {
     equipment: [],        // Equipment the player has on, see player/gear.js
     auras: [],            // Auras on the player, for good
     spells: [],           // the spell list: instants and sorceries
-    booster: null,        // { cardIds } of an opened booster not yet picked from
+    booster: null,        // { cardIds, level } of an opened booster not yet picked from
+    level: 1,             // see player/level.js
+    xp: 0,                // XP toward the next level
+    levelBoosters: [],    // levels whose booster is still waiting, oldest first
+    start: newStart(),    // the starting points while the card is being made, see player/start.js
     createdAt: now.toISOString(),
   };
 }
 
-/** The player opened a booster. It stays open (also across reloads) until a card is absorbed. */
-export function withBooster(player, cardIds) {
-  return { ...player, booster: { cardIds: [...cardIds] } };
+/**
+ * The player opened a booster: the one a level earned. It stays open (also across
+ * reloads) until a card is absorbed.
+ */
+export function withBooster(player, cardIds, level = null) {
+  return { ...player, booster: { cardIds: [...cardIds], level } };
 }
 
 export function withFlavor(player, text) {
@@ -201,6 +209,25 @@ export function upgradeSave(saved) {
   // v10 adds Equipment, Auras and the spell list.
   if (data.version === 9) {
     data = { ...data, version: 10, equipment: data.equipment ?? [], auras: data.auras ?? [], spells: data.spells ?? [] };
+  }
+
+  // v11 adds the starting points. A card that already absorbed something was made before them.
+  if (data.version === 10) {
+    const fresh = !(data.absorbed || []).length;
+    data = { ...data, version: 11, start: data.start ?? (fresh ? { points: START_POINTS, colors: null } : null) };
+  }
+
+  // v12 adds experience and levels. Boosters now come from leveling up, so a free booster
+  // left open by an older version (no level) is dropped.
+  if (data.version === 11) {
+    data = {
+      ...data,
+      version: 12,
+      level: data.level ?? 1,
+      xp: data.xp ?? 0,
+      levelBoosters: data.levelBoosters ?? [],
+      booster: data.booster && data.booster.level ? data.booster : null,
+    };
   }
 
   return { status: 'ok', player: data, images };

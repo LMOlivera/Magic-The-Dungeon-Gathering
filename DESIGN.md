@@ -57,13 +57,17 @@ The players apply these rules. The app doesn't run them; at most it offers count
 
 - [DECIDED] Only the player who defeats the monster gets the XP.
 - [DECIDED] On leveling up, the player opens a booster.
+- [DECIDED] **Experience:** players start at level 1. Leveling up takes their level × 3 XP: 3 to reach level 2, 6 more to reach level 3, and so on. The player keeps track of XP on the Player Card, with − and + buttons under the card. The rules are in `js/player/level.js`.
+  - Chosen while implementing, not confirmed: XP left over counts toward the next level, and a big gain can level up more than once (each new level earns its booster). − corrects a mistake: it never goes below 0 or takes a level away.
+- [DECIDED] **Level boosters:** every even level opens a booster of spells from `akashicos_spells.txt` that share a color with the player; every odd level, a booster of creatures from `akashicos.txt`. Boosters only come from leveling up: the free "Open a booster" button (from `level1.txt`) is gone.
+  - Chosen while implementing, not confirmed: the booster opens by itself on leveling up; closed, it waits under the card ("Open your level N booster"), and several wait in order. While a new card is still spending its starting points, boosters wait until it's done. A booster with nothing left to deal is used up, with a message. A creature with {X} from a booster picks X freely, since no points are spent.
 - [DECIDED] Each booster has 3 cards.
 - [DECIDED] For now, a booster doesn't deal cards the player already absorbed. It may not stay: it's one switch, `NO_REPEATS` in `js/player/booster.js`.
   - Chosen while implementing, not confirmed: if fewer than 3 cards are left, the booster has the ones left; with none left, the Player Card says there's nothing left to open.
 - [DECIDED] The name of the player's card is set when it's created. It can only change after opening a booster.
 - [PROPOSED] Each enemy gives XP equal to its mana value.
 - [PROPOSED] Catch-up for whoever falls behind: the lowest-level player opens 4-card boosters instead of 3.
-- [PENDING] How much XP each level takes.
+- [DECIDED] How much XP each level takes: level × 3 (above).
 - [PENDING] Whether the game is purely cooperative or has a winner (for example, the highest level at the end).
 
 ## 5. What absorbing each kind of card gives
@@ -328,10 +332,12 @@ js/
     camera.js     live camera
     photo.js      shrinks photos and turns them into JPEG
     booster.js    builds a booster from a pool (pure)
+    level.js      experience, levels and the boosters they earn (pure)
     absorb.js     absorbing a card (pure)
     transform.js  cards that transform: turning the player's card over (pure)
     gear.js       Equipment, Auras and the spell list (pure)
     roster.js     the cards saved in this browser, and their storage keys (pure)
+    start.js      a new card's starting points: its creature and spells (pure)
     absorb-animation.js  the absorb animation on the card
   rules/          the game's own rules, written by hand (pure data)
     keywords.js   what each keyword does in this game
@@ -341,6 +347,7 @@ js/
 data/
   level1.json     test pool: the cards of level1.txt with their data and image links
   akashicos.json  the cards of akashicos.txt, which a new card picks its first card from
+  akashicos_spells.json  the spells of akashicos_spells.txt, which a new card spends its other points on
 scripts/
   build-pool.js   builds a pool JSON from a list and Scryfall's file
   serve.py        local server for development, without caching
@@ -369,17 +376,21 @@ The code is already split following the architecture in section 9.
 
 - **Home:** done. Title, **Game** and **Player Card** buttons, and the sample starting card.
   - [DECIDED] The home card keeps the texts "Colorless. No abilities yet." and "Everyone walks in as a 1/1."
-- **Player Card:** card creation, boosters, absorbing creatures, Equipment, items, Auras and the spell list, +1/+1 counters, combat bonuses and cards that transform are done. Still missing: the other counters (damage, mana, XP, level) and export/import.
+- **Player Card:** card creation (with starting points), boosters, absorbing creatures, Equipment, items, Auras and the spell list, +1/+1 counters, combat bonuses, cards that transform, and XP and levels are done. Still missing: the other counters (damage, mana) and export/import.
   - [DECIDED] A browser can keep several player cards, for whoever wants more than one game. Going to Player Card with no cards starts a new one; with some, it shows a menu of the cards ("Your cards") to play one, delete one or make another.
   - Chosen while implementing, not confirmed: each card on the menu shows its photo, name, type line, power/toughness and how many cards it absorbed. From a card, "Your cards" (next to "Back to start") goes back to the menu, and coming to Player Card always opens on the menu. "Start over" became "Delete card", which goes back to the menu.
   - [DECIDED] A new card doesn't open a booster: its first card is picked from every card in `akashicos.txt` (`data/akashicos.json`). On the flavor text screen, the "Choose your first card!" button shows them all. (This replaces the earlier rule, where that button opened the first booster.)
     - Chosen while implementing, not confirmed: the list has a "Find a card" field that narrows it by name or type. Nothing is saved until a card is absorbed, so closing the list loses nothing. After that first card, "Open a booster" under the card deals 3 cards from `data/level1.json` as before.
+  - [DECIDED] **Starting points:** a new card has 5 points to spend. Each card costs its mana value in points. First the player picks one creature from `akashicos.txt`; then, on another screen, spells from `akashicos_spells.txt` that share a color with that creature, as many as their points allow. The rules are in `js/player/start.js`.
+    - [DECIDED] For a creature with {X} in its cost, X costs points too: X can go up to the points left (Mikaeus with X = 2 costs 3).
+    - [DECIDED] The player can stop with "Done" whenever they want, and it ends by itself when no spell they can afford is left. Points left over are lost.
+    - Chosen while implementing, not confirmed: the color has to be the creature's, not one a spell added later. A spell with {X} costs its mana value without X (Banefire costs 1), since X is paid when it's cast. Each spell can be picked once. The spell screen opens by itself after each absorption while points are left; closed, it opens again from "Choose a spell" under the card. "Open a booster" is hidden until the points are spent. The absorb screen shows the points before and after.
   - The booster deals 3 cards from `data/level1.json`. Every card in the pool can come up. The player picks one, confirms it, sees how their card turns out and absorbs it.
   - [DECIDED] When absorbing, the values can be seen loading into the card: the creature flies into the card and each value that changes (power/toughness, colors, cost, types, abilities) updates in turn, with a caption saying what changed. With "reduce motion" turned on in the system, the card changes all at once.
   - [DECIDED] After the first absorption, the Player Card page shows only the current card.
   - Chosen while implementing, not confirmed: that view keeps the "Back to start" link and a discreet "Start over" under the card, along with the counters, the bonuses and the transform buttons.
-  - [DECIDED] Under the card there's an "Open a booster" button, to keep opening boosters (and test the cards).
-  - [PENDING] Whether that button stays as it is or boosters are earned some other way (on leveling up, section 4), and whether flavor text and art can be edited afterwards, since the card-only view doesn't have those controls.
+  - [DECIDED] Boosters are earned by leveling up (section 4). The free "Open a booster" button that dealt from `level1.txt` was removed; under the card, "Open your level N booster" shows while one is waiting.
+  - [PENDING] Whether flavor text and art can be edited afterwards, since the card-only view doesn't have those controls.
   - An open booster stays saved until a card is absorbed. Closing it or reloading the page shows the same cards.
   - The card paints the player's color circles, and the type line shrinks to fit, like the name.
   - [DECIDED] Step 1: name the card. It stays set (see section 4).
@@ -389,7 +400,7 @@ The code is already split following the architecture in section 9.
   - [DECIDED] Optional flavor text.
   - [DECIDED] The player's basic card has no default text.
   - Chosen while implementing, not confirmed: the photo can be skipped and changed later; flavor text has a maximum of 110 characters; the original photo is kept so it can be cropped again.
-  - The list of cards is saved in `localStorage` under `mtdg.players`, and each card's sheet under `mtdg.player.<id>` (format version 10). The photos go in IndexedDB (database `mtdg`, keys `player.<id>.art` and `player.<id>.artSource`; the other face of a card that transforms uses `player.<id>.transform0.art`, etc.). The keys are in `js/player/roster.js`.
+  - The list of cards is saved in `localStorage` under `mtdg.players`, and each card's sheet under `mtdg.player.<id>` (format version 12). The photos go in IndexedDB (database `mtdg`, keys `player.<id>.art` and `player.<id>.artSource`; the other face of a card that transforms uses `player.<id>.transform0.art`, etc.). The keys are in `js/player/roster.js`.
   - Before there could be several cards, the only card was saved under `mtdg.player` with its photos under `player.art`, `player.artSource` and `player.transform0.art`. When the page opens it becomes the first card of the list; the old keys are removed only once its photos are under the new ones.
   - When a card is made, the page asks the browser to keep the data (`navigator.storage.persist()`), so it isn't cleared when the device runs low on space. Safari on iPhone still clears a site's data after 7 days without visiting it, unless the page was added to the home screen; export/import (section 11) is the real backup.
   - Old saves are migrated automatically when the page opens:
@@ -399,18 +410,21 @@ The code is already split following the architecture in section 9.
     - Version 5 keeps keywords apart from the other abilities.
     - Version 6 adds the card types besides Creature. Saves from before version 6 start without card types, even if they absorbed an artifact or an enchantment.
     - Version 7 adds +1/+1 counters, version 8 combat bonuses, version 9 cards that transform and version 10 Equipment, Auras and the spell list.
+    - Version 11 adds the starting points. A card that absorbed nothing yet gets its 5 points; one that already absorbed something was made before them and gets none.
+    - Version 12 adds the level, XP and the boosters waiting. Every card starts at level 1 with 0 XP. A free booster left open by an older version is dropped, since boosters now come from leveling up.
 - **Game:** empty screen marked "Not built yet".
 - **First card:** see Player Card above.
-- **Boosters:** the Player Card deals 3 different random cards from the `data/level1.json` pool, shows their images from Scryfall and lets the player pick one and confirm it with "Confirm". Each card's name shows on mouse hover, even if the image hasn't loaded. (The `BoosterTest.html` proof of concept, which dealt from the whole pool, was removed.)
+- **Boosters:** a level booster deals 3 different random cards from `data/akashicos_spells.json` (even levels) or `data/akashicos.json` (odd levels); `data/level1.json` is no longer used by the Player Card. It shows their images from Scryfall and lets the player pick one and confirm it with "Confirm". Each card's name shows on mouse hover, even if the image hasn't loaded. (The `BoosterTest.html` proof of concept, which dealt from the whole pool, was removed.)
   - `level1.txt` is the test card list (99 cards). The pool is rebuilt with `node scripts/build-pool.js level1.txt oracle-cards-YYYYMMDD.jsonl data/level1.json`.
   - `akashicos.txt` is the list of first cards (111). Its pool is rebuilt the same way: `node scripts/build-pool.js akashicos.txt oracle-cards-YYYYMMDD.jsonl data/akashicos.json`.
+  - `akashicos_spells.txt` is the list of starting spells (60, all instants and sorceries costing 1 or 2): `node scripts/build-pool.js akashicos_spells.txt oracle-cards-YYYYMMDD.jsonl data/akashicos_spells.json`.
   - A marker after the collector number ("*F*", "*E*") is ignored. Printings sold under another name are looked up by their real name (`OTHER_NAMES` in `scripts/build-pool.js`): Benny, Platinum Thief is Tinybones, Trinket Thief, and Renfield, Delusional Minion is Eruth, Tormented Prophet.
   - Cards are looked up by name. Scryfall's file has a single printing per card, so the image may be from a different edition than the one in the list.
   - Images are requested from `cards.scryfall.io` with a plain `<img>` tag. No key is needed and no API calls, and Scryfall allows use from other sites.
 
 ## 11. Next steps
 
-1. Character sheet: manual counters (damage, mana, XP, level), export/import.
+1. Character sheet: manual counters (damage, mana), export/import.
 2. The rules still WIP or pending: Deathtouch, Defender, Menace, "can't block", the formation, "until end of turn".
 3. **Game** view: current room, monsters and room counter.
 

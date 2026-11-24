@@ -69,7 +69,7 @@ test('absorbing records the card, closes the booster and does not change the ori
   const after = absorbCreature(before, turtle);
   assert.deepEqual(after.absorbed, [{ id: 'id-Aegis Turtle', name: 'Aegis Turtle', keywords: [], abilities: [] }]);
   assert.equal(after.booster, null);
-  assert.deepEqual(before.booster, { cardIds: ['a', 'b', 'c'] });
+  assert.deepEqual(before.booster, { cardIds: ['a', 'b', 'c'], level: null });
   assert.equal(before.power, 1);
   assert.deepEqual(before.absorbed, []);
 });

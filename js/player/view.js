@@ -21,10 +21,14 @@ import {
   withBonus, describeBonus,
   toCardData, upgradeSave,
 } from './model.js';
-import { isAbsorbable, absorbPreview, absorbCard, describeColors, typeLineOf } from './absorb.js';
+import { isAbsorbable, absorbPreview, absorbCard, describeColors, typeLineOf, chosenX } from './absorb.js';
+import {
+  picksSpells, cardPoints, maxX, affordableCreatures, startSpells, withStartPick, withStartDone,
+} from './start.js';
 import { describeGrants, grantsOf, withoutEquipment, withOff, putBackOn, withSpellCast, returnSpells } from './gear.js';
 import { keywordRule, parseKeyword } from '../rules/keywords.js';
-import { makeBooster, boosterPool } from './booster.js';
+import { makeBooster } from './booster.js';
+import { withXp, xpToLevelUp, nextLevelBooster, withLevelBoosterUsed, levelBoosterPool } from './level.js';
 import {
   withTransformed, untransformAll, withTransformName, withTransformArt, withoutTransformArt,
 } from './transform.js';
@@ -42,8 +46,8 @@ import {
 
 const FLIP_MS = 600; // .card.is-flipping in css/player.css
 const FALLBACK_ART_RATIO = 1.37; // .card__art aspect-ratio in css/card.css
-const POOL_URL = 'data/level1.json';
 const FIRST_POOL_URL = 'data/akashicos.json'; // the first card is picked from all of these
+const SPELLS_POOL_URL = 'data/akashicos_spells.json'; // then spells, with the points left (player/start.js)
 
 export async function initPlayerView() {
   const card = $('pc-card');
@@ -209,6 +213,8 @@ export async function initPlayerView() {
       $('pc-art-skip').hidden = editingArt && !player.hasArt;
       $('pc-art-cancel').hidden = !editingArt;
     } else if (step === 'card') {
+      renderStart();
+      renderLevel();
       $('pc-counter-value').textContent = describeCounters(player.counters || 0);
       $('pc-bonus-power-value').textContent = describeBonus(player.bonusPower);
       $('pc-bonus-toughness-value').textContent = describeBonus(player.bonusToughness);
@@ -225,6 +231,7 @@ export async function initPlayerView() {
       $('pc-summary').replaceChildren(
         el('strong', null, player.name),
         ` walks in as a ${describeColors(player.colors)} ${player.power}/${player.toughness} ${player.types.join(' ')}.`,
+        player.start ? ` You have ${points(player.start.points)} to spend: first a creature, then spells that share a color with it. Each card costs its mana value.` : '',
       );
     }
   }
@@ -480,6 +487,36 @@ export async function initPlayerView() {
   $('pc-reset').addEventListener('click', deleteCurrent);
   $('pc-reset-card').addEventListener('click', deleteCurrent);
 
+  /* ----- Experience and levels (player/level.js) ----- */
+  function renderLevel() {
+    const level = player.level || 1;
+    $('pc-level-value').textContent = String(level);
+    $('pc-xp-value').textContent = `${player.xp || 0}/${xpToLevelUp(level)}`;
+    $('pc-xp-down').disabled = !player.xp;
+    // Boosters wait while the starting points are being spent.
+    const next = nextLevelBooster(player);
+    const button = $('pc-open-another');
+    button.hidden = !next || Boolean(player.start);
+    if (next) {
+      const waiting = (player.levelBoosters || []).length;
+      button.textContent = `Open your level ${next.level} booster${waiting > 1 ? ` (${waiting} waiting)` : ''}`;
+    }
+  }
+
+  async function changeXp(by) {
+    if (!player || animating) return;
+    const before = player.level || 1;
+    player = withXp(player, by);
+    save();
+    render();
+    if (player.level > before) {
+      $('pc-absorb-caption').textContent = `Level up! You're level ${player.level}.`;
+      if (!player.start) await openBooster();
+    }
+  }
+  $('pc-xp-up').addEventListener('click', () => changeXp(1));
+  $('pc-xp-down').addEventListener('click', () => changeXp(-1));
+
   /* ----- Counters ----- */
   function changeCounters(by) {
     if (!player || animating) return;
@@ -688,6 +725,57 @@ export async function initPlayerView() {
     render();
   });
 
+  /* ----- Starting points: a creature, then spells (player/start.js) ----- */
+  const points = (n) => `${n} point${n === 1 ? '' : 's'}`;
+  let startNote = ''; // why picking spells ended by itself, until the next booster
+
+  function renderStart() {
+    const spending = picksSpells(player);
+    $('pc-start').hidden = !spending;
+    if (spending) {
+      $('pc-start-text').textContent = `You have ${points(player.start.points)} left. Pick spells that share a color with your creature (${describeColors(player.start.colors)}).`;
+    }
+    $('pc-start-note').textContent = startNote;
+    $('pc-start-note').hidden = !startNote;
+  }
+
+  /** The spells the player can still pick. auto: opened by itself after absorbing a card. */
+  async function openSpellPick({ auto = false } = {}) {
+    if (animating || !picksSpells(player)) return;
+    showError('');
+    let pool;
+    try {
+      pool = await withBusy('Gathering the spells\u2026', () => loadAbsorbable(SPELLS_POOL_URL));
+    } catch {
+      showError("Couldn't load the spells. Check your connection and try again.");
+      return;
+    }
+    const cards = startSpells(pool, player);
+    if (!cards.length) {
+      // Nothing left the player could pick: the card is ready, and the rest of the points are lost.
+      startNote = `No spell left that costs ${player.start.points === 1 ? '1 point' : `${player.start.points} points or less`} and shares a color with your creature. Your card is ready.`;
+      player = withStartDone(player);
+      save();
+      render();
+      return;
+    }
+    showPick(cards, {
+      title: 'Choose a spell',
+      all: true,
+      mode: 'start',
+      status: `You have ${points(player.start.points)} left. Each spell costs its mana value.`,
+      note: auto ? 'You can close this and pick later, from under your card.' : 'You can close this and pick later.',
+    });
+  }
+  $('pc-start-spell').addEventListener('click', () => openSpellPick());
+  $('pc-start-done').addEventListener('click', () => {
+    if (!picksSpells(player)) return;
+    if (!confirm(`Finish with ${points(player.start.points)} left? The points you don't spend are lost.`)) return;
+    player = withStartDone(player);
+    save();
+    render();
+  });
+
   /* ----- Boosters and absorbing ----- */
   const boosterDialog = $('pc-booster');
   const confirmButton = $('pc-booster-confirm');
@@ -695,6 +783,8 @@ export async function initPlayerView() {
   let boosterCards = [];
   let boosterControls = null;
   let pickTitle = 'Booster'; // the dialog's title while picking
+  let pickMode = 'booster';  // 'start' while spending the starting points, so absorbing costs points
+  let pickStatus = 'Pick one card to absorb.';
   let picked = null;       // the card clicked in the booster
   let absorbing = null;    // the card being absorbed, on the second step
 
@@ -703,16 +793,19 @@ export async function initPlayerView() {
     return absorbablePools.get(url);
   }
 
-  /** The cards of the open booster, or a new booster if none is open (or its cards left the pool). */
-  function currentBooster(pool) {
-    if (player.booster) {
+  /**
+   * The cards of the open booster of that level, or a new one if none is open (or its
+   * cards left the pool).
+   */
+  function currentBooster(pool, { level, kind }) {
+    if (player.booster && player.booster.level === level) {
       const byId = new Map(pool.map((poolCard) => [poolCard.id, poolCard]));
       const cards = player.booster.cardIds.map((id) => byId.get(id));
       if (cards.length && cards.every(Boolean)) return cards;
     }
-    const cards = makeBooster(boosterPool(pool, player));
+    const cards = makeBooster(levelBoosterPool(pool, player, kind));
     if (!cards.length) return cards; // nothing left to deal
-    player = withBooster(player, cards.map((poolCard) => poolCard.id));
+    player = withBooster(player, cards.map((poolCard) => poolCard.id), level);
     save();
     return cards;
   }
@@ -732,20 +825,25 @@ export async function initPlayerView() {
     $('pc-booster-status').textContent = `${boosterCard.name} picked. Confirm it, or pick another card.`;
   }
 
-  /** Shows the cards to pick one from. all: every card of a pool, instead of a 3-card booster. */
-  function showPick(cards, { title, all }) {
+  /**
+   * Shows the cards to pick one from. all: every card of a pool, instead of a 3-card booster.
+   * mode 'start' spends the starting points on the card picked.
+   */
+  function showPick(cards, { title, all, mode = 'booster', status = 'Pick one card to absorb.', note }) {
     boosterCards = cards;
     pickTitle = title;
+    pickMode = mode;
+    pickStatus = status;
     picked = null;
     confirmButton.hidden = true;
-    $('pc-booster-status').textContent = 'Pick one card to absorb.';
+    $('pc-booster-status').textContent = status;
     $('pc-booster-cards').classList.toggle('booster--all', all);
     $('pc-booster-cards').setAttribute('aria-label', all ? 'Cards to pick from' : 'Booster');
     $('pc-booster-find').hidden = !all;
     $('pc-booster-find-input').value = '';
-    $('pc-booster-note').textContent = all
+    $('pc-booster-note').textContent = note || (all
       ? 'You can close this and pick later.'
-      : "Closing keeps this booster open. You'll see the same cards when you come back.";
+      : "Closing keeps this booster open. You'll see the same cards when you come back.");
     boosterControls = renderBooster($('pc-booster-cards'), boosterCards, pickCard);
     showPickStep();
     render();
@@ -753,22 +851,36 @@ export async function initPlayerView() {
     boosterDialog.scrollTop = 0;
   }
 
+  /** The booster the oldest level waiting earned: spells on even levels, creatures on odd ones. */
   async function openBooster() {
-    if (animating) return;
+    const next = nextLevelBooster(player);
+    if (animating || !next || player.start) return;
     showError('');
     let pool;
     try {
-      pool = await withBusy('Opening your booster\u2026', () => loadAbsorbable(POOL_URL));
+      pool = await withBusy('Opening your booster\u2026', () => loadAbsorbable(next.kind === 'spells' ? SPELLS_POOL_URL : FIRST_POOL_URL));
     } catch {
       showError("Couldn't load the card pool. Check your connection and try again.");
       return;
     }
-    const cards = currentBooster(pool);
+    const cards = currentBooster(pool, next);
+    startNote = '';
     if (!cards.length) {
-      showError('You have absorbed every card in the pool. There is nothing left to open.');
+      // Nothing left it could deal: that level's booster is used up.
+      player = withLevelBoosterUsed(player);
+      save();
+      render();
+      showError(next.kind === 'spells'
+        ? `There's no spell left that shares a color with you, so your level ${next.level} booster is empty.`
+        : `You have absorbed every creature, so your level ${next.level} booster is empty.`);
       return;
     }
-    showPick(cards, { title: 'Booster', all: false });
+    showPick(cards, {
+      title: `Level ${next.level} booster`,
+      all: false,
+      mode: 'level',
+      status: `Pick one ${next.kind === 'spells' ? 'spell' : 'creature'} to absorb.`,
+    });
   }
 
   /** A new card's first pick: every card of the first pool, not a booster. */
@@ -782,16 +894,25 @@ export async function initPlayerView() {
       showError("Couldn't load the cards. Check your connection and try again.");
       return;
     }
-    showPick(pool, { title: 'Choose your first card', all: true });
+    if (!player.start) {
+      showPick(pool, { title: 'Choose your first card', all: true });
+      return;
+    }
+    showPick(affordableCreatures(pool, player), {
+      title: 'Choose your first card',
+      all: true,
+      mode: 'start',
+      status: `You have ${points(player.start.points)}. Each card costs its mana value; what's left goes to spells.`,
+    });
   }
-  // The first card from the sheet, boosters from under the card.
+  // The first card from the sheet, the boosters levels earn from under the card.
   $('pc-open-booster').addEventListener('click', openFirstPick);
   $('pc-open-another').addEventListener('click', openBooster);
 
   // Narrowing a long list of cards by name or type.
   $('pc-booster-find-input').addEventListener('input', (event) => {
     const shown = boosterControls.filter(event.target.value);
-    $('pc-booster-status').textContent = shown ? 'Pick one card to absorb.' : 'No card matches that.';
+    $('pc-booster-status').textContent = shown ? pickStatus : 'No card matches that.';
   });
 
   $('pc-booster-close').addEventListener('click', () => boosterDialog.close());
@@ -801,11 +922,18 @@ export async function initPlayerView() {
     const power = $('pc-absorb-power');
     const toughness = $('pc-absorb-toughness');
     const x = $('pc-absorb-x');
+    // X costs points too, so it can't go above what's left.
+    const cap = spendsPoints() && absorbing ? maxX(absorbing, player.start.points) : Infinity;
     return {
       power: power ? power.value : undefined,
       toughness: toughness ? toughness.value : undefined,
-      x: x ? x.value : undefined,
+      x: x ? Math.min(chosenX(x.value), cap) : undefined,
     };
+  }
+
+  /** The card being absorbed is paid with the starting points. */
+  function spendsPoints() {
+    return pickMode === 'start' && Boolean(player.start);
   }
 
   /** before and after are text, or functions returning a node to show (for mana symbols). */
@@ -836,6 +964,10 @@ export async function initPlayerView() {
       changeRow('Mana cost', () => manaCostNode(player.manaCost), () => manaCostNode(after.manaCost), player.manaCost === after.manaCost),
       changeRow('Type', typeLineOf(player), typeLineOf(after)),
     );
+    if (spendsPoints()) {
+      const left = player.start.points;
+      $('pc-absorb-changes').append(changeRow('Points', String(left), String(left - cardPoints(absorbing, absorbChoices().x))));
+    }
   }
 
   /**
@@ -957,6 +1089,11 @@ export async function initPlayerView() {
         showAbilities(absorbPreview(player, absorbing, absorbChoices()));
         renderChanges();
       }, 0));
+      if (spendsPoints()) {
+        const most = maxX(boosterCard, player.start.points);
+        stats[0].querySelector('input').max = String(most);
+        stats[0].append(el('p', 'note', `X costs points too: you can pick up to ${most}.`));
+      }
     }
     if (preview.addPower === null) stats.push(statField('pc-absorb-power', preview.name, 'power', preview.rawPower));
     if (preview.addToughness === null) stats.push(statField('pc-absorb-toughness', preview.name, 'toughness', preview.rawToughness));
@@ -982,7 +1119,12 @@ export async function initPlayerView() {
     if (!absorbing || animating) return;
     const creature = absorbing;
     const before = player;
-    player = absorbCard(player, creature, absorbChoices());
+    const choices = absorbChoices();
+    const paid = spendsPoints();
+    const fromLevel = pickMode === 'level';
+    player = absorbCard(player, creature, choices);
+    if (paid) player = withStartPick(player, creature, choices.x);
+    if (fromLevel) player = withLevelBoosterUsed(player);
     save();
     absorbing = null;
     picked = null;
@@ -1016,6 +1158,10 @@ export async function initPlayerView() {
       animating = false;
       render();
     }
+    // Making a new card: on to the spells, while there are points left.
+    if (paid && picksSpells(player)) await openSpellPick({ auto: true });
+    // Several levels at once: on to the next booster.
+    else if (fromLevel && nextLevelBooster(player)) await openBooster();
   });
 
   /* ----- Keeping up with the page ----- */

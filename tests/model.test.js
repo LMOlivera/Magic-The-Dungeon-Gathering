@@ -155,10 +155,10 @@ test('the card shows the player mana cost', () => {
 test('an opened booster is kept until a card is absorbed', () => {
   const ids = ['a', 'b', 'c'];
   const player = withBooster(newPlayer('Ana'), ids);
-  assert.deepEqual(player.booster, { cardIds: ['a', 'b', 'c'] });
+  assert.deepEqual(player.booster, { cardIds: ['a', 'b', 'c'], level: null });
   ids.push('d');
   assert.equal(player.booster.cardIds.length, 3, 'keeps its own copy');
-  assert.deepEqual(upgradeSave(player).player.booster, { cardIds: ['a', 'b', 'c'] });
+  assert.deepEqual(upgradeSave(player).player.booster, { cardIds: ['a', 'b', 'c'], level: null });
 });
 
 test('upgradeSave handles the earliest v1 saves: no flavor, no original photo', () => {

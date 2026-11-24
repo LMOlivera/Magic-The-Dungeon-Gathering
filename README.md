@@ -37,6 +37,7 @@ Rebuilding the test card pool takes Scryfall's "Oracle Cards" file from [Scryfal
 ```
 node scripts/build-pool.js level1.txt oracle-cards-YYYYMMDD.jsonl data/level1.json
 node scripts/build-pool.js akashicos.txt oracle-cards-YYYYMMDD.jsonl data/akashicos.json
+node scripts/build-pool.js akashicos_spells.txt oracle-cards-YYYYMMDD.jsonl data/akashicos_spells.json
 ```
 
-A new card picks its first card from every card in `akashicos.txt`; boosters after that come from `level1.txt`.
+A new card spends 5 points (mana value) on a creature from `akashicos.txt`, then on spells from `akashicos_spells.txt` that share its color; boosters after that come from `level1.txt`.

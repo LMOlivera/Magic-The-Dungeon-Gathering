@@ -106,6 +106,12 @@
 .absorb-caption { min-height: 1.5em; margin: 0; color: var(--bone); font-weight: 500; text-align: center; }
 .absorb-caption:empty { visibility: hidden; }
 .action--big { padding: 14px 22px; font-size: 1.125rem; }
+/* Making a new card: the starting points left for spells. */
+.start { display: flex; flex-direction: column; align-items: center; gap: 8px; max-width: 420px; text-align: center; }
+.start[hidden] { display: none; }
+.start p { margin: 0; }
+.start .actions { justify-content: center; }
+#pc-start-note { margin: 0; max-width: 420px; text-align: center; }
 
 /* Cards that transform, under the card. */
 .transforms { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px 12px; }
