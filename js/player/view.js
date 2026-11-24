@@ -3,8 +3,9 @@
  * A browser can keep several cards. With none, the page starts a new one; with
  * some, it opens on the menu of cards ("Your cards") to play, delete or make one.
  * Flow of a new card: name it, pick its art, then the finished sheet, where the
- * player opens their first booster. Once the card has absorbed something the
- * page shows only the card.
+ * player picks their first card from every card in data/akashicos.json. Once the
+ * card has absorbed something the page shows only the card, and boosters come
+ * from data/level1.json.
  *
  * Everything stays in this browser, under the keys of player/roster.js: the list
  * of cards and each card's sheet in localStorage, the photos in the image store.
@@ -42,6 +43,7 @@ import {
 const FLIP_MS = 600; // .card.is-flipping in css/player.css
 const FALLBACK_ART_RATIO = 1.37; // .card__art aspect-ratio in css/card.css
 const POOL_URL = 'data/level1.json';
+const FIRST_POOL_URL = 'data/akashicos.json'; // the first card is picked from all of these
 
 export async function initPlayerView() {
   const card = $('pc-card');
@@ -689,15 +691,16 @@ export async function initPlayerView() {
   /* ----- Boosters and absorbing ----- */
   const boosterDialog = $('pc-booster');
   const confirmButton = $('pc-booster-confirm');
-  let absorbablePool = null; // the cards of the pool that can be absorbed so far
+  const absorbablePools = new Map(); // pool URL -> the cards of that pool that can be absorbed so far
   let boosterCards = [];
   let boosterControls = null;
+  let pickTitle = 'Booster'; // the dialog's title while picking
   let picked = null;       // the card clicked in the booster
   let absorbing = null;    // the card being absorbed, on the second step
 
-  async function loadAbsorbable() {
-    if (!absorbablePool) absorbablePool = (await loadPool(POOL_URL)).filter(isAbsorbable);
-    return absorbablePool;
+  async function loadAbsorbable(url) {
+    if (!absorbablePools.has(url)) absorbablePools.set(url, (await loadPool(url)).filter(isAbsorbable));
+    return absorbablePools.get(url);
   }
 
   /** The cards of the open booster, or a new booster if none is open (or its cards left the pool). */
@@ -718,7 +721,7 @@ export async function initPlayerView() {
     absorbing = null;
     $('pc-booster-pick').hidden = false;
     $('pc-absorb').hidden = true;
-    $('pc-booster-title').textContent = 'Booster';
+    $('pc-booster-title').textContent = pickTitle;
   }
 
   function pickCard(boosterCard) {
@@ -729,32 +732,67 @@ export async function initPlayerView() {
     $('pc-booster-status').textContent = `${boosterCard.name} picked. Confirm it, or pick another card.`;
   }
 
+  /** Shows the cards to pick one from. all: every card of a pool, instead of a 3-card booster. */
+  function showPick(cards, { title, all }) {
+    boosterCards = cards;
+    pickTitle = title;
+    picked = null;
+    confirmButton.hidden = true;
+    $('pc-booster-status').textContent = 'Pick one card to absorb.';
+    $('pc-booster-cards').classList.toggle('booster--all', all);
+    $('pc-booster-cards').setAttribute('aria-label', all ? 'Cards to pick from' : 'Booster');
+    $('pc-booster-find').hidden = !all;
+    $('pc-booster-find-input').value = '';
+    $('pc-booster-note').textContent = all
+      ? 'You can close this and pick later.'
+      : "Closing keeps this booster open. You'll see the same cards when you come back.";
+    boosterControls = renderBooster($('pc-booster-cards'), boosterCards, pickCard);
+    showPickStep();
+    render();
+    boosterDialog.showModal();
+    boosterDialog.scrollTop = 0;
+  }
+
   async function openBooster() {
     if (animating) return;
     showError('');
     let pool;
     try {
-      pool = await withBusy('Opening your booster\u2026', loadAbsorbable);
+      pool = await withBusy('Opening your booster\u2026', () => loadAbsorbable(POOL_URL));
     } catch {
       showError("Couldn't load the card pool. Check your connection and try again.");
       return;
     }
-    boosterCards = currentBooster(pool);
-    if (!boosterCards.length) {
+    const cards = currentBooster(pool);
+    if (!cards.length) {
       showError('You have absorbed every card in the pool. There is nothing left to open.');
       return;
     }
-    picked = null;
-    confirmButton.hidden = true;
-    $('pc-booster-status').textContent = 'Pick one card to absorb.';
-    boosterControls = renderBooster($('pc-booster-cards'), boosterCards, pickCard);
-    showPickStep();
-    render();
-    boosterDialog.showModal();
+    showPick(cards, { title: 'Booster', all: false });
   }
-  // The first one from the sheet, the next ones from under the card.
-  $('pc-open-booster').addEventListener('click', openBooster);
+
+  /** A new card's first pick: every card of the first pool, not a booster. */
+  async function openFirstPick() {
+    if (animating) return;
+    showError('');
+    let pool;
+    try {
+      pool = await withBusy('Gathering the cards\u2026', () => loadAbsorbable(FIRST_POOL_URL));
+    } catch {
+      showError("Couldn't load the cards. Check your connection and try again.");
+      return;
+    }
+    showPick(pool, { title: 'Choose your first card', all: true });
+  }
+  // The first card from the sheet, boosters from under the card.
+  $('pc-open-booster').addEventListener('click', openFirstPick);
   $('pc-open-another').addEventListener('click', openBooster);
+
+  // Narrowing a long list of cards by name or type.
+  $('pc-booster-find-input').addEventListener('input', (event) => {
+    const shown = boosterControls.filter(event.target.value);
+    $('pc-booster-status').textContent = shown ? 'Pick one card to absorb.' : 'No card matches that.';
+  });
 
   $('pc-booster-close').addEventListener('click', () => boosterDialog.close());
 

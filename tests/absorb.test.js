@@ -168,8 +168,8 @@ test('rules text nobody has decided about gives nothing yet', () => {
   assert.equal(textToAbsorb(turtle).reviewed, true, 'no text, nothing to decide');
 });
 
-test('rules/cards.js only uses defined keywords and names cards of the pool', () => {
-  const { cards } = JSON.parse(readFileSync(new URL('../data/level1.json', import.meta.url), 'utf8'));
+test('rules/cards.js only uses defined keywords and names cards of the pools', () => {
+  const cards = ['level1', 'akashicos'].flatMap((pool) => JSON.parse(readFileSync(new URL(`../data/${pool}.json`, import.meta.url), 'utf8')).cards);
   const names = new Set(cards.flatMap((poolCard) => [poolCard.name, ...(poolCard.faces || []).map((face) => face.name)]));
   for (const [name, rules] of Object.entries(CARD_RULES)) {
     assert.ok(names.has(name), `${name} is not in the pool`);
@@ -246,4 +246,13 @@ test('a Sliver lord bonus goes to the player, and two of them stack', () => {
   const two = absorbCreature(one, sinew);
   assert.equal(`${two.power}/${two.toughness}`, '5/5');
   assert.deepEqual(two.abilities, ['All Sliver creatures get +1/+1.'], 'the same text once');
+});
+
+test('Anafenza and Wan Shi Tong give Flash', () => {
+  const { cards } = JSON.parse(readFileSync(new URL('../data/akashicos.json', import.meta.url), 'utf8'));
+  for (const name of ['Anafenza, Unyielding Lineage', 'Wan Shi Tong, Librarian']) {
+    const poolCard = cards.find((card) => card.name === name);
+    assert.deepEqual(absorbCreature(newPlayer('Ana'), poolCard).keywords, ['Flash'], name);
+  }
+  assert.ok(keywordRule('Flash'));
 });

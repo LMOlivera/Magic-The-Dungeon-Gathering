@@ -113,6 +113,9 @@ export const CARD_RULES = {
   'Champion of the Parish': {
     abilities: ['Whenever another Human you control enters, put a +1/+1 counter on this creature.'],
   },
+  /* ----- First cards (akashicos.txt). Only what has been decided so far. ----- */
+  'Anafenza, Unyielding Lineage': { keywords: ['Flash'] },
+  'Wan Shi Tong, Librarian': { keywords: ['Flash'] },
   /* ----- Equipment: the player equips it on absorbing it (no Equip cost). ----- */
   '+2 Mace': { grants: { power: 2, toughness: 2 } },
   'Arc Spitter': { grants: { abilities: ['{1}: This creature deals 1 damage to target creature that\'s blocking it.'] } },

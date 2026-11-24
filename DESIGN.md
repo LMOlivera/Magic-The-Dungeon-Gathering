@@ -41,7 +41,7 @@ The players apply these rules. The app doesn't run them; at most it offers count
 - [DECIDED] Each spell on the list can be cast once per combat: after it's cast it "goes to the graveyard", and it comes back when combat is over.
 - [DECIDED] The player's life is their toughness; their starting life ("starting life total") is the toughness they have when combat starts.
 - [PROPOSED] Power = damage per attack. Toughness = maximum life. Damage lasts for the whole combat and the player heals when moving to another room.
-- [DECIDED] **Turn order:** whenever a combat starts, players and enemies roll a d20 to set the order of turns. Creatures with Haste go first; if several have Haste, they roll too, and they go first in that order, then everyone else.
+- [DECIDED] **Turn order:** whenever a combat starts, players and enemies roll a d20 to set the order of turns. Creatures with Flash act first, but only on the first turn of combat (they still roll for their place in the order). Creatures with Haste go first; if several have Haste, they roll too, and they go first in that order, then everyone else.
   - [PENDING] Whether the app helps with the roll (for example on the Game screen) or it's done with real dice at the table.
 - [PROPOSED] On their turn, a player attacks or casts spells. (This replaces the proposed round order "first all the players, then all the enemies".)
 - [DECIDED] Mana isn't lost between rounds: it builds up, and it's lost when combat ends.
@@ -194,6 +194,7 @@ Card by card (all [DECIDED]):
 - **Voracious Vampire:** gives Menace (WIP) and keeps its text as printed; the player is a Vampire, so they can be its target.
 - **Smitten Swordmaster:** gives Lifelink (only the creature, not its adventure).
 - Creatures without text (Aegis Turtle, Phyrexian Walker, Vampire Noble) need no review.
+- **Anafenza, Unyielding Lineage** and **Wan Shi Tong, Librarian** (first cards): give Flash. Nothing else from their text is decided yet, so for now they give only Flash.
 
 Reviewed on my own with the rules above, after the author asked me to go on alone (Chosen while implementing, not confirmed; each one only applies rules already decided):
 
@@ -216,6 +217,7 @@ Still open:
 - [DECIDED] **Vigilance:** enemies focus their attacks on players with Vigilance. Text: "Enemies will focus their attacks on players with Vigilance." Replaces the earlier version ("becomes the focus of every enemy until they die").
 - [DECIDED] **Bushido N:** whenever the player attacks someone or is attacked, they get +N/+N until end of turn, kept as combat bonuses. It stacks: Bushido 1 + Bushido 1 = Bushido 2. Text: "Whenever you attack or are attacked, you get +N/+N until end of turn."
 - [DECIDED] **Haste:** goes first in the turn order (section 3). Text: "When combat starts, you go before everyone without haste. Everyone with haste rolls a d20 too, to set the order among them."
+- [DECIDED] **Flash:** the player acts first when combat starts, before creatures with Haste, but only on the first turn of combat. They still roll initiative, which sets their place after that. Text: "When combat starts, you act first, even before creatures with haste. You only act first on the first turn of combat. You still roll initiative."
 - [DECIDED] **First strike:** a player with first strike hits back when attacked. A monster with first strike deals damage to whoever attacks it. Text: "Whenever a creature attacks you, you hit it back with your power."
 - [DECIDED] **Exalted:** whenever the player attacks, they get +1/+1 until end of turn, kept as combat bonuses. It stacks: two Exalted give Exalted 2 (+2/+2). Text: "Whenever you attack, you get +N/+N until end of turn."
 - [DECIDED] **Trample:** uses the formation. If the attack kills the creature in front, the damage left over hits the one behind it. Text: "If your attack kills the creature in front, the damage left over hits the one behind it."
@@ -314,6 +316,7 @@ js/
   game/           doesn't exist yet; the Game part goes here
 data/
   level1.json     test pool: the cards of level1.txt with their data and image links
+  akashicos.json  the cards of akashicos.txt, which a new card picks its first card from
 scripts/
   build-pool.js   builds a pool JSON from a list and Scryfall's file
   serve.py        local server for development, without caching
@@ -345,7 +348,8 @@ The code is already split following the architecture in section 9.
 - **Player Card:** card creation, boosters, absorbing creatures, Equipment, items, Auras and the spell list, +1/+1 counters, combat bonuses and cards that transform are done. Still missing: the other counters (damage, mana, XP, level) and export/import.
   - [DECIDED] A browser can keep several player cards, for whoever wants more than one game. Going to Player Card with no cards starts a new one; with some, it shows a menu of the cards ("Your cards") to play one, delete one or make another.
   - Chosen while implementing, not confirmed: each card on the menu shows its photo, name, type line, power/toughness and how many cards it absorbed. From a card, "Your cards" (next to "Back to start") goes back to the menu, and coming to Player Card always opens on the menu. "Start over" became "Delete card", which goes back to the menu.
-  - [DECIDED] On the flavor text screen, the "Open your first booster pack!" button opens the first booster.
+  - [DECIDED] A new card doesn't open a booster: its first card is picked from every card in `akashicos.txt` (`data/akashicos.json`). On the flavor text screen, the "Choose your first card!" button shows them all. (This replaces the earlier rule, where that button opened the first booster.)
+    - Chosen while implementing, not confirmed: the list has a "Find a card" field that narrows it by name or type. Nothing is saved until a card is absorbed, so closing the list loses nothing. After that first card, "Open a booster" under the card deals 3 cards from `data/level1.json` as before.
   - The booster deals 3 cards from `data/level1.json`. Every card in the pool can come up. The player picks one, confirms it, sees how their card turns out and absorbs it.
   - [DECIDED] When absorbing, the values can be seen loading into the card: the creature flies into the card and each value that changes (power/toughness, colors, cost, types, abilities) updates in turn, with a caption saying what changed. With "reduce motion" turned on in the system, the card changes all at once.
   - [DECIDED] After the first absorption, the Player Card page shows only the current card.
@@ -372,8 +376,11 @@ The code is already split following the architecture in section 9.
     - Version 6 adds the card types besides Creature. Saves from before version 6 start without card types, even if they absorbed an artifact or an enchantment.
     - Version 7 adds +1/+1 counters, version 8 combat bonuses, version 9 cards that transform and version 10 Equipment, Auras and the spell list.
 - **Game:** empty screen marked "Not built yet".
+- **First card:** see Player Card above.
 - **Boosters:** the Player Card deals 3 different random cards from the `data/level1.json` pool, shows their images from Scryfall and lets the player pick one and confirm it with "Confirm". Each card's name shows on mouse hover, even if the image hasn't loaded. (The `BoosterTest.html` proof of concept, which dealt from the whole pool, was removed.)
   - `level1.txt` is the test card list (99 cards). The pool is rebuilt with `node scripts/build-pool.js level1.txt oracle-cards-YYYYMMDD.jsonl data/level1.json`.
+  - `akashicos.txt` is the list of first cards (111). Its pool is rebuilt the same way: `node scripts/build-pool.js akashicos.txt oracle-cards-YYYYMMDD.jsonl data/akashicos.json`.
+  - A marker after the collector number ("*F*", "*E*") is ignored. Printings sold under another name are looked up by their real name (`OTHER_NAMES` in `scripts/build-pool.js`): Benny, Platinum Thief is Tinybones, Trinket Thief, and Renfield, Delusional Minion is Eruth, Tormented Prophet.
   - Cards are looked up by name. Scryfall's file has a single printing per card, so the image may be from a different edition than the one in the list.
   - Images are requested from `cards.scryfall.io` with a plain `<img>` tag. No key is needed and no API calls, and Scryfall allows use from other sites.
 

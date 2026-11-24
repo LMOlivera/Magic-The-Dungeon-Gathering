@@ -37,6 +37,7 @@ export const KEYWORDS = {
   Defender: 'WIP', // to be defined
   Menace: 'WIP', // to be defined
   Bushido: (n) => `Whenever you attack or are attacked, you get +${n}/+${n} until end of turn.`,
+  Flash: 'When combat starts, you act first, even before creatures with haste. You only act first on the first turn of combat. You still roll initiative.',
   Haste: 'When combat starts, you go before everyone without haste. Everyone with haste rolls a d20 too, to set the order among them.',
   Ward: (n) => `Whenever a monster targets you with a spell or ability, it's countered unless that monster pays ${n} mana.`,
   // Kept from Magic in case hands and discarding come to the game.

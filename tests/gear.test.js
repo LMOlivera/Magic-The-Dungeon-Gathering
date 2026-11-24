@@ -77,6 +77,13 @@ test('every Equipment and Aura of the pool either has rules or waits out of boos
   assert.deepEqual(notAbsorbable, [], 'every card of the pool can come up in a booster');
 });
 
+test('every card of the first pick (akashicos.txt) can be absorbed', () => {
+  const { cards } = JSON.parse(readFileSync(new URL('../data/akashicos.json', import.meta.url), 'utf8'));
+  const list = readFileSync(new URL('../akashicos.txt', import.meta.url), 'utf8').split('\n').filter((line) => line.trim());
+  assert.equal(cards.length, list.length, 'every card of the list is in the pool');
+  assert.deepEqual(cards.filter((poolCard) => !isAbsorbable(poolCard)).map((poolCard) => poolCard.name), []);
+});
+
 test('upgradeSave adds Equipment, Auras and spells to v9 saves', () => {
   const v9 = { ...newPlayer('Ana'), version: 9 };
   delete v9.equipment;

@@ -73,7 +73,7 @@
           <label for="pc-name">Name your card</label>
           <input class="input" id="pc-name" autocomplete="off" spellcheck="false" placeholder="Human" required>
         </div>
-        <p class="note">The name is sealed once you pick it. It can only change after you open your first booster.</p>
+        <p class="note">The name is sealed once you pick it. It can only change after you open a booster.</p>
         <div class="actions">
           <button class="action action--primary" type="submit">Seal the name</button>
           <button class="action action--quiet" type="button" id="pc-name-cancel" hidden>Back to your cards</button>
@@ -95,14 +95,14 @@
 
     <section class="pc__step" id="pc-sheet" hidden>
       <p id="pc-summary"></p>
-      <p class="note">Your name is sealed until you open your first booster.</p>
+      <p class="note">Your name is sealed until you open a booster.</p>
       <div class="field">
         <label for="pc-flavor">Flavor text <span class="note">(optional)</span></label>
         <textarea class="input" id="pc-flavor" maxlength="110" rows="3" placeholder="A line of lore for the bottom of your card."></textarea>
         <div class="field__meta"><span>Saved as you type.</span><span id="pc-flavor-count">0/110</span></div>
       </div>
       <div class="actions">
-        <button class="action action--primary action--big" type="button" id="pc-open-booster">Open your first booster pack!</button>
+        <button class="action action--primary action--big" type="button" id="pc-open-booster">Choose your first card!</button>
       </div>
       <div class="actions">
         <button class="action" type="button" id="pc-edit-art" hidden>Edit art</button>
@@ -181,13 +181,17 @@
     <h3 id="pc-booster-title">Booster</h3>
 
     <section id="pc-booster-pick">
+      <div class="field booster-find" id="pc-booster-find" hidden>
+        <label for="pc-booster-find-input">Find a card</label>
+        <input class="input" id="pc-booster-find-input" type="search" autocomplete="off" spellcheck="false" placeholder="Name or type, like Wizard">
+      </div>
       <p class="note" id="pc-booster-status" role="status">Pick one card to absorb.</p>
       <ul class="booster" id="pc-booster-cards" aria-label="Booster"></ul>
       <div class="actions booster-dialog__actions">
         <button class="action action--primary" type="button" id="pc-booster-confirm" hidden>Confirm</button>
         <button class="action action--quiet" type="button" id="pc-booster-close">Close</button>
       </div>
-      <p class="note">Closing keeps this booster open. You'll see the same cards when you come back.</p>
+      <p class="note" id="pc-booster-note">Closing keeps this booster open. You'll see the same cards when you come back.</p>
     </section>
 
     <section id="pc-absorb" hidden>

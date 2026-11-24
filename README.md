@@ -36,4 +36,7 @@ Rebuilding the test card pool takes Scryfall's "Oracle Cards" file from [Scryfal
 
 ```
 node scripts/build-pool.js level1.txt oracle-cards-YYYYMMDD.jsonl data/level1.json
+node scripts/build-pool.js akashicos.txt oracle-cards-YYYYMMDD.jsonl data/akashicos.json
 ```
+
+A new card picks its first card from every card in `akashicos.txt`; boosters after that come from `level1.txt`.
