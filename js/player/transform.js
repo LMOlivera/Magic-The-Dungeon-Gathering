@@ -10,6 +10,8 @@
  *                          transformed, the player loses them
  *   power, toughness       the bonus the back face gives
  *   keywords, abilities    what the back face gives instead
+ *   keepFront              the front face's text stays when turned over, and the
+ *                          back face's is added to it (Erayo, Soratami Ascendant)
  *   transformed            the card shows this back face now
  *   name                   the player's name for that face ('' keeps their usual name)
  *   hasArt, hasArtSource, artCrop  that face's own photo, like the player's
@@ -30,6 +32,7 @@ export function newTransform(card, frontName, backRules, gave, absorbedIndex) {
     toughness: backRules.toughness || 0,
     keywords: [...(backRules.keywords || [])],
     abilities: [...(backRules.abilities || [])],
+    keepFront: Boolean(backRules.keepFront),
     transformed: false,
     name: '',
     hasArt: false,
@@ -92,6 +95,7 @@ export function transformedFace(player) {
   const othersGiveAbility = (ability) => others.some((card) => (card.abilities || []).includes(ability));
 
   for (const entry of flipped) {
+    if (entry.keepFront) continue;
     keywords = keywords.filter((keyword) => !entry.gave.keywords.some((given) => sameKeyword(given, keyword)) || othersGive(keyword));
     abilities = abilities.filter((ability) => !entry.gave.abilities.includes(ability) || othersGiveAbility(ability));
   }

@@ -6,7 +6,9 @@ import {
   frontFace, isCreatureCard, subtypesOf, statValue, mergeColors, describeColors,
   absorbPreview, absorbCreature, textToAbsorb, cardTypesOf, typeLineOf,
 } from '../js/player/absorb.js';
-import { newPlayer, withBooster } from '../js/player/model.js';
+import { newPlayer, withBooster, toCardData } from '../js/player/model.js';
+import { withTransformed } from '../js/player/transform.js';
+import { devotion } from '../js/shared/mana.js';
 import { CARD_RULES } from '../js/rules/cards.js';
 import { keywordRule, parseKeyword, addKeywords } from '../js/rules/keywords.js';
 import { TERMS } from '../js/rules/terms.js';
@@ -20,6 +22,8 @@ const turtle = creature('Aegis Turtle', { cost: '{U}', colors: ['U'], type: 'Cre
 const vampire = creature('Vampire Noble', { cost: '{2}{B}', colors: ['B'], type: 'Creature — Vampire Noble', power: '3', toughness: '2' });
 const ornithopter = creature('Ornithopter', { cost: '{0}', type: 'Artifact Creature — Thopter', power: '0', toughness: '2', text: 'Flying' });
 const sniper = creature('Dragon Sniper', { cost: '{G}', colors: ['G'], type: 'Creature — Human Archer', text: 'Reach, vigilance, deathtouch' });
+const firstCards = JSON.parse(readFileSync(new URL('../data/akashicos.json', import.meta.url), 'utf8')).cards;
+const firstCard = (name) => firstCards.find((card) => card.name.split(' // ')[0] === name);
 const unreviewed = creature('Not Reviewed Yet', { text: 'When this creature enters, draw a card.' });
 
 test('absorbing a creature adds its power and toughness', () => {
@@ -193,8 +197,9 @@ test('other card types join the player type line', () => {
 });
 
 test('every phrase in rules/terms.js shows up in some ability', () => {
+  const text = (ability) => (typeof ability === 'function' ? ability(2) : ability);
   const abilities = Object.values(CARD_RULES).flatMap((rules) => [
-    ...(rules.abilities || []),
+    ...(rules.abilities || []).map(text),
     ...(rules.grants?.abilities || []),
     ...(rules.transform?.abilities || []),
   ]);
@@ -249,10 +254,67 @@ test('a Sliver lord bonus goes to the player, and two of them stack', () => {
 });
 
 test('Anafenza and Wan Shi Tong give Flash', () => {
-  const { cards } = JSON.parse(readFileSync(new URL('../data/akashicos.json', import.meta.url), 'utf8'));
   for (const name of ['Anafenza, Unyielding Lineage', 'Wan Shi Tong, Librarian']) {
-    const poolCard = cards.find((card) => card.name === name);
-    assert.deepEqual(absorbCreature(newPlayer('Ana'), poolCard).keywords, ['Flash'], name);
+    assert.ok(absorbCreature(newPlayer('Ana'), firstCard(name)).keywords.includes('Flash'), name);
   }
   assert.ok(keywordRule('Flash'));
+});
+
+test('every first card with rules text has been reviewed', () => {
+  const unreviewed = firstCards.filter((card) => !textToAbsorb(card).reviewed).map((card) => card.name);
+  assert.deepEqual(unreviewed, []);
+});
+
+test('a card with {X} in its cost takes the X the player picks', () => {
+  const mikaeus = firstCard('Mikaeus, the Lunarch');
+  const preview = absorbPreview(newPlayer('Ana'), mikaeus);
+  assert.equal(preview.chooseX, true);
+  assert.equal(preview.manaCost, '{W}', 'X is 0 until picked');
+  const player = absorbCreature(newPlayer('Ana'), mikaeus, { x: '3' });
+  assert.equal(player.manaCost, '{3}{W}');
+  assert.ok(player.abilities.includes('This creature enters with 3 +1/+1 counters on it.'));
+  assert.equal(absorbCreature(newPlayer('Ana'), mikaeus, { x: '-2' }).manaCost, '{W}', 'X is never negative');
+  const goose = absorbCreature(newPlayer('Ana'), firstCard('The Goose Mother'), { x: '3' });
+  assert.ok(goose.abilities.includes('When this creature enters, create 2 Food tokens.'), 'half X, rounded up');
+  const wan = absorbCreature(newPlayer('Ana'), firstCard('Wan Shi Tong, Librarian'), { x: '1' });
+  assert.ok(wan.abilities[0].endsWith('put 1 +1/+1 counter on it. Then draw 0 cards.'), 'half X, rounded down');
+});
+
+test('devotion follows the player mana cost', () => {
+  const callaphe = absorbCreature(newPlayer('Ana'), firstCard('Callaphe, Beloved of the Sea'));
+  assert.equal(callaphe.power, 1, 'its * power adds 0 and nobody is asked');
+  assert.equal(toCardData(callaphe).power, 3, '1 + devotion to blue {1}{U}{U}');
+  const more = absorbCreature(callaphe, firstCard('Gran-Gran'));
+  assert.equal(toCardData(more).power, 1 + 1 + 3, 'Gran-Gran adds 1 power and one more {U}');
+  assert.equal(devotion('{U/R}{U/R}{B/P}', 'U'), 2, 'hybrids count');
+  assert.equal(devotion('{U/R}{U/R}{B/P}', 'B'), 1, 'Phyrexian mana counts');
+  const daxos = absorbCreature(newPlayer('Ana'), firstCard('Daxos, Blessed by the Sun'));
+  assert.equal(toCardData(daxos).toughness, 1 + 2);
+});
+
+test('Erayo flips and keeps its front text', () => {
+  let player = absorbCreature(newPlayer('Ana'), firstCard('Erayo, Soratami Ascendant'));
+  player = withTransformed(player, 0, true);
+  const card = toCardData(player);
+  assert.deepEqual(card.keywords, ['Flying']);
+  assert.ok(card.abilities.includes('Whenever the fourth spell of a turn is cast, flip this creature.'));
+  assert.ok(card.abilities.includes('Whenever an opponent casts their first spell each turn, counter that spell.'));
+  assert.equal(`${card.power}/${card.toughness}`, '2/2');
+});
+
+test('the keywords of the first cards have rules', () => {
+  assert.match(keywordRule('Protection from white and from black'), /^White or black instants and sorceries/);
+  assert.equal(keywordRule('Partner with Alisaie Leveilleur'), 'WIP');
+  assert.deepEqual(addKeywords(['Prowess'], ['Prowess']), ['Prowess 2']);
+  assert.match(keywordRule('Prowess 2'), /\+2\/\+2/);
+  assert.match(keywordRule('Double strike'), /twice/);
+});
+
+test('Locutus and Jacques le Vert give their lord bonus to the player', () => {
+  const locutus = absorbCreature(newPlayer('Ana'), firstCard('Locutus, the One Who Speaks'));
+  assert.equal(`${locutus.power}/${locutus.toughness}`, '3/3');
+  assert.deepEqual(locutus.cardTypes, ['Legendary', 'Artifact']);
+  const jacques = absorbCreature(newPlayer('Ana'), firstCard('Jacques le Vert'));
+  assert.equal(`${jacques.power}/${jacques.toughness}`, '4/5');
+  assert.match(absorbPreview(newPlayer('Ana'), firstCard('Jacques le Vert')).bonusNote, /green/);
 });

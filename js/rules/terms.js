@@ -61,7 +61,7 @@ export const TERMS = [
     tip: 'Gaining life heals you, but never above your toughness.',
   },
   {
-    pattern: /\btransform it\b/i,
+    pattern: /\btransform (?:it|this creature)\b|\bflip this creature\b/i,
     title: 'Transform',
     tip: 'Use Transform under your card: it turns over to its other face until combat is over.',
   },
@@ -80,4 +80,33 @@ export const TERMS = [
     title: 'Sacrifice',
     tip: 'You sacrifice yourself: you die to use this ability.',
   },
+  {
+    pattern: /\b(?:your|each) end step\b/i,
+    title: 'End step',
+    tip: 'Your end step is the end of your turn. Each end step is the end of every turn, players\' and monsters\' alike.',
+  },
+  {
+    pattern: /\bopponents?\b/i,
+    title: 'Opponent',
+    tip: 'An opponent is a monster.',
+  },
+  {
+    pattern: /\b(?:a|each|any|that|target|second|third) player\b|\bplayers\b/i,
+    title: 'Player',
+    tip: 'Players and monsters alike.',
+  },
+  // Players have no deck, hand or graveyard yet: this text stays on the card for when they do.
+  { pattern: /\b(?:draws?|drawn)\b/i, title: 'Draw', tip: 'WIP: players have no deck or hand yet.' },
+  { pattern: /\bdiscard(?:s|ed)?\b/i, title: 'Discard', tip: 'WIP: players have no deck or hand yet.' },
+  { pattern: /\bhands?\b/i, title: 'Hand', tip: 'WIP: players have no deck or hand yet.' },
+  { pattern: /\blibrar(?:y|ies)\b/i, title: 'Library', tip: 'WIP: players have no deck or hand yet.' },
+  { pattern: /\bscry\b/i, title: 'Scry', tip: 'WIP: players have no deck or hand yet.' },
+  { pattern: /\bmill\b/i, title: 'Mill', tip: 'WIP: players have no deck or hand yet.' },
+  { pattern: /\bexplores\b/i, title: 'Explore', tip: 'WIP: players have no deck or hand yet.' },
+  {
+    pattern: /\bgraveyards?\b/i,
+    title: 'Graveyard',
+    tip: 'WIP. For now only the spells you cast go to your graveyard, and they come back when combat is over.',
+  },
+  { pattern: /\bcommanders?\b/i, title: 'Commander', tip: 'WIP' },
 ];

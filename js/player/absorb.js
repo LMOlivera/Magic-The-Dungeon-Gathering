@@ -15,7 +15,7 @@
  * not their cost: that's what casting them costs. What else they give is in player/gear.js.
  */
 
-import { combineManaCosts } from '../shared/mana.js';
+import { combineManaCosts, devotion } from '../shared/mana.js';
 import { CARD_RULES } from '../rules/cards.js';
 import { addKeywords } from '../rules/keywords.js';
 import { newTransform } from './transform.js';
@@ -52,20 +52,51 @@ export function frontFace(card) {
  *   power, toughness  what it adds when the card's stat isn't a number, or undefined
  *   transform  its back face for a card that transforms, or null
  *   bonus      { power, toughness } it adds on top of its stats (a Sliver lord), or null
+ *   bonusNote  why that bonus is the player's, or null (a Sliver's when not given)
+ *   chooseX    its cost has {X}, which the player picks when absorbing it
+ * x is that X: abilities written as functions of X get it.
  */
-export function textToAbsorb(card) {
+export function textToAbsorb(card, x = 0) {
   const face = frontFace(card);
   const rules = Object.hasOwn(CARD_RULES, face.name) ? CARD_RULES[face.name] : null;
-  if (!rules) return { reviewed: !face.text.trim(), keywords: [], abilities: [], transform: null, bonus: null };
+  if (!rules) {
+    return { reviewed: !face.text.trim(), keywords: [], abilities: [], transform: null, bonus: null, bonusNote: null, chooseX: false };
+  }
   return {
     reviewed: true,
     keywords: [...(rules.keywords || [])],
-    abilities: [...(rules.abilities || [])],
+    abilities: (rules.abilities || []).map((ability) => (typeof ability === 'function' ? ability(x) : ability)),
     power: rules.power,
     toughness: rules.toughness,
     transform: rules.transform || null,
     bonus: rules.bonus || null,
+    bonusNote: rules.bonusNote || null,
+    chooseX: Boolean(rules.chooseX),
   };
+}
+
+/** The X the player picked for a card with {X} in its cost: a whole number, 0 or more. */
+export function chosenX(raw) {
+  const value = statValue(raw);
+  return value !== null && value > 0 ? value : 0;
+}
+
+/**
+ * What devotion adds to the player's card: for each absorbed card whose rules say
+ * `devotion` (like Callaphe, Beloved of the Sea), the number of that color's mana
+ * symbols in the player's mana cost. It follows the cost as it changes.
+ * Returns { power, toughness }.
+ */
+export function devotionBonus(player) {
+  let power = 0;
+  let toughness = 0;
+  for (const { name } of player.absorbed || []) {
+    const rules = Object.hasOwn(CARD_RULES, name) ? CARD_RULES[name] : null;
+    if (!rules || !rules.devotion) continue;
+    if (rules.devotion.power) power += devotion(player.manaCost, rules.devotion.power);
+    if (rules.devotion.toughness) toughness += devotion(player.manaCost, rules.devotion.toughness);
+  }
+  return { power, toughness };
 }
 
 export function isCreatureCard(card) {
@@ -132,17 +163,22 @@ export function describeColors(colors) {
  *   newKeywords, newAbilities  what the player doesn't have yet, or has with a new number
  *   transform               its back face (rules/cards.js) for a card that transforms, or null
  *   bonus                   { power, toughness } it adds on top of its stats, or null
+ *   bonusNote               why that bonus is the player's, or null
+ *   chooseX, x              its cost has {X}; x is the one picked (choices.x), 0 by default
  *   hasText                 the card has rules text
  *   textReviewed            false when that text hasn't been decided about (nothing is gained)
  *   kind                    'creature', 'equipment', 'aura' or 'spell' (player/gear.js)
  *   grants                  for an Equipment or Aura, what it grants (rules/cards.js), or null
  *   spell                   for an instant or sorcery, its entry for the spell list
  */
-export function absorbPreview(player, card) {
+export function absorbPreview(player, card, choices = {}) {
   const face = frontFace(card);
   const kind = kindOf(card);
   if (kind !== 'creature') return gearPreview(player, card, face, kind);
-  const text = textToAbsorb(card);
+  const x = chosenX(choices.x);
+  const text = textToAbsorb(card, x);
+  // Nothing is cast here: the X the player picked is that much generic mana.
+  const cost = text.chooseX ? face.manaCost.replace(/\{X\}/gi, `{${x}}`) : face.manaCost;
   const keywords = player.keywords || [];
   const keywordsAfter = addKeywords(keywords, text.keywords);
   return {
@@ -152,7 +188,7 @@ export function absorbPreview(player, card) {
     rawPower: face.power,
     rawToughness: face.toughness,
     colors: mergeColors(player.colors, card.colors || []),
-    manaCost: combineManaCosts(player.manaCost, face.manaCost),
+    manaCost: combineManaCosts(player.manaCost, cost),
     newTypes: subtypesOf(face.typeLine).filter((type) => !player.types.includes(type)),
     cardTypes: CARD_TYPE_ORDER.filter((type) => (player.cardTypes || []).includes(type) || cardTypesOf(face.typeLine).includes(type)),
     keywords: text.keywords,
@@ -162,6 +198,9 @@ export function absorbPreview(player, card) {
     newAbilities: text.abilities.filter((ability) => !player.abilities.includes(ability)),
     transform: text.transform,
     bonus: text.bonus,
+    bonusNote: text.bonusNote,
+    chooseX: text.chooseX,
+    x,
     hasText: Boolean(face.text.trim()),
     textReviewed: text.reviewed,
     kind: 'creature',
@@ -195,6 +234,9 @@ function gearPreview(player, card, face, kind) {
     newAbilities: [],
     transform: null,
     bonus: null,
+    bonusNote: null,
+    chooseX: false,
+    x: 0,
     hasText: Boolean(face.text.trim()),
     // A spell is cast as printed; an Equipment or Aura needs its entry in rules/cards.js.
     textReviewed: kind === 'spell' || Boolean(grants),
@@ -212,7 +254,7 @@ function gearPreview(player, card, face, kind) {
  * The open booster, if any, is used up.
  */
 export function absorbCard(player, card, choices = {}) {
-  const preview = absorbPreview(player, card);
+  const preview = absorbPreview(player, card, choices);
   if (preview.kind === 'creature') return absorbCreature(player, card, choices);
   const entry = { id: card.id, name: preview.name };
   return {
@@ -233,10 +275,11 @@ export function absorbCard(player, card, choices = {}) {
  * choices:
  *   power      how much power to add when the card's power isn't a number
  *   toughness  same for toughness
+ *   x          the X of a card with {X} in its cost
  * The open booster, if any, is used up.
  */
 export function absorbCreature(player, card, choices = {}) {
-  const preview = absorbPreview(player, card);
+  const preview = absorbPreview(player, card, choices);
   const absorbed = player.absorbed || [];
   // What its text gave, so turning over a transformed card knows what to take away.
   const gave = { keywords: preview.keywords, abilities: preview.abilities };

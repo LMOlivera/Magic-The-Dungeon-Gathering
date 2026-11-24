@@ -54,6 +54,14 @@ export function manaValue(cost) {
   }, 0);
 }
 
+/**
+ * Devotion to a color: how many of the cost's symbols are that color. Hybrid and
+ * Phyrexian symbols count for each color in them: {W/U} counts for white and blue.
+ */
+export function devotion(cost, color) {
+  return parseManaCost(cost).filter((symbol) => symbol.split('/').includes(color)).length;
+}
+
 /** Scryfall's image of a symbol. Generic numbers above 20 have no image; callers fall back to text. */
 export function manaSymbolUrl(symbol) {
   return `https://svgs.scryfall.io/card-symbols/${symbol.replace(/\//g, '')}.svg`;

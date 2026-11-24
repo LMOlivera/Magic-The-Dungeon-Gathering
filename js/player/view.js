@@ -800,7 +800,12 @@ export async function initPlayerView() {
   function absorbChoices() {
     const power = $('pc-absorb-power');
     const toughness = $('pc-absorb-toughness');
-    return { power: power ? power.value : undefined, toughness: toughness ? toughness.value : undefined };
+    const x = $('pc-absorb-x');
+    return {
+      power: power ? power.value : undefined,
+      toughness: toughness ? toughness.value : undefined,
+      x: x ? x.value : undefined,
+    };
   }
 
   /** before and after are text, or functions returning a node to show (for mana symbols). */
@@ -860,7 +865,7 @@ export async function initPlayerView() {
       const item = el('li');
       item.append(
         el('strong', null, `+${preview.bonus.power}/+${preview.bonus.toughness}`),
-        ' \u2014 You become a Sliver, so its bonus to Slivers is yours too. It\u2019s already in your power and toughness.',
+        ` \u2014 ${preview.bonusNote || 'You become a Sliver, so its bonus to Slivers is yours too.'} It\u2019s already in your power and toughness.`,
       );
       items.push(item);
     }
@@ -902,9 +907,12 @@ export async function initPlayerView() {
         ...(back.keywords || []).map((keyword) => keyword.toLowerCase()),
         ...(back.abilities || []).map((ability) => ability.split(' \u2014 ')[0]),
       ];
+      // A face that keeps the front's text (Erayo) adds to it instead of replacing it.
+      const how = back.keepFront ? 'you keep what this card gives you and also get' : 'you lose what this card gives you and get';
+      const stats = back.power || back.toughness || !back.keepFront ? [`+${back.power || 0}/+${back.toughness || 0}`] : [];
       item.append(
         el('strong', null, `Transforms into ${back.name}`),
-        ` \u2014 Your card can turn over. Transformed, you lose what this card gives you and get +${back.power || 0}/+${back.toughness || 0}${gains.length ? `, ${gains.join(', ')}` : ''}. You can give that face its own name and art.`,
+        ` \u2014 Your card can turn over. Transformed, ${how} ${[...stats, ...gains].join(', ')}. You can give that face its own name and art.`,
       );
       items.push(item);
     }
@@ -922,12 +930,17 @@ export async function initPlayerView() {
 
   /** A number field for a stat the card doesn't print as a number, like "*". */
   function statField(id, cardName, label, raw) {
+    return numberField(id, `${cardName}'s ${label} is ${raw}. How much ${label} does it add?`, renderChanges);
+  }
+
+  function numberField(id, text, onInput, min) {
     const field = el('div', 'field');
-    const labelEl = el('label', null, `${cardName}'s ${label} is ${raw}. How much ${label} does it add?`);
+    const labelEl = el('label', null, text);
     labelEl.htmlFor = id;
     const input = el('input', 'input');
     Object.assign(input, { id, type: 'number', inputMode: 'numeric', step: '1', value: '0' });
-    input.addEventListener('input', renderChanges);
+    if (min !== undefined) input.min = String(min);
+    input.addEventListener('input', onInput);
     field.append(labelEl, input);
     return field;
   }
@@ -938,6 +951,13 @@ export async function initPlayerView() {
     $('pc-booster-title').textContent = `Absorb ${preview.name}`;
 
     const stats = [];
+    if (preview.chooseX) {
+      // X changes the cost and the text: show both again as it changes.
+      stats.push(numberField('pc-absorb-x', `${preview.name} has X in its mana cost. Pick X: it's added to your mana cost as generic mana, and it's the X in its text.`, () => {
+        showAbilities(absorbPreview(player, absorbing, absorbChoices()));
+        renderChanges();
+      }, 0));
+    }
     if (preview.addPower === null) stats.push(statField('pc-absorb-power', preview.name, 'power', preview.rawPower));
     if (preview.addToughness === null) stats.push(statField('pc-absorb-toughness', preview.name, 'toughness', preview.rawToughness));
     $('pc-absorb-stats').replaceChildren(...stats);

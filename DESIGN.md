@@ -120,12 +120,19 @@ General rules:
 - [DECIDED] Keywords aren't explained with Magic's text in parentheses (reminder text), because they work differently in this game. Each one has its own rule in `js/rules/keywords.js` (section 6):
   - The absorb screen explains what each keyword gained is for.
   - On the player's card, the keyword shows its rule in a tooltip: on mouse hover, on keyboard focus, or when tapped on the phone.
-- [DECIDED] Phrases that mean something particular in this game also show their rule in a tooltip, inside the card text and on the absorb screen, just like keywords. They're in `js/rules/terms.js`. So far: "When/Whenever this creature enters", "enters tapped", "at the beginning of your upkeep", "prepared", "you gain N life" / "gained life", "Sacrifice this creature", "your party" / "a full party", "artifacts you control", "transform it", "your life total", "your starting life total", and the {T} symbol.
+- [DECIDED] Phrases that mean something particular in this game also show their rule in a tooltip, inside the card text and on the absorb screen, just like keywords. They're in `js/rules/terms.js`. So far: "When/Whenever this creature enters", "enters tapped", "at the beginning of your upkeep", "prepared", "you gain N life" / "gained life", "Sacrifice this creature", "your party" / "a full party", "artifacts you control", "transform it", "your life total", "your starting life total", "your end step" / "each end step", "opponent", "player", the WIP words (draw, discard, hand, library, scry, mill, explores, graveyard, commander), and the {T} symbol.
 - [DECIDED] Keywords that appear inside an ability's text (like "gains flying") don't get a tooltip. Only the ones on the keyword line do.
 - [DECIDED] **Tapping ({T}):** the player always taps to attack, as in Magic. An ability with {T} taps them too, so using it ends their turn.
 - [DECIDED] **"When this creature enters"** on the player's card means when combat starts. If a card exiles the player and returns them to the battlefield, they enter again and the ability triggers again, so it can trigger several times.
 - [DECIDED] **"Enters tapped":** the player starts each combat tapped, so they pass their first turn.
 - [DECIDED] **Upkeep:** "at the beginning of your upkeep" is the start of the player's turn.
+- [DECIDED] **End step:** "your end step" is the end of the player's turn; "each end step" is the end of every turn, players' and monsters' alike.
+- [DECIDED] **Opponent and player:** an "opponent" is a monster, and "player" means players and monsters alike. So "deals combat damage to a player" triggers when the player hits a monster, and "each player creates a token" includes the monsters.
+- [DECIDED] **No deck or hand yet:** text about drawing, discarding, the library, the hand, the graveyard, scry, mill and exploring stays on the card, with a "WIP" tooltip on those words. Commander rules (Partner, Partner with, Choose a Background, "commanders you control") stay too, marked WIP.
+  - Chosen while implementing, not confirmed: the graveyard tooltip also says that for now only the spells the player casts go there.
+- [DECIDED] **Text about the card itself as a card** is left out: casting it from hand (Sneak), "This spell can't be countered", "Discard this card" and "Return this card from your graveyard".
+- [DECIDED] **Devotion:** the player's devotion to a color is the number of that color's mana symbols in their mana cost (hybrid and Phyrexian symbols count for each of their colors). The app counts it and keeps it up to date as the cost changes; the card's `*` adds 0 (without asking).
+- [DECIDED] **{X} in a creature's cost:** the player picks X when absorbing it. It's added to their mana cost as that much generic mana, and it's the X in the card's text.
 - [DECIDED] **Prepared:** a card with a spell of its own (like Stingerquill Voxmancer) lets the player cast a copy of that spell while prepared. A copy doesn't go to the graveyard like the spells on the list, so being prepared again lets them cast it again.
 - [DECIDED] **Gain life:** gaining life heals the player, but never above their toughness. ("You gain N life" and "gained life" show this in a tooltip.)
 - [DECIDED] **"Sacrifice this creature"** on the player's card means the player sacrifices themselves: they die to trigger the effect.
@@ -194,7 +201,20 @@ Card by card (all [DECIDED]):
 - **Voracious Vampire:** gives Menace (WIP) and keeps its text as printed; the player is a Vampire, so they can be its target.
 - **Smitten Swordmaster:** gives Lifelink (only the creature, not its adventure).
 - Creatures without text (Aegis Turtle, Phyrexian Walker, Vampire Noble) need no review.
-- **Anafenza, Unyielding Lineage** and **Wan Shi Tong, Librarian** (first cards): give Flash. Nothing else from their text is decided yet, so for now they give only Flash.
+
+First cards (`akashicos.txt`), all [DECIDED] unless marked:
+
+- Every first card with rules text has an entry in `js/rules/cards.js`. Unless said below, a card gives its keywords and keeps the rest of its text as printed, with the rules above ("this creature" for its own name, WIP words, opponent and player). Caelorna, Isamaru, Kalakscion, Sundial and Tyrox have no text.
+- **Adamaro, First to Desire:** monsters have no hand, so it adds 0/0. Its text stays, marked WIP.
+- **Anafenza, Unyielding Lineage** and **Wan Shi Tong, Librarian:** give Flash, plus their other keywords and text.
+- **Callaphe, Daxos, Tymaret:** their `*` follows the player's devotion (above). Each keeps a line saying so, like "This creature gets +X/+0, where X is your devotion to blue", and its other text.
+- **Mikaeus, The Goose Mother, Wan Shi Tong:** the player picks X. Their text is written with that number ("enters with 3 +1/+1 counters"; The Goose Mother's half X rounds up and Wan Shi Tong's rounds down).
+- **Erayo, Soratami Ascendant:** flips like a transform, but keeps the front face's text and adds Erayo's Essence's ability. Chosen while implementing, not confirmed: flipping gives +0/+0, because the Essence has no power or toughness.
+- **Emet-Selch** (→ Hades, +4/+2, Vigilance), **Rona** (→ Rona, Tolarian Obliterator, +4/+2, Trample) and **The Emperor of Palamecia** (→ The Lord Master of Hell, +1/+1) transform like Cecil.
+- **Bilbo Baggins, Burglar** and **Bilbo, Luckwearer:** only the creature, not its adventure, like Smitten Swordmaster.
+- **Boromir, Warden of the Tower:** "The Ring tempts you" is left out.
+- **Locutus, Surrak, Wilson, Oroku Saki, Winter Soldier:** lose the text about the card itself (above). Locutus keeps nothing else.
+- Chosen while implementing, not confirmed, applying the Sliver and Vampire rule: **Locutus** ("Artifact creatures you control get +1/+1") makes the player an Artifact Creature, and **Jacques le Vert** ("Green creatures you control get +0/+2") makes them green, so the bonus is added to their power and toughness for good, with no text. Adeliz's Wizards, Ardbert's legendary creatures and Meriadoc's Halflings include the player too.
 
 Reviewed on my own with the rules above, after the author asked me to go on alone (Chosen while implementing, not confirmed; each one only applies rules already decided):
 
@@ -218,6 +238,10 @@ Still open:
 - [DECIDED] **Bushido N:** whenever the player attacks someone or is attacked, they get +N/+N until end of turn, kept as combat bonuses. It stacks: Bushido 1 + Bushido 1 = Bushido 2. Text: "Whenever you attack or are attacked, you get +N/+N until end of turn."
 - [DECIDED] **Haste:** goes first in the turn order (section 3). Text: "When combat starts, you go before everyone without haste. Everyone with haste rolls a d20 too, to set the order among them."
 - [DECIDED] **Flash:** the player acts first when combat starts, before creatures with Haste, but only on the first turn of combat. They still roll initiative, which sets their place after that. Text: "When combat starts, you act first, even before creatures with haste. You only act first on the first turn of combat. You still roll initiative."
+- [DECIDED] **Double strike:** "Your attacks deal their damage twice."
+- [DECIDED] **Prowess:** "Whenever you cast a spell, you get +N/+N until end of turn." Kept as combat bonuses; it adds up like Exalted (Prowess + Prowess = Prowess 2).
+- [DECIDED] **Protection:** only works against instants and sorceries. Text for "Protection from white and from black": "White or black instants and sorceries can't target you or deal damage to you. It only works against instants and sorceries: you can still attack, deal damage and be attacked."
+- [DECIDED] **Partner, Partner with, Choose a Background:** WIP.
 - [DECIDED] **First strike:** a player with first strike hits back when attacked. A monster with first strike deals damage to whoever attacks it. Text: "Whenever a creature attacks you, you hit it back with your power."
 - [DECIDED] **Exalted:** whenever the player attacks, they get +1/+1 until end of turn, kept as combat bonuses. It stacks: two Exalted give Exalted 2 (+2/+2). Text: "Whenever you attack, you get +N/+N until end of turn."
 - [DECIDED] **Trample:** uses the formation. If the attack kills the creature in front, the damage left over hits the one behind it. Text: "If your attack kills the creature in front, the damage left over hits the one behind it."

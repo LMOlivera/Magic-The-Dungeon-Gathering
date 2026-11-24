@@ -1,6 +1,7 @@
 import { transformedFace, shownTransform } from './transform.js';
 import { attachedEffects } from './gear.js';
 import { addKeywords } from '../rules/keywords.js';
+import { devotionBonus } from './absorb.js';
 
 /**
  * The player's character sheet as plain data. No DOM and no storage here,
@@ -105,6 +106,7 @@ export function toCardData(player, artUrl, transformArt = []) {
   const gear = attachedEffects(player);
   const shown = shownTransform(player);
   const other = shown === -1 ? null : player.transforms[shown];
+  const devoted = devotionBonus(player);
   return {
     name: (other && other.name) || player.name,
     placeholderName: 'Human',
@@ -112,8 +114,8 @@ export function toCardData(player, artUrl, transformArt = []) {
     colors: player.colors,
     cardTypes: player.cardTypes,
     types: player.types,
-    power: player.power + (player.counters || 0) + (player.bonusPower || 0) + face.power + gear.power,
-    toughness: player.toughness + (player.counters || 0) + (player.bonusToughness || 0) + face.toughness + gear.toughness,
+    power: player.power + (player.counters || 0) + (player.bonusPower || 0) + face.power + gear.power + devoted.power,
+    toughness: player.toughness + (player.counters || 0) + (player.bonusToughness || 0) + face.toughness + gear.toughness + devoted.toughness,
     keywords: addKeywords(face.keywords, gear.keywords),
     abilities: [...face.abilities, ...gear.abilities.filter((ability) => !face.abilities.includes(ability))],
     flavor: player.flavor,
