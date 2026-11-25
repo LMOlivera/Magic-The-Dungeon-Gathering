@@ -25,12 +25,14 @@ import { isAbsorbable, absorbPreview, absorbCard, describeColors, typeLineOf, ch
 import {
   picksSpells, cardPoints, maxX, affordableCreatures, startSpells, withStartPick, withStartDone,
 } from './start.js';
-import { describeGrants, grantsOf, withoutEquipment, withOff, putBackOn, withSpellCast, returnSpells } from './gear.js';
+import {
+  describeGrants, grantsOf, withoutAttachment, withDestroyed, withOff, putBackOn, withSpellCast, returnSpells,
+} from './gear.js';
 import {
   attachmentsOf, inheritedCreatures, emptySlots, xpSegments, printedStats, MIN_ATTACHMENT_SLOTS, MIN_CREATURE_SLOTS,
 } from './board.js';
 import { keywordRule, parseKeyword } from '../rules/keywords.js';
-import { makeBooster } from './booster.js';
+import { makeBooster, boosterPool, attachmentPool } from './booster.js';
 import { withXp, xpToLevelUp, nextLevelBooster, withLevelBoosterUsed, levelBoosterPool } from './level.js';
 import {
   withTransformed, untransformAll, withTransformName, withTransformArt, withoutTransformArt,
@@ -51,8 +53,9 @@ const FLIP_MS = 600; // .card.is-flipping in css/player.css
 const FALLBACK_ART_RATIO = 1.37; // .card__art aspect-ratio in css/card.css
 const FIRST_POOL_URL = 'data/akashicos.json'; // the first card is picked from all of these
 const SPELLS_POOL_URL = 'data/akashicos_spells.json'; // then spells, with the points left (player/start.js)
-// Every pool a card can have been absorbed from, for the board's images (older cards used level1.json).
-const CARD_INDEX_URLS = [FIRST_POOL_URL, SPELLS_POOL_URL, 'data/level1.json'];
+// Every pool in data/: for the board's images (older cards used level1.json), and for the
+// attachment booster. A new pool file goes here too.
+const DATA_POOL_URLS = [FIRST_POOL_URL, SPELLS_POOL_URL, 'data/level1.json'];
 
 export async function initPlayerView() {
   const card = $('pc-card');
@@ -250,7 +253,7 @@ export async function initPlayerView() {
       trackerValue('pc-bonus-toughness-value', describeBonus(player.bonusToughness));
       const anyTransformed = (player.transforms || []).some((entry) => entry.transformed);
       const anyCast = (player.spells || []).some((spell) => spell.cast);
-      const anyOff = [...(player.equipment || []), ...(player.auras || [])].some((entry) => entry.off);
+      const anyOff = [...(player.equipment || []), ...(player.auras || [])].some((entry) => entry.off || entry.destroyed);
       $('pc-bonus-clear').disabled = !player.bonusPower && !player.bonusToughness && !anyTransformed && !anyCast && !anyOff;
       renderTransforms();
       loadCardIndex();
@@ -540,6 +543,8 @@ export async function initPlayerView() {
     xpbar.replaceChildren(...(bar.segments || []).map((earned) => el('span', earned ? 'is-earned' : null)));
     // Boosters wait while the starting points are being spent.
     const next = nextLevelBooster(player);
+    // The placeholder attachment booster waits too, like the level boosters.
+    $('pc-open-attachment').hidden = Boolean(player.start);
     const button = $('pc-open-another');
     button.hidden = !next || Boolean(player.start);
     if (next) {
@@ -602,7 +607,7 @@ export async function initPlayerView() {
 
   function loadCardIndex() {
     if (cardIndexLoading) return;
-    cardIndexLoading = Promise.all(CARD_INDEX_URLS.map((url) => loadPool(url).catch(() => null))).then((pools) => {
+    cardIndexLoading = Promise.all(DATA_POOL_URLS.map((url) => loadPool(url).catch(() => null))).then((pools) => {
       for (const pool of pools) for (const poolCard of pool || []) if (!cardById.has(poolCard.id)) cardById.set(poolCard.id, poolCard);
       if (pools.every((pool) => !pool)) cardIndexLoading = null; // offline: try again on the next render
       if (player) render();
@@ -623,18 +628,21 @@ export async function initPlayerView() {
 
   const KIND_LABELS = { equipment: 'Equipment', item: 'Item', aura: 'Aura' };
 
-  /** One Equipment, item or Aura on the board: a small card that opens its details. */
+  /** One Equipment, item or Aura absorbed, on the board: a small card that opens its details. */
   function attachmentSlot(entry) {
     const slot = el('li');
-    const button = el('button', entry.off ? 'mini is-off' : 'mini');
+    const button = el('button', entry.destroyed ? 'mini is-destroyed' : entry.off ? 'mini is-off' : 'mini');
     button.type = 'button';
     button.title = entry.name;
-    button.setAttribute('aria-label', `${entry.name}, ${KIND_LABELS[entry.kind]}${entry.off ? ', taken off for this combat' : ''}`);
+    const state = entry.destroyed ? ', destroyed until combat is over' : entry.off ? ', taken off for this combat' : '';
+    button.setAttribute('aria-label', `${entry.name}, ${KIND_LABELS[entry.kind]}${state}`);
     const art = el('span', 'mini__art');
     art.append(...cardImage(cardById.get(entry.id), 'small'));
-    button.append(el('span', 'mini__name', entry.name), art, el('span', 'mini__type', KIND_LABELS[entry.kind]));
-    if (entry.off) button.append(el('span', 'mini__badge', 'Off'));
-    button.addEventListener('click', () => openDetail(() => attachmentDetail(entry.list, entry.index)));
+    // The name is in the tooltip and aria-label, not on the small card: the image shows it.
+    button.append(art, el('span', 'mini__type', KIND_LABELS[entry.kind]));
+    if (entry.destroyed) button.append(el('span', 'mini__badge', 'Destroyed'));
+    else if (entry.off) button.append(el('span', 'mini__badge', 'Off'));
+    button.addEventListener('click', () => openDetail(() => attachmentDetail(entry.absorbedAt)));
     slot.append(button);
     return slot;
   }
@@ -774,43 +782,42 @@ export async function initPlayerView() {
     return paragraph;
   }
 
-  function attachmentDetail(list, index) {
-    const entry = (player[list] || [])[index];
+  /** The details of the attachment absorbed at that place in player.absorbed. */
+  function attachmentDetail(absorbedAt) {
+    const entry = attachmentsOf(player, cardById).find((item) => item.absorbedAt === absorbedAt);
     if (!entry) return null;
+    const { list, index, kind } = entry;
     const grants = grantsOf(entry.name) || {};
-    const kind = attachmentsOf(player, cardById).find((item) => item.list === list && item.index === index).kind;
     const info = [el('p', 'detail__kind', KIND_LABELS[kind])];
     const summary = describeGrants(entry.name);
     if (summary) info.push(el('p', 'detail__summary', `Gives you ${summary}.`));
     for (const ability of grants.abilities || []) info.push(textLine(ability));
-    if (entry.off && grants.toggle) info.push(el('p', 'detail__note', grants.toggle.note));
-    info.push(el('p', 'detail__note', {
-      equipment: 'It stays its own card: if something destroys it, you lose what it gives you.',
-      item: 'Sacrificing it only lasts the combat: it’s back when combat is over.',
-      aura: 'You’re enchanted with it for good.',
-    }[kind]));
+    if (entry.destroyed) info.push(el('p', 'detail__note', 'Destroyed until combat is over: it gives you nothing meanwhile.'));
+    else if (entry.off && grants.toggle) info.push(el('p', 'detail__note', grants.toggle.note));
+    info.push(el('p', 'detail__note', '\u201cDestroy\u201d takes it away until combat is over. \u201cRemove\u201d takes it off your card for good.'));
 
+    const change = (next) => {
+      player = next;
+      save();
+      render();
+    };
     const actions = [];
-    if (grants.toggle) {
-      actions.push(detailButton(entry.off ? 'Put back' : grants.toggle.label, entry.off ? 'action' : 'action action--primary', () => {
-        player = withOff(player, list, index, !entry.off);
-        save();
-        render();
-      }));
+    if (entry.destroyed) {
+      // Combat over brings it back; this is for a mistaken tap.
+      actions.push(detailButton('Restore', 'action', () => change(withDestroyed(player, list, index, false))));
+    } else {
+      if (grants.toggle) {
+        actions.push(detailButton(entry.off ? 'Put back' : grants.toggle.label, entry.off ? 'action' : 'action action--primary', () => {
+          change(withOff(player, list, index, !entry.off));
+        }));
+      }
+      actions.push(detailButton('Destroy', 'action', () => change(withDestroyed(player, list, index, true))));
     }
-    if (list === 'equipment') {
-      const label = grants.remove || 'Destroyed';
-      actions.push(detailButton(label, 'action', () => {
-        const question = label === 'Destroyed'
-          ? `Was ${entry.name} destroyed? You lose what it gives you.`
-          : `Did you use ${entry.name}? It's gone for good.`;
-        if (!confirm(question)) return;
-        player = withoutEquipment(player, index);
-        detailOf = null;
-        save();
-        render();
-      }));
-    }
+    actions.push(detailButton('Remove', 'action action--quiet', () => {
+      if (!confirm(`Remove ${entry.name} from your card for good? You lose what it gives you; the colors and cost it added stay.`)) return;
+      detailOf = null; // it's gone: the dialog closes
+      change(withoutAttachment(player, list, index, absorbedAt));
+    }));
     return { title: entry.name, card: cardById.get(entry.id), info, actions };
   }
 
@@ -1223,6 +1230,37 @@ export async function initPlayerView() {
   // The first card from the sheet, the boosters levels earn from under the card.
   $('pc-open-booster').addEventListener('click', openFirstPick);
   $('pc-open-another').addEventListener('click', openBooster);
+
+  /**
+   * A placeholder for testing: a free booster of Equipment, items and Auras from every
+   * pool in data/, minus what the player already absorbed. It isn't saved, so closing it
+   * deals new cards next time.
+   */
+  async function openAttachmentBooster() {
+    if (animating || !player || player.start) return;
+    showError('');
+    let pools;
+    try {
+      pools = await withBusy('Opening your booster\u2026', () => Promise.all(DATA_POOL_URLS.map(loadAbsorbable)));
+    } catch {
+      showError("Couldn't load the card pool. Check your connection and try again.");
+      return;
+    }
+    const cards = makeBooster(boosterPool(attachmentPool(pools), player));
+    if (!cards.length) {
+      showError('You have absorbed every attachment, so there is nothing left to open.');
+      return;
+    }
+    startNote = '';
+    showPick(cards, {
+      title: 'Attachment booster',
+      all: false,
+      mode: 'attachment',
+      status: 'Pick one attachment to absorb.',
+      note: 'Closing this booster deals new cards next time.',
+    });
+  }
+  $('pc-open-attachment').addEventListener('click', openAttachmentBooster);
 
   $('pc-booster-close').addEventListener('click', () => {
     if (!pickMandatory) boosterDialog.close();

@@ -268,7 +268,7 @@
 .board[hidden] { display: none; }
 
 /* Attachments: small cards, the whole Scryfall image (never cropped). */
-.attach { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 8px; margin: 0; padding: 10px; list-style: none; }
+.attach { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 8px; margin: 0; padding: 10px; list-style: none; }
 .mini {
   --kind: #9d80e2;
   position: relative;
@@ -288,10 +288,14 @@
 }
 button.mini:hover { transform: translateY(-2px); box-shadow: 0 6px 14px rgba(0, 0, 0, 0.5), 0 0 0 1px var(--kind); }
 .mini.is-off { opacity: 0.55; }
+/* Destroyed until combat is over: greyed out. */
+.mini.is-destroyed { opacity: 0.45; filter: grayscale(1); }
+.mini.is-destroyed .mini__badge { border-color: #b9b2a8; background: #4a443d; }
 .mini__art { position: relative; flex: 1 1 auto; min-height: 0; overflow: hidden; border-radius: 3px; }
 .mini__art img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; }
-/* The name and kind only fit on wide screens; on phones the image says it. */
-.mini__name, .mini__type { display: none; }
+/* The kind only fits on wide screens; on phones the image says it. The name is never on the
+   small card (it's in the tooltip): the image shows it. */
+.mini__type { display: none; }
 .mini__badge {
   position: absolute;
   top: -7px;
@@ -530,7 +534,7 @@ button.token:hover .token__art { box-shadow: 0 0 0 2px rgba(165, 201, 124, 0.5),
 
   .attach { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px 10px; padding: 14px 12px; }
   .mini { aspect-ratio: 5 / 7.6; padding: 3px; gap: 3px; }
-  .mini__name, .mini__type {
+  .mini__type {
     display: block;
     overflow: hidden;
     padding: 1px 4px;
@@ -538,13 +542,11 @@ button.token:hover .token__art { box-shadow: 0 0 0 2px rgba(165, 201, 124, 0.5),
     background: linear-gradient(#efe6d6, #d4c8b2);
     color: #211a12;
     font-size: 0.625rem;
-    font-weight: 700;
+    font-weight: 500;
     line-height: 1.35;
     text-overflow: ellipsis;
     white-space: nowrap;
   }
-  .mini__name { font-family: var(--font-display); font-size: 0.75rem; font-weight: 600; line-height: 1.2; }
-  .mini__type { font-weight: 500; }
   .mini--empty { padding: 0; }
 
   .tokens { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px 8px; padding: 14px 10px; }

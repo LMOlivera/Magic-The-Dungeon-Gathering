@@ -145,6 +145,8 @@
     <p class="note" id="pc-start-note" role="status" hidden></p>
     <!-- The booster the oldest level waiting earned. Filled in by player/view.js. -->
     <button class="action action--primary" type="button" id="pc-open-another" hidden>Open your booster</button>
+    <!-- A placeholder for testing: a free booster of Equipment, items and Auras (player/view.js). -->
+    <button class="action" type="button" id="pc-open-attachment" hidden>Open an attachment booster</button>
     <!-- Cards that transform: turn over. Filled in by player/view.js. -->
     <div class="transforms" id="pc-transforms"></div>
     <div class="pc__card-links">
@@ -211,7 +213,7 @@
           <button class="action tracker__step" type="button" id="pc-bonus-toughness-up" aria-label="Raise the bonus toughness">+</button>
         </div>
         <button class="action trackers__clear" type="button" id="pc-bonus-clear">Combat over</button>
-        <p class="note trackers__note">Clears the bonuses, returns your spells, puts back what you took off and turns your card back.</p>
+        <p class="note trackers__note">Clears the bonuses, returns your spells, brings back what was destroyed or taken off and turns your card back.</p>
       </div>
     </section>
   </aside>

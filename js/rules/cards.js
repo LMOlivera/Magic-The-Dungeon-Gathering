@@ -16,8 +16,6 @@
  *              Also for items (an artifact or enchantment that isn't an Equipment or
  *              Aura, like Seal of Fire): what having it gives.
  *              toggle { label, note }: a button that takes it off until combat is over.
- *              remove: the label of the button that gets rid of an Equipment or item
- *              ("Destroyed" when not given).
  *   bonusNote  with bonus: why it reaches the player, for the absorb screen.
  *   chooseX    the card has {X} in its cost: the player picks X when absorbing it.
  *              Abilities can then be functions of X, returning the text.

@@ -29,18 +29,60 @@ const player = {
   spells: [{ id: 'bolt', name: 'Bolt', cast: false }],
 };
 
-test('attachments list the Equipment and items, then the Auras, each with its place in its own list', () => {
-  const attachments = attachmentsOf(player, pool(mace, seal, flight));
-  assert.deepEqual(attachments.map(({ name, list, index, kind, off }) => [name, list, index, kind, off]), [
-    ['Mace', 'equipment', 0, 'equipment', false],
-    ['Seal', 'equipment', 1, 'item', true],
-    ['Flight', 'auras', 0, 'aura', false],
+test('attachments are every card absorbed that is not a creature or a spell, oldest first', () => {
+  const attachments = attachmentsOf(player, pool(hound, wisp, mace, seal, flight, bolt));
+  assert.deepEqual(attachments.map(({ name, absorbedAt, list, index, kind, off, destroyed }) => [name, absorbedAt, list, index, kind, off, destroyed]), [
+    ['Mace', 1, 'equipment', 0, 'equipment', false, false],
+    ['Seal', 4, 'equipment', 1, 'item', true, false],
+    ['Flight', 5, 'auras', 0, 'aura', false, false],
   ]);
 });
 
-test('without the pool, an item reads as Equipment', () => {
-  assert.equal(attachmentsOf(player)[1].kind, 'equipment');
+test('a destroyed attachment stays, marked; a removed one is gone from every panel', () => {
+  const cards = pool(hound, wisp, mace, seal, flight, bolt);
+  const destroyed = { ...player, auras: [{ ...player.auras[0], destroyed: true }] };
+  assert.deepEqual(attachmentsOf(destroyed, cards).map(({ name, destroyed: d }) => [name, d]), [['Mace', false], ['Seal', false], ['Flight', true]]);
+
+  const removed = {
+    ...player,
+    equipment: [player.equipment[1]],
+    absorbed: player.absorbed.map((entry, i) => (i === 1 ? { ...entry, removed: true } : entry)),
+  };
+  for (const cardsKnown of [cards, new Map()]) {
+    assert.deepEqual(attachmentsOf(removed, cardsKnown).map(({ name, index }) => [name, index]), [['Seal', 0], ['Flight', 0]]);
+    assert.ok(!inheritedCreatures(removed, cardsKnown).some((entry) => entry.id === 'mace'), 'not taken for a creature');
+  }
+});
+
+test('an Equipment destroyed for good by an older version is no longer shown', () => {
+  const old = { ...player, equipment: [player.equipment[1]] };
+  assert.deepEqual(attachmentsOf(old, pool(hound, wisp, mace, seal, flight, bolt)).map((entry) => entry.name), ['Seal', 'Flight']);
+});
+
+test('two copies of a card each match their own entry', () => {
+  const twice = {
+    absorbed: [{ id: 'mace', name: 'Mace' }, { id: 'mace', name: 'Mace' }],
+    equipment: [{ id: 'mace', name: 'Mace', off: false }, { id: 'mace', name: 'Mace', off: true }],
+  };
+  assert.deepEqual(attachmentsOf(twice, pool(mace)).map(({ index, off }) => [index, off]), [[0, false], [1, true]]);
+  const oneRemoved = { absorbed: [twice.absorbed[0], { ...twice.absorbed[1], removed: true }], equipment: [twice.equipment[0]] };
+  assert.deepEqual(attachmentsOf(oneRemoved, pool(mace)).map(({ absorbedAt, index }) => [absorbedAt, index]), [[0, 0]]);
+});
+
+test('without the pool, attachments are what the player has on, and an item reads as Equipment', () => {
+  const attachments = attachmentsOf(player);
+  assert.deepEqual(attachments.map(({ name, kind }) => [name, kind]), [['Mace', 'equipment'], ['Seal', 'equipment'], ['Flight', 'aura']]);
   assert.deepEqual(attachmentsOf({}), []);
+});
+
+test('every absorbed card lands in exactly one panel', () => {
+  const cards = pool(hound, wisp, mace, seal, flight, bolt);
+  const shown = [
+    ...attachmentsOf(player, cards).map((entry) => entry.absorbedAt),
+    ...inheritedCreatures(player, cards).map((entry) => entry.absorbedAt),
+    ...player.absorbed.flatMap((entry, i) => (player.spells.some((spell) => spell.id === entry.id) ? [i] : [])),
+  ].sort();
+  assert.deepEqual(shown, [0, 1, 2, 3, 4, 5]);
 });
 
 test('inherited creatures are the creatures absorbed, oldest first, with their pool card', () => {

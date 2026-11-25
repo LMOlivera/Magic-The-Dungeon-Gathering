@@ -12,7 +12,7 @@ import { newStart, START_POINTS } from './start.js';
  * (shared/images.js) and the sheet only remembers whether they exist.
  */
 
-export const SAVE_VERSION = 12;
+export const SAVE_VERSION = 13;
 export const FLAVOR_MAX = 110;
 
 /** Collapses runs of whitespace and trims. An empty result means "no name". */
@@ -46,7 +46,7 @@ export function newPlayer(name, now = new Date()) {
     absorbed: [],         // [{ id, name, keywords, abilities }] of every card absorbed, in order
     transforms: [],       // cards that can turn the Player Card over, see player/transform.js
     equipment: [],        // Equipment the player has on, see player/gear.js
-    auras: [],            // Auras on the player, for good
+    auras: [],            // Auras on the player
     spells: [],           // the spell list: instants and sorceries
     booster: null,        // { cardIds, level } of an opened booster not yet picked from
     level: 1,             // see player/level.js
@@ -237,6 +237,13 @@ export function upgradeSave(saved) {
       levelBoosters: data.levelBoosters ?? [],
       booster: data.booster && data.booster.level ? data.booster : null,
     };
+  }
+
+  // v13 lets any Equipment, item or Aura be destroyed until combat is over (`destroyed`) and
+  // removed for good (`removed` on its entry in absorbed). Nothing to convert: both start
+  // unset, and an Equipment destroyed by an older version is already off the player.
+  if (data.version === 12) {
+    data = { ...data, version: 13 };
   }
 
   return { status: 'ok', player: data, images };

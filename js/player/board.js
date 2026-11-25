@@ -11,24 +11,49 @@
 import { kindOf } from './gear.js';
 
 /** Empty slots fill each panel up to this many, as decoration. They are not a limit. */
-export const MIN_ATTACHMENT_SLOTS = 5;
+export const MIN_ATTACHMENT_SLOTS = 6;
 export const MIN_CREATURE_SLOTS = 6;
 /** Past this much XP per level, the XP bar is one bar instead of a segment per point. */
 export const MAX_XP_SEGMENTS = 12;
 
 /**
- * Equipment, items and Auras, Equipment first:
- * [{ id, name, off, list: 'equipment' | 'auras', index, kind: 'equipment' | 'item' | 'aura' }]
- * index is the entry's place in its own list (for withOff and withoutEquipment).
- * An item (Seal of Fire) is kept with the Equipment; only its pool card tells them apart.
+ * Every card absorbed that is neither a creature (Inherited Creatures) nor an instant or
+ * sorcery (the spellbook), oldest first: the Equipment, items and Auras the player has.
+ * [{ id, name, absorbedAt, kind: 'equipment' | 'item' | 'aura', list, index, off, destroyed }]
+ *   absorbedAt  the card's place in player.absorbed
+ *   list, index its place in 'equipment' or 'auras' (for withOff, withDestroyed, withoutAttachment)
+ *   off         taken off until combat is over by its own button (Unattach, Sacrificed...)
+ *   destroyed   destroyed until combat is over
+ * A card removed for good isn't here, and neither is an Equipment destroyed for good by an
+ * older version. An item (Seal of Fire) is kept with the Equipment; only its pool card tells
+ * them apart. Without the pool card, a card counts as an attachment when the player has it on.
  */
 export function attachmentsOf(player, cardById = new Map()) {
-  const equipment = (player.equipment || []).map((entry, index) => {
+  const lists = { equipment: player.equipment || [], auras: player.auras || [] };
+  const used = { equipment: new Set(), auras: new Set() };
+  const spellIds = new Set((player.spells || []).map((spell) => spell.id));
+  // The first entry of that card the player still has on and no earlier copy claimed.
+  const claim = (list, id) => {
+    const index = lists[list].findIndex((entry, i) => entry.id === id && !used[list].has(i));
+    if (index !== -1) used[list].add(index);
+    return index;
+  };
+  return (player.absorbed || []).flatMap((entry, absorbedAt) => {
+    if (entry.removed) return [];
     const card = cardById.get(entry.id);
-    return { ...entry, list: 'equipment', index, kind: card && kindOf(card) === 'item' ? 'item' : 'equipment' };
+    const cardKind = card ? kindOf(card) : null;
+    if (cardKind === 'creature' || cardKind === 'spell' || cardKind === 'other') return [];
+    if (!card && spellIds.has(entry.id)) return [];
+    const order = cardKind === 'aura' ? ['auras'] : cardKind ? ['equipment'] : ['equipment', 'auras'];
+    for (const list of order) {
+      const index = claim(list, entry.id);
+      if (index === -1) continue;
+      const kind = cardKind || (list === 'auras' ? 'aura' : 'equipment');
+      const { off, destroyed } = lists[list][index];
+      return [{ id: entry.id, name: entry.name, absorbedAt, kind, list, index, off: Boolean(off), destroyed: Boolean(destroyed) }];
+    }
+    return []; // not on the player any more
   });
-  const auras = (player.auras || []).map((entry, index) => ({ ...entry, list: 'auras', index, kind: 'aura' }));
-  return [...equipment, ...auras];
 }
 
 /**
@@ -43,6 +68,7 @@ export function inheritedCreatures(player, cardById = new Map()) {
     [...(player.spells || []), ...(player.equipment || []), ...(player.auras || [])].map((entry) => entry.id),
   );
   return (player.absorbed || []).flatMap((entry, absorbedAt) => {
+    if (entry.removed) return []; // an attachment removed for good
     const card = cardById.get(entry.id) || null;
     const creature = card ? kindOf(card) === 'creature' : !notCreatures.has(entry.id);
     return creature ? [{ ...entry, absorbedAt, card }] : [];

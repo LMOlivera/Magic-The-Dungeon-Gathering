@@ -4,7 +4,9 @@ import { readFileSync } from 'node:fs';
 
 import { absorbCard, absorbPreview, isAbsorbable } from '../js/player/absorb.js';
 import { newPlayer, toCardData, upgradeSave, SAVE_VERSION } from '../js/player/model.js';
-import { kindOf, withoutEquipment, withOff, putBackOn, withSpellCast, returnSpells, describeGrants } from '../js/player/gear.js';
+import {
+  kindOf, withoutAttachment, withDestroyed, withOff, putBackOn, withSpellCast, returnSpells, describeGrants,
+} from '../js/player/gear.js';
 
 const card = (name, typeLine, manaCost, colors, text = '') => ({ id: `id-${name}`, name, typeLine, manaCost, colors, text, faces: [] });
 const mace = card('+2 Mace', 'Artifact — Equipment', '{1}{W}', ['W'], 'Equipped creature gets +2/+2.');
@@ -39,13 +41,40 @@ test('an Equipment adds its color and cost, and the player wears it', () => {
   assert.equal(describeGrants('+2 Mace'), '+2/+2');
 });
 
-test('a destroyed Equipment takes what it gave with it', () => {
+test('a destroyed Equipment gives nothing until combat is over', () => {
   const player = absorbCard(absorbCard(newPlayer('Ana'), mace), halberd);
   assert.deepEqual(toCardData(player).keywords, ['Vigilance']);
   assert.equal(`${toCardData(player).power}/${toCardData(player).toughness}`, '4/4');
-  const without = withoutEquipment(player, 1);
-  assert.deepEqual(toCardData(without).keywords, []);
-  assert.equal(`${toCardData(without).power}/${toCardData(without).toughness}`, '3/3');
+  const destroyed = withDestroyed(player, 'equipment', 1, true);
+  assert.deepEqual(toCardData(destroyed).keywords, []);
+  assert.equal(`${toCardData(destroyed).power}/${toCardData(destroyed).toughness}`, '3/3');
+  assert.equal(destroyed.equipment.length, 2, 'still on the card');
+  const back = putBackOn(destroyed);
+  assert.equal(back.equipment[1].destroyed, false, 'back when combat is over');
+  assert.equal(`${toCardData(back).power}/${toCardData(back).toughness}`, '4/4');
+  assert.equal(`${toCardData(withDestroyed(destroyed, 'equipment', 1, false)).power}`, '4', 'restored by hand');
+});
+
+test('an Aura can be destroyed too, and no longer counts as an enchantment meanwhile', () => {
+  const ethereal = card('Ethereal Armor', 'Enchantment — Aura', '{W}', ['W']);
+  const player = absorbCard(absorbCard(newPlayer('Ana'), flight), ethereal);
+  // 1/1, +1/+1 Arcane Flight, +2/+2 Ethereal Armor (two Auras)
+  assert.equal(`${toCardData(player).power}/${toCardData(player).toughness}`, '4/4');
+  const destroyed = withDestroyed(player, 'auras', 0, true);
+  // 1/1, +1/+1 Ethereal Armor (one Aura left)
+  assert.equal(`${toCardData(destroyed).power}/${toCardData(destroyed).toughness}`, '2/2');
+});
+
+test('removing an attachment takes it off for good, keeping its colors, cost and place among the absorbed', () => {
+  const player = absorbCard(absorbCard(newPlayer('Ana'), mace), flight);
+  const removed = withoutAttachment(player, 'auras', 0, 1);
+  assert.deepEqual(removed.auras, []);
+  assert.deepEqual(toCardData(removed).keywords, []);
+  assert.equal(`${toCardData(removed).power}/${toCardData(removed).toughness}`, '3/3');
+  assert.deepEqual(removed.colors, player.colors);
+  assert.equal(removed.manaCost, player.manaCost);
+  assert.deepEqual(removed.absorbed.map((entry) => [entry.name, Boolean(entry.removed)]), [['+2 Mace', false], ['Arcane Flight', true]]);
+  assert.equal(putBackOn(removed).auras.length, 0, 'combat over does not bring it back');
 });
 
 test('an Aura is for good, and a bonus per color follows the colors', () => {
@@ -111,7 +140,7 @@ test('an item like Seal of Fire is kept with the Equipment, and sacrificing it l
   assert.deepEqual(player.equipment.map((entry) => entry.name), ['Seal of Fire']);
   assert.deepEqual(player.auras, []);
   assert.equal(toCardData(player).abilities.length, 1);
-  assert.deepEqual(toCardData(withoutEquipment(player, 0)).abilities, []);
+  assert.deepEqual(toCardData(withoutAttachment(player, 'equipment', 0, 0)).abilities, []);
   const sacrificed = withOff(player, 'equipment', 0, true);
   assert.deepEqual(toCardData(sacrificed).abilities, []);
   assert.equal(putBackOn(sacrificed).equipment[0].off, false, 'back when combat is over');
@@ -130,4 +159,15 @@ test('absorbCard absorbs every creature of the pool as a creature', () => {
   assert.equal(withCecil.transforms.length, 1, 'Cecil can transform');
   assert.equal(`${withCecil.power}/${withCecil.toughness}`, '3/4');
   assert.deepEqual(toCardData(withCecil).keywords, ['Deathtouch']);
+});
+
+test('upgradeSave keeps a v12 save as it was: nothing destroyed or removed', () => {
+  const v12 = { ...absorbCard(absorbCard(newPlayer('Ana'), mace), flight), version: 12 };
+  const { status, player } = upgradeSave(v12);
+  assert.equal(status, 'ok');
+  assert.equal(player.version, SAVE_VERSION);
+  assert.deepEqual(player.equipment, v12.equipment);
+  assert.deepEqual(player.auras, v12.auras);
+  assert.deepEqual(player.absorbed, v12.absorbed);
+  assert.equal(`${toCardData(player).power}/${toCardData(player).toughness}`, '4/4');
 });
