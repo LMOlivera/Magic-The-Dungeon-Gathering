@@ -63,7 +63,6 @@ function cardSlot(card, index, onPick) {
  * onPick(card) runs when the player clicks one. Returns controls for the booster:
  *   setPicked(card)  marks that card as picked and dims the others (null clears it)
  *   lock()           leaves the cards visible but no longer clickable
- *   filter(text)     shows only the cards whose name or type line has the text; returns how many
  */
 export function renderBooster(listEl, cards, onPick) {
   const slots = cards.map((card, index) => cardSlot(card, index, onPick));
@@ -78,17 +77,6 @@ export function renderBooster(listEl, cards, onPick) {
         slot.classList.toggle('is-passed', picked != null && !chosen);
         slot.querySelector('.slot__card').setAttribute('aria-pressed', String(chosen));
       });
-    },
-    filter(text) {
-      const query = text.trim().toLowerCase();
-      let shown = 0;
-      slots.forEach((slot, index) => {
-        const card = cards[index];
-        const words = [card.name, card.typeLine].join(' ').toLowerCase();
-        slot.hidden = Boolean(query) && !words.includes(query);
-        if (!slot.hidden) shown++;
-      });
-      return shown;
     },
     lock() {
       for (const button of listEl.querySelectorAll('button')) button.disabled = true;

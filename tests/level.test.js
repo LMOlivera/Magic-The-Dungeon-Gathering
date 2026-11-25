@@ -53,7 +53,7 @@ test('even levels earn a spell booster and odd levels a creature booster', () =>
   assert.equal(player.booster, null);
 });
 
-test('spell boosters only deal spells that share a color with the player and were not absorbed', () => {
+test('spell boosters only deal spells of the player colors and were not absorbed', () => {
   const player = { ...newPlayer('Ana'), colors: ['R'] };
   const cards = levelBoosterPool(spells, player, 'spells');
   assert.ok(cards.length);
@@ -61,6 +61,9 @@ test('spell boosters only deal spells that share a color with the player and wer
   const absorbedOne = absorbCard(player, cards[0]);
   assert.ok(!levelBoosterPool(spells, absorbedOne, 'spells').includes(cards[0]));
   assert.equal(levelBoosterPool(spells, player, 'creatures').length, spells.length, 'creature boosters ignore color');
+  const warp = spells.find((card) => card.name === 'Agony Warp');
+  assert.ok(!levelBoosterPool(spells, { ...player, colors: ['U'] }, 'spells').includes(warp), 'blue and black is not blue only');
+  assert.ok(levelBoosterPool(spells, { ...player, colors: ['U', 'B'] }, 'spells').includes(warp));
 });
 
 test('upgradeSave adds levels to v11 saves and drops a free booster left open', () => {

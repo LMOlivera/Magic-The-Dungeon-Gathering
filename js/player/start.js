@@ -5,8 +5,8 @@
  * A new card has START_POINTS to spend. First it picks one creature from the first
  * cards (data/akashicos.json), then as many spells from data/akashicos_spells.json
  * as its points allow. Each card costs its mana value in points; for a creature with
- * {X} in its cost, the X the player picks costs points too. Every spell has to share
- * a color with that creature.
+ * {X} in its cost, the X the player picks costs points too. Every spell has to be of
+ * that creature's colors: all of the spell's colors (inColors).
  *
  * player.start while the card is being made:
  *   { points, colors }  points left; colors are the creature's, or null before it's picked
@@ -21,6 +21,15 @@ export const START_POINTS = 5;
 /** What a new card starts with. */
 export function newStart() {
   return { points: START_POINTS, colors: null };
+}
+
+/**
+ * A card of these colors: every color it has is one of them. A blue creature takes
+ * blue spells, but not Agony Warp (blue and black); a blue and black one takes both.
+ */
+export function inColors(card, colors) {
+  const own = card.colors || [];
+  return own.length > 0 && own.every((color) => colors.includes(color));
 }
 
 /** The player picked their creature and can now pick spells. */
@@ -46,15 +55,15 @@ export function affordableCreatures(pool, player) {
 }
 
 /**
- * The spells the player can pick now: they share a color with their creature, cost
- * no more than the points left, and weren't picked already.
+ * The spells the player can pick now: they're of their creature's colors, cost no
+ * more than the points left, and weren't picked already.
  */
 export function startSpells(pool, player) {
   if (!picksSpells(player)) return [];
   const { points, colors } = player.start;
   const absorbed = new Set((player.absorbed || []).map((card) => card.id));
   return pool.filter((card) => !absorbed.has(card.id)
-    && (card.colors || []).some((color) => colors.includes(color))
+    && inColors(card, colors)
     && cardPoints(card) <= points);
 }
 

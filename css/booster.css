@@ -14,8 +14,6 @@
 /* Every card of a pool at once, not a booster: smaller cards, as many columns as fit. */
 .booster--all { grid-template-columns: repeat(auto-fill, minmax(min(200px, 38vw), 1fr)); max-width: none; }
 .booster--all .slot { animation: none; }
-.slot[hidden] { display: none; }
-.booster-find { width: 100%; max-width: 420px; margin-inline: auto; }
 
 .slot { display: flex; flex-direction: column; align-items: center; gap: 8px; transition: opacity 0.2s, transform 0.2s; }
 /* backwards only: once dealt, the animation must not hold the transform that marks the pick. */

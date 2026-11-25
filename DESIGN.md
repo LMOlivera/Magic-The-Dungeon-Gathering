@@ -59,12 +59,13 @@ The players apply these rules. The app doesn't run them; at most it offers count
 - [DECIDED] On leveling up, the player opens a booster.
 - [DECIDED] **Experience:** players start at level 1. Leveling up takes their level × 3 XP: 3 to reach level 2, 6 more to reach level 3, and so on. The player keeps track of XP on the Player Card, with − and + buttons under the card. The rules are in `js/player/level.js`.
   - Chosen while implementing, not confirmed: XP left over counts toward the next level, and a big gain can level up more than once (each new level earns its booster). − corrects a mistake: it never goes below 0 or takes a level away.
-- [DECIDED] **Level boosters:** every even level opens a booster of spells from `akashicos_spells.txt` that share a color with the player; every odd level, a booster of creatures from `akashicos.txt`. Boosters only come from leveling up: the free "Open a booster" button (from `level1.txt`) is gone.
+- [DECIDED] **Level boosters:** every even level opens a booster of spells from `akashicos_spells.txt` of the player's colors (every color of the spell has to be one of theirs); every odd level, a booster of creatures from `akashicos.txt`. Boosters only come from leveling up: the free "Open a booster" button (from `level1.txt`) is gone.
   - Chosen while implementing, not confirmed: the booster opens by itself on leveling up; closed, it waits under the card ("Open your level N booster"), and several wait in order. While a new card is still spending its starting points, boosters wait until it's done. A booster with nothing left to deal is used up, with a message. A creature with {X} from a booster picks X freely, since no points are spent.
 - [DECIDED] Each booster has 3 cards.
 - [DECIDED] For now, a booster doesn't deal cards the player already absorbed. It may not stay: it's one switch, `NO_REPEATS` in `js/player/booster.js`.
   - Chosen while implementing, not confirmed: if fewer than 3 cards are left, the booster has the ones left; with none left, the Player Card says there's nothing left to open.
-- [DECIDED] The name of the player's card is set when it's created. It can only change after opening a booster.
+- [DECIDED] The name of the player's card is set when it's created, and the player can rename it each time their card absorbs a card: after pressing "Absorb", a dialog offers to rename it or keep the name. (This replaces the earlier rule, where the name was sealed until opening a booster.)
+  - Chosen while implementing, not confirmed: it's asked after every card absorbed (the first creature, each starting spell and each level booster), before the absorb animation. An empty name keeps the old one. Art and flavor text still can't be changed after the card is made.
 - [PROPOSED] Each enemy gives XP equal to its mana value.
 - [PROPOSED] Catch-up for whoever falls behind: the lowest-level player opens 4-card boosters instead of 3.
 - [DECIDED] How much XP each level takes: level × 3 (above).
@@ -89,7 +90,7 @@ The players apply these rules. The app doesn't run them; at most it offers count
   - The Equip cost is ignored: the player is equipped as soon as they absorb it.
   - What an Equipment or Aura grants is written in `js/rules/cards.js` (`grants`). "Equipped creature" and "enchanted creature" are the player, and abilities granted in quotes ("Equipped creature has '…'") become the player's own abilities.
   - Under the card, "Equipment and auras" lists what the player has on. Each Equipment has a "Destroyed" button (also for sacrificing it, like Blazing Torch); Auras have none, since they're for good.
-  - Under the card, "Spells" lists the spell list with each spell's cost and text. "Cast" puts it in the graveyard and "Combat over" brings every spell back.
+  - The "Spells" accordion (below "Text on card", above "Status") lists the spell list with each spell's cost and text. "Cast" puts it in the graveyard and "Combat over" brings every spell back.
   - Spells are cast as printed, so they need no entry in `js/rules/cards.js`.
   - Ethereal Armor's "each enchantment you control" counts the player's Auras. Blessing of the Nephilim's bonus follows the player's colors.
   - Equipment, Auras and items with no entry in `js/rules/cards.js` stay out of boosters until they're decided.
@@ -152,10 +153,11 @@ General rules:
 - [DECIDED] **Cards that transform** (double-faced, like Cecil, Dark Knight) transform for real. On absorbing one, the player gets the front face, and the Player Card can be turned over.
   - Turned over, the player loses what the front face gave them and gets what the back face gives, plus a stat bonus: the difference between the two faces. With Cecil: 2/3 against 4/4, so +2/+1, and Deathtouch and Darkness become Lifelink and Protect.
   - [DECIDED] On getting a transformation, the player can give that face another name and another photo, if they want. Without a name or photo of its own, it uses the usual ones.
-  - [DECIDED] The dialog for that name and photo opens as soon as the player presses "Absorb", before the animation, so it can't be missed. The card is already saved by then, so reloading loses nothing; the absorb animation plays once the dialog is closed.
+  - [DECIDED] That name and photo are set on the rename screen, which opens after every card absorbed (section 4): under the card's own name, one section per other face, with its name and "Take a photo", "Upload a photo" and "Use my usual art". There is no "Edit other face" button under the card. (This replaces the earlier rules: a dialog of its own when absorbing a card that transforms, and "Edit other face" under the card.)
+    - Chosen while implementing, not confirmed: "Keep the names" (or Escape) keeps the names as they were; art picked for a face is kept right away. The rename screen still opens before the animation, and the card is already saved by then, so reloading loses nothing.
   - Chosen while implementing, not confirmed:
     - [DECIDED] Under the card, the button just says "Transform" (not the card's name). Turned over, it says "Turn back".
-    - Under the card there's also "Edit other face" (which opens the name and photo again).
+    - [DECIDED] With more than one card that transforms, each card's button is on its own row and names it: "Transform (Cecil)", "Turn back (Cecil)". The name is the part before the comma, or the whole name if two would read the same.
     - The card spins when it turns over, and turned over it shows a moon (☾) before the name, like the back face of double-faced cards.
     - It lasts until combat ends: "Combat over" clears the bonuses and turns the card back to its front.
     - If another absorbed card also gives a keyword or ability of the front face, the player keeps it when turned over.
@@ -234,7 +236,7 @@ Reviewed on my own with the rules above, after the author asked me to go on alon
 
 Still open:
 
-- [PENDING] How the card is renamed after opening a booster (section 4). Not built yet.
+- [DECIDED] Renaming: each time the card absorbs a card, a dialog offers to rename it (section 4).
 
 ## 6. Keywords (table rules)
 
@@ -380,14 +382,21 @@ The code is already split following the architecture in section 9.
   - [DECIDED] A browser can keep several player cards, for whoever wants more than one game. Going to Player Card with no cards starts a new one; with some, it shows a menu of the cards ("Your cards") to play one, delete one or make another.
   - Chosen while implementing, not confirmed: each card on the menu shows its photo, name, type line, power/toughness and how many cards it absorbed. From a card, "Your cards" (next to "Back to start") goes back to the menu, and coming to Player Card always opens on the menu. "Start over" became "Delete card", which goes back to the menu.
   - [DECIDED] A new card doesn't open a booster: its first card is picked from every card in `akashicos.txt` (`data/akashicos.json`). On the flavor text screen, the "Choose your first card!" button shows them all. (This replaces the earlier rule, where that button opened the first booster.)
-    - Chosen while implementing, not confirmed: the list has a "Find a card" field that narrows it by name or type. Nothing is saved until a card is absorbed, so closing the list loses nothing. After that first card, "Open a booster" under the card deals 3 cards from `data/level1.json` as before.
-  - [DECIDED] **Starting points:** a new card has 5 points to spend. Each card costs its mana value in points. First the player picks one creature from `akashicos.txt`; then, on another screen, spells from `akashicos_spells.txt` that share a color with that creature, as many as their points allow. The rules are in `js/player/start.js`.
+    - [DECIDED] The card lists have no search field.
+    - [DECIDED] The first card is mandatory: the list has no "Close" button and Escape doesn't close it, so the player can only leave it by absorbing a card (reloading the page brings them back to the "Choose your first card!" button). After it come the spells (starting points) and then the boosters levels earn (section 4).
+  - [DECIDED] **Starting points:** a new card has 5 points to spend. Each card costs its mana value in points. First the player picks one creature from `akashicos.txt`; then, on another screen, spells from `akashicos_spells.txt` of that creature's colors, as many as their points allow.
+    - [DECIDED] "Of its colors" means every color of the spell is one of the creature's: a blue creature gets blue spells, but not Agony Warp (blue and black); a blue and black creature gets both. (This replaces the earlier rule, where sharing one color was enough.) The rules are in `js/player/start.js`.
     - [DECIDED] For a creature with {X} in its cost, X costs points too: X can go up to the points left (Mikaeus with X = 2 costs 3).
     - [DECIDED] The player can stop with "Done" whenever they want, and it ends by itself when no spell they can afford is left. Points left over are lost.
     - Chosen while implementing, not confirmed: the color has to be the creature's, not one a spell added later. A spell with {X} costs its mana value without X (Banefire costs 1), since X is paid when it's cast. Each spell can be picked once. The spell screen opens by itself after each absorption while points are left; closed, it opens again from "Choose a spell" under the card. "Open a booster" is hidden until the points are spent. The absorb screen shows the points before and after.
   - The booster deals 3 cards from `data/level1.json`. Every card in the pool can come up. The player picks one, confirms it, sees how their card turns out and absorbs it.
   - [DECIDED] When absorbing, the values can be seen loading into the card: the creature flies into the card and each value that changes (power/toughness, colors, cost, types, abilities) updates in turn, with a caption saying what changed. With "reduce motion" turned on in the system, the card changes all at once.
   - [DECIDED] After the first absorption, the Player Card page shows only the current card.
+  - [DECIDED] **Status:** the XP, +1/+1 counters, bonus power and toughness and "Combat over" are in an accordion called "Status". On wide screens (860px and up) it's on the left of the card; on phones it stays under the card, where the trackers were.
+  - [DECIDED] **Spells:** the spell list is an accordion too, below "Text on card" and above "Status". It only shows once the card has a spell. Equipment, Auras and items stay under the card.
+  - [DECIDED] **Text on card:** another accordion, above "Status", shows all the card's text at a size that's easy to read, because the card's own text shrinks as the card gains more: name, power/toughness, the full type line, keywords, abilities (with the same tooltips as on the card) and flavor text. It follows the card, transformed face included.
+    - [DECIDED] The accordions ("Text on card", "Spells", "Status") start closed.
+    - Chosen while implementing, not confirmed: they don't remember being opened after a reload. From 1100px the page widens so the card stays centered, with an empty column on the right.
   - Chosen while implementing, not confirmed: that view keeps the "Back to start" link and a discreet "Start over" under the card, along with the counters, the bonuses and the transform buttons.
   - [DECIDED] Boosters are earned by leveling up (section 4). The free "Open a booster" button that dealt from `level1.txt` was removed; under the card, "Open your level N booster" shows while one is waiting.
   - [PENDING] Whether flavor text and art can be edited afterwards, since the card-only view doesn't have those controls.

@@ -2,7 +2,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 
 import {
-  SAVE_VERSION, FLAVOR_MAX,
+  SAVE_VERSION, FLAVOR_MAX, withName,
   cleanName, newPlayer, withFlavor, withArt, withoutArt, withBooster, withCounters, describeCounters,
   withBonus, describeBonus,
   toCardData, upgradeSave,
@@ -228,4 +228,11 @@ test('upgradeSave adds bonuses to v7 saves', () => {
   assert.equal(player.version, SAVE_VERSION);
   assert.equal(player.bonusPower, 0);
   assert.equal(player.bonusToughness, 0);
+});
+
+test('the card can be renamed, and an empty name keeps the old one', () => {
+  const player = newPlayer('Ana');
+  assert.equal(withName(player, '  Ana   the  Bold ').name, 'Ana the Bold');
+  assert.equal(withName(player, '   '), player);
+  assert.equal(player.name, 'Ana', 'the original is not changed');
 });

@@ -6,7 +6,7 @@
  *   - Leveling up takes level × 3 XP: 3 to reach level 2, 6 more to reach level 3...
  *     The XP left over counts toward the next level.
  *   - Each level reached earns a booster: on an even level, of spells from
- *     data/akashicos_spells.json that share a color with the player; on an odd level,
+ *     data/akashicos_spells.json of the player's colors; on an odd level,
  *     of creatures from data/akashicos.json.
  *
  * On the sheet:
@@ -15,6 +15,7 @@
  */
 
 import { boosterPool } from './booster.js';
+import { inColors } from './start.js';
 
 export const START_LEVEL = 1;
 
@@ -57,12 +58,11 @@ export function withLevelBoosterUsed(player) {
 }
 
 /**
- * The cards a level booster can deal: not absorbed yet and, for spells, sharing a
- * color with the player.
+ * The cards a level booster can deal: not absorbed yet and, for spells, of the
+ * player's colors (every color of the spell is one of theirs).
  */
 export function levelBoosterPool(pool, player, kind) {
   const cards = boosterPool(pool, player);
   if (kind !== 'spells') return cards;
-  const colors = player.colors || [];
-  return cards.filter((card) => (card.colors || []).some((color) => colors.includes(color)));
+  return cards.filter((card) => inColors(card, player.colors || []));
 }

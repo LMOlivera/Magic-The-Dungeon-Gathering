@@ -25,7 +25,7 @@ export function newPlayer(name, now = new Date()) {
   return {
     version: SAVE_VERSION,
     name,
-    // Sealed at creation. Opening a booster is what unseals it (not built yet).
+    // No longer used: the name can change each time the card absorbs one (withName).
     nameLocked: true,
     artChosen: false,     // false until the player uploads, takes or skips a photo
     hasArt: false,        // a cropped photo is in the image store
@@ -63,6 +63,15 @@ export function newPlayer(name, now = new Date()) {
  */
 export function withBooster(player, cardIds, level = null) {
   return { ...player, booster: { cardIds: [...cardIds], level } };
+}
+
+/**
+ * The player renamed their card, which they can do each time it absorbs a card.
+ * An empty name keeps the one they had.
+ */
+export function withName(player, raw) {
+  const name = cleanName(raw);
+  return name ? { ...player, name } : player;
 }
 
 export function withFlavor(player, text) {

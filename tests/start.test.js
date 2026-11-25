@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 
 import {
-  START_POINTS, newStart, picksSpells, cardPoints, maxX, affordableCreatures, startSpells, withStartPick, withStartDone,
+  START_POINTS, newStart, inColors, picksSpells, cardPoints, maxX, affordableCreatures, startSpells, withStartPick, withStartDone,
 } from '../js/player/start.js';
 import { absorbCard, isAbsorbable } from '../js/player/absorb.js';
 import { newPlayer, upgradeSave, SAVE_VERSION } from '../js/player/model.js';
@@ -88,4 +88,16 @@ test('upgradeSave gives starting points only to v10 cards that absorbed nothing'
   const played = { ...fresh, absorbed: [{ id: 'a', name: 'Aegis Turtle', keywords: [], abilities: [] }] };
   assert.equal(upgradeSave(played).player.start, null);
   assert.equal(upgradeSave(played).player.version, SAVE_VERSION);
+});
+
+test('every color of a spell has to be one of the creature colors', () => {
+  const warp = spell('Agony Warp'); // {U}{B}
+  assert.equal(inColors(warp, ['U']), false);
+  assert.equal(inColors(warp, ['U', 'B']), true);
+  assert.equal(inColors(warp, ['W', 'U', 'B']), true);
+  const blue = pick(newPlayer('Ana'), creature('Gran-Gran')); // {U}
+  assert.ok(!startSpells(spells, blue).includes(warp), 'a blue creature is not offered a blue and black spell');
+  assert.ok(startSpells(spells, blue).every((card) => card.colors.every((color) => color === 'U')));
+  const dimir = pick(newPlayer('Ana'), creature('Emet-Selch, Unsundered')); // {1}{U}{B}
+  assert.ok(startSpells(spells, dimir).includes(warp), 'a blue and black creature is');
 });
