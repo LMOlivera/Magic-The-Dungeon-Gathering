@@ -108,58 +108,108 @@
 .absorb__stats:empty { display: none; }
 .absorb__stats .input { max-width: 8em; }
 
-/* ---------- The card on its own ----------
-   After the first absorption the page shows only the card: the panel keeps
-   just its back link and the card sits centered, a bit bigger. */
-.pc.is-card-only { grid-template-columns: minmax(0, 1fr); justify-items: center; align-items: start; gap: 24px; }
-.pc.is-card-only .pc__panel { justify-self: stretch; max-width: none; }
+/* ---------- The character sheet ----------
+   After the first absorption the page is the character sheet, over the landscape:
+   the card in the middle, the attachments and inherited creatures on its left, the
+   spellbook and status on its right. On phones it's one column, in that order, and the
+   spellbook and status share a sheet at the bottom, a tab each.
+   The panel's own children (the navigation and the error box) join the grid. */
+.pc.is-card-only {
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-areas: "level nav" "error error" "card card" "foot foot" "board board" "side side";
+  justify-items: stretch;
+  align-items: start;
+  gap: 14px 12px;
+  max-width: 560px;
+}
+/* The landscape behind the whole sheet, darker at the bottom where the panels are. */
+.pc.is-card-only::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background:
+    linear-gradient(rgba(14, 11, 9, 0.3), rgba(14, 11, 9, 0.5) 55%, rgba(14, 11, 9, 0.85)),
+    url("../assets/bg-landscape.jpg") center 35% / cover no-repeat,
+    var(--stone-900);
+}
+.pc.is-card-only .pc__panel { display: contents; }
 /* The navigation stays, and so does the error box (opening a booster can fail). */
 .pc.is-card-only .pc__panel > :not(.pc__nav):not(#pc-error) { display: none !important; }
-/* Scaled with transform, not zoom: zoom changes how the browser reports sizes,
-   and the card measures its text to fit it. The padding makes room for the
-   extra 25%, which a transform doesn't take in the layout. */
-.pc.is-card-only .card-stage { padding: 72px 0 56px; }
-.pc.is-card-only .card { transform: rotate(-4deg) scale(1.25); }
-/* Wide screens: "Status" on the left of the card, the rest under the card. */
-@media (min-width: 860px) {
-  .pc.is-card-only {
-    grid-template-columns: minmax(300px, 340px) minmax(0, 1fr);
-    grid-template-areas: "nav nav" "side card" "side foot" "side delete";
-    /* The last row takes whatever height the accordions need beyond the card, so the
-       buttons under the card stay right under it. */
-    grid-template-rows: auto auto auto 1fr;
-    column-gap: 40px;
-  }
-  .pc.is-card-only .pc__delete { align-self: start; }
-  .pc.is-card-only .pc__panel { grid-area: nav; }
-  .pc.is-card-only .card-stage { grid-area: card; }
-  .pc.is-card-only .pc__card-foot { grid-area: foot; }
-  .pc.is-card-only .pc__delete { grid-area: delete; }
-  .pc.is-card-only .pc__side { grid-area: side; align-self: start; justify-self: stretch; width: auto; margin-top: 72px; }
+.pc.is-card-only .pc__nav { grid-area: nav; justify-self: end; justify-content: flex-end; gap: 6px 14px; }
+.pc.is-card-only #pc-error { grid-area: error; }
+.pc.is-card-only .back { text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8); }
+/* Phones: the level and "Your cards" share the top row, so "Back to start" waits on the menu of cards. */
+@media (max-width: 479px) {
+  .pc.is-card-only .pc__nav a.back { display: none; }
 }
-/* Wider still: the page grows so the card stays centered, with an empty column on the right. */
-@media (min-width: 1100px) {
-  .view.pc.is-card-only { max-width: 1280px; }
-  .pc.is-card-only {
-    grid-template-columns: minmax(300px, 340px) minmax(0, 1fr) minmax(300px, 340px);
-    grid-template-areas: "nav nav nav" "side card ." "side foot ." "side delete .";
-  }
+/* "Your cards" is the header's gold button. */
+.pc.is-card-only #pc-to-menu {
+  padding: 7px 14px;
+  border: 1px solid #7a5a1c;
+  border-radius: 4px;
+  background: linear-gradient(#e9be62, #b98831);
+  color: #2a1c06;
+  font-family: var(--font-heading);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-shadow: none;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4), 0 3px 10px rgba(0, 0, 0, 0.45);
 }
+.pc.is-card-only #pc-to-menu:hover { background: linear-gradient(#f3cd78, #c99538); color: #2a1c06; }
+
+/* The level and its XP: a pill on phones, a label over a bar on wide screens. */
+.hud-level {
+  grid-area: level;
+  justify-self: start;
+  align-self: center;
+  display: grid;
+  gap: 6px;
+  padding: 6px 12px;
+  border: 1px solid rgba(236, 227, 210, 0.22);
+  border-radius: 4px;
+  background: rgba(20, 16, 13, 0.72);
+  font-family: var(--font-heading);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+}
+.xpbar { display: none; }
+.banner { display: none; }
+
+.pc.is-card-only .card-stage { grid-area: card; padding: 4px 0 0; }
+/* Upright and a bit smaller on phones, so the panels show under it. */
+.pc.is-card-only .card { width: min(250px, 64vw); transform: none; }
 /* The card takes focus after absorbing so screen readers announce it; no outline needed. */
 #pc-card:focus { outline: none; }
 .pc__card-foot { display: flex; flex-direction: column; align-items: center; gap: 12px; }
-/* It fills its column, so rows of buttons (like the transforms) only wrap when they don't fit. */
-.pc.is-card-only .pc__card-foot { justify-self: stretch; }
+.pc.is-card-only .pc__card-foot { grid-area: foot; }
 .pc__card-foot[hidden] { display: none; }
-.absorb-caption { min-height: 1.5em; margin: 0; color: var(--bone); font-weight: 500; text-align: center; }
+.pc__card-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 0 4px; }
+.pc__card-links .action { padding: 6px 10px; color: var(--bone); font-size: 0.9375rem; text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9); }
+.pc__card-links #pc-reset-card { color: var(--ash); }
+.absorb-caption { min-height: 1.5em; margin: 0; color: var(--bone); font-weight: 500; text-align: center; text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9); }
 .absorb-caption:empty { visibility: hidden; }
 .action--big { padding: 14px 22px; font-size: 1.125rem; }
 /* Making a new card: the starting points left for spells. */
-.start { display: flex; flex-direction: column; align-items: center; gap: 8px; max-width: 420px; text-align: center; }
+.start {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  max-width: 420px;
+  padding: 12px 14px;
+  border: 1px solid rgba(240, 162, 59, 0.5);
+  border-radius: 8px;
+  background: rgba(20, 16, 13, 0.82);
+  text-align: center;
+}
 .start[hidden] { display: none; }
 .start p { margin: 0; }
 .start .actions { justify-content: center; }
-#pc-start-note { margin: 0; max-width: 420px; text-align: center; }
+#pc-start-note { margin: 0; max-width: 420px; text-align: center; text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9); }
 
 /* Cards that transform, under the card. */
 .transforms { display: flex; flex-direction: column; align-items: center; gap: 8px; width: 100%; }
@@ -177,52 +227,370 @@
 .card.is-flipping { animation: card-flip 0.6s ease-in-out; }
 @keyframes card-flip { 50% { rotate: y 90deg; } }
 
-/* Equipment, Auras and spells under the card. */
-.gear { width: min(420px, 100%); }
-.gear h3 { margin: 0 0 8px; font-family: var(--font-display); font-size: 1.5rem; font-weight: 600; line-height: 1; }
-.gear .note { margin: 0 0 8px; }
-.gear__list { display: grid; gap: 8px; margin: 0; padding: 0; list-style: none; }
-.gear__item { padding: 10px 12px; border: 1px solid var(--stone-600); border-radius: 6px; background: var(--stone-800); }
-.gear__item.is-cast { opacity: 0.6; }
-.gear__head { display: flex; align-items: center; gap: 8px; }
-.gear__head strong { flex: 1 1 auto; min-width: 0; overflow-wrap: anywhere; }
-.gear__head .changes__mana { flex: none; }
-.gear__action { flex: none; min-height: 40px; padding: 6px 12px; }
-.gear__tag { flex: none; color: var(--ash); font-size: 0.875rem; }
-.gear__summary, .gear__text { margin: 4px 0 0; color: var(--ash); }
-.gear__text { color: var(--bone); }
-.gear .kw { text-decoration-color: var(--ash); }
-.gear .mana { width: 1em; height: 1em; vertical-align: -0.15em; border-radius: 50%; }
-.trackers__note { margin: 0; text-align: center; }
-
-/* Beside the card: "Text on card" and "Status", as accordions. Under the card on
-   phones, on its left on wide screens (see "The card on its own"). */
-.pc__side { display: flex; flex-direction: column; gap: 16px; width: min(420px, 100%); }
-.accordion { border: 1px solid var(--stone-600); border-radius: 8px; background: rgba(31, 26, 22, 0.85); }
-.accordion__summary {
+/* ---------- Panels ----------
+   Each panel has its own color: attachments purple, creatures green, spellbook blue,
+   status bronze. --edge is the border, --top and --bottom the glass behind. */
+.panel {
+  --edge: #8a8073;
+  --top: rgba(40, 34, 29, 0.82);
+  --bottom: rgba(24, 20, 17, 0.9);
+  --hatch: rgba(255, 255, 255, 0.05);
+  min-width: 0;
+  border: 1.5px solid var(--edge);
+  border-radius: 8px;
+  background: linear-gradient(var(--top), var(--bottom));
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.06), 0 10px 28px rgba(0, 0, 0, 0.45);
+}
+.panel--attach    { --edge: #8f72d8; --top: rgba(58, 38, 102, 0.84); --bottom: rgba(30, 20, 54, 0.9); --hatch: rgba(180, 150, 255, 0.08); }
+.panel--creatures { --edge: #86ad5e; --top: rgba(42, 70, 32, 0.84); --bottom: rgba(20, 36, 17, 0.9); --hatch: rgba(170, 220, 130, 0.08); }
+.panel--spells    { --edge: #5f93c8; --top: rgba(22, 40, 64, 0.88); --bottom: rgba(11, 21, 35, 0.92); --hatch: rgba(140, 190, 240, 0.08); }
+.panel--status    { --edge: #b8924e; --top: rgba(74, 55, 28, 0.86); --bottom: rgba(38, 28, 15, 0.92); --hatch: rgba(240, 200, 130, 0.08); }
+/* Empty art: dark diagonal stripes in the panel's color. */
+.panel { --stripes: repeating-linear-gradient(135deg, var(--hatch) 0 4px, transparent 4px 9px), rgba(0, 0, 0, 0.35); }
+.panel__head {
   display: flex;
-  align-items: center;
+  align-items: baseline;
   justify-content: space-between;
-  gap: 12px;
-  padding: 12px 16px;
-  font-family: var(--font-display);
-  font-size: 1.5rem;
-  font-weight: 600;
-  line-height: 1;
-  list-style: none;
+  gap: 8px;
+  margin: 0;
+  padding: 8px 12px;
+  border-bottom: 1px solid color-mix(in srgb, var(--edge) 55%, transparent);
+  font-family: var(--font-heading);
+  font-size: 0.875rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+}
+.panel__count { font-variant-numeric: tabular-nums; }
+.panel__note { margin: 8px 12px 0; color: var(--ash); font-size: 0.875rem; }
+.panel__empty { margin: 0; padding: 14px 12px 16px; color: var(--ash); font-size: 0.9375rem; font-style: italic; }
+
+.board { grid-area: board; display: flex; flex-direction: column; gap: 14px; min-width: 0; }
+.board[hidden] { display: none; }
+
+/* Attachments: small cards, the whole Scryfall image (never cropped). */
+.attach { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 8px; margin: 0; padding: 10px; list-style: none; }
+.mini {
+  --kind: #9d80e2;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  aspect-ratio: 146 / 204;
+  padding: 0;
+  border: 1.5px solid var(--kind);
+  border-radius: 5px;
+  background: var(--stripes);
+  color: var(--bone);
+  font: inherit;
+  cursor: pointer;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.4);
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+button.mini:hover { transform: translateY(-2px); box-shadow: 0 6px 14px rgba(0, 0, 0, 0.5), 0 0 0 1px var(--kind); }
+.mini.is-off { opacity: 0.55; }
+.mini__art { position: relative; flex: 1 1 auto; min-height: 0; overflow: hidden; border-radius: 3px; }
+.mini__art img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; }
+/* The name and kind only fit on wide screens; on phones the image says it. */
+.mini__name, .mini__type { display: none; }
+.mini__badge {
+  position: absolute;
+  top: -7px;
+  right: -7px;
+  padding: 0 5px;
+  border: 1px solid #f0b5a0;
+  border-radius: 999px;
+  background: var(--ember);
+  color: #fff;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  line-height: 1.5;
+}
+/* Free slots: decoration, not a limit. */
+.mini--empty { border: 1.5px dashed color-mix(in srgb, var(--edge) 70%, transparent); background: rgba(0, 0, 0, 0.18); box-shadow: none; cursor: default; }
+.mini--empty::after { content: "\25C7"; margin: auto; color: color-mix(in srgb, var(--edge) 85%, white); font-size: 0.875rem; }
+
+/* Inherited creatures: their art in a circle, with their printed power/toughness. */
+.tokens { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 8px; margin: 0; padding: 10px; list-style: none; }
+.token {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  width: 100%;
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--bone);
+  font: inherit;
   cursor: pointer;
 }
-.accordion__summary::-webkit-details-marker { display: none; }
-.accordion__summary::after { content: "\25BE"; color: var(--torch); font-family: var(--font-body); font-size: 1rem; transition: rotate 0.2s; }
-.accordion:not([open]) .accordion__summary::after { rotate: -90deg; }
-.accordion__summary:hover { color: var(--torch); }
-.accordion__summary:focus-visible { outline: 2px solid var(--torch); outline-offset: 2px; border-radius: 8px; }
-.status .trackers { padding: 4px 12px 16px; }
-.accordion__body { padding: 0 12px 12px; }
-.accordion.gear { width: auto; }
+.token__art {
+  position: relative;
+  display: block;
+  width: 100%;
+  max-width: 58px;
+  aspect-ratio: 1;
+  overflow: hidden;
+  border: 2px solid #a5c97c;
+  border-radius: 50%;
+  background: var(--stripes);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.45);
+  transition: box-shadow 0.15s;
+}
+button.token:hover .token__art { box-shadow: 0 0 0 2px rgba(165, 201, 124, 0.5), 0 3px 10px rgba(0, 0, 0, 0.5); }
+.token__art img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.token__pt {
+  margin-top: -12px;
+  z-index: 1;
+  padding: 0 6px;
+  border: 1px solid #a5c97c;
+  border-radius: 999px;
+  background: #18240f;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  line-height: 1.45;
+  font-variant-numeric: tabular-nums;
+}
+.token__name { display: none; }
+.token--empty { justify-self: center; width: 100%; max-width: 58px; aspect-ratio: 1; border: 1.5px dashed color-mix(in srgb, var(--edge) 60%, transparent); border-radius: 50%; background: rgba(0, 0, 0, 0.18); }
 
-/* "Text on card": the card's text at a size that's easy to read, on the dark panel. */
-.card-text { display: grid; gap: 8px; padding: 0 16px 16px; font-size: 1.0625rem; line-height: 1.45; }
+/* ---------- Spellbook and status ----------
+   On phones a sheet at the bottom with a tab each; on wide screens two panels. */
+.pc__side { min-width: 0; }
+.pc.is-card-only .pc__side {
+  grid-area: side;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 6px;
+  padding: 8px 10px 14px;
+  border: 1.5px solid #4f7fb0;
+  border-radius: 18px 18px 10px 10px;
+  background: linear-gradient(rgba(18, 30, 47, 0.96), rgba(10, 17, 27, 0.97));
+  box-shadow: 0 -8px 30px rgba(0, 0, 0, 0.5);
+}
+.pc__side[hidden] { display: none !important; }
+.sheet__handle { align-self: center; width: 46px; height: 4px; border-radius: 2px; background: rgba(236, 227, 210, 0.35); }
+.sheet__tabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px;
+  padding: 4px;
+  border: 1px solid rgba(95, 147, 200, 0.35);
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.35);
+}
+.sheet__tab {
+  min-height: 42px;
+  padding: 6px 10px;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  background: none;
+  color: var(--ash);
+  font-family: var(--font-heading);
+  font-size: 0.875rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+}
+.sheet__tab:hover { color: var(--bone); }
+.sheet__tab[aria-selected="true"] { border-color: #7fa6cf; background: linear-gradient(#2c3e57, #1b293b); color: var(--bone); box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1); }
+/* In the sheet, the tabs name the panels, and the sheet is their frame. */
+.pc__side .panel { border: 0; background: none; box-shadow: none; }
+.pc__side .panel.is-inactive { display: none; }
+.pc__side .panel__head {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.spellbook { margin: 0; padding: 4px 0 0; list-style: none; }
+.spell {
+  display: grid;
+  grid-template-columns: 36px minmax(0, 1fr) auto;
+  gap: 10px;
+  padding: 10px 10px;
+  border-top: 1px solid rgba(95, 147, 200, 0.22);
+}
+.spell:first-child { border-top: 0; }
+.spell__thumb {
+  align-self: start;
+  width: 36px;
+  aspect-ratio: 146 / 204;
+  overflow: hidden;
+  padding: 0;
+  border: 1px solid #5f93c8;
+  border-radius: 3px;
+  background: var(--stripes);
+  cursor: zoom-in;
+}
+.spell__thumb img { display: block; width: 100%; height: 100%; object-fit: contain; }
+.spell__head { display: flex; flex-wrap: wrap; align-items: center; gap: 2px 6px; }
+.spell__name { min-width: 0; overflow-wrap: anywhere; font-family: var(--font-heading); font-size: 0.875rem; font-weight: 700; line-height: 1.25; }
+.spell__head .changes__mana { --mana-size: 14px !important; }
+.spell__type { display: block; color: #9fb8d2; font-family: var(--font-heading); font-size: 0.625rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; }
+.spell__text, .spell__note { margin: 3px 0 0; color: #d5dce4; font-size: 0.875rem; font-style: italic; line-height: 1.35; overflow-wrap: anywhere; }
+.spell__note { color: var(--ash); font-style: normal; }
+.spell__side { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; }
+.spell__uses { color: var(--torch); font-family: var(--font-heading); font-size: 0.9375rem; font-weight: 700; font-variant-numeric: tabular-nums; }
+.spell__cast { min-width: 64px; min-height: 36px; padding: 4px 10px; font-size: 0.875rem; }
+.spell.is-cast .spell__thumb, .spell.is-cast .spell__info { opacity: 0.5; }
+.spell.is-cast .spell__uses { color: var(--ash); }
+/* Mana symbols and explained phrases inside spell text and the details dialog. */
+.spell .kw, .detail .kw { text-decoration-color: var(--ash); }
+.spell__text .mana, .detail .mana { width: 1em; height: 1em; vertical-align: -0.15em; border-radius: 50%; }
+.spell__text .mana--text, .detail__text .mana--text { display: inline-grid; place-items: center; background: #cbc4bb; color: #1d1915; font-size: 0.65em; font-weight: 700; }
+
+/* Counters and bonuses (step buttons big enough for a thumb). On phones, a box each,
+   two side by side where they fit. */
+.trackers { display: grid; gap: 8px; justify-items: center; }
+.status .trackers { grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); justify-items: stretch; padding: 8px 2px 4px; }
+.tracker { display: grid; grid-template-columns: 8.5em 44px 3.5em 44px; align-items: center; gap: 8px; }
+.status .tracker {
+  grid-template-columns: 44px minmax(2.5em, 1fr) 44px;
+  grid-template-areas: "label label label" "down value up";
+  gap: 6px;
+  padding: 8px 10px 10px;
+  border: 1px solid rgba(236, 227, 210, 0.12);
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.25);
+}
+.status .tracker__label { grid-area: label; overflow-wrap: anywhere; color: var(--bone); font-size: 0.875rem; font-weight: 500; }
+.status .tracker__step:first-of-type { grid-area: down; }
+.status .tracker__value { grid-area: value; }
+.status .tracker__step:last-of-type { grid-area: up; }
+.tracker__label { color: var(--ash); }
+.tracker__step { min-width: 44px; min-height: 44px; padding: 0; font-size: 1.25rem; line-height: 1; }
+.status .tracker__step { border-color: rgba(236, 227, 210, 0.2); background: rgba(0, 0, 0, 0.3); }
+.status .tracker__step:not(:disabled):hover { border-color: var(--torch); }
+.status .tracker__step:last-of-type:not(:disabled) { border-color: rgba(240, 162, 59, 0.6); color: var(--torch); }
+.tracker__value { font-family: var(--font-heading); font-size: 1.375rem; font-weight: 500; text-align: center; font-variant-numeric: tabular-nums; }
+.tracker__value { white-space: nowrap; }
+.tracker__value.is-long { font-size: 1rem; }
+.trackers__clear { grid-column: 1 / -1; justify-self: stretch; margin-top: 4px; border-color: rgba(236, 227, 210, 0.25); background: rgba(0, 0, 0, 0.25); color: var(--bone); font-family: var(--font-heading); font-size: 0.875rem; font-weight: 700; letter-spacing: 0.06em; }
+.trackers__clear:disabled { opacity: 0.45; cursor: default; }
+.trackers__note { grid-column: 1 / -1; margin: 0; color: var(--ash); font-size: 0.875rem; text-align: center; }
+
+/* ---------- Wide screens: three columns ---------- */
+@media (min-width: 1000px) {
+  .view.pc.is-card-only { max-width: 1320px; }
+  .pc.is-card-only {
+    grid-template-columns: minmax(250px, 310px) minmax(360px, 1fr) minmax(250px, 310px);
+    grid-template-rows: auto auto auto 1fr;
+    grid-template-areas: "level banner nav" "error error error" "board card side" "board foot side";
+    gap: 14px clamp(20px, 3vw, 44px);
+  }
+  .pc.is-card-only .pc__nav { align-self: start; padding-top: 6px; }
+
+  .hud-level { align-self: start; padding: 4px 0 0; border: 0; background: none; color: #d9cfb8; font-size: 0.875rem; text-shadow: 0 1px 4px rgba(0, 0, 0, 0.9); }
+  .xpbar { display: flex; gap: 3px; width: min(190px, 100%); }
+  .xpbar span { flex: 1; max-width: 26px; height: 4px; border-radius: 1px; background: rgba(236, 227, 210, 0.25); box-shadow: 0 1px 2px rgba(0, 0, 0, 0.6); }
+  .xpbar span.is-earned { background: linear-gradient(#f6c870, #c8922e); }
+  /* Too many XP for segments: one bar, filled to the share earned. */
+  .xpbar--whole { height: 4px; border-radius: 1px; background: linear-gradient(90deg, #e2b45a calc(var(--share) * 100%), rgba(236, 227, 210, 0.25) 0); }
+
+  /* The banner: a parchment ribbon with notched ends. */
+  .banner {
+    grid-area: banner;
+    justify-self: center;
+    position: relative;
+    display: grid;
+    justify-items: center;
+    padding: 9px clamp(40px, 4.5vw, 64px) 8px;
+    color: #2b2015;
+    white-space: nowrap;
+    filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.5));
+  }
+  .banner::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: linear-gradient(#f1e7cd, #d6c398);
+    clip-path: polygon(0 0, 100% 0, calc(100% - 24px) 50%, 100% 100%, 0 100%, 24px 50%);
+  }
+  .banner[hidden] { display: none; }
+  .banner__title { font-family: var(--font-heading); font-size: clamp(1.125rem, 1.6vw, 1.5rem); font-weight: 700; letter-spacing: 0.04em; line-height: 1.1; }
+  .banner__sub { color: #6a5a44; font-family: var(--font-heading); font-size: 0.6875rem; font-weight: 500; letter-spacing: 0.14em; }
+
+  /* The card, bigger. Scaled with transform, not zoom: zoom changes how the browser
+     reports sizes, and the card measures its text to fit it. The padding makes room
+     for the extra 20%, which a transform doesn't take in the layout. */
+  .pc.is-card-only .card-stage { padding: 44px 0 40px; }
+  .pc.is-card-only .card { width: 270px; transform: scale(1.2); }
+
+  .pc.is-card-only .board, .pc.is-card-only .pc__side { align-self: stretch; }
+  .board .panel { flex: 1 1 auto; }
+  .panel__head { justify-content: center; padding: 9px 12px; background: rgba(0, 0, 0, 0.22); border-radius: 6px 6px 0 0; }
+  .panel__count::before { content: "\00b7\00a0"; }
+
+  .attach { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px 10px; padding: 14px 12px; }
+  .mini { aspect-ratio: 5 / 7.6; padding: 3px; gap: 3px; }
+  .mini__name, .mini__type {
+    display: block;
+    overflow: hidden;
+    padding: 1px 4px;
+    border-radius: 2px;
+    background: linear-gradient(#efe6d6, #d4c8b2);
+    color: #211a12;
+    font-size: 0.625rem;
+    font-weight: 700;
+    line-height: 1.35;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .mini__name { font-family: var(--font-display); font-size: 0.75rem; font-weight: 600; line-height: 1.2; }
+  .mini__type { font-weight: 500; }
+  .mini--empty { padding: 0; }
+
+  .tokens { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px 8px; padding: 14px 10px; }
+  .token__name { display: block; max-width: 100%; overflow-wrap: anywhere; font-family: var(--font-heading); font-size: 0.625rem; font-weight: 700; line-height: 1.2; text-align: center; }
+  .token__art, .token--empty { max-width: 56px; }
+
+  /* Two panels instead of a sheet. */
+  .pc.is-card-only .pc__side { gap: 14px; margin: 0; padding: 0; border: 0; border-radius: 0; background: none; box-shadow: none; }
+  .sheet__handle, .sheet__tabs { display: none; }
+  .pc__side .panel { border: 1.5px solid var(--edge); background: linear-gradient(var(--top), var(--bottom)); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.06), 0 10px 28px rgba(0, 0, 0, 0.45); }
+  .pc__side .panel.is-inactive { display: block; }
+  .pc__side .panel__head { position: static; width: auto; height: auto; overflow: visible; clip-path: none; white-space: normal; }
+  .panel--spells { display: flex; flex-direction: column; min-height: 0; }
+  .spellbook { max-height: 260px; overflow-y: auto; scrollbar-width: thin; scrollbar-color: #5f93c8 transparent; }
+  .panel--spells .panel__note { margin-bottom: 2px; }
+
+  /* Status: one row per tracker, label first. */
+  .status .trackers { grid-template-columns: minmax(0, 1fr); gap: 6px; padding: 10px 12px 12px; }
+  .status .tracker { grid-template-columns: minmax(0, 1fr) 36px 2.5em 36px; grid-template-areas: "label down value up"; padding: 0; border: 0; background: none; }
+  .status .tracker__label { color: #e3d9c4; font-size: 0.8125rem; }
+  .status .tracker { grid-template-columns: minmax(0, 1fr) 32px 2.5em 32px; }
+  .status .tracker__step { min-width: 32px; min-height: 32px; font-size: 1.125rem; }
+  .trackers__clear { padding: 8px 14px; }
+  .tracker__value { font-size: 1.25rem; }
+  .trackers__note { font-size: 0.8125rem; }
+}
+
+/* ---------- Details of a card on the board, and the card's text ---------- */
+.detail { width: min(680px, calc(100vw - 32px)); }
+.detail__body { display: grid; grid-template-columns: minmax(0, 240px) minmax(0, 1fr); gap: 18px; align-items: start; }
+.detail__body:has(.detail__image[hidden]) { grid-template-columns: minmax(0, 1fr); }
+.detail__image img { display: block; width: 100%; height: auto; aspect-ratio: 488 / 680; border-radius: 4.75% / 3.5%; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); }
+.detail__info p { margin: 0 0 8px; overflow-wrap: anywhere; }
+.detail__kind { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; color: var(--ash); }
+.detail__summary { color: var(--torch); font-weight: 500; }
+.detail__note { color: var(--ash); font-size: 0.9375rem; }
+.detail .actions { margin-top: 16px; }
+@media (max-width: 560px) {
+  .detail__body { grid-template-columns: minmax(0, 1fr); }
+  .detail__image { justify-self: center; width: min(260px, 100%); }
+}
+#pc-card-text .card-text { padding: 0; }
+#pc-card-text .actions { margin-top: 16px; }
+
+/* "Text on card": the card's text at a size that's easy to read, on the dark dialog. */
+.card-text { display: grid; gap: 8px; font-size: 1.0625rem; line-height: 1.45; }
 .card-text__head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
 .card-text__name { font-family: var(--font-display); font-size: 1.375rem; font-weight: 600; line-height: 1.1; overflow-wrap: anywhere; }
 .card-text__pt { flex: none; font-family: var(--font-display); font-size: 1.375rem; color: var(--torch); }
@@ -235,17 +603,6 @@
 .card-text .kw { color: inherit; text-decoration-color: var(--ash); }
 .card-text .mana { width: 1em; height: 1em; vertical-align: -0.15em; border-radius: 50%; }
 .card-text .mana--text { display: inline-grid; place-items: center; background: #cbc4bb; color: #1d1915; font-size: 0.65em; font-weight: 700; }
-
-/* Counters and bonuses (step buttons big enough for a thumb). */
-.trackers { display: grid; gap: 8px; justify-items: center; }
-.tracker { display: grid; grid-template-columns: 8.5em 44px 3.5em 44px; align-items: center; gap: 8px; }
-/* In "Status" the label takes what's left, so the rows fit small phones too. */
-.status .tracker { grid-template-columns: minmax(0, 1fr) 44px 3.5em 44px; width: 100%; }
-.status .tracker__label { overflow-wrap: anywhere; }
-.tracker__label { color: var(--ash); }
-.tracker__step { min-width: 44px; min-height: 44px; padding: 0; font-size: 1.25rem; line-height: 1; }
-.tracker__value { font-family: var(--font-display); font-size: 1.5rem; text-align: center; }
-.trackers__clear:disabled { opacity: 0.45; cursor: default; }
 
 /* ---------- Absorb animation ---------- */
 /* The creature flies into the card and fades out. */
