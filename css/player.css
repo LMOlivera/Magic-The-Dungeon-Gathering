@@ -239,6 +239,9 @@
 /* Counters and bonuses (step buttons big enough for a thumb). */
 .trackers { display: grid; gap: 8px; justify-items: center; }
 .tracker { display: grid; grid-template-columns: 8.5em 44px 3.5em 44px; align-items: center; gap: 8px; }
+/* In "Status" the label takes what's left, so the rows fit small phones too. */
+.status .tracker { grid-template-columns: minmax(0, 1fr) 44px 3.5em 44px; width: 100%; }
+.status .tracker__label { overflow-wrap: anywhere; }
 .tracker__label { color: var(--ash); }
 .tracker__step { min-width: 44px; min-height: 44px; padding: 0; font-size: 1.25rem; line-height: 1; }
 .tracker__value { font-family: var(--font-display); font-size: 1.5rem; text-align: center; }
@@ -320,3 +323,26 @@
   .roster__art { width: 56px; }
   .roster__actions { grid-column: 1 / -1; justify-content: flex-start; }
 }
+
+/* ---------- Phones ---------- */
+@media (max-width: 760px) {
+  /* Backstops against sideways scrolling on phones: anything reaching past the edge is
+     cut off (clip doesn't make a scroll box, so nothing else changes), and the page itself
+     never scrolls sideways (set on html, it applies to the window, not to a box). */
+  .view { overflow-x: clip; }
+  html { overflow-x: hidden; }
+}
+@media (max-width: 560px) {
+  /* Dialogs (booster, absorb, rename, camera, art editor) take the whole screen. */
+  .camera {
+    width: 100%;
+    max-width: 100%;
+    height: 100%;
+    max-height: 100%;
+    margin: 0;
+    border: 0;
+    border-radius: 0;
+    overflow: auto;
+  }
+}
+

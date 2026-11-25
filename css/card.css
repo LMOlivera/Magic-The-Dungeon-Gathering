@@ -215,6 +215,9 @@
 
 @media (max-width: 760px) {
   .card-stage { padding: 8px 0 24px; }
+  /* On phones the stage spans the screen: the glow stays inside it, so it can't
+     reach past the screen edge and make the page scroll sideways. */
+  .card-stage::before { inset: -18% 0; }
 }
 
 /* Only while absorbing: otherwise a reload would show the frame fading in from grey. */

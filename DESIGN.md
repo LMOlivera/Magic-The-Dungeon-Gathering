@@ -364,6 +364,8 @@ package.json      only scripts: npm start and npm test. No dependencies.
 ### Interface
 
 - Interface text in English, to go with the cards.
+- [DECIDED] **Phones:** the page never scrolls sideways, and dialogs (boosters, absorbing, renaming, camera, art editor) take the whole screen.
+  - Chosen while implementing, not confirmed: up to 560px wide the dialogs are full-screen; up to 760px the card's glow stays inside the screen width (it used to reach past the edge, which made the page scroll sideways), and as a backstop anything reaching past the edge is clipped and the page can't scroll sideways. In "Status" the labels wrap so the rows fit a 320px screen. Checked at 320, 360 and 390px wide.
 - Hash navigation: `#game` and `#player-card`. Any other value shows home. Always use simple names (letters, numbers and dashes), no `#/route`.
 - Style: a single dark theme, map-grid background, amber accent. Colors and fonts are variables on `:root`; reuse them in new screens.
 - Fonts from Google Fonts (Grenze Gotisch for headings, Alegreya Sans for text), with fallback fonts.
