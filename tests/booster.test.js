@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 
-import { BOOSTER_SIZE, makeBooster, boosterPool } from '../js/player/booster.js';
+import { BOOSTER_SIZE, makeBooster, boosterPool, attachmentPool } from '../js/player/booster.js';
 import { parseListLine, nameKeys, toPoolCard } from '../scripts/build-pool.js';
 import { sideCount, cardImageUrl } from '../js/shared/cards.js';
 
@@ -119,4 +119,20 @@ test('boosters leave out the cards the player already absorbed', () => {
     const booster = makeBooster(boosterPool(pool, player), BOOSTER_SIZE, fakeRandom(seed));
     assert.ok(booster.every((card) => card.id !== 'b' && card.id !== 'd'));
   }
+});
+
+test('the attachment booster deals every card that is not a creature or a spell, each once', () => {
+  const card = (id, typeLine) => ({ id, name: id, typeLine, faces: [] });
+  const mace = card('mace', 'Artifact — Equipment');
+  const seal = card('seal', 'Enchantment');
+  const flight = card('flight', 'Enchantment — Aura');
+  const pools = [
+    [card('hound', 'Creature — Dog'), mace, card('thopter', 'Artifact Creature — Thopter')],
+    [card('bolt', 'Instant'), card('rift', 'Sorcery'), flight],
+    [seal, mace, card('desert', 'Land — Desert')],
+  ];
+  assert.deepEqual(attachmentPool(pools).map((entry) => entry.id), ['mace', 'flight', 'seal']);
+  assert.deepEqual(attachmentPool([null, []]), [], 'a pool that failed to load is skipped');
+  // And, like any booster, not what the player already absorbed.
+  assert.deepEqual(boosterPool(attachmentPool(pools), { absorbed: [{ id: 'mace' }] }).map((entry) => entry.id), ['flight', 'seal']);
 });

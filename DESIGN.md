@@ -57,7 +57,7 @@ The players apply these rules. The app doesn't run them; at most it offers count
 
 - [DECIDED] Only the player who defeats the monster gets the XP.
 - [DECIDED] On leveling up, the player opens a booster.
-- [DECIDED] **Experience:** players start at level 1. Leveling up takes their level × 3 XP: 3 to reach level 2, 6 more to reach level 3, and so on. The player keeps track of XP on the Player Card, with − and + buttons under the card. The rules are in `js/player/level.js`.
+- [DECIDED] **Experience:** players start at level 1. Leveling up takes their level × 3 XP: 3 to reach level 2, 6 more to reach level 3, and so on. The player keeps track of XP on the Player Card, with − and + buttons in "Status" (section 10). The rules are in `js/player/level.js`.
   - Chosen while implementing, not confirmed: XP left over counts toward the next level, and a big gain can level up more than once (each new level earns its booster). − corrects a mistake: it never goes below 0 or takes a level away.
 - [DECIDED] **Level boosters:** every even level opens a booster of spells from `akashicos_spells.txt` of the player's colors (every color of the spell has to be one of theirs); every odd level, a booster of creatures from `akashicos.txt`. Boosters only come from leveling up: the free "Open a booster" button (from `level1.txt`) is gone.
   - Chosen while implementing, not confirmed: the booster opens by itself on leveling up; closed, it waits under the card ("Open your level N booster"), and several wait in order. While a new card is still spending its starting points, boosters wait until it's done. A booster with nothing left to deal is used up, with a message. A creature with {X} from a booster picks X freely, since no points are spent.
@@ -76,8 +76,8 @@ The players apply these rules. The app doesn't run them; at most it offers count
 | Card | What the player gets |
 |---|---|
 | Creature | [DECIDED] +P/+T, its colors, its cost, its creature types, and its text decided card by card (below) |
-| Equipment | [DECIDED] The player equips it and gets what it grants. It stays its own card, so something can destroy it, and then that's lost. Adds its colors and cost. |
-| Aura | [DECIDED] A permanent bonus: the player enchants themselves for good. Adds its colors and cost. |
+| Equipment | [DECIDED] The player equips it and gets what it grants. It stays its own card, so something can destroy it: then it gives nothing until combat is over, when it comes back. Adds its colors and cost. |
+| Aura | [DECIDED] A bonus that lasts: the player enchants themselves. Like any attachment it can be destroyed until combat is over (see below). Adds its colors and cost. |
 | Instant / sorcery | [DECIDED] Joins the spell list (section 3) and adds its colors. Its cost isn't added: it's what casting the spell costs. |
 | Item (an artifact or enchantment that isn't an Equipment or Aura) | [DECIDED] Kept with the Equipment (Seal of Fire). Sacrificing it only lasts the combat: it's back when combat is over. Adds its colors and cost. |
 | Land | [PROPOSED] +1 mana per turn of that color (there are no lands left in the test pool) |
@@ -89,16 +89,17 @@ The players apply these rules. The app doesn't run them; at most it offers count
 - Chosen while implementing, not confirmed:
   - The Equip cost is ignored: the player is equipped as soon as they absorb it.
   - What an Equipment or Aura grants is written in `js/rules/cards.js` (`grants`). "Equipped creature" and "enchanted creature" are the player, and abilities granted in quotes ("Equipped creature has '…'") become the player's own abilities.
-  - Under the card, "Equipment and auras" lists what the player has on. Each Equipment has a "Destroyed" button (also for sacrificing it, like Blazing Torch); Auras have none, since they're for good.
-  - The "Spells" accordion (below "Text on card", above "Status") lists the spell list with each spell's cost and text. "Cast" puts it in the graveyard and "Combat over" brings every spell back.
+  - [DECIDED] **Destroy and Remove:** every attachment (Equipment, item or Aura) has two buttons in its details, under "Attachments" (section 10). "Destroy" is temporary: it gives nothing until combat is over, and "Combat over" brings it back. "Remove" deletes it from the Player Card for good. (This replaces the earlier rule: a "Destroyed" button on Equipment only, which lost it for good, and none on Auras.)
+    - Chosen while implementing, not confirmed: a destroyed attachment is grey with a "Destroyed" badge, and "Restore" brings it back by hand (for a mistaken tap). "Remove" asks first. A removed card keeps the colors and cost it added (as an Equipment destroyed did before), and it stays among the absorbed cards (`removed` on its entry in `absorbed`), so boosters still don't deal it again; it leaves the "Attachments" panel. A destroyed Aura doesn't count for "each enchantment you control" (Ethereal Armor). Cards with a button of their own (Unattach, Revived, Sacrificed) keep it besides "Destroy".
+  - The "Spellbook" panel lists the spell list with each spell's cost and text. "Cast" puts it in the graveyard and "Combat over" brings every spell back.
   - Spells are cast as printed, so they need no entry in `js/rules/cards.js`.
   - Ethereal Armor's "each enchantment you control" counts the player's Auras. Blessing of the Nephilim's bonus follows the player's colors.
   - Equipment, Auras and items with no entry in `js/rules/cards.js` stay out of boosters until they're decided.
   - An Equipment or Aura can have a button that takes it off for the rest of the combat (`toggle`); while off it grants nothing, and "Combat over" puts it back.
 - [DECIDED] **Blinding Powder:** "Unattach" takes it off until the next combat; then it's back on by itself.
-- [DECIDED] **Carapace:** instead of "Sacrifice this Aura: Regenerate", when the player dies they come back without the Aura, and it returns when combat is over. Its text on the card: "When you would die, you come back instead, without Carapace. Carapace returns when combat is over." Under the card, "Revived" takes it off.
+- [DECIDED] **Carapace:** instead of "Sacrifice this Aura: Regenerate", when the player dies they come back without the Aura, and it returns when combat is over. Its text on the card: "When you would die, you come back instead, without Carapace. Carapace returns when combat is over." In its details (Attachments), "Revived" takes it off.
 - [DECIDED] **Cartouche of Zeal:** gives its +1/+1 and Haste and starts on, like any Aura. "Target creature can't block this turn" is WIP (its tooltip says so).
-- [DECIDED] **Seal of Fire:** an item. Sacrificing it takes it away for the rest of the combat ("Sacrificed" under the card), and "Combat over" brings it back.
+- [DECIDED] **Seal of Fire:** an item. Sacrificing it takes it away for the rest of the combat ("Sacrificed" in its details, under Attachments), and "Combat over" brings it back.
 - [DECIDED] **Bagel and Schmear** and **Desert** were taken out of the pool (`level1.txt` and `data/level1.json`).
 
 - [PROPOSED] When absorbing, the app adds up the stats, colors and types by itself and records the absorbed card on the sheet. The player can correct the result by hand.
@@ -146,9 +147,9 @@ General rules:
 - [DECIDED] **Party:** a card's "party" is the group of players. It counts up to one each of Cleric, Rogue, Warrior and Wizard among their creature types; a full party has all four.
 - [DECIDED] **The player's artifacts:** "artifacts you control" are only the player's own artifacts.
   - Chosen while implementing, not confirmed: the player counts, if they're an Artifact Creature, and so do the artifacts they absorbed.
-- [DECIDED] **+1/+1 counters:** the player keeps track of them on the Player Card, with buttons under the card to add and remove them. The card's power and toughness include them.
+- [DECIDED] **+1/+1 counters:** the player keeps track of them on the Player Card, with buttons in "Status" to add and remove them. The card's power and toughness include them.
   - Chosen while implementing, not confirmed: -1/-1 counters go in the same number, as a negative, because in Magic a +1/+1 and a -1/-1 counter cancel out.
-- [DECIDED] **Combat bonuses:** bonuses worked out again during combat are kept on the Player Card, under the card, like the counters: "Bonus power" and "Bonus toughness". The card's power and toughness include them.
+- [DECIDED] **Combat bonuses:** bonuses worked out again during combat are kept on the Player Card, in "Status", like the counters: "Bonus power" and "Bonus toughness". The card's power and toughness include them.
   - Chosen while implementing, not confirmed: the "Combat over" button resets them to 0 when combat ends (it also brings the spells back and turns the card back to its front). They also serve for other cards' "+N/+N until end of turn".
 - [DECIDED] **Cards that transform** (double-faced, like Cecil, Dark Knight) transform for real. On absorbing one, the player gets the front face, and the Player Card can be turned over.
   - Turned over, the player loses what the front face gave them and gets what the back face gives, plus a stat bonus: the difference between the two faces. With Cecil: 2/3 against 4/4, so +2/+1, and Deathtouch and Darkness become Lifelink and Protect.
@@ -312,7 +313,9 @@ css/
   base.css        variables, page and shared controls (buttons, fields, alerts, tooltip)
   card.css        the card component
   home.css        home
-  player.css      Player Card, camera and art editor
+  player.css      Player Card (the character sheet), camera and art editor
+assets/
+  bg-landscape.jpg  the character sheet's background
   booster.css     the cards of a booster, to pick one
 js/
   main.js         hash navigation and home
@@ -338,6 +341,7 @@ js/
     absorb.js     absorbing a card (pure)
     transform.js  cards that transform: turning the player's card over (pure)
     gear.js       Equipment, Auras and the spell list (pure)
+    board.js      the character sheet around the card: attachments, inherited creatures, XP bar (pure)
     roster.js     the cards saved in this browser, and their storage keys (pure)
     start.js      a new card's starting points: its creature and spells (pure)
     absorb-animation.js  the absorb animation on the card
@@ -364,9 +368,11 @@ package.json      only scripts: npm start and npm test. No dependencies.
 ### Interface
 
 - Interface text in English, to go with the cards.
+- [DECIDED] **Phones:** the page never scrolls sideways, and dialogs (boosters, absorbing, renaming, camera, art editor) take the whole screen.
+  - Chosen while implementing, not confirmed: up to 560px wide the dialogs are full-screen; up to 760px the card's glow stays inside the screen width (it used to reach past the edge, which made the page scroll sideways), and as a backstop anything reaching past the edge is clipped and the page can't scroll sideways. In "Status" the labels wrap so the rows fit a 320px screen. Checked at 320, 360 and 390px wide.
 - Hash navigation: `#game` and `#player-card`. Any other value shows home. Always use simple names (letters, numbers and dashes), no `#/route`.
-- Style: a single dark theme, map-grid background, amber accent. Colors and fonts are variables on `:root`; reuse them in new screens.
-- Fonts from Google Fonts (Grenze Gotisch for headings, Alegreya Sans for text), with fallback fonts.
+- Style: a single dark theme, map-grid background, amber accent. The character sheet (section 10) is the exception: it sits over a landscape (`assets/bg-landscape.jpg`). Colors and fonts are variables on `:root`; reuse them in new screens.
+- Fonts from Google Fonts (Grenze Gotisch for headings, Alegreya Sans for text, Cinzel for the character sheet's banner, panels and tabs), with fallback fonts.
 - Footer with the notice that this is an unofficial fan project, not affiliated with Wizards of the Coast. Keep it.
 - Don't use the official logo or card back. The identity's colors are shown with plain circles on the type line.
 - [DECIDED] The mana cost is shown as on a real card, with mana icons. They're the SVG images Scryfall publishes (`https://svgs.scryfall.io/card-symbols/R.svg`), loaded like the card images. If one doesn't load, or it's a generic number above 20 (Scryfall has no image), a circle with the text is shown. Mana symbols inside ability text are drawn as icons too.
@@ -391,15 +397,27 @@ The code is already split following the architecture in section 9.
     - Chosen while implementing, not confirmed: the color has to be the creature's, not one a spell added later. A spell with {X} costs its mana value without X (Banefire costs 1), since X is paid when it's cast. Each spell can be picked once. The spell screen opens by itself after each absorption while points are left; closed, it opens again from "Choose a spell" under the card. "Open a booster" is hidden until the points are spent. The absorb screen shows the points before and after.
   - The booster deals 3 cards from `data/level1.json`. Every card in the pool can come up. The player picks one, confirms it, sees how their card turns out and absorbs it.
   - [DECIDED] When absorbing, the values can be seen loading into the card: the creature flies into the card and each value that changes (power/toughness, colors, cost, types, abilities) updates in turn, with a caption saying what changed. With "reduce motion" turned on in the system, the card changes all at once.
-  - [DECIDED] After the first absorption, the Player Card page shows only the current card.
-  - [DECIDED] **Status:** the XP, +1/+1 counters, bonus power and toughness and "Combat over" are in an accordion called "Status". On wide screens (860px and up) it's on the left of the card; on phones it stays under the card, where the trackers were.
-  - [DECIDED] **Spells:** the spell list is an accordion too, below "Text on card" and above "Status". It only shows once the card has a spell. Equipment, Auras and items stay under the card.
-  - [DECIDED] **Text on card:** another accordion, above "Status", shows all the card's text at a size that's easy to read, because the card's own text shrinks as the card gains more: name, power/toughness, the full type line, keywords, abilities (with the same tooltips as on the card) and flavor text. It follows the card, transformed face included.
-    - [DECIDED] The accordions ("Text on card", "Spells", "Status") start closed.
-    - Chosen while implementing, not confirmed: they don't remember being opened after a reload. From 1100px the page widens so the card stays centered, with an empty column on the right.
-  - Chosen while implementing, not confirmed: that view keeps the "Back to start" link and a discreet "Start over" under the card, along with the counters, the bonuses and the transform buttons.
+  - [DECIDED] After the first absorption, the Player Card page is the **character sheet**, laid out after the author's mocks (desktop and phone), over the landscape background. (This replaces the earlier layout: the card alone, with "Text on card", "Spells" and "Status" accordions beside it.)
+    - [DECIDED] **Wide screens:** three columns. In the middle, the card, upright, under a "Character Sheet" banner. On the left, the "Attachments" panel (purple) over the "Inherited Creatures" panel (green). On the right, the "Spellbook" panel (blue) over the "Status" panel (bronze). The level and XP are on the top left, and a gold button on the top right.
+    - [DECIDED] **Phones:** one column: the level and the gold button on top, the card, "Attachments" (a row of small cards), "Inherited Creatures" (a row of circles), and a sheet at the bottom with two tabs, "Spellbook" and "Status".
+    - [DECIDED] Every card absorbed shows in exactly one panel: creatures in "Inherited Creatures", instants and sorceries in "Spellbook", and every other card in "Attachments".
+    - [DECIDED] **Attachments:** every other card absorbed (Equipment, items and Auras), oldest first, as small cards. **Inherited Creatures:** every creature absorbed, oldest first, as a circle with its art and printed power/toughness. **Spellbook:** the spell list, each spell with its card, cost, type, text, "1/1" (ready) or "0/1" (cast this combat) and "Cast". **Status:** XP, +1/+1 counters, bonus power and toughness and "Combat over".
+    - Chosen while implementing, not confirmed (the mocks show things the game doesn't have yet, mapped onto what it has):
+      - The mocks' "Floor III · Room VII" with its bar is the level and XP ("Level 1 · 0/3 XP"), with one segment per XP the level takes (one plain bar past 12). Floors and rooms belong to the Game screen, which the phone can't see.
+      - The mocks' "End Turn" button is "Your cards" (the menu of cards); there are no turns on the Player Card. "Back to start" stays beside it, except on phones under 480px, where it only fits on the menu.
+      - The mocks' counts ("3/5", "3/6") have no limit in the game, so the panels show only how many there are ("3"). Empty dashed slots fill each panel up to 6 cards (two rows of 3 on wide screens, one row on phones), as decoration; more fit.
+      - The banner's subtitle is "Dungeon Crawler", as in the mock. The labels stay "Bonus power" and "Bonus toughness" (the mock says "strength" and "life").
+      - Tapping an attachment, a creature or a spell's card opens its details: the full card image from Scryfall, what it gives and its buttons ("Destroy", "Remove", "Unattach", "Put back", "Cast"…). An attachment taken off for the combat is dimmed, with an "Off" badge; a destroyed one is grey, with a "Destroyed" badge. A removed one isn't shown, and neither is an Equipment destroyed for good by an older version.
+      - Small cards and spell thumbnails show the whole card image (`small`), never cropped. The creature circles use Scryfall's art crop, with the artist named in the circle's tooltip; the details show the full card. The images and printed power/toughness come from the card pools (`data/*.json`), loaded in the background; without them the board still works, with striped placeholders.
+      - A card is told apart by its pool card; until the pools load, "Attachments" shows only what the player has on, and every other absorbed card that isn't a spell counts as a creature.
+      - On wide screens the spell list scrolls inside its panel. The three columns start at 1000px; below that it's the phone layout, at most 560px wide and centered.
+  - [DECIDED] **Text on card:** all the card's text at a size that's easy to read, because the card's own text shrinks as the card gains more: name, power/toughness, the full type line, keywords, abilities (with the same tooltips as on the card) and flavor text. It follows the card, transformed face included.
+    - Chosen while implementing, not confirmed: the mocks have no place for it, so it opens in a dialog from "Read the card's text" under the card.
+  - Chosen while implementing, not confirmed: under the card go what's waiting (choosing spells, "Open your level N booster"), the transform buttons, "Read the card's text" and a discreet "Delete card".
   - [DECIDED] Boosters are earned by leveling up (section 4). The free "Open a booster" button that dealt from `level1.txt` was removed; under the card, "Open your level N booster" shows while one is waiting.
-  - [PENDING] Whether flavor text and art can be edited afterwards, since the card-only view doesn't have those controls.
+    - [DECIDED] **Attachment booster (placeholder):** under the card, "Open an attachment booster" opens a free booster of 3 cards from every pool in `data/`, keeping only the cards that are neither creatures nor instants or sorceries (Equipment, items and Auras). It's a placeholder, an exception to "boosters only come from leveling up".
+      - Chosen while implementing, not confirmed: it leaves out what the player already absorbed, and the Equipment, items and Auras with no entry in `js/rules/cards.js`, like every booster. It's hidden while a new card is spending its starting points. It isn't saved: closing it deals new cards next time. Absorbing from it clears a level booster left open, which then deals new cards (the level booster itself still waits). The pools in `data/` are listed in `DATA_POOL_URLS` (`js/player/view.js`), since the browser can't list a folder.
+  - [PENDING] Whether flavor text and art can be edited afterwards, since the character sheet doesn't have those controls.
   - An open booster stays saved until a card is absorbed. Closing it or reloading the page shows the same cards.
   - The card paints the player's color circles, and the type line shrinks to fit, like the name.
   - [DECIDED] Step 1: name the card. It stays set (see section 4).
@@ -409,7 +427,7 @@ The code is already split following the architecture in section 9.
   - [DECIDED] Optional flavor text.
   - [DECIDED] The player's basic card has no default text.
   - Chosen while implementing, not confirmed: the photo can be skipped and changed later; flavor text has a maximum of 110 characters; the original photo is kept so it can be cropped again.
-  - The list of cards is saved in `localStorage` under `mtdg.players`, and each card's sheet under `mtdg.player.<id>` (format version 12). The photos go in IndexedDB (database `mtdg`, keys `player.<id>.art` and `player.<id>.artSource`; the other face of a card that transforms uses `player.<id>.transform0.art`, etc.). The keys are in `js/player/roster.js`.
+  - The list of cards is saved in `localStorage` under `mtdg.players`, and each card's sheet under `mtdg.player.<id>` (format version 13). The photos go in IndexedDB (database `mtdg`, keys `player.<id>.art` and `player.<id>.artSource`; the other face of a card that transforms uses `player.<id>.transform0.art`, etc.). The keys are in `js/player/roster.js`.
   - Before there could be several cards, the only card was saved under `mtdg.player` with its photos under `player.art`, `player.artSource` and `player.transform0.art`. When the page opens it becomes the first card of the list; the old keys are removed only once its photos are under the new ones.
   - When a card is made, the page asks the browser to keep the data (`navigator.storage.persist()`), so it isn't cleared when the device runs low on space. Safari on iPhone still clears a site's data after 7 days without visiting it, unless the page was added to the home screen; export/import (section 11) is the real backup.
   - Old saves are migrated automatically when the page opens:
@@ -421,6 +439,7 @@ The code is already split following the architecture in section 9.
     - Version 7 adds +1/+1 counters, version 8 combat bonuses, version 9 cards that transform and version 10 Equipment, Auras and the spell list.
     - Version 11 adds the starting points. A card that absorbed nothing yet gets its 5 points; one that already absorbed something was made before them and gets none.
     - Version 12 adds the level, XP and the boosters waiting. Every card starts at level 1 with 0 XP. A free booster left open by an older version is dropped, since boosters now come from leveling up.
+    - Version 13 lets any attachment be destroyed until combat is over (`destroyed` on Equipment and Auras) and removed for good (`removed` on its entry in `absorbed`). Nothing is converted: an Equipment destroyed by an older version was already off the player.
 - **Game:** empty screen marked "Not built yet".
 - **First card:** see Player Card above.
 - **Boosters:** a level booster deals 3 different random cards from `data/akashicos_spells.json` (even levels) or `data/akashicos.json` (odd levels); `data/level1.json` is no longer used by the Player Card. It shows their images from Scryfall and lets the player pick one and confirm it with "Confirm". Each card's name shows on mouse hover, even if the image hasn't loaded. (The `BoosterTest.html` proof of concept, which dealt from the whole pool, was removed.)

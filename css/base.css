@@ -11,6 +11,8 @@
   --ember: #b9481c;
   --font-display: "Grenze Gotisch", "UnifrakturCook", "Palatino Linotype", Palatino, Georgia, serif;
   --font-body: "Alegreya Sans", "Gill Sans", "Trebuchet MS", system-ui, sans-serif;
+  /* Small capitals for the character sheet's panels and banner. */
+  --font-heading: "Cinzel", "Trajan Pro", "Palatino Linotype", Georgia, serif;
   color-scheme: dark;
 }
 

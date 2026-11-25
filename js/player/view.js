@@ -25,9 +25,14 @@ import { isAbsorbable, absorbPreview, absorbCard, describeColors, typeLineOf, ch
 import {
   picksSpells, cardPoints, maxX, affordableCreatures, startSpells, withStartPick, withStartDone,
 } from './start.js';
-import { describeGrants, grantsOf, withoutEquipment, withOff, putBackOn, withSpellCast, returnSpells } from './gear.js';
+import {
+  describeGrants, grantsOf, withoutAttachment, withDestroyed, withOff, putBackOn, withSpellCast, returnSpells,
+} from './gear.js';
+import {
+  attachmentsOf, inheritedCreatures, emptySlots, xpSegments, printedStats, MIN_ATTACHMENT_SLOTS, MIN_CREATURE_SLOTS,
+} from './board.js';
 import { keywordRule, parseKeyword } from '../rules/keywords.js';
-import { makeBooster } from './booster.js';
+import { makeBooster, boosterPool, attachmentPool } from './booster.js';
 import { withXp, xpToLevelUp, nextLevelBooster, withLevelBoosterUsed, levelBoosterPool } from './level.js';
 import {
   withTransformed, untransformAll, withTransformName, withTransformArt, withoutTransformArt,
@@ -48,6 +53,9 @@ const FLIP_MS = 600; // .card.is-flipping in css/player.css
 const FALLBACK_ART_RATIO = 1.37; // .card__art aspect-ratio in css/card.css
 const FIRST_POOL_URL = 'data/akashicos.json'; // the first card is picked from all of these
 const SPELLS_POOL_URL = 'data/akashicos_spells.json'; // then spells, with the points left (player/start.js)
+// Every pool in data/: for the board's images (older cards used level1.json), and for the
+// attachment booster. A new pool file goes here too.
+const DATA_POOL_URLS = [FIRST_POOL_URL, SPELLS_POOL_URL, 'data/level1.json'];
 
 export async function initPlayerView() {
   const card = $('pc-card');
@@ -218,7 +226,11 @@ export async function initPlayerView() {
     $('view-player-card').classList.toggle('is-card-only', step === 'card');
     $('pc-card-foot').hidden = step !== 'card';
     $('pc-side').hidden = step !== 'card';
+    $('pc-board').hidden = step !== 'card';
+    $('pc-hud-level').hidden = step !== 'card';
+    $('pc-banner').hidden = step !== 'card';
     $('pc-reset-card').hidden = step !== 'card';
+    if (step !== 'card') for (const dialog of [$('pc-detail'), $('pc-card-text')]) if (dialog.open) dialog.close();
 
     // While the animation plays it owns the card.
     if (!animating && step !== 'menu') drawCard();
@@ -236,15 +248,16 @@ export async function initPlayerView() {
     } else if (step === 'card') {
       renderStart();
       renderLevel();
-      $('pc-counter-value').textContent = describeCounters(player.counters || 0);
-      $('pc-bonus-power-value').textContent = describeBonus(player.bonusPower);
-      $('pc-bonus-toughness-value').textContent = describeBonus(player.bonusToughness);
+      trackerValue('pc-counter-value', describeCounters(player.counters || 0));
+      trackerValue('pc-bonus-power-value', describeBonus(player.bonusPower));
+      trackerValue('pc-bonus-toughness-value', describeBonus(player.bonusToughness));
       const anyTransformed = (player.transforms || []).some((entry) => entry.transformed);
       const anyCast = (player.spells || []).some((spell) => spell.cast);
-      const anyOff = [...(player.equipment || []), ...(player.auras || [])].some((entry) => entry.off);
+      const anyOff = [...(player.equipment || []), ...(player.auras || [])].some((entry) => entry.off || entry.destroyed);
       $('pc-bonus-clear').disabled = !player.bonusPower && !player.bonusToughness && !anyTransformed && !anyCast && !anyOff;
       renderTransforms();
-      renderGear();
+      loadCardIndex();
+      renderBoard();
     } else if (step === 'sheet') {
       $('pc-edit-art').hidden = !player.hasArtSource;
       if (document.activeElement !== flavorInput) flavorInput.value = player.flavor || '';
@@ -255,6 +268,12 @@ export async function initPlayerView() {
         player.start ? ` You have ${points(player.start.points)} to spend: first a creature, then spells of its colors. Each card costs its mana value.` : '',
       );
     }
+  }
+
+  /** A value in "Status". Long ones ("+10/+10") get a smaller font so they fit a phone's box. */
+  function trackerValue(id, text) {
+    $(id).textContent = text;
+    $(id).classList.toggle('is-long', text.length > 4);
   }
 
   /* ----- Step 1: name ----- */
@@ -512,10 +531,20 @@ export async function initPlayerView() {
   function renderLevel() {
     const level = player.level || 1;
     $('pc-level-value').textContent = String(level);
-    $('pc-xp-value').textContent = `${player.xp || 0}/${xpToLevelUp(level)}`;
+    trackerValue('pc-xp-value', `${player.xp || 0}/${xpToLevelUp(level)}`);
     $('pc-xp-down').disabled = !player.xp;
+    // The header shows the same, with a bar.
+    $('pc-hud-level-value').textContent = String(level);
+    $('pc-hud-xp').textContent = `${player.xp || 0}/${xpToLevelUp(level)}`;
+    const bar = xpSegments(player.xp || 0, xpToLevelUp(level));
+    const xpbar = $('pc-hud-xpbar');
+    xpbar.classList.toggle('xpbar--whole', !bar.segments);
+    xpbar.style.setProperty('--share', String(bar.share));
+    xpbar.replaceChildren(...(bar.segments || []).map((earned) => el('span', earned ? 'is-earned' : null)));
     // Boosters wait while the starting points are being spent.
     const next = nextLevelBooster(player);
+    // The placeholder attachment booster waits too, like the level boosters.
+    $('pc-open-attachment').hidden = Boolean(player.start);
     const button = $('pc-open-another');
     button.hidden = !next || Boolean(player.start);
     if (next) {
@@ -570,9 +599,156 @@ export async function initPlayerView() {
     if (turnBack) await turnOver(untransformAll);
   });
 
-  /* ----- Equipment, Auras and spells ----- */
-  function gearButton(label, quiet, onClick) {
-    const button = el('button', quiet ? 'action action--quiet gear__action' : 'action gear__action', label);
+  /* ----- The board: attachments, inherited creatures and the spellbook (player/board.js) ----- */
+  // Every card the player can have absorbed, by id, for its image and printed stats.
+  // Loaded once, in the background; the board works without it and fills in when it arrives.
+  const cardById = new Map();
+  let cardIndexLoading = null;
+
+  function loadCardIndex() {
+    if (cardIndexLoading) return;
+    cardIndexLoading = Promise.all(DATA_POOL_URLS.map((url) => loadPool(url).catch(() => null))).then((pools) => {
+      for (const pool of pools) for (const poolCard of pool || []) if (!cardById.has(poolCard.id)) cardById.set(poolCard.id, poolCard);
+      if (pools.every((pool) => !pool)) cardIndexLoading = null; // offline: try again on the next render
+      if (player) render();
+    });
+  }
+
+  /** A card image from Scryfall, or nothing when it's not known or doesn't load. size: 'small', 'normal' or 'artCrop'. */
+  function cardImage(poolCard, size) {
+    const url = poolCard ? cardImageUrl(poolCard, 0, size) : null;
+    if (!url) return [];
+    const img = el('img');
+    img.alt = '';
+    img.loading = 'lazy';
+    img.addEventListener('error', () => img.remove());
+    img.src = url;
+    return [img];
+  }
+
+  const KIND_LABELS = { equipment: 'Equipment', item: 'Item', aura: 'Aura' };
+
+  /** One Equipment, item or Aura absorbed, on the board: a small card that opens its details. */
+  function attachmentSlot(entry) {
+    const slot = el('li');
+    const button = el('button', entry.destroyed ? 'mini is-destroyed' : entry.off ? 'mini is-off' : 'mini');
+    button.type = 'button';
+    button.title = entry.name;
+    const state = entry.destroyed ? ', destroyed until combat is over' : entry.off ? ', taken off for this combat' : '';
+    button.setAttribute('aria-label', `${entry.name}, ${KIND_LABELS[entry.kind]}${state}`);
+    const art = el('span', 'mini__art');
+    art.append(...cardImage(cardById.get(entry.id), 'small'));
+    // The name is in the tooltip and aria-label, not on the small card: the image shows it.
+    button.append(art, el('span', 'mini__type', KIND_LABELS[entry.kind]));
+    if (entry.destroyed) button.append(el('span', 'mini__badge', 'Destroyed'));
+    else if (entry.off) button.append(el('span', 'mini__badge', 'Off'));
+    button.addEventListener('click', () => openDetail(() => attachmentDetail(entry.absorbedAt)));
+    slot.append(button);
+    return slot;
+  }
+
+  /** One creature the card inherited: its art in a circle, with its printed power/toughness. */
+  function creatureToken(entry) {
+    const slot = el('li');
+    const button = el('button', 'token');
+    button.type = 'button';
+    const stats = printedStats(entry.card);
+    const artist = entry.card && entry.card.artist ? ` — art by ${entry.card.artist}` : '';
+    button.title = `${entry.name}${artist}`;
+    button.setAttribute('aria-label', `${entry.name}${stats ? `, ${stats}` : ''}`);
+    const art = el('span', 'token__art');
+    art.append(...cardImage(entry.card, 'artCrop'));
+    button.append(art);
+    if (stats) button.append(el('span', 'token__pt', stats));
+    button.append(el('span', 'token__name', entry.name));
+    button.addEventListener('click', () => openDetail(() => creatureDetail(entry.absorbedAt)));
+    slot.append(button);
+    return slot;
+  }
+
+  const emptySlot = (className) => {
+    const slot = el('li', className);
+    slot.setAttribute('aria-hidden', 'true');
+    return slot;
+  };
+
+  function renderBoard() {
+    const attachments = attachmentsOf(player, cardById);
+    $('pc-attach-count').textContent = String(attachments.length);
+    $('pc-attach-list').replaceChildren(
+      ...attachments.map(attachmentSlot),
+      ...Array.from({ length: emptySlots(attachments.length, MIN_ATTACHMENT_SLOTS) }, () => emptySlot('mini mini--empty')),
+    );
+
+    const creatures = inheritedCreatures(player, cardById);
+    $('pc-creatures-count').textContent = String(creatures.length);
+    $('pc-creature-list').replaceChildren(
+      ...creatures.map((entry) => creatureToken(entry)),
+      ...Array.from({ length: emptySlots(creatures.length, MIN_CREATURE_SLOTS) }, () => emptySlot('token token--empty')),
+    );
+
+    const spells = (player.spells || []).map(spellRow);
+    $('pc-spell-list').replaceChildren(...spells);
+    $('pc-spell-list').hidden = !spells.length;
+    $('pc-spells-empty').hidden = Boolean(spells.length);
+
+    if (detailDialog.open) renderDetail();
+  }
+
+  function castButton(spell, index) {
+    const cast = el('button', spell.cast ? 'action action--quiet spell__cast' : 'action spell__cast', spell.cast ? 'Take back' : 'Cast');
+    cast.type = 'button';
+    cast.addEventListener('click', () => {
+      if (animating) return;
+      player = withSpellCast(player, index, !spell.cast);
+      save();
+      render();
+    });
+    return cast;
+  }
+
+  /** One spell in the spellbook: its card, cost, text, whether it's ready, and Cast. */
+  function spellRow(spell, index) {
+    const row = el('li', spell.cast ? 'spell is-cast' : 'spell');
+    const thumb = el('button', 'spell__thumb');
+    thumb.type = 'button';
+    thumb.setAttribute('aria-label', `Show the card ${spell.name}`);
+    thumb.append(...cardImage(cardById.get(spell.id), 'small'));
+    thumb.addEventListener('click', () => openDetail(() => spellDetail(index)));
+
+    const info = el('div', 'spell__info');
+    const head = el('div', 'spell__head');
+    head.append(el('strong', 'spell__name', spell.name), manaCostNode(spell.manaCost));
+    info.append(head, el('span', 'spell__type', spell.typeLine || ''));
+    for (const line of String(spell.text || '').split('\n')) {
+      const paragraph = el('p', 'spell__text');
+      paragraph.append(...abilityNodes(line));
+      info.append(paragraph);
+    }
+    if (spell.cast) info.append(el('p', 'spell__note', 'In the graveyard until combat is over.'));
+
+    const side = el('div', 'spell__side');
+    const uses = el('span', 'spell__uses', spell.cast ? '0/1' : '1/1');
+    uses.title = spell.cast ? 'Cast this combat' : 'Ready to cast';
+    uses.setAttribute('aria-label', uses.title);
+    side.append(uses, castButton(spell, index));
+    row.append(thumb, info, side);
+    return row;
+  }
+
+  /* The details of a card on the board, in a dialog: its full image, what it gives and its buttons. */
+  const detailDialog = $('pc-detail');
+  let detailOf = null; // () => the details to show, or null when the card is gone
+
+  function openDetail(build) {
+    if (animating) return;
+    detailOf = build;
+    renderDetail();
+    if (!detailDialog.open) detailDialog.showModal();
+  }
+
+  function detailButton(label, className, onClick) {
+    const button = el('button', className, label);
     button.type = 'button';
     button.addEventListener('click', () => {
       if (!animating) onClick();
@@ -580,77 +756,126 @@ export async function initPlayerView() {
     return button;
   }
 
-  /** One Equipment, item or Aura: what it gives, and its buttons. list is 'equipment' or 'auras'. */
-  function gearItem(entry, index, list) {
+  function renderDetail() {
+    const detail = detailOf && player ? detailOf() : null;
+    if (!detail) {
+      if (detailDialog.open) detailDialog.close();
+      return;
+    }
+    $('pc-detail-title').textContent = detail.title;
+    const image = $('pc-detail-image');
+    const img = cardImage(detail.card, 'normal');
+    if (img.length) img[0].alt = detail.title;
+    image.replaceChildren(...img);
+    image.hidden = !img.length;
+    $('pc-detail-info').replaceChildren(...detail.info);
+    $('pc-detail-actions').replaceChildren(
+      ...detail.actions,
+      detailButton('Close', 'action action--quiet', () => detailDialog.close()),
+    );
+  }
+
+  /** A line of text with keywords and mana symbols, as on the card. */
+  function textLine(text, className = 'detail__text') {
+    const paragraph = el('p', className);
+    paragraph.append(...abilityNodes(text));
+    return paragraph;
+  }
+
+  /** The details of the attachment absorbed at that place in player.absorbed. */
+  function attachmentDetail(absorbedAt) {
+    const entry = attachmentsOf(player, cardById).find((item) => item.absorbedAt === absorbedAt);
+    if (!entry) return null;
+    const { list, index, kind } = entry;
     const grants = grantsOf(entry.name) || {};
-    const item = el('li', entry.off ? 'gear__item is-cast' : 'gear__item');
-    const head = el('div', 'gear__head');
-    head.append(el('strong', null, entry.name));
-    if (list === 'auras') head.append(el('span', 'gear__tag', 'Aura'));
-    if (grants.toggle) {
-      head.append(gearButton(entry.off ? 'Put back' : grants.toggle.label, entry.off, () => {
-        player = withOff(player, list, index, !entry.off);
-        save();
-        render();
-      }));
-    }
-    if (list === 'equipment') {
-      const label = grants.remove || 'Destroyed';
-      head.append(gearButton(label, true, () => {
-        const question = label === 'Destroyed'
-          ? `Was ${entry.name} destroyed? You lose what it gives you.`
-          : `Did you use ${entry.name}? It's gone for good.`;
-        if (!confirm(question)) return;
-        player = withoutEquipment(player, index);
-        save();
-        render();
-      }));
-    }
-    item.append(head);
+    const info = [el('p', 'detail__kind', KIND_LABELS[kind])];
     const summary = describeGrants(entry.name);
-    if (summary) item.append(el('p', 'gear__summary', summary));
-    if (entry.off && grants.toggle) item.append(el('p', 'gear__summary', grants.toggle.note));
-    for (const ability of grants.abilities || []) {
-      const paragraph = el('p', 'gear__text');
-      paragraph.append(...abilityNodes(ability));
-      item.append(paragraph);
-    }
-    return item;
-  }
+    if (summary) info.push(el('p', 'detail__summary', `Gives you ${summary}.`));
+    for (const ability of grants.abilities || []) info.push(textLine(ability));
+    if (entry.destroyed) info.push(el('p', 'detail__note', 'Destroyed until combat is over: it gives you nothing meanwhile.'));
+    else if (entry.off && grants.toggle) info.push(el('p', 'detail__note', grants.toggle.note));
+    info.push(el('p', 'detail__note', '\u201cDestroy\u201d takes it away until combat is over. \u201cRemove\u201d takes it off your card for good.'));
 
-  function renderGear() {
-    const items = [
-      ...(player.equipment || []).map((entry, index) => gearItem(entry, index, 'equipment')),
-      ...(player.auras || []).map((entry, index) => gearItem(entry, index, 'auras')),
-    ];
-    $('pc-gear-list').replaceChildren(...items);
-    $('pc-gear').hidden = !items.length;
-
-    const spells = (player.spells || []).map((spell, index) => {
-      const item = el('li', spell.cast ? 'gear__item is-cast' : 'gear__item');
-      const head = el('div', 'gear__head');
-      head.append(el('strong', null, spell.name), manaCostNode(spell.manaCost));
-      const cast = el('button', spell.cast ? 'action action--quiet gear__action' : 'action gear__action', spell.cast ? 'Take back' : 'Cast');
-      cast.type = 'button';
-      cast.addEventListener('click', () => {
-        if (animating) return;
-        player = withSpellCast(player, index, !spell.cast);
-        save();
-        render();
-      });
-      head.append(cast);
-      item.append(head);
-      if (spell.cast) item.append(el('p', 'gear__summary', 'In the graveyard until combat is over.'));
-      for (const line of String(spell.text || '').split('\n')) {
-        const paragraph = el('p', 'gear__text');
-        paragraph.append(...abilityNodes(line));
-        item.append(paragraph);
+    const change = (next) => {
+      player = next;
+      save();
+      render();
+    };
+    const actions = [];
+    if (entry.destroyed) {
+      // Combat over brings it back; this is for a mistaken tap.
+      actions.push(detailButton('Restore', 'action', () => change(withDestroyed(player, list, index, false))));
+    } else {
+      if (grants.toggle) {
+        actions.push(detailButton(entry.off ? 'Put back' : grants.toggle.label, entry.off ? 'action' : 'action action--primary', () => {
+          change(withOff(player, list, index, !entry.off));
+        }));
       }
-      return item;
-    });
-    $('pc-spell-list').replaceChildren(...spells);
-    $('pc-spells').hidden = !spells.length;
+      actions.push(detailButton('Destroy', 'action', () => change(withDestroyed(player, list, index, true))));
+    }
+    actions.push(detailButton('Remove', 'action action--quiet', () => {
+      if (!confirm(`Remove ${entry.name} from your card for good? You lose what it gives you; the colors and cost it added stay.`)) return;
+      detailOf = null; // it's gone: the dialog closes
+      change(withoutAttachment(player, list, index, absorbedAt));
+    }));
+    return { title: entry.name, card: cardById.get(entry.id), info, actions };
   }
+
+  function creatureDetail(absorbedIndex) {
+    const entry = (player.absorbed || [])[absorbedIndex];
+    if (!entry) return null;
+    const poolCard = cardById.get(entry.id) || null;
+    const info = [];
+    if (poolCard) {
+      const stats = printedStats(poolCard);
+      info.push(el('p', 'detail__kind', `${poolCard.typeLine}${stats ? ` · ${stats}` : ''}`));
+    }
+    const gave = [...(entry.keywords || []), ...(entry.abilities || [])];
+    if (gave.length) {
+      info.push(el('p', 'detail__summary', 'Abilities it gave you:'));
+      for (const line of gave) info.push(textLine(line));
+    } else {
+      info.push(el('p', 'detail__note', 'It gave you no abilities, only what every creature gives: its power and toughness, colors, cost and creature types.'));
+    }
+    return { title: entry.name, card: poolCard, info, actions: [] };
+  }
+
+  function spellDetail(index) {
+    const spell = (player.spells || [])[index];
+    if (!spell) return null;
+    const head = el('p', 'detail__kind');
+    head.append(spell.typeLine || '', ' ', manaCostNode(spell.manaCost));
+    const info = [head, ...String(spell.text || '').split('\n').map((line) => textLine(line))];
+    info.push(el('p', 'detail__note', spell.cast ? 'In the graveyard until combat is over.' : 'Ready: it can be cast once this combat.'));
+    return { title: spell.name, card: cardById.get(spell.id), info, actions: [castButton(spell, index)] };
+  }
+
+  /* Phones: the spellbook and status share a sheet, one tab each. Wide screens show both. */
+  const tabs = [$('pc-tab-spells'), $('pc-tab-status')];
+  function selectTab(tab, focus = false) {
+    for (const other of tabs) {
+      const selected = other === tab;
+      other.setAttribute('aria-selected', String(selected));
+      other.tabIndex = selected ? 0 : -1;
+      $(other.getAttribute('aria-controls')).classList.toggle('is-inactive', !selected);
+    }
+    if (focus) tab.focus();
+  }
+  for (const tab of tabs) {
+    tab.addEventListener('click', () => selectTab(tab));
+    tab.addEventListener('keydown', (event) => {
+      const step = { ArrowRight: 1, ArrowLeft: -1 }[event.key];
+      if (!step) return;
+      event.preventDefault();
+      selectTab(tabs[(tabs.indexOf(tab) + step + tabs.length) % tabs.length], true);
+    });
+  }
+  selectTab(tabs[0]);
+
+  /* "Text on card", in a dialog from under the card. */
+  const cardTextDialog = $('pc-card-text');
+  $('pc-card-text-open').addEventListener('click', () => cardTextDialog.showModal());
+  $('pc-card-text-close').addEventListener('click', () => cardTextDialog.close());
 
   /* ----- Cards that transform ----- */
   const reducedMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -1005,6 +1230,37 @@ export async function initPlayerView() {
   // The first card from the sheet, the boosters levels earn from under the card.
   $('pc-open-booster').addEventListener('click', openFirstPick);
   $('pc-open-another').addEventListener('click', openBooster);
+
+  /**
+   * A placeholder for testing: a free booster of Equipment, items and Auras from every
+   * pool in data/, minus what the player already absorbed. It isn't saved, so closing it
+   * deals new cards next time.
+   */
+  async function openAttachmentBooster() {
+    if (animating || !player || player.start) return;
+    showError('');
+    let pools;
+    try {
+      pools = await withBusy('Opening your booster\u2026', () => Promise.all(DATA_POOL_URLS.map(loadAbsorbable)));
+    } catch {
+      showError("Couldn't load the card pool. Check your connection and try again.");
+      return;
+    }
+    const cards = makeBooster(boosterPool(attachmentPool(pools), player));
+    if (!cards.length) {
+      showError('You have absorbed every attachment, so there is nothing left to open.');
+      return;
+    }
+    startNote = '';
+    showPick(cards, {
+      title: 'Attachment booster',
+      all: false,
+      mode: 'attachment',
+      status: 'Pick one attachment to absorb.',
+      note: 'Closing this booster deals new cards next time.',
+    });
+  }
+  $('pc-open-attachment').addEventListener('click', openAttachmentBooster);
 
   $('pc-booster-close').addEventListener('click', () => {
     if (!pickMandatory) boosterDialog.close();

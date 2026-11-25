@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preconnect" href="https://cards.scryfall.io">
-<link href="https://fonts.googleapis.com/css2?family=Alegreya+Sans:wght@400;500;700&family=Grenze+Gotisch:wght@400;600;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Alegreya+Sans:wght@400;500;700&family=Cinzel:wght@500;700&family=Grenze+Gotisch:wght@400;600;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/base.css">
 <link rel="stylesheet" href="css/card.css">
 <link rel="stylesheet" href="css/home.css">
@@ -115,12 +115,23 @@
     <input type="file" id="pc-capture" accept="image/*" capture="user" hidden>
   </div>
 
+  <!-- The character sheet's header, only once the card has absorbed something: the level
+       and its XP on the left, the banner in the middle (the navigation sits on the right). -->
+  <div class="hud-level" id="pc-hud-level" hidden>
+    <span class="hud-level__label">Level <span id="pc-hud-level-value">1</span> &middot; <span id="pc-hud-xp">0/3</span> XP</span>
+    <span class="xpbar" id="pc-hud-xpbar" aria-hidden="true"></span>
+  </div>
+  <div class="banner" id="pc-banner" aria-hidden="true" hidden>
+    <span class="banner__title">Character Sheet</span>
+    <span class="banner__sub">Dungeon Crawler</span>
+  </div>
+
   <div class="card-stage">
     <article class="card" id="pc-card" tabindex="-1"></article>
     <img class="absorb-ghost" id="pc-absorb-ghost" alt="" hidden>
   </div>
 
-  <!-- Only once the card has absorbed something: the page then shows just the card. -->
+  <!-- Only once the card has absorbed something: the page then shows the character sheet. -->
   <div class="pc__card-foot" id="pc-card-foot" hidden>
     <p class="absorb-caption" id="pc-absorb-caption" role="status"></p>
     <!-- Making a new card: spending the starting points on spells (player/start.js). -->
@@ -134,34 +145,48 @@
     <p class="note" id="pc-start-note" role="status" hidden></p>
     <!-- The booster the oldest level waiting earned. Filled in by player/view.js. -->
     <button class="action action--primary" type="button" id="pc-open-another" hidden>Open your booster</button>
+    <!-- A placeholder for testing: a free booster of Equipment, items and Auras (player/view.js). -->
+    <button class="action" type="button" id="pc-open-attachment" hidden>Open an attachment booster</button>
     <!-- Cards that transform: turn over. Filled in by player/view.js. -->
     <div class="transforms" id="pc-transforms"></div>
-    <!-- Equipment, Auras and items. Filled in by player/view.js. -->
-    <section class="gear" id="pc-gear" aria-labelledby="pc-gear-title" hidden>
-      <h3 id="pc-gear-title">Equipment, items and auras</h3>
-      <ul class="gear__list" id="pc-gear-list"></ul>
-    </section>
+    <div class="pc__card-links">
+      <button class="action action--quiet" type="button" id="pc-card-text-open">Read the card's text</button>
+      <button class="action action--quiet" type="button" id="pc-reset-card">Delete card</button>
+    </div>
   </div>
 
-  <!-- Beside the card on wide screens, under it on phones. Filled in by player/view.js. -->
-  <aside class="pc__side" id="pc-side" aria-label="Your card in detail" hidden>
-    <!-- Everything the card says, at a size that's easy to read: the card's own text shrinks to fit. -->
-    <details class="accordion" id="pc-card-text">
-      <summary class="accordion__summary">Text on card</summary>
-      <div class="card-text" id="pc-card-text-body"></div>
-    </details>
+  <!-- Left of the card on wide screens, under it on phones. Filled in by player/view.js. -->
+  <aside class="board" id="pc-board" aria-label="What your card carries and inherited" hidden>
+    <!-- Equipment, items and Auras. Each opens its details and buttons. -->
+    <section class="panel panel--attach" aria-labelledby="pc-attach-title">
+      <h3 class="panel__head" id="pc-attach-title">Attachments <span class="panel__count" id="pc-attach-count">0</span></h3>
+      <ul class="attach" id="pc-attach-list"></ul>
+    </section>
+    <!-- Every creature absorbed, oldest first. -->
+    <section class="panel panel--creatures" aria-labelledby="pc-creatures-title">
+      <h3 class="panel__head" id="pc-creatures-title">Inherited Creatures <span class="panel__count" id="pc-creatures-count">0</span></h3>
+      <ul class="tokens" id="pc-creature-list"></ul>
+    </section>
+  </aside>
+
+  <!-- Right of the card on wide screens; on phones, a sheet under everything with a tab each. -->
+  <aside class="pc__side" id="pc-side" aria-label="Spellbook and status" hidden>
+    <span class="sheet__handle" aria-hidden="true"></span>
+    <div class="sheet__tabs" role="tablist" aria-label="Spellbook and status">
+      <button class="sheet__tab" type="button" role="tab" id="pc-tab-spells" aria-controls="pc-spells" aria-selected="true">Spellbook</button>
+      <button class="sheet__tab" type="button" role="tab" id="pc-tab-status" aria-controls="pc-status" aria-selected="false" tabindex="-1">Status</button>
+    </div>
     <!-- The spell list: absorbed instants and sorceries. Filled in by player/view.js. -->
-    <details class="accordion gear" id="pc-spells" hidden>
-      <summary class="accordion__summary">Spells</summary>
-      <div class="accordion__body">
-        <p class="note">Each spell can be cast once per combat.</p>
-        <ul class="gear__list" id="pc-spell-list"></ul>
-      </div>
-    </details>
+    <section class="panel panel--spells" id="pc-spells" role="tabpanel" aria-labelledby="pc-tab-spells">
+      <h3 class="panel__head">Spellbook</h3>
+      <p class="panel__note">Each spell can be cast once per combat.</p>
+      <ul class="spellbook" id="pc-spell-list"></ul>
+      <p class="panel__empty" id="pc-spells-empty">No spells yet. The instants and sorceries you absorb join your spellbook.</p>
+    </section>
     <!-- What the player keeps track of at the table: XP, counters and bonuses. The card's power and
          toughness add the counters and bonuses. -->
-    <details class="accordion status" id="pc-status">
-      <summary class="accordion__summary">Status</summary>
+    <section class="panel panel--status status" id="pc-status" role="tabpanel" aria-labelledby="pc-tab-status">
+      <h3 class="panel__head">Status</h3>
       <div class="trackers">
         <div class="tracker" role="group" aria-labelledby="pc-xp-label">
           <span class="tracker__label" id="pc-xp-label">Level <span id="pc-level-value">1</span> · XP</span>
@@ -187,12 +212,30 @@
           <output class="tracker__value" id="pc-bonus-toughness-value" aria-live="polite">0</output>
           <button class="action tracker__step" type="button" id="pc-bonus-toughness-up" aria-label="Raise the bonus toughness">+</button>
         </div>
-        <button class="action action--quiet trackers__clear" type="button" id="pc-bonus-clear">Combat over</button>
-        <p class="note trackers__note">Clears the bonuses, returns your spells, puts back what you took off and turns your card back.</p>
+        <button class="action trackers__clear" type="button" id="pc-bonus-clear">Combat over</button>
+        <p class="note trackers__note">Clears the bonuses, returns your spells, brings back what was destroyed or taken off and turns your card back.</p>
       </div>
-    </details>
+    </section>
   </aside>
-  <button class="action action--quiet pc__delete" type="button" id="pc-reset-card" hidden>Delete card</button>
+
+  <!-- An attachment or inherited creature, opened from the board: the full card and its buttons. -->
+  <dialog class="camera detail" id="pc-detail" aria-labelledby="pc-detail-title">
+    <h3 id="pc-detail-title"></h3>
+    <div class="detail__body">
+      <div class="detail__image" id="pc-detail-image"></div>
+      <div class="detail__info" id="pc-detail-info"></div>
+    </div>
+    <div class="actions" id="pc-detail-actions"></div>
+  </dialog>
+
+  <!-- Everything the card says, at a size that's easy to read: the card's own text shrinks to fit. -->
+  <dialog class="camera" id="pc-card-text" aria-labelledby="pc-card-text-title">
+    <h3 id="pc-card-text-title">Text on card</h3>
+    <div class="card-text" id="pc-card-text-body"></div>
+    <div class="actions">
+      <button class="action" type="button" id="pc-card-text-close">Close</button>
+    </div>
+  </dialog>
 
   <dialog class="camera" id="pc-camera" aria-labelledby="pc-camera-title">
     <h3 id="pc-camera-title">Card art</h3>

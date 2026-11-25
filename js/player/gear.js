@@ -3,16 +3,20 @@
  * no DOM: tests can import it. Rules in DESIGN.md, section 5.
  *
  *   Equipment  the player equips it on absorbing it and gets what it grants. It
- *              stays its own object, so something can destroy it, and then that's lost.
- *              player.equipment: [{ id, name, off }]
+ *              stays its own object, so something can destroy it.
+ *              player.equipment: [{ id, name, off, destroyed }]
  *   Items      other artifacts and enchantments that aren't Auras (like Seal of Fire):
  *              kept with the Equipment. Sacrificing one only lasts the combat (its toggle).
- *   Auras      a permanent bonus: the player enchants themselves for good.
- *              player.auras: [{ id, name, off }]
+ *   Auras      a permanent bonus: the player enchants themselves.
+ *              player.auras: [{ id, name, off, destroyed }]
  *   off        an Equipment, item or Aura with a `toggle` (rules/cards.js) can be taken off
  *              for the rest of the combat, like Blinding Powder ("Unattach"), Carapace
  *              or Seal of Fire ("Sacrificed");
  *              while off it grants nothing, and "Combat over" puts it back.
+ *   destroyed  any Equipment, item or Aura can be destroyed ("Destroy"): it grants nothing
+ *              until combat is over, and then it's back.
+ *   removed    on an entry of player.absorbed: an Equipment, item or Aura the player
+ *              removed from their card for good ("Remove"). It's off its list too.
  *   Spells     join the spell list. Each can be cast once per combat; after that it's
  *              in the graveyard until combat is over.
  *              player.spells: [{ id, name, manaCost, typeLine, text, cast }]
@@ -53,13 +57,14 @@ export function grantsOf(name) {
  */
 export function attachedEffects(player, colors = player.colors || []) {
   const attached = [...(player.equipment || []), ...(player.auras || [])];
-  const enchantments = (player.auras || []).length;
+  // A destroyed Aura isn't on the battlefield until combat is over.
+  const enchantments = (player.auras || []).filter((aura) => !aura.destroyed).length;
   let power = 0;
   let toughness = 0;
   let keywords = [];
   const abilities = [];
-  for (const { name, off } of attached) {
-    if (off) continue;
+  for (const { name, off, destroyed } of attached) {
+    if (off || destroyed) continue;
     const grants = grantsOf(name);
     if (!grants) continue;
     power += grants.power || 0;
@@ -91,9 +96,22 @@ export function describeGrants(name) {
   return parts.join(', ');
 }
 
-/** An Equipment was destroyed (or sacrificed): it comes off and what it gave is lost. */
-export function withoutEquipment(player, index) {
-  return { ...player, equipment: (player.equipment || []).filter((_, i) => i !== index) };
+/**
+ * An Equipment, item ('equipment') or Aura ('auras') removed from the card for good: it comes
+ * off its list and what it gave is lost. absorbedAt is its place in player.absorbed, which
+ * stays (it was absorbed) but is marked `removed`. Its colors and cost stay, as with absorbing.
+ */
+export function withoutAttachment(player, list, index, absorbedAt) {
+  return {
+    ...player,
+    [list]: (player[list] || []).filter((_, i) => i !== index),
+    absorbed: (player.absorbed || []).map((entry, i) => (i === absorbedAt ? { ...entry, removed: true } : entry)),
+  };
+}
+
+/** An Equipment, item ('equipment') or Aura ('auras') destroyed until combat is over, or restored. */
+export function withDestroyed(player, list, index, destroyed) {
+  return { ...player, [list]: (player[list] || []).map((entry, i) => (i === index ? { ...entry, destroyed: Boolean(destroyed) } : entry)) };
 }
 
 /** An Equipment ('equipment') or Aura ('auras') taken off for the rest of the combat, or put back. */
@@ -101,9 +119,9 @@ export function withOff(player, list, index, off) {
   return { ...player, [list]: (player[list] || []).map((entry, i) => (i === index ? { ...entry, off: Boolean(off) } : entry)) };
 }
 
-/** Combat is over: everything taken off is put back on. */
+/** Combat is over: everything taken off or destroyed is back on. */
 export function putBackOn(player) {
-  const on = (entry) => ({ ...entry, off: false });
+  const on = (entry) => ({ ...entry, off: false, destroyed: false });
   return { ...player, equipment: (player.equipment || []).map(on), auras: (player.auras || []).map(on) };
 }
 
