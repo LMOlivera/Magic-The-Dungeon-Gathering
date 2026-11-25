@@ -3,27 +3,32 @@
  * A browser can keep several cards. With none, the page starts a new one; with
  * some, it opens on the menu of cards ("Your cards") to play, delete or make one.
  * Flow of a new card: name it, pick its art, then the finished sheet, where the
- * player opens their first booster. Once the card has absorbed something the
- * page shows only the card.
+ * player picks their first card from every card in data/akashicos.json. Once the
+ * card has absorbed something the page shows only the card, and boosters come
+ * from data/level1.json.
  *
  * Everything stays in this browser, under the keys of player/roster.js: the list
  * of cards and each card's sheet in localStorage, the photos in the image store.
  */
 
 import { $, el } from '../shared/dom.js';
-import { renderCard, fitCardText, artBoxRatio, fillManaCost, abilityNodes } from '../shared/card.js';
+import { renderCard, fitCardText, artBoxRatio, fillManaCost, abilityNodes, fillCardText } from '../shared/card.js';
 import { storageWorks, readJSON, writeJSON, removeKey } from '../shared/storage.js';
 import { putImage, getImage, deleteImage, imagesPersist, dataUrlToBlob } from '../shared/images.js';
 import {
   SAVE_VERSION, FLAVOR_MAX,
-  cleanName, newPlayer, withFlavor, withArt, withoutArt, withBooster, withCounters, describeCounters,
+  cleanName, newPlayer, withName, withFlavor, withArt, withoutArt, withBooster, withCounters, describeCounters,
   withBonus, describeBonus,
   toCardData, upgradeSave,
 } from './model.js';
-import { isAbsorbable, absorbPreview, absorbCard, describeColors, typeLineOf } from './absorb.js';
+import { isAbsorbable, absorbPreview, absorbCard, describeColors, typeLineOf, chosenX, textToAbsorb } from './absorb.js';
+import {
+  picksSpells, cardPoints, maxX, affordableCreatures, startSpells, withStartPick, withStartDone,
+} from './start.js';
 import { describeGrants, grantsOf, withoutEquipment, withOff, putBackOn, withSpellCast, returnSpells } from './gear.js';
 import { keywordRule, parseKeyword } from '../rules/keywords.js';
-import { makeBooster, boosterPool } from './booster.js';
+import { makeBooster } from './booster.js';
+import { withXp, xpToLevelUp, nextLevelBooster, withLevelBoosterUsed, levelBoosterPool } from './level.js';
 import {
   withTransformed, untransformAll, withTransformName, withTransformArt, withoutTransformArt,
 } from './transform.js';
@@ -41,7 +46,8 @@ import {
 
 const FLIP_MS = 600; // .card.is-flipping in css/player.css
 const FALLBACK_ART_RATIO = 1.37; // .card__art aspect-ratio in css/card.css
-const POOL_URL = 'data/level1.json';
+const FIRST_POOL_URL = 'data/akashicos.json'; // the first card is picked from all of these
+const SPELLS_POOL_URL = 'data/akashicos_spells.json'; // then spells, with the points left (player/start.js)
 
 export async function initPlayerView() {
   const card = $('pc-card');
@@ -170,7 +176,26 @@ export async function initPlayerView() {
   }
 
   function drawCard() {
-    renderCard(card, toCardData(player || newPlayer(cleanName(nameInput.value)), artUrl, transformArtUrls));
+    const data = toCardData(player || newPlayer(cleanName(nameInput.value)), artUrl, transformArtUrls);
+    renderCard(card, data);
+    renderCardText(data);
+  }
+
+  /**
+   * "Text on card": everything the card says, at a size that's easy to read. The card's
+   * own text box shrinks its font to fit, which gets hard to read as the card grows.
+   */
+  function renderCardText(data) {
+    const body = $('pc-card-text-body');
+    const head = el('div', 'card-text__head');
+    head.append(
+      el('strong', 'card-text__name', `${data.transformed ? '\u263E ' : ''}${data.name || 'Unnamed card'}`),
+      el('span', 'card-text__pt', `${data.power}/${data.toughness}`),
+    );
+    const rules = el('div', 'card-text__rules');
+    fillCardText(rules, data);
+    if (!rules.childElementCount) rules.append(el('p', 'card-text__empty', 'No abilities yet.'));
+    body.replaceChildren(head, el('p', 'card-text__type', typeLineOf(data)), rules);
   }
 
   function render() {
@@ -192,6 +217,8 @@ export async function initPlayerView() {
     $('pc-sheet').hidden = step !== 'sheet';
     $('view-player-card').classList.toggle('is-card-only', step === 'card');
     $('pc-card-foot').hidden = step !== 'card';
+    $('pc-side').hidden = step !== 'card';
+    $('pc-reset-card').hidden = step !== 'card';
 
     // While the animation plays it owns the card.
     if (!animating && step !== 'menu') drawCard();
@@ -207,6 +234,8 @@ export async function initPlayerView() {
       $('pc-art-skip').hidden = editingArt && !player.hasArt;
       $('pc-art-cancel').hidden = !editingArt;
     } else if (step === 'card') {
+      renderStart();
+      renderLevel();
       $('pc-counter-value').textContent = describeCounters(player.counters || 0);
       $('pc-bonus-power-value').textContent = describeBonus(player.bonusPower);
       $('pc-bonus-toughness-value').textContent = describeBonus(player.bonusToughness);
@@ -223,6 +252,7 @@ export async function initPlayerView() {
       $('pc-summary').replaceChildren(
         el('strong', null, player.name),
         ` walks in as a ${describeColors(player.colors)} ${player.power}/${player.toughness} ${player.types.join(' ')}.`,
+        player.start ? ` You have ${points(player.start.points)} to spend: first a creature, then spells of its colors. Each card costs its mana value.` : '',
       );
     }
   }
@@ -385,7 +415,7 @@ export async function initPlayerView() {
         } else {
           player = withTransformArt(player, target, result.crop, true);
           setTransformArtUrl(target, art);
-          renderTransformDialog();
+          renderRenameFaces();
         }
         save();
         showError('');
@@ -477,6 +507,36 @@ export async function initPlayerView() {
   };
   $('pc-reset').addEventListener('click', deleteCurrent);
   $('pc-reset-card').addEventListener('click', deleteCurrent);
+
+  /* ----- Experience and levels (player/level.js) ----- */
+  function renderLevel() {
+    const level = player.level || 1;
+    $('pc-level-value').textContent = String(level);
+    $('pc-xp-value').textContent = `${player.xp || 0}/${xpToLevelUp(level)}`;
+    $('pc-xp-down').disabled = !player.xp;
+    // Boosters wait while the starting points are being spent.
+    const next = nextLevelBooster(player);
+    const button = $('pc-open-another');
+    button.hidden = !next || Boolean(player.start);
+    if (next) {
+      const waiting = (player.levelBoosters || []).length;
+      button.textContent = `Open your level ${next.level} booster${waiting > 1 ? ` (${waiting} waiting)` : ''}`;
+    }
+  }
+
+  async function changeXp(by) {
+    if (!player || animating) return;
+    const before = player.level || 1;
+    player = withXp(player, by);
+    save();
+    render();
+    if (player.level > before) {
+      $('pc-absorb-caption').textContent = `Level up! You're level ${player.level}.`;
+      if (!player.start) await openBooster();
+    }
+  }
+  $('pc-xp-up').addEventListener('click', () => changeXp(1));
+  $('pc-xp-down').addEventListener('click', () => changeXp(-1));
 
   /* ----- Counters ----- */
   function changeCounters(by) {
@@ -621,95 +681,202 @@ export async function initPlayerView() {
     }
   }
 
-  /** One row of buttons per card that transforms. */
+  /**
+   * One row per card that transforms. With more than one, each button names its card,
+   * "Transform (Cecil)", so the player knows which one turns over. Its other face is
+   * named, and given art, on the rename screen after absorbing a card.
+   */
   function renderTransforms() {
-    const rows = (player.transforms || []).map((entry, index) => {
-      const flip = el('button', 'action', entry.transformed ? 'Turn back' : 'Transform');
+    const transforms = player.transforms || [];
+    const names = transformLabels(transforms);
+    const rows = transforms.map((entry, index) => {
+      const which = transforms.length > 1 ? ` (${names[index]})` : '';
+      const flip = el('button', 'action', `${entry.transformed ? 'Turn back' : 'Transform'}${which}`);
       flip.type = 'button';
       flip.addEventListener('click', () => turnOver((sheet) => withTransformed(sheet, index, !entry.transformed)));
-      const edit = el('button', 'action action--quiet', 'Edit other face');
-      edit.type = 'button';
-      edit.addEventListener('click', () => openTransformDialog(index));
-      return [flip, edit];
+      const row = el('div', 'transforms__row');
+      row.append(flip);
+      return row;
     });
-    $('pc-transforms').replaceChildren(...rows.flat());
+    $('pc-transforms').replaceChildren(...rows);
   }
 
-  const transformDialog = $('pc-transform');
-  const transformName = $('pc-transform-name');
-  let transformIndex = -1; // the face the dialog is editing
-
-  function renderTransformDialog() {
-    const entry = player && player.transforms[transformIndex];
-    if (!entry) return;
-    $('pc-transform-intro').textContent =
-      `${entry.front} can transform into ${entry.back}, and your card turns over with it. Give that face its own name and art if you like.`;
-    transformName.placeholder = player.name;
-    $('pc-transform-art-status').textContent = entry.hasArt ? 'That face has its own art.' : 'That face uses your usual art.';
-    $('pc-transform-same-art').hidden = !entry.hasArt;
+  /** A short name for each card that transforms: "Cecil" for "Cecil, Dark Knight", unless two would read the same. */
+  function transformLabels(transforms) {
+    const short = transforms.map((entry) => entry.front.split(',')[0]);
+    return short.map((name, i) => (short.filter((other) => other === name).length > 1 ? transforms[i].front : name));
   }
 
-  function openTransformDialog(index) {
-    transformIndex = index;
-    transformName.value = player.transforms[index].name || '';
-    renderTransformDialog();
-    transformDialog.showModal();
-    transformName.focus();
+  /* ----- Renaming: each time the card absorbs one ----- */
+  // The card's name, and the name and art of each other face (cards that transform).
+  const renameDialog = $('pc-rename');
+  const renameInput = $('pc-rename-name');
+  const faceInput = (index) => $(`pc-rename-face-${index}`);
+
+  /** One section per other face: its name, and its art. Typed names survive a redraw (after new art). */
+  function renderRenameFaces() {
+    const transforms = (player && player.transforms) || [];
+    const typed = transforms.map((entry, index) => (faceInput(index) ? faceInput(index).value : entry.name || ''));
+    const sections = transforms.map((entry, index) => {
+      const section = el('fieldset', 'rename-face');
+      const legend = el('legend', null, `When transformed into ${entry.back}`);
+      const field = el('div', 'field');
+      const label = el('label', null, `Name of that face (from ${entry.front})`);
+      label.htmlFor = `pc-rename-face-${index}`;
+      const input = el('input', 'input');
+      Object.assign(input, { id: `pc-rename-face-${index}`, value: typed[index], autocomplete: 'off', spellcheck: false });
+      input.placeholder = `${cleanName(renameInput.value) || player.name} (your usual name)`;
+      field.append(label, input);
+
+      const art = el('p', 'note', entry.hasArt ? 'That face has its own art.' : 'That face uses your usual art.');
+      const actions = el('div', 'actions');
+      const photo = el('button', 'action', 'Take a photo');
+      photo.type = 'button';
+      photo.addEventListener('click', () => {
+        artTarget = index;
+        if (!camera.open()) captureInput.click();
+      });
+      const upload = el('button', 'action', 'Upload a photo');
+      upload.type = 'button';
+      upload.addEventListener('click', () => {
+        artTarget = index;
+        fileInput.click();
+      });
+      actions.append(photo, upload);
+      if (entry.hasArt) {
+        const same = el('button', 'action action--quiet', 'Use my usual art');
+        same.type = 'button';
+        same.addEventListener('click', async () => {
+          const keys = transformKeys(index);
+          await deleteImage(keys.art);
+          await deleteImage(keys.artSource);
+          player = withoutTransformArt(player, index);
+          setTransformArtUrl(index, null);
+          save();
+          renderRenameFaces();
+        });
+        actions.append(same);
+      }
+      section.append(legend, field, art, actions);
+      return section;
+    });
+    $('pc-rename-faces').replaceChildren(...sections);
+    $('pc-rename-faces').hidden = !sections.length;
+    $('pc-rename-go').textContent = sections.length ? 'Save the names' : 'Rename';
+    $('pc-rename-keep').textContent = sections.length ? 'Keep the names' : 'Keep the name';
   }
 
-  transformName.addEventListener('input', () => {
-    if (!player || transformIndex < 0) return;
-    player = withTransformName(player, transformIndex, transformName.value);
-    save();
-    render();
+  /** Asks whether to rename the card after absorbing `absorbedName`; resolves once the dialog is closed. */
+  function askRename(absorbedName) {
+    $('pc-rename-intro').textContent = `${player.name} absorbed ${absorbedName}. You can give your card a new name, or keep the one it has.`;
+    renameInput.value = player.name;
+    $('pc-rename-faces').replaceChildren(); // fresh fields from the save
+    renderRenameFaces();
+    return new Promise((resolve) => {
+      renameDialog.addEventListener('close', resolve, { once: true });
+      renameDialog.showModal();
+      renameInput.select();
+    });
+  }
+  // The other faces show the card's name when they have none of their own.
+  renameInput.addEventListener('input', () => {
+    const usual = `${cleanName(renameInput.value) || player.name} (your usual name)`;
+    (player.transforms || []).forEach((_, index) => { if (faceInput(index)) faceInput(index).placeholder = usual; });
   });
-  $('pc-transform-form').addEventListener('submit', (event) => {
+  $('pc-rename-form').addEventListener('submit', (event) => {
     event.preventDefault();
-    transformDialog.close();
-  });
-  $('pc-transform-camera').addEventListener('click', () => {
-    artTarget = transformIndex;
-    if (!camera.open()) captureInput.click();
-  });
-  $('pc-transform-upload').addEventListener('click', () => {
-    artTarget = transformIndex;
-    fileInput.click();
-  });
-  $('pc-transform-same-art').addEventListener('click', async () => {
-    const keys = transformKeys(transformIndex);
-    await deleteImage(keys.art);
-    await deleteImage(keys.artSource);
-    player = withoutTransformArt(player, transformIndex);
-    setTransformArtUrl(transformIndex, null);
+    let renamed = withName(player, renameInput.value);
+    (renamed.transforms || []).forEach((_, index) => {
+      if (faceInput(index)) renamed = withTransformName(renamed, index, faceInput(index).value);
+    });
+    player = renamed;
     save();
-    renderTransformDialog();
+    renameDialog.close();
+  });
+  // Escape keeps the names too. Art chosen for a face is already kept.
+  $('pc-rename-keep').addEventListener('click', () => renameDialog.close());
+
+  /* ----- Starting points: a creature, then spells (player/start.js) ----- */
+  const points = (n) => `${n} point${n === 1 ? '' : 's'}`;
+  let startNote = ''; // why picking spells ended by itself, until the next booster
+
+  function renderStart() {
+    const spending = picksSpells(player);
+    $('pc-start').hidden = !spending;
+    if (spending) {
+      $('pc-start-text').textContent = `You have ${points(player.start.points)} left. Pick spells of your creature's colors (${describeColors(player.start.colors)}).`;
+    }
+    $('pc-start-note').textContent = startNote;
+    $('pc-start-note').hidden = !startNote;
+  }
+
+  /** The spells the player can still pick. auto: opened by itself after absorbing a card. */
+  async function openSpellPick({ auto = false } = {}) {
+    if (animating || !picksSpells(player)) return;
+    showError('');
+    let pool;
+    try {
+      pool = await withBusy('Gathering the spells\u2026', () => loadAbsorbable(SPELLS_POOL_URL));
+    } catch {
+      showError("Couldn't load the spells. Check your connection and try again.");
+      return;
+    }
+    const cards = startSpells(pool, player);
+    if (!cards.length) {
+      // Nothing left the player could pick: the card is ready, and the rest of the points are lost.
+      startNote = `No spell left that costs ${player.start.points === 1 ? '1 point' : `${player.start.points} points or less`} and is of your creature's colors. Your card is ready.`;
+      player = withStartDone(player);
+      save();
+      render();
+      return;
+    }
+    showPick(cards, {
+      title: 'Choose a spell',
+      all: true,
+      mode: 'start',
+      points: { left: true, rule: 'Each spell costs its mana value.' },
+      note: auto ? 'You can close this and pick later, from under your card.' : 'You can close this and pick later.',
+    });
+  }
+  $('pc-start-spell').addEventListener('click', () => openSpellPick());
+  $('pc-start-done').addEventListener('click', () => {
+    if (!picksSpells(player)) return;
+    if (!confirm(`Finish with ${points(player.start.points)} left? The points you don't spend are lost.`)) return;
+    player = withStartDone(player);
+    save();
     render();
   });
 
   /* ----- Boosters and absorbing ----- */
   const boosterDialog = $('pc-booster');
   const confirmButton = $('pc-booster-confirm');
-  let absorbablePool = null; // the cards of the pool that can be absorbed so far
+  const absorbablePools = new Map(); // pool URL -> the cards of that pool that can be absorbed so far
   let boosterCards = [];
   let boosterControls = null;
+  let pickTitle = 'Booster'; // the dialog's title while picking
+  let pickMode = 'booster';  // 'start' while spending the starting points, so absorbing costs points
+  let pickMandatory = false; // the dialog can't be closed until a card is absorbed
   let picked = null;       // the card clicked in the booster
   let absorbing = null;    // the card being absorbed, on the second step
 
-  async function loadAbsorbable() {
-    if (!absorbablePool) absorbablePool = (await loadPool(POOL_URL)).filter(isAbsorbable);
-    return absorbablePool;
+  async function loadAbsorbable(url) {
+    if (!absorbablePools.has(url)) absorbablePools.set(url, (await loadPool(url)).filter(isAbsorbable));
+    return absorbablePools.get(url);
   }
 
-  /** The cards of the open booster, or a new booster if none is open (or its cards left the pool). */
-  function currentBooster(pool) {
-    if (player.booster) {
+  /**
+   * The cards of the open booster of that level, or a new one if none is open (or its
+   * cards left the pool).
+   */
+  function currentBooster(pool, { level, kind }) {
+    if (player.booster && player.booster.level === level) {
       const byId = new Map(pool.map((poolCard) => [poolCard.id, poolCard]));
       const cards = player.booster.cardIds.map((id) => byId.get(id));
       if (cards.length && cards.every(Boolean)) return cards;
     }
-    const cards = makeBooster(boosterPool(pool, player));
+    const cards = makeBooster(levelBoosterPool(pool, player, kind));
     if (!cards.length) return cards; // nothing left to deal
-    player = withBooster(player, cards.map((poolCard) => poolCard.id));
+    player = withBooster(player, cards.map((poolCard) => poolCard.id), level);
     save();
     return cards;
   }
@@ -718,51 +885,157 @@ export async function initPlayerView() {
     absorbing = null;
     $('pc-booster-pick').hidden = false;
     $('pc-absorb').hidden = true;
-    $('pc-booster-title').textContent = 'Booster';
+    $('pc-booster-title').textContent = pickTitle;
+  }
+
+  /**
+   * While spending the starting points: how many the player would have left after
+   * this card, for the Confirm button. A card with {X} costs more once X is picked.
+   */
+  function pointsAfter(boosterCard) {
+    if (!spendsPoints()) return '';
+    const left = player.start.points - cardPoints(boosterCard);
+    return ` (${points(left)} left${textToAbsorb(boosterCard).chooseX ? ', before X' : ''})`;
   }
 
   function pickCard(boosterCard) {
     picked = boosterCard;
     boosterControls.setPicked(boosterCard);
-    confirmButton.textContent = `Confirm ${boosterCard.name}`;
+    confirmButton.textContent = `Confirm ${boosterCard.name}${pointsAfter(boosterCard)}`;
     confirmButton.hidden = false;
     $('pc-booster-status').textContent = `${boosterCard.name} picked. Confirm it, or pick another card.`;
   }
 
-  async function openBooster() {
-    if (animating) return;
-    showError('');
-    let pool;
-    try {
-      pool = await withBusy('Opening your booster\u2026', loadAbsorbable);
-    } catch {
-      showError("Couldn't load the card pool. Check your connection and try again.");
-      return;
-    }
-    boosterCards = currentBooster(pool);
-    if (!boosterCards.length) {
-      showError('You have absorbed every card in the pool. There is nothing left to open.');
-      return;
-    }
+  /**
+   * Shows the cards to pick one from. all: every card of a pool, instead of a 3-card booster.
+   * mode 'start' spends the starting points on the card picked.
+   * mandatory: the player can't close it without absorbing a card (a new card's first pick).
+   * points: { left, rule } shows the starting points the player has, big, above the cards.
+   */
+  function showPick(cards, { title, all, mode = 'booster', status = 'Pick one card to absorb.', note, mandatory = false, points: pointsLine }) {
+    boosterCards = cards;
+    pickTitle = title;
+    pickMode = mode;
+    pickMandatory = mandatory;
+    $('pc-booster-close').hidden = mandatory;
     picked = null;
     confirmButton.hidden = true;
-    $('pc-booster-status').textContent = 'Pick one card to absorb.';
+    $('pc-booster-status').textContent = status;
+    // Its own line, so it stays while a card is picked (the status line changes then).
+    const pointsEl = $('pc-booster-points');
+    pointsEl.hidden = !pointsLine || !player.start;
+    if (!pointsEl.hidden) {
+      const count = player.start.points;
+      pointsEl.replaceChildren(
+        'You have ',
+        el('span', 'booster-points__value', String(count)),
+        ` point${count === 1 ? '' : 's'}${pointsLine.left ? ' left' : ''}. `,
+        el('span', 'booster-points__rule', pointsLine.rule),
+      );
+    }
+    $('pc-booster-cards').classList.toggle('booster--all', all);
+    $('pc-booster-cards').setAttribute('aria-label', all ? 'Cards to pick from' : 'Booster');
+    const noteText = mandatory ? '' : note || (all
+      ? 'You can close this and pick later.'
+      : "Closing keeps this booster open. You'll see the same cards when you come back.");
+    $('pc-booster-note').textContent = noteText;
+    $('pc-booster-note').hidden = !noteText;
     boosterControls = renderBooster($('pc-booster-cards'), boosterCards, pickCard);
     showPickStep();
     render();
     boosterDialog.showModal();
+    boosterDialog.scrollTop = 0;
   }
-  // The first one from the sheet, the next ones from under the card.
-  $('pc-open-booster').addEventListener('click', openBooster);
+
+  /** The booster the oldest level waiting earned: spells on even levels, creatures on odd ones. */
+  async function openBooster() {
+    const next = nextLevelBooster(player);
+    if (animating || !next || player.start) return;
+    showError('');
+    let pool;
+    try {
+      pool = await withBusy('Opening your booster\u2026', () => loadAbsorbable(next.kind === 'spells' ? SPELLS_POOL_URL : FIRST_POOL_URL));
+    } catch {
+      showError("Couldn't load the card pool. Check your connection and try again.");
+      return;
+    }
+    const cards = currentBooster(pool, next);
+    startNote = '';
+    if (!cards.length) {
+      // Nothing left it could deal: that level's booster is used up.
+      player = withLevelBoosterUsed(player);
+      save();
+      render();
+      showError(next.kind === 'spells'
+        ? `There's no spell left of your colors, so your level ${next.level} booster is empty.`
+        : `You have absorbed every creature, so your level ${next.level} booster is empty.`);
+      return;
+    }
+    showPick(cards, {
+      title: `Level ${next.level} booster`,
+      all: false,
+      mode: 'level',
+      status: `Pick one ${next.kind === 'spells' ? 'spell' : 'creature'} to absorb.`,
+    });
+  }
+
+  /** A new card's first pick: every card of the first pool, not a booster. */
+  async function openFirstPick() {
+    if (animating) return;
+    showError('');
+    let pool;
+    try {
+      pool = await withBusy('Gathering the cards\u2026', () => loadAbsorbable(FIRST_POOL_URL));
+    } catch {
+      showError("Couldn't load the cards. Check your connection and try again.");
+      return;
+    }
+    if (!player.start) {
+      showPick(pool, { title: 'Choose your first card', all: true, mandatory: true });
+      return;
+    }
+    showPick(affordableCreatures(pool, player), {
+      title: 'Choose your first card',
+      all: true,
+      mode: 'start',
+      points: { left: false, rule: 'Each card costs its mana value; what\u2019s left goes to spells.' },
+      mandatory: true,
+    });
+  }
+  // The first card from the sheet, the boosters levels earn from under the card.
+  $('pc-open-booster').addEventListener('click', openFirstPick);
   $('pc-open-another').addEventListener('click', openBooster);
 
-  $('pc-booster-close').addEventListener('click', () => boosterDialog.close());
+  $('pc-booster-close').addEventListener('click', () => {
+    if (!pickMandatory) boosterDialog.close();
+  });
+
+  // The first card is mandatory: Escape doesn't close it, and if the browser closes it
+  // anyway (Chrome lets a second Escape through), it opens again.
+  boosterDialog.addEventListener('cancel', (event) => {
+    if (pickMandatory) event.preventDefault();
+  });
+  boosterDialog.addEventListener('close', () => {
+    if (pickMandatory && player && !(player.absorbed || []).length) boosterDialog.showModal();
+  });
 
   /* Second step: show what changes, and ask for any stat the card doesn't print as a number. */
   function absorbChoices() {
     const power = $('pc-absorb-power');
     const toughness = $('pc-absorb-toughness');
-    return { power: power ? power.value : undefined, toughness: toughness ? toughness.value : undefined };
+    const x = $('pc-absorb-x');
+    // X costs points too, so it can't go above what's left.
+    const cap = spendsPoints() && absorbing ? maxX(absorbing, player.start.points) : Infinity;
+    return {
+      power: power ? power.value : undefined,
+      toughness: toughness ? toughness.value : undefined,
+      x: x ? Math.min(chosenX(x.value), cap) : undefined,
+    };
+  }
+
+  /** The card being absorbed is paid with the starting points. */
+  function spendsPoints() {
+    return pickMode === 'start' && Boolean(player.start);
   }
 
   /** before and after are text, or functions returning a node to show (for mana symbols). */
@@ -793,6 +1066,10 @@ export async function initPlayerView() {
       changeRow('Mana cost', () => manaCostNode(player.manaCost), () => manaCostNode(after.manaCost), player.manaCost === after.manaCost),
       changeRow('Type', typeLineOf(player), typeLineOf(after)),
     );
+    if (spendsPoints()) {
+      const left = player.start.points;
+      $('pc-absorb-changes').append(changeRow('Points', String(left), String(left - cardPoints(absorbing, absorbChoices().x))));
+    }
   }
 
   /**
@@ -822,7 +1099,7 @@ export async function initPlayerView() {
       const item = el('li');
       item.append(
         el('strong', null, `+${preview.bonus.power}/+${preview.bonus.toughness}`),
-        ' \u2014 You become a Sliver, so its bonus to Slivers is yours too. It\u2019s already in your power and toughness.',
+        ` \u2014 ${preview.bonusNote || 'You become a Sliver, so its bonus to Slivers is yours too.'} It\u2019s already in your power and toughness.`,
       );
       items.push(item);
     }
@@ -864,9 +1141,12 @@ export async function initPlayerView() {
         ...(back.keywords || []).map((keyword) => keyword.toLowerCase()),
         ...(back.abilities || []).map((ability) => ability.split(' \u2014 ')[0]),
       ];
+      // A face that keeps the front's text (Erayo) adds to it instead of replacing it.
+      const how = back.keepFront ? 'you keep what this card gives you and also get' : 'you lose what this card gives you and get';
+      const stats = back.power || back.toughness || !back.keepFront ? [`+${back.power || 0}/+${back.toughness || 0}`] : [];
       item.append(
         el('strong', null, `Transforms into ${back.name}`),
-        ` \u2014 Your card can turn over. Transformed, you lose what this card gives you and get +${back.power || 0}/+${back.toughness || 0}${gains.length ? `, ${gains.join(', ')}` : ''}. You can give that face its own name and art.`,
+        ` \u2014 Your card can turn over. Transformed, ${how} ${[...stats, ...gains].join(', ')}. You can give that face its own name and art.`,
       );
       items.push(item);
     }
@@ -884,12 +1164,17 @@ export async function initPlayerView() {
 
   /** A number field for a stat the card doesn't print as a number, like "*". */
   function statField(id, cardName, label, raw) {
+    return numberField(id, `${cardName}'s ${label} is ${raw}. How much ${label} does it add?`, renderChanges);
+  }
+
+  function numberField(id, text, onInput, min) {
     const field = el('div', 'field');
-    const labelEl = el('label', null, `${cardName}'s ${label} is ${raw}. How much ${label} does it add?`);
+    const labelEl = el('label', null, text);
     labelEl.htmlFor = id;
     const input = el('input', 'input');
     Object.assign(input, { id, type: 'number', inputMode: 'numeric', step: '1', value: '0' });
-    input.addEventListener('input', renderChanges);
+    if (min !== undefined) input.min = String(min);
+    input.addEventListener('input', onInput);
     field.append(labelEl, input);
     return field;
   }
@@ -900,6 +1185,18 @@ export async function initPlayerView() {
     $('pc-booster-title').textContent = `Absorb ${preview.name}`;
 
     const stats = [];
+    if (preview.chooseX) {
+      // X changes the cost and the text: show both again as it changes.
+      stats.push(numberField('pc-absorb-x', `${preview.name} has X in its mana cost. Pick X: it's added to your mana cost as generic mana, and it's the X in its text.`, () => {
+        showAbilities(absorbPreview(player, absorbing, absorbChoices()));
+        renderChanges();
+      }, 0));
+      if (spendsPoints()) {
+        const most = maxX(boosterCard, player.start.points);
+        stats[0].querySelector('input').max = String(most);
+        stats[0].append(el('p', 'note', `X costs points too: you can pick up to ${most}.`));
+      }
+    }
     if (preview.addPower === null) stats.push(statField('pc-absorb-power', preview.name, 'power', preview.rawPower));
     if (preview.addToughness === null) stats.push(statField('pc-absorb-toughness', preview.name, 'toughness', preview.rawToughness));
     $('pc-absorb-stats').replaceChildren(...stats);
@@ -924,22 +1221,23 @@ export async function initPlayerView() {
     if (!absorbing || animating) return;
     const creature = absorbing;
     const before = player;
-    player = absorbCard(player, creature, absorbChoices());
+    const choices = absorbChoices();
+    const paid = spendsPoints();
+    const fromLevel = pickMode === 'level';
+    player = absorbCard(player, creature, choices);
+    if (paid) player = withStartPick(player, creature, choices.x);
+    if (fromLevel) player = withLevelBoosterUsed(player);
     save();
     absorbing = null;
     picked = null;
+    pickMandatory = false; // a card was absorbed: the dialog may close now
     boosterDialog.close();
     // From here the animation owns the card, so nothing draws the new values early.
     animating = true;
 
-    // A card that transforms: ask for its other face's name and art right away. The card
-    // is already saved, so a reload now loses nothing ("Edit other face" is under the card).
-    if ((player.transforms || []).length > (before.transforms || []).length) {
-      await new Promise((resolve) => {
-        transformDialog.addEventListener('close', resolve, { once: true });
-        openTransformDialog(player.transforms.length - 1);
-      });
-    }
+    // Each card absorbed is a chance to rename the player's card, and its other faces
+    // (cards that transform). The card is already saved, so a reload now loses nothing.
+    await askRename(absorbPreview(before, creature).name);
 
     // Switch to the card-only page, then load the new values into the card.
     render();
@@ -958,6 +1256,10 @@ export async function initPlayerView() {
       animating = false;
       render();
     }
+    // Making a new card: on to the spells, while there are points left.
+    if (paid && picksSpells(player)) await openSpellPick({ auto: true });
+    // Several levels at once: on to the next booster.
+    else if (fromLevel && nextLevelBooster(player)) await openBooster();
   });
 
   /* ----- Keeping up with the page ----- */

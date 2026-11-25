@@ -73,9 +73,9 @@
           <label for="pc-name">Name your card</label>
           <input class="input" id="pc-name" autocomplete="off" spellcheck="false" placeholder="Human" required>
         </div>
-        <p class="note">The name is sealed once you pick it. It can only change after you open your first booster.</p>
+        <p class="note">You can rename your card each time it absorbs a card.</p>
         <div class="actions">
-          <button class="action action--primary" type="submit">Seal the name</button>
+          <button class="action action--primary" type="submit">Save the name</button>
           <button class="action action--quiet" type="button" id="pc-name-cancel" hidden>Back to your cards</button>
         </div>
       </form>
@@ -95,14 +95,13 @@
 
     <section class="pc__step" id="pc-sheet" hidden>
       <p id="pc-summary"></p>
-      <p class="note">Your name is sealed until you open your first booster.</p>
       <div class="field">
         <label for="pc-flavor">Flavor text <span class="note">(optional)</span></label>
         <textarea class="input" id="pc-flavor" maxlength="110" rows="3" placeholder="A line of lore for the bottom of your card."></textarea>
         <div class="field__meta"><span>Saved as you type.</span><span id="pc-flavor-count">0/110</span></div>
       </div>
       <div class="actions">
-        <button class="action action--primary action--big" type="button" id="pc-open-booster">Open your first booster pack!</button>
+        <button class="action action--primary action--big" type="button" id="pc-open-booster">Choose your first card!</button>
       </div>
       <div class="actions">
         <button class="action" type="button" id="pc-edit-art" hidden>Edit art</button>
@@ -124,44 +123,76 @@
   <!-- Only once the card has absorbed something: the page then shows just the card. -->
   <div class="pc__card-foot" id="pc-card-foot" hidden>
     <p class="absorb-caption" id="pc-absorb-caption" role="status"></p>
-    <button class="action action--primary" type="button" id="pc-open-another">Open a booster</button>
-    <!-- Cards that transform: turn over, and edit the other face. Filled in by player/view.js. -->
+    <!-- Making a new card: spending the starting points on spells (player/start.js). -->
+    <section class="start" id="pc-start" hidden>
+      <p id="pc-start-text"></p>
+      <div class="actions">
+        <button class="action action--primary" type="button" id="pc-start-spell">Choose a spell</button>
+        <button class="action action--quiet" type="button" id="pc-start-done">Done</button>
+      </div>
+    </section>
+    <p class="note" id="pc-start-note" role="status" hidden></p>
+    <!-- The booster the oldest level waiting earned. Filled in by player/view.js. -->
+    <button class="action action--primary" type="button" id="pc-open-another" hidden>Open your booster</button>
+    <!-- Cards that transform: turn over. Filled in by player/view.js. -->
     <div class="transforms" id="pc-transforms"></div>
-    <!-- Equipment, Auras and the spell list. Filled in by player/view.js. -->
+    <!-- Equipment, Auras and items. Filled in by player/view.js. -->
     <section class="gear" id="pc-gear" aria-labelledby="pc-gear-title" hidden>
       <h3 id="pc-gear-title">Equipment, items and auras</h3>
       <ul class="gear__list" id="pc-gear-list"></ul>
     </section>
-    <section class="gear" id="pc-spells" aria-labelledby="pc-spells-title" hidden>
-      <h3 id="pc-spells-title">Spells</h3>
-      <p class="note">Each spell can be cast once per combat.</p>
-      <ul class="gear__list" id="pc-spell-list"></ul>
-    </section>
-    <!-- What the player keeps track of at the table. The card's power and toughness add all of it. -->
-    <div class="trackers">
-      <div class="tracker" role="group" aria-labelledby="pc-counters-label">
-        <span class="tracker__label" id="pc-counters-label">+1/+1 counters</span>
-        <button class="action tracker__step" type="button" id="pc-counter-down" aria-label="Remove a +1/+1 counter">&minus;</button>
-        <output class="tracker__value" id="pc-counter-value" aria-live="polite">0</output>
-        <button class="action tracker__step" type="button" id="pc-counter-up" aria-label="Add a +1/+1 counter">+</button>
-      </div>
-      <div class="tracker" role="group" aria-labelledby="pc-bonus-power-label">
-        <span class="tracker__label" id="pc-bonus-power-label">Bonus power</span>
-        <button class="action tracker__step" type="button" id="pc-bonus-power-down" aria-label="Lower the bonus power">&minus;</button>
-        <output class="tracker__value" id="pc-bonus-power-value" aria-live="polite">0</output>
-        <button class="action tracker__step" type="button" id="pc-bonus-power-up" aria-label="Raise the bonus power">+</button>
-      </div>
-      <div class="tracker" role="group" aria-labelledby="pc-bonus-toughness-label">
-        <span class="tracker__label" id="pc-bonus-toughness-label">Bonus toughness</span>
-        <button class="action tracker__step" type="button" id="pc-bonus-toughness-down" aria-label="Lower the bonus toughness">&minus;</button>
-        <output class="tracker__value" id="pc-bonus-toughness-value" aria-live="polite">0</output>
-        <button class="action tracker__step" type="button" id="pc-bonus-toughness-up" aria-label="Raise the bonus toughness">+</button>
-      </div>
-      <button class="action action--quiet trackers__clear" type="button" id="pc-bonus-clear">Combat over</button>
-      <p class="note trackers__note">Clears the bonuses, returns your spells, puts back what you took off and turns your card back.</p>
-    </div>
-    <button class="action action--quiet" type="button" id="pc-reset-card">Delete card</button>
   </div>
+
+  <!-- Beside the card on wide screens, under it on phones. Filled in by player/view.js. -->
+  <aside class="pc__side" id="pc-side" aria-label="Your card in detail" hidden>
+    <!-- Everything the card says, at a size that's easy to read: the card's own text shrinks to fit. -->
+    <details class="accordion" id="pc-card-text">
+      <summary class="accordion__summary">Text on card</summary>
+      <div class="card-text" id="pc-card-text-body"></div>
+    </details>
+    <!-- The spell list: absorbed instants and sorceries. Filled in by player/view.js. -->
+    <details class="accordion gear" id="pc-spells" hidden>
+      <summary class="accordion__summary">Spells</summary>
+      <div class="accordion__body">
+        <p class="note">Each spell can be cast once per combat.</p>
+        <ul class="gear__list" id="pc-spell-list"></ul>
+      </div>
+    </details>
+    <!-- What the player keeps track of at the table: XP, counters and bonuses. The card's power and
+         toughness add the counters and bonuses. -->
+    <details class="accordion status" id="pc-status">
+      <summary class="accordion__summary">Status</summary>
+      <div class="trackers">
+        <div class="tracker" role="group" aria-labelledby="pc-xp-label">
+          <span class="tracker__label" id="pc-xp-label">Level <span id="pc-level-value">1</span> · XP</span>
+          <button class="action tracker__step" type="button" id="pc-xp-down" aria-label="Remove 1 XP">&minus;</button>
+          <output class="tracker__value" id="pc-xp-value" aria-live="polite">0/3</output>
+          <button class="action tracker__step" type="button" id="pc-xp-up" aria-label="Add 1 XP">+</button>
+        </div>
+        <div class="tracker" role="group" aria-labelledby="pc-counters-label">
+          <span class="tracker__label" id="pc-counters-label">+1/+1 counters</span>
+          <button class="action tracker__step" type="button" id="pc-counter-down" aria-label="Remove a +1/+1 counter">&minus;</button>
+          <output class="tracker__value" id="pc-counter-value" aria-live="polite">0</output>
+          <button class="action tracker__step" type="button" id="pc-counter-up" aria-label="Add a +1/+1 counter">+</button>
+        </div>
+        <div class="tracker" role="group" aria-labelledby="pc-bonus-power-label">
+          <span class="tracker__label" id="pc-bonus-power-label">Bonus power</span>
+          <button class="action tracker__step" type="button" id="pc-bonus-power-down" aria-label="Lower the bonus power">&minus;</button>
+          <output class="tracker__value" id="pc-bonus-power-value" aria-live="polite">0</output>
+          <button class="action tracker__step" type="button" id="pc-bonus-power-up" aria-label="Raise the bonus power">+</button>
+        </div>
+        <div class="tracker" role="group" aria-labelledby="pc-bonus-toughness-label">
+          <span class="tracker__label" id="pc-bonus-toughness-label">Bonus toughness</span>
+          <button class="action tracker__step" type="button" id="pc-bonus-toughness-down" aria-label="Lower the bonus toughness">&minus;</button>
+          <output class="tracker__value" id="pc-bonus-toughness-value" aria-live="polite">0</output>
+          <button class="action tracker__step" type="button" id="pc-bonus-toughness-up" aria-label="Raise the bonus toughness">+</button>
+        </div>
+        <button class="action action--quiet trackers__clear" type="button" id="pc-bonus-clear">Combat over</button>
+        <p class="note trackers__note">Clears the bonuses, returns your spells, puts back what you took off and turns your card back.</p>
+      </div>
+    </details>
+  </aside>
+  <button class="action action--quiet pc__delete" type="button" id="pc-reset-card" hidden>Delete card</button>
 
   <dialog class="camera" id="pc-camera" aria-labelledby="pc-camera-title">
     <h3 id="pc-camera-title">Card art</h3>
@@ -181,13 +212,15 @@
     <h3 id="pc-booster-title">Booster</h3>
 
     <section id="pc-booster-pick">
+      <!-- The starting points while a new card is being made. Filled in by player/view.js. -->
+      <p class="booster-points" id="pc-booster-points" hidden></p>
       <p class="note" id="pc-booster-status" role="status">Pick one card to absorb.</p>
       <ul class="booster" id="pc-booster-cards" aria-label="Booster"></ul>
       <div class="actions booster-dialog__actions">
         <button class="action action--primary" type="button" id="pc-booster-confirm" hidden>Confirm</button>
         <button class="action action--quiet" type="button" id="pc-booster-close">Close</button>
       </div>
-      <p class="note">Closing keeps this booster open. You'll see the same cards when you come back.</p>
+      <p class="note" id="pc-booster-note">Closing keeps this booster open. You'll see the same cards when you come back.</p>
     </section>
 
     <section id="pc-absorb" hidden>
@@ -207,25 +240,24 @@
   </dialog>
 
   <!-- The other face of a card that transforms: its own name and art, both optional. -->
-  <dialog class="camera" id="pc-transform" aria-labelledby="pc-transform-title">
-    <h3 id="pc-transform-title">Your other face</h3>
-    <p class="note" id="pc-transform-intro"></p>
-    <form id="pc-transform-form" class="transform-form">
+  <!-- After absorbing a card, the player may rename theirs. Filled in by player/view.js. -->
+  <dialog class="camera" id="pc-rename" aria-labelledby="pc-rename-title">
+    <h3 id="pc-rename-title">Rename your card?</h3>
+    <p class="note" id="pc-rename-intro"></p>
+    <form id="pc-rename-form" class="transform-form">
       <div class="field">
-        <label for="pc-transform-name">Name when transformed</label>
-        <input class="input" id="pc-transform-name" autocomplete="off" spellcheck="false">
+        <label for="pc-rename-name">Your card's name</label>
+        <input class="input" id="pc-rename-name" autocomplete="off" spellcheck="false" required>
       </div>
-      <p class="note" id="pc-transform-art-status"></p>
+      <!-- The other faces of cards that transform: a name and art for each. -->
+      <div class="rename-faces" id="pc-rename-faces" hidden></div>
       <div class="actions">
-        <button class="action" type="button" id="pc-transform-camera">Take a photo</button>
-        <button class="action" type="button" id="pc-transform-upload">Upload a photo</button>
-        <button class="action action--quiet" type="button" id="pc-transform-same-art">Use my usual art</button>
-      </div>
-      <div class="actions">
-        <button class="action action--primary" type="submit">Done</button>
+        <button class="action action--primary" type="submit" id="pc-rename-go">Rename</button>
+        <button class="action action--quiet" type="button" id="pc-rename-keep">Keep the name</button>
       </div>
     </form>
   </dialog>
+
 
   <dialog class="camera" id="pc-editor" aria-labelledby="pc-editor-title">
     <h3 id="pc-editor-title">Frame your art</h3>

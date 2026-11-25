@@ -26,6 +26,7 @@ function cardSlot(card, index, onPick) {
   img.alt = describe(card);
   img.width = 488;
   img.height = 680;
+  img.loading = 'lazy'; // a long list only loads the images scrolled into view
   img.addEventListener('load', () => button.classList.add('is-loaded'));
   img.addEventListener('error', () => {
     // Offline or Scryfall unreachable: the card is still playable from its text.

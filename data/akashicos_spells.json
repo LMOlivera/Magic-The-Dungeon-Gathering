@@ -1,0 +1,1361 @@
+{
+ "source": "Scryfall Oracle Cards",
+ "cards": [
+  {
+   "id": "85e71828-095b-4729-ab11-c6c39ba29aab",
+   "name": "About Face",
+   "layout": "normal",
+   "manaCost": "{R}",
+   "manaValue": 1,
+   "colors": [
+    "R"
+   ],
+   "typeLine": "Instant",
+   "text": "Switch target creature's power and toughness until end of turn.",
+   "power": null,
+   "toughness": null,
+   "keywords": [],
+   "artist": "Melissa A. Benson",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/8/5/85e71828-095b-4729-ab11-c6c39ba29aab.jpg?1783946237",
+    "normal": "https://cards.scryfall.io/normal/front/8/5/85e71828-095b-4729-ab11-c6c39ba29aab.jpg?1783946237",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/8/5/85e71828-095b-4729-ab11-c6c39ba29aab.jpg?1783946237"
+   },
+   "faces": []
+  },
+  {
+   "id": "a94f356d-4714-4500-8fb0-1ac68ec5c1cf",
+   "name": "Aegis of the Heavens",
+   "layout": "normal",
+   "manaCost": "{1}{W}",
+   "manaValue": 2,
+   "colors": [
+    "W"
+   ],
+   "typeLine": "Instant",
+   "text": "Target creature gets +1/+7 until end of turn.",
+   "power": null,
+   "toughness": null,
+   "keywords": [],
+   "artist": "Anthony Palumbo",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/a/9/a94f356d-4714-4500-8fb0-1ac68ec5c1cf.jpg?1783930483",
+    "normal": "https://cards.scryfall.io/normal/front/a/9/a94f356d-4714-4500-8fb0-1ac68ec5c1cf.jpg?1783930483",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/a/9/a94f356d-4714-4500-8fb0-1ac68ec5c1cf.jpg?1783930483"
+   },
+   "faces": []
+  },
+  {
+   "id": "c5178301-f766-48d3-af07-6bd6f822c725",
+   "name": "Aerial Volley",
+   "layout": "normal",
+   "manaCost": "{G}",
+   "manaValue": 1,
+   "colors": [
+    "G"
+   ],
+   "typeLine": "Instant",
+   "text": "Aerial Volley deals 3 damage divided as you choose among one, two, or three target creatures with flying.",
+   "power": null,
+   "toughness": null,
+   "keywords": [],
+   "artist": "Lake Hurwitz",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/c/5/c5178301-f766-48d3-af07-6bd6f822c725.jpg?1783938325",
+    "normal": "https://cards.scryfall.io/normal/front/c/5/c5178301-f766-48d3-af07-6bd6f822c725.jpg?1783938325",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/c/5/c5178301-f766-48d3-af07-6bd6f822c725.jpg?1783938325"
+   },
+   "faces": []
+  },
+  {
+   "id": "5890a23e-1da0-432b-8dc8-85b92dee9ba1",
+   "name": "Agony Warp",
+   "layout": "normal",
+   "manaCost": "{U}{B}",
+   "manaValue": 2,
+   "colors": [
+    "B",
+    "U"
+   ],
+   "typeLine": "Instant",
+   "text": "Target creature gets -3/-0 until end of turn.\nTarget creature gets -0/-3 until end of turn.",
+   "power": null,
+   "toughness": null,
+   "keywords": [],
+   "artist": "Dave Allsop",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/5/8/5890a23e-1da0-432b-8dc8-85b92dee9ba1.jpg?1783921857",
+    "normal": "https://cards.scryfall.io/normal/front/5/8/5890a23e-1da0-432b-8dc8-85b92dee9ba1.jpg?1783921857",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/5/8/5890a23e-1da0-432b-8dc8-85b92dee9ba1.jpg?1783921857"
+   },
+   "faces": []
+  },
+  {
+   "id": "a829747f-cf9b-4d81-ba66-9f0630ed4565",
+   "name": "An Offer You Can't Refuse",
+   "layout": "normal",
+   "manaCost": "{U}",
+   "manaValue": 1,
+   "colors": [
+    "U"
+   ],
+   "typeLine": "Instant",
+   "text": "Counter target noncreature spell. Its controller creates two Treasure tokens. (They're artifacts with \"{T}, Sacrifice this token: Add one mana of any color.\")",
+   "power": null,
+   "toughness": null,
+   "keywords": [
+    "Treasure"
+   ],
+   "artist": "Dallas Williams",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/a/8/a829747f-cf9b-4d81-ba66-9f0630ed4565.jpg?1783909078",
+    "normal": "https://cards.scryfall.io/normal/front/a/8/a829747f-cf9b-4d81-ba66-9f0630ed4565.jpg?1783909078",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/a/8/a829747f-cf9b-4d81-ba66-9f0630ed4565.jpg?1783909078"
+   },
+   "faces": []
+  },
+  {
+   "id": "e90d5b7d-e27d-42d6-ba7a-d4a6b0dd8549",
+   "name": "Ancestors' Aid",
+   "layout": "normal",
+   "manaCost": "{1}{R}",
+   "manaValue": 2,
+   "colors": [
+    "R"
+   ],
+   "typeLine": "Instant",
+   "text": "Target creature gets +2/+0 and gains first strike until end of turn.\nCreate a Treasure token. (It's an artifact with \"{T}, Sacrifice this token: Add one mana of any color.\")",
+   "power": null,
+   "toughness": null,
+   "keywords": [
+    "Treasure"
+   ],
+   "artist": "Alessandra Pisano",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/e/9/e90d5b7d-e27d-42d6-ba7a-d4a6b0dd8549.jpg?1783913766",
+    "normal": "https://cards.scryfall.io/normal/front/e/9/e90d5b7d-e27d-42d6-ba7a-d4a6b0dd8549.jpg?1783913766",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/e/9/e90d5b7d-e27d-42d6-ba7a-d4a6b0dd8549.jpg?1783913766"
+   },
+   "faces": []
+  },
+  {
+   "id": "6c5a93d6-d4ab-4062-bb3c-1b5330bf15ad",
+   "name": "Ancestral Anger",
+   "layout": "normal",
+   "manaCost": "{R}",
+   "manaValue": 1,
+   "colors": [
+    "R"
+   ],
+   "typeLine": "Sorcery",
+   "text": "Target creature gains trample and gets +X/+0 until end of turn, where X is 1 plus the number of cards named Ancestral Anger in your graveyard.\nDraw a card.",
+   "power": null,
+   "toughness": null,
+   "keywords": [],
+   "artist": "Gonzalo Kenny",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/6/c/6c5a93d6-d4ab-4062-bb3c-1b5330bf15ad.jpg?1783903672",
+    "normal": "https://cards.scryfall.io/normal/front/6/c/6c5a93d6-d4ab-4062-bb3c-1b5330bf15ad.jpg?1783903672",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/6/c/6c5a93d6-d4ab-4062-bb3c-1b5330bf15ad.jpg?1783903672"
+   },
+   "faces": []
+  },
+  {
+   "id": "2398892d-28e9-4009-81ec-0d544af79d2b",
+   "name": "Ancestral Recall",
+   "layout": "normal",
+   "manaCost": "{U}",
+   "manaValue": 1,
+   "colors": [
+    "U"
+   ],
+   "typeLine": "Instant",
+   "text": "Target player draws three cards.",
+   "power": null,
+   "toughness": null,
+   "keywords": [],
+   "artist": "Ryan Pancoast",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/2/3/2398892d-28e9-4009-81ec-0d544af79d2b.jpg?1783939333",
+    "normal": "https://cards.scryfall.io/normal/front/2/3/2398892d-28e9-4009-81ec-0d544af79d2b.jpg?1783939333",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/2/3/2398892d-28e9-4009-81ec-0d544af79d2b.jpg?1783939333"
+   },
+   "faces": []
+  },
+  {
+   "id": "fdfbc07e-d726-4d42-9394-6aa0f5fc3a3a",
+   "name": "Apostle's Blessing",
+   "layout": "normal",
+   "manaCost": "{1}{W/P}",
+   "manaValue": 2,
+   "colors": [
+    "W"
+   ],
+   "typeLine": "Instant",
+   "text": "({W/P} can be paid with either {W} or 2 life.)\nTarget artifact or creature you control gains protection from artifacts or from the color of your choice until end of turn.",
+   "power": null,
+   "toughness": null,
+   "keywords": [],
+   "artist": "Brad Rigney",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/f/d/fdfbc07e-d726-4d42-9394-6aa0f5fc3a3a.jpg?1783938429",
+    "normal": "https://cards.scryfall.io/normal/front/f/d/fdfbc07e-d726-4d42-9394-6aa0f5fc3a3a.jpg?1783938429",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/f/d/fdfbc07e-d726-4d42-9394-6aa0f5fc3a3a.jpg?1783938429"
+   },
+   "faces": []
+  },
+  {
+   "id": "1691dbaa-414c-49e6-aa2e-8178485ffa9e",
+   "name": "Arbor Armament",
+   "layout": "normal",
+   "manaCost": "{G}",
+   "manaValue": 1,
+   "colors": [
+    "G"
+   ],
+   "typeLine": "Instant",
+   "text": "Put a +1/+1 counter on target creature. That creature gains reach until end of turn. (It can block creatures with flying.)",
+   "power": null,
+   "toughness": null,
+   "keywords": [],
+   "artist": "Bayard Wu",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/1/6/1691dbaa-414c-49e6-aa2e-8178485ffa9e.jpg?1783908654",
+    "normal": "https://cards.scryfall.io/normal/front/1/6/1691dbaa-414c-49e6-aa2e-8178485ffa9e.jpg?1783908654",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/1/6/1691dbaa-414c-49e6-aa2e-8178485ffa9e.jpg?1783908654"
+   },
+   "faces": []
+  },
+  {
+   "id": "e71768e7-4ef7-4fb2-838b-eb3a7f662d38",
+   "name": "Archon's Glory",
+   "layout": "normal",
+   "manaCost": "{W}",
+   "manaValue": 1,
+   "colors": [
+    "W"
+   ],
+   "typeLine": "Instant",
+   "text": "Bargain (You may sacrifice an artifact, enchantment, or token as you cast this spell.)\nTarget creature gets +2/+2 until end of turn. If this spell was bargained, that creature also gains flying and lifelink until end of turn.",
+   "power": null,
+   "toughness": null,
+   "keywords": [
+    "Bargain"
+   ],
+   "artist": "Anastasia Ovchinnikova",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/e/7/e71768e7-4ef7-4fb2-838b-eb3a7f662d38.jpg?1783915136",
+    "normal": "https://cards.scryfall.io/normal/front/e/7/e71768e7-4ef7-4fb2-838b-eb3a7f662d38.jpg?1783915136",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/e/7/e71768e7-4ef7-4fb2-838b-eb3a7f662d38.jpg?1783915136"
+   },
+   "faces": []
+  },
+  {
+   "id": "de6ce6aa-e19f-4299-9807-e68920e63c73",
+   "name": "Artful Dodge",
+   "layout": "normal",
+   "manaCost": "{U}",
+   "manaValue": 1,
+   "colors": [
+    "U"
+   ],
+   "typeLine": "Sorcery",
+   "text": "Target creature can't be blocked this turn.\nFlashback {U} (You may cast this card from your graveyard for its flashback cost. Then exile it.)",
+   "power": null,
+   "toughness": null,
+   "keywords": [
+    "Flashback"
+   ],
+   "artist": "Tomasz Jedruszek",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/d/e/de6ce6aa-e19f-4299-9807-e68920e63c73.jpg?1783940845",
+    "normal": "https://cards.scryfall.io/normal/front/d/e/de6ce6aa-e19f-4299-9807-e68920e63c73.jpg?1783940845",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/d/e/de6ce6aa-e19f-4299-9807-e68920e63c73.jpg?1783940845"
+   },
+   "faces": []
+  },
+  {
+   "id": "9b505c78-5dbd-483d-92bb-5144060e962f",
+   "name": "Assault Strobe",
+   "layout": "normal",
+   "manaCost": "{R}",
+   "manaValue": 1,
+   "colors": [
+    "R"
+   ],
+   "typeLine": "Sorcery",
+   "text": "Target creature gains double strike until end of turn. (It deals both first-strike and regular combat damage.)",
+   "power": null,
+   "toughness": null,
+   "keywords": [],
+   "artist": "Kev Walker",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/9/b/9b505c78-5dbd-483d-92bb-5144060e962f.jpg?1783941727",
+    "normal": "https://cards.scryfall.io/normal/front/9/b/9b505c78-5dbd-483d-92bb-5144060e962f.jpg?1783941727",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/9/b/9b505c78-5dbd-483d-92bb-5144060e962f.jpg?1783941727"
+   },
+   "faces": []
+  },
+  {
+   "id": "04c9f48d-2213-4f95-8eac-b23bd2d95e34",
+   "name": "Avoid Fate",
+   "layout": "normal",
+   "manaCost": "{G}",
+   "manaValue": 1,
+   "colors": [
+    "G"
+   ],
+   "typeLine": "Instant",
+   "text": "Counter target instant or Aura spell that targets a permanent you control.",
+   "power": null,
+   "toughness": null,
+   "keywords": [],
+   "artist": "Phil Foglio",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/0/4/04c9f48d-2213-4f95-8eac-b23bd2d95e34.jpg?1783943270",
+    "normal": "https://cards.scryfall.io/normal/front/0/4/04c9f48d-2213-4f95-8eac-b23bd2d95e34.jpg?1783943270",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/0/4/04c9f48d-2213-4f95-8eac-b23bd2d95e34.jpg?1783943270"
+   },
+   "faces": []
+  },
+  {
+   "id": "a5cd231b-7891-42b5-b5de-5112d1230c37",
+   "name": "Awe Strike",
+   "layout": "normal",
+   "manaCost": "{W}",
+   "manaValue": 1,
+   "colors": [
+    "W"
+   ],
+   "typeLine": "Instant",
+   "text": "The next time target creature would deal damage this turn, prevent that damage. You gain life equal to the damage prevented this way.",
+   "power": null,
+   "toughness": null,
+   "keywords": [],
+   "artist": "Scott M. Fischer",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/a/5/a5cd231b-7891-42b5-b5de-5112d1230c37.jpg?1783944563",
+    "normal": "https://cards.scryfall.io/normal/front/a/5/a5cd231b-7891-42b5-b5de-5112d1230c37.jpg?1783944563",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/a/5/a5cd231b-7891-42b5-b5de-5112d1230c37.jpg?1783944563"
+   },
+   "faces": []
+  },
+  {
+   "id": "5b012532-1186-4dc8-9d42-867e418b0280",
+   "name": "Banefire",
+   "layout": "normal",
+   "manaCost": "{X}{R}",
+   "manaValue": 1,
+   "colors": [
+    "R"
+   ],
+   "typeLine": "Sorcery",
+   "text": "Banefire deals X damage to any target.\nIf X is 5 or more, this spell can't be countered and the damage can't be prevented.",
+   "power": null,
+   "toughness": null,
+   "keywords": [],
+   "artist": "Raymond Swanland",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/5/b/5b012532-1186-4dc8-9d42-867e418b0280.jpg?1783934556",
+    "normal": "https://cards.scryfall.io/normal/front/5/b/5b012532-1186-4dc8-9d42-867e418b0280.jpg?1783934556",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/5/b/5b012532-1186-4dc8-9d42-867e418b0280.jpg?1783934556"
+   },
+   "faces": []
+  },
+  {
+   "id": "a7792df3-e2ab-4e60-abee-f24b72807107",
+   "name": "Banners Raised",
+   "layout": "normal",
+   "manaCost": "{R}",
+   "manaValue": 1,
+   "colors": [
+    "R"
+   ],
+   "typeLine": "Instant",
+   "text": "Creatures you control get +1/+0 until end of turn.",
+   "power": null,
+   "toughness": null,
+   "keywords": [],
+   "artist": "Mike Bierek",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/a/7/a7792df3-e2ab-4e60-abee-f24b72807107.jpg?1783940690",
+    "normal": "https://cards.scryfall.io/normal/front/a/7/a7792df3-e2ab-4e60-abee-f24b72807107.jpg?1783940690",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/a/7/a7792df3-e2ab-4e60-abee-f24b72807107.jpg?1783940690"
+   },
+   "faces": []
+  },
+  {
+   "id": "7cfc631b-49d1-4f1c-adac-5b07a2ccd06f",
+   "name": "Battle-Rage Blessing",
+   "layout": "normal",
+   "manaCost": "{1}{B}",
+   "manaValue": 2,
+   "colors": [
+    "B"
+   ],
+   "typeLine": "Instant",
+   "text": "Target creature gains deathtouch and indestructible until end of turn. (Damage and effects that say \"destroy\" don't destroy it.)",
+   "power": null,
+   "toughness": null,
+   "keywords": [],
+   "artist": "Jarel Threat",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/7/c/7cfc631b-49d1-4f1c-adac-5b07a2ccd06f.jpg?1783921339",
+    "normal": "https://cards.scryfall.io/normal/front/7/c/7cfc631b-49d1-4f1c-adac-5b07a2ccd06f.jpg?1783921339",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/7/c/7cfc631b-49d1-4f1c-adac-5b07a2ccd06f.jpg?1783921339"
+   },
+   "faces": []
+  },
+  {
+   "id": "62bc9bff-89bd-4454-a876-53822cf48546",
+   "name": "Berserk",
+   "layout": "normal",
+   "manaCost": "{G}",
+   "manaValue": 1,
+   "colors": [
+    "G"
+   ],
+   "typeLine": "Instant",
+   "text": "Cast this spell only before the combat damage step.\nTarget creature gains trample and gets +X/+0 until end of turn, where X is its power. At the beginning of the next end step, destroy that creature if it attacked this turn.",
+   "power": null,
+   "toughness": null,
+   "keywords": [],
+   "artist": "Steve Prescott",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/6/2/62bc9bff-89bd-4454-a876-53822cf48546.jpg?1783937297",
+    "normal": "https://cards.scryfall.io/normal/front/6/2/62bc9bff-89bd-4454-a876-53822cf48546.jpg?1783937297",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/6/2/62bc9bff-89bd-4454-a876-53822cf48546.jpg?1783937297"
+   },
+   "faces": []
+  },
+  {
+   "id": "e54b4fa6-65a0-48fe-97ac-2d9e6b5e206d",
+   "name": "Big Play",
+   "layout": "normal",
+   "manaCost": "{1}{G}",
+   "manaValue": 2,
+   "colors": [
+    "G"
+   ],
+   "typeLine": "Instant",
+   "text": "Target creature gets +2/+2 and gains reach until end of turn. Put a +1/+1 counter on it. (A creature with reach can block creatures with flying.)",
+   "power": null,
+   "toughness": null,
+   "keywords": [],
+   "artist": "Nicholas Gregory",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/e/5/e54b4fa6-65a0-48fe-97ac-2d9e6b5e206d.jpg?1783908654",
+    "normal": "https://cards.scryfall.io/normal/front/e/5/e54b4fa6-65a0-48fe-97ac-2d9e6b5e206d.jpg?1783908654",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/e/5/e54b4fa6-65a0-48fe-97ac-2d9e6b5e206d.jpg?1783908654"
+   },
+   "faces": []
+  },
+  {
+   "id": "3ca11057-e50a-4817-924a-5bb504d0780f",
+   "name": "Bile Blight",
+   "layout": "normal",
+   "manaCost": "{B}{B}",
+   "manaValue": 2,
+   "colors": [
+    "B"
+   ],
+   "typeLine": "Instant",
+   "text": "Target creature and all other creatures with the same name as that creature get -3/-3 until end of turn.",
+   "power": null,
+   "toughness": null,
+   "keywords": [],
+   "artist": "Vincent Proce",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/3/c/3ca11057-e50a-4817-924a-5bb504d0780f.jpg?1783939561",
+    "normal": "https://cards.scryfall.io/normal/front/3/c/3ca11057-e50a-4817-924a-5bb504d0780f.jpg?1783939561",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/3/c/3ca11057-e50a-4817-924a-5bb504d0780f.jpg?1783939561"
+   },
+   "faces": []
+  },
+  {
+   "id": "9e2d8650-b8c3-4e89-9aa2-424a98715c38",
+   "name": "Blessed Breath",
+   "layout": "normal",
+   "manaCost": "{W}",
+   "manaValue": 1,
+   "colors": [
+    "W"
+   ],
+   "typeLine": "Instant — Arcane",
+   "text": "Target creature you control gains protection from the color of your choice until end of turn.\nSplice onto Arcane {W} (As you cast an Arcane spell, you may reveal this card from your hand and pay its splice cost. If you do, add this card's effects to that spell.)",
+   "power": null,
+   "toughness": null,
+   "keywords": [
+    "Splice"
+   ],
+   "artist": "Tsutomu Kawade",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/9/e/9e2d8650-b8c3-4e89-9aa2-424a98715c38.jpg?1783944343",
+    "normal": "https://cards.scryfall.io/normal/front/9/e/9e2d8650-b8c3-4e89-9aa2-424a98715c38.jpg?1783944343",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/9/e/9e2d8650-b8c3-4e89-9aa2-424a98715c38.jpg?1783944343"
+   },
+   "faces": []
+  },
+  {
+   "id": "2069310a-9fb6-41b7-bbd5-849e3df05632",
+   "name": "Boon of Safety",
+   "layout": "normal",
+   "manaCost": "{W}",
+   "manaValue": 1,
+   "colors": [
+    "W"
+   ],
+   "typeLine": "Instant",
+   "text": "Put a shield counter on target creature. (If it would be dealt damage or destroyed, remove a shield counter from it instead.)\nScry 1.",
+   "power": null,
+   "toughness": null,
+   "keywords": [
+    "Scry"
+   ],
+   "artist": "Robin Olausson",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/2/0/2069310a-9fb6-41b7-bbd5-849e3df05632.jpg?1783923162",
+    "normal": "https://cards.scryfall.io/normal/front/2/0/2069310a-9fb6-41b7-bbd5-849e3df05632.jpg?1783923162",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/2/0/2069310a-9fb6-41b7-bbd5-849e3df05632.jpg?1783923162"
+   },
+   "faces": []
+  },
+  {
+   "id": "ca65692f-fabc-4b56-a0f6-d623ed069cb8",
+   "name": "Brain Pry",
+   "layout": "normal",
+   "manaCost": "{1}{B}",
+   "manaValue": 2,
+   "colors": [
+    "B"
+   ],
+   "typeLine": "Sorcery",
+   "text": "Choose a nonland card name. Target player reveals their hand. That player discards a card with that name. If they can't, you draw a card.",
+   "power": null,
+   "toughness": null,
+   "keywords": [],
+   "artist": "Jim Nelson",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/c/a/ca65692f-fabc-4b56-a0f6-d623ed069cb8.jpg?1783943434",
+    "normal": "https://cards.scryfall.io/normal/front/c/a/ca65692f-fabc-4b56-a0f6-d623ed069cb8.jpg?1783943434",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/c/a/ca65692f-fabc-4b56-a0f6-d623ed069cb8.jpg?1783943434"
+   },
+   "faces": []
+  },
+  {
+   "id": "9ed55a4d-d99c-44ae-a5b9-fd9d1b8477f9",
+   "name": "Bull Rush",
+   "layout": "normal",
+   "manaCost": "{R}",
+   "manaValue": 1,
+   "colors": [
+    "R"
+   ],
+   "typeLine": "Instant",
+   "text": "Target creature gets +2/+0 until end of turn.",
+   "power": null,
+   "toughness": null,
+   "keywords": [],
+   "artist": "Christopher Moeller",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/9/e/9ed55a4d-d99c-44ae-a5b9-fd9d1b8477f9.jpg?1783942051",
+    "normal": "https://cards.scryfall.io/normal/front/9/e/9ed55a4d-d99c-44ae-a5b9-fd9d1b8477f9.jpg?1783942051",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/9/e/9ed55a4d-d99c-44ae-a5b9-fd9d1b8477f9.jpg?1783942051"
+   },
+   "faces": []
+  },
+  {
+   "id": "092cab70-c771-4c96-a5ce-22f2e32e3ea8",
+   "name": "Bull's Strength",
+   "layout": "normal",
+   "manaCost": "{1}{G}",
+   "manaValue": 2,
+   "colors": [
+    "G"
+   ],
+   "typeLine": "Instant",
+   "text": "Target creature gets +2/+2 and gains trample until end of turn. Untap it.",
+   "power": null,
+   "toughness": null,
+   "keywords": [],
+   "artist": "Gabor Szikszai",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/0/9/092cab70-c771-4c96-a5ce-22f2e32e3ea8.jpg?1783926467",
+    "normal": "https://cards.scryfall.io/normal/front/0/9/092cab70-c771-4c96-a5ce-22f2e32e3ea8.jpg?1783926467",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/0/9/092cab70-c771-4c96-a5ce-22f2e32e3ea8.jpg?1783926467"
+   },
+   "faces": []
+  },
+  {
+   "id": "013bed2b-25db-4dfc-9283-e80c9ac6c841",
+   "name": "Calamity's Wake",
+   "layout": "normal",
+   "manaCost": "{1}{W}",
+   "manaValue": 2,
+   "colors": [
+    "W"
+   ],
+   "typeLine": "Instant",
+   "text": "Exile all graveyards. Players can't cast noncreature spells this turn. Exile Calamity's Wake.",
+   "power": null,
+   "toughness": null,
+   "keywords": [],
+   "artist": "Slawomir Maniak",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/0/1/013bed2b-25db-4dfc-9283-e80c9ac6c841.jpg?1783920135",
+    "normal": "https://cards.scryfall.io/normal/front/0/1/013bed2b-25db-4dfc-9283-e80c9ac6c841.jpg?1783920135",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/0/1/013bed2b-25db-4dfc-9283-e80c9ac6c841.jpg?1783920135"
+   },
+   "faces": []
+  },
+  {
+   "id": "c4530da2-fd04-40d9-ad69-5c2847921509",
+   "name": "Canopy Claws",
+   "layout": "normal",
+   "manaCost": "{G}",
+   "manaValue": 1,
+   "colors": [
+    "G"
+   ],
+   "typeLine": "Instant",
+   "text": "Target creature loses flying until end of turn.\nFlashback {G} (You may cast this card from your graveyard for its flashback cost. Then exile it.)",
+   "power": null,
+   "toughness": null,
+   "keywords": [
+    "Flashback"
+   ],
+   "artist": "Matthew Mitchell",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/c/4/c4530da2-fd04-40d9-ad69-5c2847921509.jpg?1783945114",
+    "normal": "https://cards.scryfall.io/normal/front/c/4/c4530da2-fd04-40d9-ad69-5c2847921509.jpg?1783945114",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/c/4/c4530da2-fd04-40d9-ad69-5c2847921509.jpg?1783945114"
+   },
+   "faces": []
+  },
+  {
+   "id": "5d4bdbff-3284-4b5b-92b1-f24880269024",
+   "name": "Captain's Defense",
+   "layout": "normal",
+   "manaCost": "{W}",
+   "manaValue": 1,
+   "colors": [
+    "W"
+   ],
+   "typeLine": "Instant",
+   "text": "Target blocking creature gets +2/+2 until end of turn.\nDraw a card.",
+   "power": null,
+   "toughness": null,
+   "keywords": [],
+   "artist": "Mark Spears",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/5/d/5d4bdbff-3284-4b5b-92b1-f24880269024.jpg?1783902997",
+    "normal": "https://cards.scryfall.io/normal/front/5/d/5d4bdbff-3284-4b5b-92b1-f24880269024.jpg?1783902997",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/5/d/5d4bdbff-3284-4b5b-92b1-f24880269024.jpg?1783902997"
+   },
+   "faces": []
+  },
+  {
+   "id": "fa0e1a22-8f27-4c5b-a65c-c35abd2ff05b",
+   "name": "Chain to Memory",
+   "layout": "normal",
+   "manaCost": "{U}",
+   "manaValue": 1,
+   "colors": [
+    "U"
+   ],
+   "typeLine": "Instant",
+   "text": "Target creature gets -4/-0 until end of turn. Scry 2.",
+   "power": null,
+   "toughness": null,
+   "keywords": [
+    "Scry"
+   ],
+   "artist": "Paul Scott Canavan",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/f/a/fa0e1a22-8f27-4c5b-a65c-c35abd2ff05b.jpg?1783931586",
+    "normal": "https://cards.scryfall.io/normal/front/f/a/fa0e1a22-8f27-4c5b-a65c-c35abd2ff05b.jpg?1783931586",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/f/a/fa0e1a22-8f27-4c5b-a65c-c35abd2ff05b.jpg?1783931586"
+   },
+   "faces": []
+  },
+  {
+   "id": "24204881-690c-4043-8771-20cb93385072",
+   "name": "Channeled Dragonfire",
+   "layout": "normal",
+   "manaCost": "{R}",
+   "manaValue": 1,
+   "colors": [
+    "R"
+   ],
+   "typeLine": "Sorcery",
+   "text": "Channeled Dragonfire deals 2 damage to any target.\nHarmonize {5}{R}{R} (You may cast this card from your graveyard for its harmonize cost. You may tap a creature you control to reduce that cost by {X}, where X is its power. Then exile this spell.)",
+   "power": null,
+   "toughness": null,
+   "keywords": [
+    "Harmonize"
+   ],
+   "artist": "Jorge Jacinto",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/2/4/24204881-690c-4043-8771-20cb93385072.jpg?1783907364",
+    "normal": "https://cards.scryfall.io/normal/front/2/4/24204881-690c-4043-8771-20cb93385072.jpg?1783907364",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/2/4/24204881-690c-4043-8771-20cb93385072.jpg?1783907364"
+   },
+   "faces": []
+  },
+  {
+   "id": "06f9f257-c7ef-44b7-8b2b-f038fba900af",
+   "name": "Chase Inspiration",
+   "layout": "normal",
+   "manaCost": "{U}",
+   "manaValue": 1,
+   "colors": [
+    "U"
+   ],
+   "typeLine": "Instant",
+   "text": "Target creature you control gets +0/+3 and gains hexproof until end of turn. (It can't be the target of spells or abilities your opponents control.)",
+   "power": null,
+   "toughness": null,
+   "keywords": [],
+   "artist": "Evyn Fong",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/0/6/06f9f257-c7ef-44b7-8b2b-f038fba900af.jpg?1783903695",
+    "normal": "https://cards.scryfall.io/normal/front/0/6/06f9f257-c7ef-44b7-8b2b-f038fba900af.jpg?1783903695",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/0/6/06f9f257-c7ef-44b7-8b2b-f038fba900af.jpg?1783903695"
+   },
+   "faces": []
+  },
+  {
+   "id": "b64fc99a-1732-4b69-80b9-ae0f4c9ac41d",
+   "name": "Chilling Trap",
+   "layout": "normal",
+   "manaCost": "{U}",
+   "manaValue": 1,
+   "colors": [
+    "U"
+   ],
+   "typeLine": "Instant",
+   "text": "Target creature gets -4/-0 until end of turn. If you control a Wizard, draw a card.",
+   "power": null,
+   "toughness": null,
+   "keywords": [],
+   "artist": "Johann Bodin",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/b/6/b64fc99a-1732-4b69-80b9-ae0f4c9ac41d.jpg?1783908776",
+    "normal": "https://cards.scryfall.io/normal/front/b/6/b64fc99a-1732-4b69-80b9-ae0f4c9ac41d.jpg?1783908776",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/b/6/b64fc99a-1732-4b69-80b9-ae0f4c9ac41d.jpg?1783908776"
+   },
+   "faces": []
+  },
+  {
+   "id": "6fb6faa4-236c-4cae-9140-0981c44d2392",
+   "name": "Cinder Strike",
+   "layout": "normal",
+   "manaCost": "{R}",
+   "manaValue": 1,
+   "colors": [
+    "R"
+   ],
+   "typeLine": "Sorcery",
+   "text": "As an additional cost to cast this spell, you may blight 1. (You may put a -1/-1 counter on a creature you control.)\nCinder Strike deals 2 damage to target creature. It deals 4 damage to that creature instead if this spell's additional cost was paid.",
+   "power": null,
+   "toughness": null,
+   "keywords": [
+    "Blight"
+   ],
+   "artist": "Joshua Raphael",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/6/f/6fb6faa4-236c-4cae-9140-0981c44d2392.jpg?1783904450",
+    "normal": "https://cards.scryfall.io/normal/front/6/f/6fb6faa4-236c-4cae-9140-0981c44d2392.jpg?1783904450",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/6/f/6fb6faa4-236c-4cae-9140-0981c44d2392.jpg?1783904450"
+   },
+   "faces": []
+  },
+  {
+   "id": "52c2de5f-e486-4cfe-9fb6-be0078ce5f93",
+   "name": "Cling to Dust",
+   "layout": "normal",
+   "manaCost": "{B}",
+   "manaValue": 1,
+   "colors": [
+    "B"
+   ],
+   "typeLine": "Instant",
+   "text": "Exile target card from a graveyard. If it was a creature card, you gain 3 life. Otherwise, you draw a card.\nEscape—{3}{B}, Exile five other cards from your graveyard. (You may cast this card from your graveyard for its escape cost.)",
+   "power": null,
+   "toughness": null,
+   "keywords": [
+    "Escape"
+   ],
+   "artist": "Caio Monteiro",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/5/2/52c2de5f-e486-4cfe-9fb6-be0078ce5f93.jpg?1783931570",
+    "normal": "https://cards.scryfall.io/normal/front/5/2/52c2de5f-e486-4cfe-9fb6-be0078ce5f93.jpg?1783931570",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/5/2/52c2de5f-e486-4cfe-9fb6-be0078ce5f93.jpg?1783931570"
+   },
+   "faces": []
+  },
+  {
+   "id": "1a110be3-93ec-40ef-94a6-e4c43f1ce211",
+   "name": "Constricting Tendrils",
+   "layout": "normal",
+   "manaCost": "{U}",
+   "manaValue": 1,
+   "colors": [
+    "U"
+   ],
+   "typeLine": "Instant",
+   "text": "Target creature gets -3/-0 until end of turn.\nCycling {2} ({2}, Discard this card: Draw a card.)",
+   "power": null,
+   "toughness": null,
+   "keywords": [
+    "Cycling"
+   ],
+   "artist": "David Palumbo",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/1/a/1a110be3-93ec-40ef-94a6-e4c43f1ce211.jpg?1783942490",
+    "normal": "https://cards.scryfall.io/normal/front/1/a/1a110be3-93ec-40ef-94a6-e4c43f1ce211.jpg?1783942490",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/1/a/1a110be3-93ec-40ef-94a6-e4c43f1ce211.jpg?1783942490"
+   },
+   "faces": []
+  },
+  {
+   "id": "013d5260-f906-4f6a-97ed-725197743b60",
+   "name": "Cremate",
+   "layout": "normal",
+   "manaCost": "{B}",
+   "manaValue": 1,
+   "colors": [
+    "B"
+   ],
+   "typeLine": "Instant",
+   "text": "Exile target card from a graveyard.\nDraw a card.",
+   "power": null,
+   "toughness": null,
+   "keywords": [],
+   "artist": "Cynthia Sheppard",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/0/1/013d5260-f906-4f6a-97ed-725197743b60.jpg?1783940365",
+    "normal": "https://cards.scryfall.io/normal/front/0/1/013d5260-f906-4f6a-97ed-725197743b60.jpg?1783940365",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/0/1/013d5260-f906-4f6a-97ed-725197743b60.jpg?1783940365"
+   },
+   "faces": []
+  },
+  {
+   "id": "753db072-5d6a-4f37-8f7d-255572ecd3bd",
+   "name": "Cut Down",
+   "layout": "normal",
+   "manaCost": "{B}",
+   "manaValue": 1,
+   "colors": [
+    "B"
+   ],
+   "typeLine": "Instant",
+   "text": "Destroy target creature with total power and toughness 5 or less.",
+   "power": null,
+   "toughness": null,
+   "keywords": [],
+   "artist": "Dominik Mayer",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/7/5/753db072-5d6a-4f37-8f7d-255572ecd3bd.jpg?1783921335",
+    "normal": "https://cards.scryfall.io/normal/front/7/5/753db072-5d6a-4f37-8f7d-255572ecd3bd.jpg?1783921335",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/7/5/753db072-5d6a-4f37-8f7d-255572ecd3bd.jpg?1783921335"
+   },
+   "faces": []
+  },
+  {
+   "id": "0dcaba91-06d3-4492-9e07-36a1b858ca47",
+   "name": "Darkblast",
+   "layout": "normal",
+   "manaCost": "{B}",
+   "manaValue": 1,
+   "colors": [
+    "B"
+   ],
+   "typeLine": "Instant",
+   "text": "Target creature gets -1/-1 until end of turn.\nDredge 3 (If you would draw a card, you may mill three cards instead. If you do, return this card from your graveyard to your hand.)",
+   "power": null,
+   "toughness": null,
+   "keywords": [
+    "Dredge",
+    "Mill"
+   ],
+   "artist": "Randy Gallegos",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/0/d/0dcaba91-06d3-4492-9e07-36a1b858ca47.jpg?1783943673",
+    "normal": "https://cards.scryfall.io/normal/front/0/d/0dcaba91-06d3-4492-9e07-36a1b858ca47.jpg?1783943673",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/0/d/0dcaba91-06d3-4492-9e07-36a1b858ca47.jpg?1783943673"
+   },
+   "faces": []
+  },
+  {
+   "id": "427c6350-af52-45f1-8024-5f31aa62a0d0",
+   "name": "Disarm",
+   "layout": "normal",
+   "manaCost": "{U}",
+   "manaValue": 1,
+   "colors": [
+    "U"
+   ],
+   "typeLine": "Instant",
+   "text": "Unattach all Equipment from target creature.",
+   "power": null,
+   "toughness": null,
+   "keywords": [],
+   "artist": "Alex Horley-Orlandelli",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/4/2/427c6350-af52-45f1-8024-5f31aa62a0d0.jpg?1783944556",
+    "normal": "https://cards.scryfall.io/normal/front/4/2/427c6350-af52-45f1-8024-5f31aa62a0d0.jpg?1783944556",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/4/2/427c6350-af52-45f1-8024-5f31aa62a0d0.jpg?1783944556"
+   },
+   "faces": []
+  },
+  {
+   "id": "fea6aa2b-d466-4844-b174-796adab9cce3",
+   "name": "Disfigure",
+   "layout": "normal",
+   "manaCost": "{B}",
+   "manaValue": 1,
+   "colors": [
+    "B"
+   ],
+   "typeLine": "Instant",
+   "text": "Target creature gets -2/-2 until end of turn.",
+   "power": null,
+   "toughness": null,
+   "keywords": [],
+   "artist": "Svetlin Velinov",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/f/e/fea6aa2b-d466-4844-b174-796adab9cce3.jpg?1783908733",
+    "normal": "https://cards.scryfall.io/normal/front/f/e/fea6aa2b-d466-4844-b174-796adab9cce3.jpg?1783908733",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/f/e/fea6aa2b-d466-4844-b174-796adab9cce3.jpg?1783908733"
+   },
+   "faces": []
+  },
+  {
+   "id": "bceab6b3-6b64-4964-a501-ce806a6c13ad",
+   "name": "Dispel",
+   "layout": "normal",
+   "manaCost": "{U}",
+   "manaValue": 1,
+   "colors": [
+    "U"
+   ],
+   "typeLine": "Instant",
+   "text": "Counter target instant spell.",
+   "power": null,
+   "toughness": null,
+   "keywords": [],
+   "artist": "Chase Stone",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/b/c/bceab6b3-6b64-4964-a501-ce806a6c13ad.jpg?1783938209",
+    "normal": "https://cards.scryfall.io/normal/front/b/c/bceab6b3-6b64-4964-a501-ce806a6c13ad.jpg?1783938209",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/b/c/bceab6b3-6b64-4964-a501-ce806a6c13ad.jpg?1783938209"
+   },
+   "faces": []
+  },
+  {
+   "id": "ad60ebb9-4acc-41a8-90d9-04d55e414ed1",
+   "name": "Djeru's Resolve",
+   "layout": "normal",
+   "manaCost": "{W}",
+   "manaValue": 1,
+   "colors": [
+    "W"
+   ],
+   "typeLine": "Instant",
+   "text": "Untap target creature. Prevent all damage that would be dealt to it this turn.\nCycling {2} ({2}, Discard this card: Draw a card.)",
+   "power": null,
+   "toughness": null,
+   "keywords": [
+    "Cycling"
+   ],
+   "artist": "Kieran Yanner",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/a/d/ad60ebb9-4acc-41a8-90d9-04d55e414ed1.jpg?1783936540",
+    "normal": "https://cards.scryfall.io/normal/front/a/d/ad60ebb9-4acc-41a8-90d9-04d55e414ed1.jpg?1783936540",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/a/d/ad60ebb9-4acc-41a8-90d9-04d55e414ed1.jpg?1783936540"
+   },
+   "faces": []
+  },
+  {
+   "id": "0bb504d2-d3de-4b09-9007-3d403fc9a216",
+   "name": "Dual Shot",
+   "layout": "normal",
+   "manaCost": "{R}",
+   "manaValue": 1,
+   "colors": [
+    "R"
+   ],
+   "typeLine": "Instant",
+   "text": "Dual Shot deals 1 damage to each of up to two target creatures.",
+   "power": null,
+   "toughness": null,
+   "keywords": [],
+   "artist": "Sara Winters",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/0/b/0bb504d2-d3de-4b09-9007-3d403fc9a216.jpg?1783935747",
+    "normal": "https://cards.scryfall.io/normal/front/0/b/0bb504d2-d3de-4b09-9007-3d403fc9a216.jpg?1783935747",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/0/b/0bb504d2-d3de-4b09-9007-3d403fc9a216.jpg?1783935747"
+   },
+   "faces": []
+  },
+  {
+   "id": "7cf2f3c7-66b2-48f6-97ef-09150903df7e",
+   "name": "Earthquake",
+   "layout": "normal",
+   "manaCost": "{X}{R}",
+   "manaValue": 1,
+   "colors": [
+    "R"
+   ],
+   "typeLine": "Sorcery",
+   "text": "Earthquake deals X damage to each creature without flying and each player.",
+   "power": null,
+   "toughness": null,
+   "keywords": [],
+   "artist": "Adrian Smith",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/7/c/7cf2f3c7-66b2-48f6-97ef-09150903df7e.jpg?1783934745",
+    "normal": "https://cards.scryfall.io/normal/front/7/c/7cf2f3c7-66b2-48f6-97ef-09150903df7e.jpg?1783934745",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/7/c/7cf2f3c7-66b2-48f6-97ef-09150903df7e.jpg?1783934745"
+   },
+   "faces": []
+  },
+  {
+   "id": "fc019ffa-4461-4f3d-ab8d-e4d20e77ca0c",
+   "name": "Faithless Looting",
+   "layout": "normal",
+   "manaCost": "{R}",
+   "manaValue": 1,
+   "colors": [
+    "R"
+   ],
+   "typeLine": "Sorcery",
+   "text": "Draw two cards, then discard two cards.\nFlashback {2}{R} (You may cast this card from your graveyard for its flashback cost. Then exile it.)",
+   "power": null,
+   "toughness": null,
+   "keywords": [
+    "Flashback"
+   ],
+   "artist": "Gabor Szikszai",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/f/c/fc019ffa-4461-4f3d-ab8d-e4d20e77ca0c.jpg?1783903774",
+    "normal": "https://cards.scryfall.io/normal/front/f/c/fc019ffa-4461-4f3d-ab8d-e4d20e77ca0c.jpg?1783903774",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/f/c/fc019ffa-4461-4f3d-ab8d-e4d20e77ca0c.jpg?1783903774"
+   },
+   "faces": []
+  },
+  {
+   "id": "32af7061-fca6-4a06-be3c-01881e6b96f7",
+   "name": "Feign Death",
+   "layout": "normal",
+   "manaCost": "{B}",
+   "manaValue": 1,
+   "colors": [
+    "B"
+   ],
+   "typeLine": "Instant",
+   "text": "Until end of turn, target creature gains \"When this creature dies, return it to the battlefield tapped under its owner's control with a +1/+1 counter on it.\"",
+   "power": null,
+   "toughness": null,
+   "keywords": [],
+   "artist": "Maria Zolotukhina",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/3/2/32af7061-fca6-4a06-be3c-01881e6b96f7.jpg?1783926495",
+    "normal": "https://cards.scryfall.io/normal/front/3/2/32af7061-fca6-4a06-be3c-01881e6b96f7.jpg?1783926495",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/3/2/32af7061-fca6-4a06-be3c-01881e6b96f7.jpg?1783926495"
+   },
+   "faces": []
+  },
+  {
+   "id": "c0b86a7b-4912-43a7-ab89-c3432385baa1",
+   "name": "Fleeting Distraction",
+   "layout": "normal",
+   "manaCost": "{U}",
+   "manaValue": 1,
+   "colors": [
+    "U"
+   ],
+   "typeLine": "Instant",
+   "text": "Target creature gets -1/-0 until end of turn.\nDraw a card.",
+   "power": null,
+   "toughness": null,
+   "keywords": [],
+   "artist": "Ryan Yee",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/c/0/c0b86a7b-4912-43a7-ab89-c3432385baa1.jpg?1783909081",
+    "normal": "https://cards.scryfall.io/normal/front/c/0/c0b86a7b-4912-43a7-ab89-c3432385baa1.jpg?1783909081",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/c/0/c0b86a7b-4912-43a7-ab89-c3432385baa1.jpg?1783909081"
+   },
+   "faces": []
+  },
+  {
+   "id": "f71958e9-6d6d-4393-8b49-567103b50877",
+   "name": "Flourishing Grapple",
+   "layout": "normal",
+   "manaCost": "{G}",
+   "manaValue": 1,
+   "colors": [
+    "G"
+   ],
+   "typeLine": "Instant",
+   "text": "Target creature or planeswalker an opponent controls that's red or white loses all abilities until end of turn. Target creature you control deals damage equal to its power to that permanent.",
+   "power": null,
+   "toughness": null,
+   "keywords": [],
+   "artist": "Omar Rayyan",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/f/7/f71958e9-6d6d-4393-8b49-567103b50877.jpg?1789470852",
+    "normal": "https://cards.scryfall.io/normal/front/f/7/f71958e9-6d6d-4393-8b49-567103b50877.jpg?1789470852",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/f/7/f71958e9-6d6d-4393-8b49-567103b50877.jpg?1789470852"
+   },
+   "faces": []
+  },
+  {
+   "id": "0cf8cb1e-314a-4894-82df-f9812825f52e",
+   "name": "Galvanic Blast",
+   "layout": "normal",
+   "manaCost": "{R}",
+   "manaValue": 1,
+   "colors": [
+    "R"
+   ],
+   "typeLine": "Instant",
+   "text": "Galvanic Blast deals 2 damage to any target.\nMetalcraft — Galvanic Blast deals 4 damage instead if you control three or more artifacts.",
+   "power": null,
+   "toughness": null,
+   "keywords": [
+    "Metalcraft"
+   ],
+   "artist": "Marc Simonetti",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/0/c/0cf8cb1e-314a-4894-82df-f9812825f52e.jpg?1783930164",
+    "normal": "https://cards.scryfall.io/normal/front/0/c/0cf8cb1e-314a-4894-82df-f9812825f52e.jpg?1783930164",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/0/c/0cf8cb1e-314a-4894-82df-f9812825f52e.jpg?1783930164"
+   },
+   "faces": []
+  },
+  {
+   "id": "bf059c8d-6e61-41ca-ac79-3bf82fa2d4b3",
+   "name": "Gather Courage",
+   "layout": "normal",
+   "manaCost": "{G}",
+   "manaValue": 1,
+   "colors": [
+    "G"
+   ],
+   "typeLine": "Instant",
+   "text": "Convoke (Your creatures can help cast this spell. Each creature you tap while casting this spell pays for {1} or one mana of that creature's color.)\nTarget creature gets +2/+2 until end of turn.",
+   "power": null,
+   "toughness": null,
+   "keywords": [
+    "Convoke"
+   ],
+   "artist": "Brian Despain",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/b/f/bf059c8d-6e61-41ca-ac79-3bf82fa2d4b3.jpg?1783913302",
+    "normal": "https://cards.scryfall.io/normal/front/b/f/bf059c8d-6e61-41ca-ac79-3bf82fa2d4b3.jpg?1783913302",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/b/f/bf059c8d-6e61-41ca-ac79-3bf82fa2d4b3.jpg?1783913302"
+   },
+   "faces": []
+  },
+  {
+   "id": "eb2a0cdf-2383-469a-bd5e-56393c4ccfcc",
+   "name": "Gird for Battle",
+   "layout": "normal",
+   "manaCost": "{W}",
+   "manaValue": 1,
+   "colors": [
+    "W"
+   ],
+   "typeLine": "Sorcery",
+   "text": "Put a +1/+1 counter on each of up to two target creatures.",
+   "power": null,
+   "toughness": null,
+   "keywords": [],
+   "artist": "Jakub Kasper",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/e/b/eb2a0cdf-2383-469a-bd5e-56393c4ccfcc.jpg?1783908807",
+    "normal": "https://cards.scryfall.io/normal/front/e/b/eb2a0cdf-2383-469a-bd5e-56393c4ccfcc.jpg?1783908807",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/e/b/eb2a0cdf-2383-469a-bd5e-56393c4ccfcc.jpg?1783908807"
+   },
+   "faces": []
+  },
+  {
+   "id": "f7512d31-dc35-4046-a1ba-49b74239c329",
+   "name": "Healing Grace",
+   "layout": "normal",
+   "manaCost": "{W}",
+   "manaValue": 1,
+   "colors": [
+    "W"
+   ],
+   "typeLine": "Instant",
+   "text": "Prevent the next 3 damage that would be dealt to any target this turn by a source of your choice. You gain 3 life.",
+   "power": null,
+   "toughness": null,
+   "keywords": [],
+   "artist": "Magali Villeneuve",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/f/7/f7512d31-dc35-4046-a1ba-49b74239c329.jpg?1783935046",
+    "normal": "https://cards.scryfall.io/normal/front/f/7/f7512d31-dc35-4046-a1ba-49b74239c329.jpg?1783935046",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/f/7/f7512d31-dc35-4046-a1ba-49b74239c329.jpg?1783935046"
+   },
+   "faces": []
+  },
+  {
+   "id": "0ff82aba-9022-4eff-a6dc-67365360d646",
+   "name": "Healing Salve",
+   "layout": "normal",
+   "manaCost": "{W}",
+   "manaValue": 1,
+   "colors": [
+    "W"
+   ],
+   "typeLine": "Instant",
+   "text": "Choose one —\n• Target player gains 3 life.\n• Prevent the next 3 damage that would be dealt to any target this turn.",
+   "power": null,
+   "toughness": null,
+   "keywords": [],
+   "artist": "Greg Hildebrandt & Tim Hildebrandt",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/0/f/0ff82aba-9022-4eff-a6dc-67365360d646.jpg?1783938786",
+    "normal": "https://cards.scryfall.io/normal/front/0/f/0ff82aba-9022-4eff-a6dc-67365360d646.jpg?1783938786",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/0/f/0ff82aba-9022-4eff-a6dc-67365360d646.jpg?1783938786"
+   },
+   "faces": []
+  },
+  {
+   "id": "cfa6ed13-7bba-40c0-8e0e-4ffd3cea6241",
+   "name": "Horrific Assault",
+   "layout": "normal",
+   "manaCost": "{G}",
+   "manaValue": 1,
+   "colors": [
+    "G"
+   ],
+   "typeLine": "Sorcery",
+   "text": "Target creature you control deals damage equal to its power to target creature or planeswalker you don't control. If you control an Eldrazi, you gain 3 life.",
+   "power": null,
+   "toughness": null,
+   "keywords": [],
+   "artist": "Justine Jones",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/c/f/cfa6ed13-7bba-40c0-8e0e-4ffd3cea6241.jpg?1783911259",
+    "normal": "https://cards.scryfall.io/normal/front/c/f/cfa6ed13-7bba-40c0-8e0e-4ffd3cea6241.jpg?1783911259",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/c/f/cfa6ed13-7bba-40c0-8e0e-4ffd3cea6241.jpg?1783911259"
+   },
+   "faces": []
+  },
+  {
+   "id": "e1efad9a-2fcf-4045-8105-bf9f5e79d12c",
+   "name": "Inflame",
+   "layout": "normal",
+   "manaCost": "{R}",
+   "manaValue": 1,
+   "colors": [
+    "R"
+   ],
+   "typeLine": "Instant",
+   "text": "Inflame deals 2 damage to each creature dealt damage this turn.",
+   "power": null,
+   "toughness": null,
+   "keywords": [],
+   "artist": "Hugh Jamieson",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/e/1/e1efad9a-2fcf-4045-8105-bf9f5e79d12c.jpg?1783944438",
+    "normal": "https://cards.scryfall.io/normal/front/e/1/e1efad9a-2fcf-4045-8105-bf9f5e79d12c.jpg?1783944438",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/e/1/e1efad9a-2fcf-4045-8105-bf9f5e79d12c.jpg?1783944438"
+   },
+   "faces": []
+  },
+  {
+   "id": "0706acf6-587e-4f29-944a-fdf25aeacb6d",
+   "name": "Ivory Charm",
+   "layout": "normal",
+   "manaCost": "{W}",
+   "manaValue": 1,
+   "colors": [
+    "W"
+   ],
+   "typeLine": "Instant",
+   "text": "Choose one —\n• All creatures get -2/-0 until end of turn.\n• Tap target creature.\n• Prevent the next 1 damage that would be dealt to any target this turn.",
+   "power": null,
+   "toughness": null,
+   "keywords": [],
+   "artist": "Gerry Grace",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/0/7/0706acf6-587e-4f29-944a-fdf25aeacb6d.jpg?1783947121",
+    "normal": "https://cards.scryfall.io/normal/front/0/7/0706acf6-587e-4f29-944a-fdf25aeacb6d.jpg?1783947121",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/0/7/0706acf6-587e-4f29-944a-fdf25aeacb6d.jpg?1783947121"
+   },
+   "faces": []
+  },
+  {
+   "id": "2d531ba4-df99-41e4-9dd3-a27a420ad63c",
+   "name": "Leaf Arrow",
+   "layout": "normal",
+   "manaCost": "{G}",
+   "manaValue": 1,
+   "colors": [
+    "G"
+   ],
+   "typeLine": "Instant",
+   "text": "Leaf Arrow deals 3 damage to target creature with flying.",
+   "power": null,
+   "toughness": null,
+   "keywords": [],
+   "artist": "Eric Deschamps",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/2/d/2d531ba4-df99-41e4-9dd3-a27a420ad63c.jpg?1783941962",
+    "normal": "https://cards.scryfall.io/normal/front/2/d/2d531ba4-df99-41e4-9dd3-a27a420ad63c.jpg?1783941962",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/2/d/2d531ba4-df99-41e4-9dd3-a27a420ad63c.jpg?1783941962"
+   },
+   "faces": []
+  },
+  {
+   "id": "fd68e918-5089-46c9-8836-b05a3da3c7a3",
+   "name": "Price of Betrayal",
+   "layout": "normal",
+   "manaCost": "{B}",
+   "manaValue": 1,
+   "colors": [
+    "B"
+   ],
+   "typeLine": "Sorcery",
+   "text": "Remove up to five counters from target artifact, creature, planeswalker, or opponent.",
+   "power": null,
+   "toughness": null,
+   "keywords": [],
+   "artist": "Ryan Yee",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/f/d/fd68e918-5089-46c9-8836-b05a3da3c7a3.jpg?1783933440",
+    "normal": "https://cards.scryfall.io/normal/front/f/d/fd68e918-5089-46c9-8836-b05a3da3c7a3.jpg?1783933440",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/f/d/fd68e918-5089-46c9-8836-b05a3da3c7a3.jpg?1783933440"
+   },
+   "faces": []
+  },
+  {
+   "id": "8dd4374f-0301-4b2e-bc99-2cd19568cb3b",
+   "name": "Spell Pierce",
+   "layout": "normal",
+   "manaCost": "{U}",
+   "manaValue": 1,
+   "colors": [
+    "U"
+   ],
+   "typeLine": "Instant",
+   "text": "Counter target noncreature spell unless its controller pays {2}.",
+   "power": null,
+   "toughness": null,
+   "keywords": [],
+   "artist": "Maxime Minard",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/8/d/8dd4374f-0301-4b2e-bc99-2cd19568cb3b.jpg?1783907902",
+    "normal": "https://cards.scryfall.io/normal/front/8/d/8dd4374f-0301-4b2e-bc99-2cd19568cb3b.jpg?1783907902",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/8/d/8dd4374f-0301-4b2e-bc99-2cd19568cb3b.jpg?1783907902"
+   },
+   "faces": []
+  }
+ ]
+}

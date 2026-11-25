@@ -11,6 +11,10 @@
   list-style: none;
 }
 
+/* Every card of a pool at once, not a booster: smaller cards, as many columns as fit. */
+.booster--all { grid-template-columns: repeat(auto-fill, minmax(min(200px, 38vw), 1fr)); max-width: none; }
+.booster--all .slot { animation: none; }
+
 .slot { display: flex; flex-direction: column; align-items: center; gap: 8px; transition: opacity 0.2s, transform 0.2s; }
 /* backwards only: once dealt, the animation must not hold the transform that marks the pick. */
 .slot { animation: deal 0.35s ease-out calc(var(--i, 0) * 0.09s) backwards; }
@@ -61,7 +65,7 @@
 @keyframes pulse { 50% { background: var(--stone-600); } }
 
 @media (max-width: 560px) {
-  .booster { grid-template-columns: minmax(0, 1fr); max-width: 320px; }
+  .booster:not(.booster--all) { grid-template-columns: minmax(0, 1fr); max-width: 320px; }
 }
 
 @media (prefers-reduced-motion: reduce) {

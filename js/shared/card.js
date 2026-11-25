@@ -54,7 +54,8 @@ function keywordLine(keywords) {
   const line = el('p', 'card__keywords');
   keywords.forEach((keyword, index) => {
     if (index) line.append(', ');
-    const label = index ? keyword.toLowerCase() : keyword;
+    // Only the first letter: "Partner with Alisaie Leveilleur" keeps its name.
+    const label = index ? keyword.charAt(0).toLowerCase() + keyword.slice(1) : keyword;
     const rule = keywordRule(keyword);
     if (!rule) {
       line.append(label);

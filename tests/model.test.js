@@ -2,7 +2,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 
 import {
-  SAVE_VERSION, FLAVOR_MAX,
+  SAVE_VERSION, FLAVOR_MAX, withName,
   cleanName, newPlayer, withFlavor, withArt, withoutArt, withBooster, withCounters, describeCounters,
   withBonus, describeBonus,
   toCardData, upgradeSave,
@@ -155,10 +155,10 @@ test('the card shows the player mana cost', () => {
 test('an opened booster is kept until a card is absorbed', () => {
   const ids = ['a', 'b', 'c'];
   const player = withBooster(newPlayer('Ana'), ids);
-  assert.deepEqual(player.booster, { cardIds: ['a', 'b', 'c'] });
+  assert.deepEqual(player.booster, { cardIds: ['a', 'b', 'c'], level: null });
   ids.push('d');
   assert.equal(player.booster.cardIds.length, 3, 'keeps its own copy');
-  assert.deepEqual(upgradeSave(player).player.booster, { cardIds: ['a', 'b', 'c'] });
+  assert.deepEqual(upgradeSave(player).player.booster, { cardIds: ['a', 'b', 'c'], level: null });
 });
 
 test('upgradeSave handles the earliest v1 saves: no flavor, no original photo', () => {
@@ -228,4 +228,11 @@ test('upgradeSave adds bonuses to v7 saves', () => {
   assert.equal(player.version, SAVE_VERSION);
   assert.equal(player.bonusPower, 0);
   assert.equal(player.bonusToughness, 0);
+});
+
+test('the card can be renamed, and an empty name keeps the old one', () => {
+  const player = newPlayer('Ana');
+  assert.equal(withName(player, '  Ana   the  Bold ').name, 'Ana the Bold');
+  assert.equal(withName(player, '   '), player);
+  assert.equal(player.name, 'Ana', 'the original is not changed');
 });

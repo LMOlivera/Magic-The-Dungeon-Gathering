@@ -17,13 +17,26 @@ import { createInterface } from 'node:readline';
 import { dirname } from 'node:path';
 import { pathToFileURL } from 'node:url';
 
+/**
+ * Printings sold under another name (Secret Lair, the Dracula series...). The Oracle
+ * Cards file only has the card's real name, so the list's name is looked up as that.
+ */
+export const OTHER_NAMES = {
+  'Benny, Platinum Thief': 'Tinybones, Trinket Thief',
+  'Renfield, Delusional Minion': 'Eruth, Tormented Prophet',
+};
+
 const NOT_REAL_CARDS = new Set(['token', 'double_faced_token', 'emblem', 'art_series', 'vanguard', 'scheme', 'planar']);
 
-/** "1 Cecil, Dark Knight / Cecil, Redeemed Paladin (FIN) 91" -> name, set, number */
+/**
+ * "1 Cecil, Dark Knight / Cecil, Redeemed Paladin (FIN) 91" -> name, set, number.
+ * A printing marker after the number, like "*F*" (foil) or "*E*" (etched), is ignored.
+ */
 export function parseListLine(line) {
-  const match = line.trim().match(/^(\d+)\s+(.+?)\s+\(([^)]+)\)\s+(\S+)$/);
+  const match = line.trim().match(/^(\d+)\s+(.+?)\s+\(([^)]+)\)\s+(\S+)(?:\s+\*\w+\*)*$/);
   if (!match) return null;
-  return { count: Number(match[1]), name: match[2], set: match[3], number: match[4] };
+  const name = OTHER_NAMES[match[2]] ?? match[2];
+  return { count: Number(match[1]), name, set: match[3], number: match[4] };
 }
 
 /** Lists write two-part cards as "A / B"; Scryfall writes "A // B". */

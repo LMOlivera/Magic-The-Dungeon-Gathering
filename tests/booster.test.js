@@ -53,6 +53,9 @@ test('list lines are parsed, including names with commas, slashes and odd number
   assert.deepEqual(parseListLine("1 Alseid of Life's Bounty (PLST) THB-1"), { count: 1, name: "Alseid of Life's Bounty", set: 'PLST', number: 'THB-1' });
   assert.equal(parseListLine('1 Cecil, Dark Knight / Cecil, Redeemed Paladin (FIN) 91').name, 'Cecil, Dark Knight / Cecil, Redeemed Paladin');
   assert.equal(parseListLine('1 +2 Mace (AFR) 1').name, '+2 Mace');
+  assert.deepEqual(parseListLine('1 Akiri, Line-Slinger (CMR) 515 *E*'), { count: 1, name: 'Akiri, Line-Slinger', set: 'CMR', number: '515' });
+  assert.equal(parseListLine('1 The Goose Mother (PMEI) 2026-10 *F*').name, 'The Goose Mother');
+  assert.equal(parseListLine('1 Renfield, Delusional Minion (VOW) 342').name, 'Eruth, Tormented Prophet', 'other printed name');
   assert.equal(parseListLine(''), null);
 });
 

@@ -55,8 +55,30 @@
 /* ---------- Booster and absorbing ---------- */
 .booster-dialog { width: min(920px, calc(100vw - 32px)); max-height: calc(100dvh - 32px); overflow: auto; }
 .booster-dialog .booster { margin-inline: auto; }
-.booster-dialog__actions { justify-content: center; }
+/* Confirm stays in reach while scrolling a long list of cards. */
+.booster-dialog__actions { position: sticky; bottom: -16px; z-index: 1; justify-content: center; margin-inline: -16px; padding: 12px 16px; background: var(--stone-800); }
 .booster-dialog section > .note { margin: 0; text-align: center; color: var(--ash); }
+/* The starting points: big, with the number as a glowing mana-like token. */
+.booster-points { margin: 4px 0 12px; color: var(--bone); font-size: 1.375rem; font-weight: 500; line-height: 1.6; text-align: center; }
+.booster-points[hidden] { display: none; }
+.booster-points__value {
+  display: inline-grid;
+  place-items: center;
+  min-width: 1.75em;
+  height: 1.75em;
+  margin: 0 0.15em;
+  padding: 0 0.3em;
+  border-radius: 999px;
+  background: var(--torch);
+  color: #1d1408;
+  font-family: var(--font-display);
+  font-size: 1.6em;
+  font-weight: 700;
+  line-height: 1;
+  vertical-align: middle;
+  box-shadow: 0 0 0 3px rgba(240, 162, 59, 0.25), 0 0 18px rgba(240, 162, 59, 0.45);
+}
+.booster-points__rule { display: block; color: var(--ash); font-size: 1.125rem; }
 #pc-absorb { display: flex; flex-direction: column; gap: 16px; max-width: 520px; }
 #pc-absorb[hidden] { display: none; }
 #pc-absorb .note { text-align: left; }
@@ -98,19 +120,58 @@
    extra 25%, which a transform doesn't take in the layout. */
 .pc.is-card-only .card-stage { padding: 72px 0 56px; }
 .pc.is-card-only .card { transform: rotate(-4deg) scale(1.25); }
+/* Wide screens: "Status" on the left of the card, the rest under the card. */
+@media (min-width: 860px) {
+  .pc.is-card-only {
+    grid-template-columns: minmax(300px, 340px) minmax(0, 1fr);
+    grid-template-areas: "nav nav" "side card" "side foot" "side delete";
+    /* The last row takes whatever height the accordions need beyond the card, so the
+       buttons under the card stay right under it. */
+    grid-template-rows: auto auto auto 1fr;
+    column-gap: 40px;
+  }
+  .pc.is-card-only .pc__delete { align-self: start; }
+  .pc.is-card-only .pc__panel { grid-area: nav; }
+  .pc.is-card-only .card-stage { grid-area: card; }
+  .pc.is-card-only .pc__card-foot { grid-area: foot; }
+  .pc.is-card-only .pc__delete { grid-area: delete; }
+  .pc.is-card-only .pc__side { grid-area: side; align-self: start; justify-self: stretch; width: auto; margin-top: 72px; }
+}
+/* Wider still: the page grows so the card stays centered, with an empty column on the right. */
+@media (min-width: 1100px) {
+  .view.pc.is-card-only { max-width: 1280px; }
+  .pc.is-card-only {
+    grid-template-columns: minmax(300px, 340px) minmax(0, 1fr) minmax(300px, 340px);
+    grid-template-areas: "nav nav nav" "side card ." "side foot ." "side delete .";
+  }
+}
 /* The card takes focus after absorbing so screen readers announce it; no outline needed. */
 #pc-card:focus { outline: none; }
 .pc__card-foot { display: flex; flex-direction: column; align-items: center; gap: 12px; }
+/* It fills its column, so rows of buttons (like the transforms) only wrap when they don't fit. */
+.pc.is-card-only .pc__card-foot { justify-self: stretch; }
 .pc__card-foot[hidden] { display: none; }
 .absorb-caption { min-height: 1.5em; margin: 0; color: var(--bone); font-weight: 500; text-align: center; }
 .absorb-caption:empty { visibility: hidden; }
 .action--big { padding: 14px 22px; font-size: 1.125rem; }
+/* Making a new card: the starting points left for spells. */
+.start { display: flex; flex-direction: column; align-items: center; gap: 8px; max-width: 420px; text-align: center; }
+.start[hidden] { display: none; }
+.start p { margin: 0; }
+.start .actions { justify-content: center; }
+#pc-start-note { margin: 0; max-width: 420px; text-align: center; }
 
 /* Cards that transform, under the card. */
-.transforms { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px 12px; }
+.transforms { display: flex; flex-direction: column; align-items: center; gap: 8px; width: 100%; }
+.transforms__row { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px 12px; width: 100%; }
 .transforms:empty { display: none; }
 .transform-form { display: grid; gap: 12px; }
 .transform-form .note { margin: 0; }
+/* The rename screen: one section per other face of a card that transforms. */
+.rename-faces { display: grid; gap: 12px; }
+.rename-face { display: grid; gap: 10px; margin: 0; padding: 12px; border: 1px solid var(--stone-600); border-radius: 8px; }
+.rename-face legend { padding: 0 6px; color: var(--torch); font-weight: 500; }
+.rename-face .actions { margin: 0; }
 /* Turning over: the card spins on its vertical axis and changes face halfway. */
 .pc .card-stage { perspective: 1200px; }
 .card.is-flipping { animation: card-flip 0.6s ease-in-out; }
@@ -134,7 +195,48 @@
 .gear .mana { width: 1em; height: 1em; vertical-align: -0.15em; border-radius: 50%; }
 .trackers__note { margin: 0; text-align: center; }
 
-/* Counters and bonuses under the card (step buttons big enough for a thumb). */
+/* Beside the card: "Text on card" and "Status", as accordions. Under the card on
+   phones, on its left on wide screens (see "The card on its own"). */
+.pc__side { display: flex; flex-direction: column; gap: 16px; width: min(420px, 100%); }
+.accordion { border: 1px solid var(--stone-600); border-radius: 8px; background: rgba(31, 26, 22, 0.85); }
+.accordion__summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 16px;
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 600;
+  line-height: 1;
+  list-style: none;
+  cursor: pointer;
+}
+.accordion__summary::-webkit-details-marker { display: none; }
+.accordion__summary::after { content: "\25BE"; color: var(--torch); font-family: var(--font-body); font-size: 1rem; transition: rotate 0.2s; }
+.accordion:not([open]) .accordion__summary::after { rotate: -90deg; }
+.accordion__summary:hover { color: var(--torch); }
+.accordion__summary:focus-visible { outline: 2px solid var(--torch); outline-offset: 2px; border-radius: 8px; }
+.status .trackers { padding: 4px 12px 16px; }
+.accordion__body { padding: 0 12px 12px; }
+.accordion.gear { width: auto; }
+
+/* "Text on card": the card's text at a size that's easy to read, on the dark panel. */
+.card-text { display: grid; gap: 8px; padding: 0 16px 16px; font-size: 1.0625rem; line-height: 1.45; }
+.card-text__head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+.card-text__name { font-family: var(--font-display); font-size: 1.375rem; font-weight: 600; line-height: 1.1; overflow-wrap: anywhere; }
+.card-text__pt { flex: none; font-family: var(--font-display); font-size: 1.375rem; color: var(--torch); }
+.card-text__type { margin: 0; color: var(--ash); }
+.card-text__rules { display: grid; gap: 8px; padding-top: 8px; border-top: 1px solid var(--stone-600); }
+.card-text__rules p { margin: 0; overflow-wrap: anywhere; }
+.card-text__rules .card__keywords { color: var(--torch); }
+.card-text__rules .card__flavor { color: var(--ash); font-size: 1em; font-style: italic; }
+.card-text__empty { color: var(--ash); }
+.card-text .kw { color: inherit; text-decoration-color: var(--ash); }
+.card-text .mana { width: 1em; height: 1em; vertical-align: -0.15em; border-radius: 50%; }
+.card-text .mana--text { display: inline-grid; place-items: center; background: #cbc4bb; color: #1d1915; font-size: 0.65em; font-weight: 700; }
+
+/* Counters and bonuses (step buttons big enough for a thumb). */
 .trackers { display: grid; gap: 8px; justify-items: center; }
 .tracker { display: grid; grid-template-columns: 8.5em 44px 3.5em 44px; align-items: center; gap: 8px; }
 .tracker__label { color: var(--ash); }

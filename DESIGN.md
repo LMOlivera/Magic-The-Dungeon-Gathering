@@ -41,7 +41,7 @@ The players apply these rules. The app doesn't run them; at most it offers count
 - [DECIDED] Each spell on the list can be cast once per combat: after it's cast it "goes to the graveyard", and it comes back when combat is over.
 - [DECIDED] The player's life is their toughness; their starting life ("starting life total") is the toughness they have when combat starts.
 - [PROPOSED] Power = damage per attack. Toughness = maximum life. Damage lasts for the whole combat and the player heals when moving to another room.
-- [DECIDED] **Turn order:** whenever a combat starts, players and enemies roll a d20 to set the order of turns. Creatures with Haste go first; if several have Haste, they roll too, and they go first in that order, then everyone else.
+- [DECIDED] **Turn order:** whenever a combat starts, players and enemies roll a d20 to set the order of turns. Creatures with Flash act first, but only on the first turn of combat (they still roll for their place in the order). Creatures with Haste go first; if several have Haste, they roll too, and they go first in that order, then everyone else.
   - [PENDING] Whether the app helps with the roll (for example on the Game screen) or it's done with real dice at the table.
 - [PROPOSED] On their turn, a player attacks or casts spells. (This replaces the proposed round order "first all the players, then all the enemies".)
 - [DECIDED] Mana isn't lost between rounds: it builds up, and it's lost when combat ends.
@@ -57,13 +57,18 @@ The players apply these rules. The app doesn't run them; at most it offers count
 
 - [DECIDED] Only the player who defeats the monster gets the XP.
 - [DECIDED] On leveling up, the player opens a booster.
+- [DECIDED] **Experience:** players start at level 1. Leveling up takes their level × 3 XP: 3 to reach level 2, 6 more to reach level 3, and so on. The player keeps track of XP on the Player Card, with − and + buttons under the card. The rules are in `js/player/level.js`.
+  - Chosen while implementing, not confirmed: XP left over counts toward the next level, and a big gain can level up more than once (each new level earns its booster). − corrects a mistake: it never goes below 0 or takes a level away.
+- [DECIDED] **Level boosters:** every even level opens a booster of spells from `akashicos_spells.txt` of the player's colors (every color of the spell has to be one of theirs); every odd level, a booster of creatures from `akashicos.txt`. Boosters only come from leveling up: the free "Open a booster" button (from `level1.txt`) is gone.
+  - Chosen while implementing, not confirmed: the booster opens by itself on leveling up; closed, it waits under the card ("Open your level N booster"), and several wait in order. While a new card is still spending its starting points, boosters wait until it's done. A booster with nothing left to deal is used up, with a message. A creature with {X} from a booster picks X freely, since no points are spent.
 - [DECIDED] Each booster has 3 cards.
 - [DECIDED] For now, a booster doesn't deal cards the player already absorbed. It may not stay: it's one switch, `NO_REPEATS` in `js/player/booster.js`.
   - Chosen while implementing, not confirmed: if fewer than 3 cards are left, the booster has the ones left; with none left, the Player Card says there's nothing left to open.
-- [DECIDED] The name of the player's card is set when it's created. It can only change after opening a booster.
+- [DECIDED] The name of the player's card is set when it's created, and the player can rename it each time their card absorbs a card: after pressing "Absorb", a dialog offers to rename it or keep the name. (This replaces the earlier rule, where the name was sealed until opening a booster.)
+  - Chosen while implementing, not confirmed: it's asked after every card absorbed (the first creature, each starting spell and each level booster), before the absorb animation. An empty name keeps the old one. Art and flavor text still can't be changed after the card is made.
 - [PROPOSED] Each enemy gives XP equal to its mana value.
 - [PROPOSED] Catch-up for whoever falls behind: the lowest-level player opens 4-card boosters instead of 3.
-- [PENDING] How much XP each level takes.
+- [DECIDED] How much XP each level takes: level × 3 (above).
 - [PENDING] Whether the game is purely cooperative or has a winner (for example, the highest level at the end).
 
 ## 5. What absorbing each kind of card gives
@@ -85,7 +90,7 @@ The players apply these rules. The app doesn't run them; at most it offers count
   - The Equip cost is ignored: the player is equipped as soon as they absorb it.
   - What an Equipment or Aura grants is written in `js/rules/cards.js` (`grants`). "Equipped creature" and "enchanted creature" are the player, and abilities granted in quotes ("Equipped creature has '…'") become the player's own abilities.
   - Under the card, "Equipment and auras" lists what the player has on. Each Equipment has a "Destroyed" button (also for sacrificing it, like Blazing Torch); Auras have none, since they're for good.
-  - Under the card, "Spells" lists the spell list with each spell's cost and text. "Cast" puts it in the graveyard and "Combat over" brings every spell back.
+  - The "Spells" accordion (below "Text on card", above "Status") lists the spell list with each spell's cost and text. "Cast" puts it in the graveyard and "Combat over" brings every spell back.
   - Spells are cast as printed, so they need no entry in `js/rules/cards.js`.
   - Ethereal Armor's "each enchantment you control" counts the player's Auras. Blessing of the Nephilim's bonus follows the player's colors.
   - Equipment, Auras and items with no entry in `js/rules/cards.js` stay out of boosters until they're decided.
@@ -120,12 +125,19 @@ General rules:
 - [DECIDED] Keywords aren't explained with Magic's text in parentheses (reminder text), because they work differently in this game. Each one has its own rule in `js/rules/keywords.js` (section 6):
   - The absorb screen explains what each keyword gained is for.
   - On the player's card, the keyword shows its rule in a tooltip: on mouse hover, on keyboard focus, or when tapped on the phone.
-- [DECIDED] Phrases that mean something particular in this game also show their rule in a tooltip, inside the card text and on the absorb screen, just like keywords. They're in `js/rules/terms.js`. So far: "When/Whenever this creature enters", "enters tapped", "at the beginning of your upkeep", "prepared", "you gain N life" / "gained life", "Sacrifice this creature", "your party" / "a full party", "artifacts you control", "transform it", "your life total", "your starting life total", and the {T} symbol.
+- [DECIDED] Phrases that mean something particular in this game also show their rule in a tooltip, inside the card text and on the absorb screen, just like keywords. They're in `js/rules/terms.js`. So far: "When/Whenever this creature enters", "enters tapped", "at the beginning of your upkeep", "prepared", "you gain N life" / "gained life", "Sacrifice this creature", "your party" / "a full party", "artifacts you control", "transform it", "your life total", "your starting life total", "your end step" / "each end step", "opponent", "player", the WIP words (draw, discard, hand, library, scry, mill, explores, graveyard, commander), and the {T} symbol.
 - [DECIDED] Keywords that appear inside an ability's text (like "gains flying") don't get a tooltip. Only the ones on the keyword line do.
 - [DECIDED] **Tapping ({T}):** the player always taps to attack, as in Magic. An ability with {T} taps them too, so using it ends their turn.
 - [DECIDED] **"When this creature enters"** on the player's card means when combat starts. If a card exiles the player and returns them to the battlefield, they enter again and the ability triggers again, so it can trigger several times.
 - [DECIDED] **"Enters tapped":** the player starts each combat tapped, so they pass their first turn.
 - [DECIDED] **Upkeep:** "at the beginning of your upkeep" is the start of the player's turn.
+- [DECIDED] **End step:** "your end step" is the end of the player's turn; "each end step" is the end of every turn, players' and monsters' alike.
+- [DECIDED] **Opponent and player:** an "opponent" is a monster, and "player" means players and monsters alike. So "deals combat damage to a player" triggers when the player hits a monster, and "each player creates a token" includes the monsters.
+- [DECIDED] **No deck or hand yet:** text about drawing, discarding, the library, the hand, the graveyard, scry, mill and exploring stays on the card, with a "WIP" tooltip on those words. Commander rules (Partner, Partner with, Choose a Background, "commanders you control") stay too, marked WIP.
+  - Chosen while implementing, not confirmed: the graveyard tooltip also says that for now only the spells the player casts go there.
+- [DECIDED] **Text about the card itself as a card** is left out: casting it from hand (Sneak), "This spell can't be countered", "Discard this card" and "Return this card from your graveyard".
+- [DECIDED] **Devotion:** the player's devotion to a color is the number of that color's mana symbols in their mana cost (hybrid and Phyrexian symbols count for each of their colors). The app counts it and keeps it up to date as the cost changes; the card's `*` adds 0 (without asking).
+- [DECIDED] **{X} in a creature's cost:** the player picks X when absorbing it. It's added to their mana cost as that much generic mana, and it's the X in the card's text.
 - [DECIDED] **Prepared:** a card with a spell of its own (like Stingerquill Voxmancer) lets the player cast a copy of that spell while prepared. A copy doesn't go to the graveyard like the spells on the list, so being prepared again lets them cast it again.
 - [DECIDED] **Gain life:** gaining life heals the player, but never above their toughness. ("You gain N life" and "gained life" show this in a tooltip.)
 - [DECIDED] **"Sacrifice this creature"** on the player's card means the player sacrifices themselves: they die to trigger the effect.
@@ -141,10 +153,11 @@ General rules:
 - [DECIDED] **Cards that transform** (double-faced, like Cecil, Dark Knight) transform for real. On absorbing one, the player gets the front face, and the Player Card can be turned over.
   - Turned over, the player loses what the front face gave them and gets what the back face gives, plus a stat bonus: the difference between the two faces. With Cecil: 2/3 against 4/4, so +2/+1, and Deathtouch and Darkness become Lifelink and Protect.
   - [DECIDED] On getting a transformation, the player can give that face another name and another photo, if they want. Without a name or photo of its own, it uses the usual ones.
-  - [DECIDED] The dialog for that name and photo opens as soon as the player presses "Absorb", before the animation, so it can't be missed. The card is already saved by then, so reloading loses nothing; the absorb animation plays once the dialog is closed.
+  - [DECIDED] That name and photo are set on the rename screen, which opens after every card absorbed (section 4): under the card's own name, one section per other face, with its name and "Take a photo", "Upload a photo" and "Use my usual art". There is no "Edit other face" button under the card. (This replaces the earlier rules: a dialog of its own when absorbing a card that transforms, and "Edit other face" under the card.)
+    - Chosen while implementing, not confirmed: "Keep the names" (or Escape) keeps the names as they were; art picked for a face is kept right away. The rename screen still opens before the animation, and the card is already saved by then, so reloading loses nothing.
   - Chosen while implementing, not confirmed:
     - [DECIDED] Under the card, the button just says "Transform" (not the card's name). Turned over, it says "Turn back".
-    - Under the card there's also "Edit other face" (which opens the name and photo again).
+    - [DECIDED] With more than one card that transforms, each card's button is on its own row and names it: "Transform (Cecil)", "Turn back (Cecil)". The name is the part before the comma, or the whole name if two would read the same.
     - The card spins when it turns over, and turned over it shows a moon (☾) before the name, like the back face of double-faced cards.
     - It lasts until combat ends: "Combat over" clears the bonuses and turns the card back to its front.
     - If another absorbed card also gives a keyword or ability of the front face, the player keeps it when turned over.
@@ -195,6 +208,20 @@ Card by card (all [DECIDED]):
 - **Smitten Swordmaster:** gives Lifelink (only the creature, not its adventure).
 - Creatures without text (Aegis Turtle, Phyrexian Walker, Vampire Noble) need no review.
 
+First cards (`akashicos.txt`), all [DECIDED] unless marked:
+
+- Every first card with rules text has an entry in `js/rules/cards.js`. Unless said below, a card gives its keywords and keeps the rest of its text as printed, with the rules above ("this creature" for its own name, WIP words, opponent and player). Caelorna, Isamaru, Kalakscion, Sundial and Tyrox have no text.
+- **Adamaro, First to Desire:** monsters have no hand, so it adds 0/0. Its text stays, marked WIP.
+- **Anafenza, Unyielding Lineage** and **Wan Shi Tong, Librarian:** give Flash, plus their other keywords and text.
+- **Callaphe, Daxos, Tymaret:** their `*` follows the player's devotion (above). Each keeps a line saying so, like "This creature gets +X/+0, where X is your devotion to blue", and its other text.
+- **Mikaeus, The Goose Mother, Wan Shi Tong:** the player picks X. Their text is written with that number ("enters with 3 +1/+1 counters"; The Goose Mother's half X rounds up and Wan Shi Tong's rounds down).
+- **Erayo, Soratami Ascendant:** flips like a transform, but keeps the front face's text and adds Erayo's Essence's ability. Chosen while implementing, not confirmed: flipping gives +0/+0, because the Essence has no power or toughness.
+- **Emet-Selch** (→ Hades, +4/+2, Vigilance), **Rona** (→ Rona, Tolarian Obliterator, +4/+2, Trample) and **The Emperor of Palamecia** (→ The Lord Master of Hell, +1/+1) transform like Cecil.
+- **Bilbo Baggins, Burglar** and **Bilbo, Luckwearer:** only the creature, not its adventure, like Smitten Swordmaster.
+- **Boromir, Warden of the Tower:** "The Ring tempts you" is left out.
+- **Locutus, Surrak, Wilson, Oroku Saki, Winter Soldier:** lose the text about the card itself (above). Locutus keeps nothing else.
+- Chosen while implementing, not confirmed, applying the Sliver and Vampire rule: **Locutus** ("Artifact creatures you control get +1/+1") makes the player an Artifact Creature, and **Jacques le Vert** ("Green creatures you control get +0/+2") makes them green, so the bonus is added to their power and toughness for good, with no text. Adeliz's Wizards, Ardbert's legendary creatures and Meriadoc's Halflings include the player too.
+
 Reviewed on my own with the rules above, after the author asked me to go on alone (Chosen while implementing, not confirmed; each one only applies rules already decided):
 
 - **Forge Devil, Goblin Arsonist, Goblin Swine-Rider, Hemosymbic Mite, Hollowhenge Scavenger, Kor Duelist, Myr Scrapling, Spitfire Handler, Vampire Slayer:** keep their text as printed.
@@ -209,13 +236,18 @@ Reviewed on my own with the rules above, after the author asked me to go on alon
 
 Still open:
 
-- [PENDING] How the card is renamed after opening a booster (section 4). Not built yet.
+- [DECIDED] Renaming: each time the card absorbs a card, a dialog offers to rename it (section 4).
 
 ## 6. Keywords (table rules)
 
 - [DECIDED] **Vigilance:** enemies focus their attacks on players with Vigilance. Text: "Enemies will focus their attacks on players with Vigilance." Replaces the earlier version ("becomes the focus of every enemy until they die").
 - [DECIDED] **Bushido N:** whenever the player attacks someone or is attacked, they get +N/+N until end of turn, kept as combat bonuses. It stacks: Bushido 1 + Bushido 1 = Bushido 2. Text: "Whenever you attack or are attacked, you get +N/+N until end of turn."
 - [DECIDED] **Haste:** goes first in the turn order (section 3). Text: "When combat starts, you go before everyone without haste. Everyone with haste rolls a d20 too, to set the order among them."
+- [DECIDED] **Flash:** the player acts first when combat starts, before creatures with Haste, but only on the first turn of combat. They still roll initiative, which sets their place after that. Text: "When combat starts, you act first, even before creatures with haste. You only act first on the first turn of combat. You still roll initiative."
+- [DECIDED] **Double strike:** "Your attacks deal their damage twice."
+- [DECIDED] **Prowess:** "Whenever you cast a spell, you get +N/+N until end of turn." Kept as combat bonuses; it adds up like Exalted (Prowess + Prowess = Prowess 2).
+- [DECIDED] **Protection:** only works against instants and sorceries. Text for "Protection from white and from black": "White or black instants and sorceries can't target you or deal damage to you. It only works against instants and sorceries: you can still attack, deal damage and be attacked."
+- [DECIDED] **Partner, Partner with, Choose a Background:** WIP.
 - [DECIDED] **First strike:** a player with first strike hits back when attacked. A monster with first strike deals damage to whoever attacks it. Text: "Whenever a creature attacks you, you hit it back with your power."
 - [DECIDED] **Exalted:** whenever the player attacks, they get +1/+1 until end of turn, kept as combat bonuses. It stacks: two Exalted give Exalted 2 (+2/+2). Text: "Whenever you attack, you get +N/+N until end of turn."
 - [DECIDED] **Trample:** uses the formation. If the attack kills the creature in front, the damage left over hits the one behind it. Text: "If your attack kills the creature in front, the damage left over hits the one behind it."
@@ -302,10 +334,12 @@ js/
     camera.js     live camera
     photo.js      shrinks photos and turns them into JPEG
     booster.js    builds a booster from a pool (pure)
+    level.js      experience, levels and the boosters they earn (pure)
     absorb.js     absorbing a card (pure)
     transform.js  cards that transform: turning the player's card over (pure)
     gear.js       Equipment, Auras and the spell list (pure)
     roster.js     the cards saved in this browser, and their storage keys (pure)
+    start.js      a new card's starting points: its creature and spells (pure)
     absorb-animation.js  the absorb animation on the card
   rules/          the game's own rules, written by hand (pure data)
     keywords.js   what each keyword does in this game
@@ -314,6 +348,8 @@ js/
   game/           doesn't exist yet; the Game part goes here
 data/
   level1.json     test pool: the cards of level1.txt with their data and image links
+  akashicos.json  the cards of akashicos.txt, which a new card picks its first card from
+  akashicos_spells.json  the spells of akashicos_spells.txt, which a new card spends its other points on
 scripts/
   build-pool.js   builds a pool JSON from a list and Scryfall's file
   serve.py        local server for development, without caching
@@ -342,16 +378,28 @@ The code is already split following the architecture in section 9.
 
 - **Home:** done. Title, **Game** and **Player Card** buttons, and the sample starting card.
   - [DECIDED] The home card keeps the texts "Colorless. No abilities yet." and "Everyone walks in as a 1/1."
-- **Player Card:** card creation, boosters, absorbing creatures, Equipment, items, Auras and the spell list, +1/+1 counters, combat bonuses and cards that transform are done. Still missing: the other counters (damage, mana, XP, level) and export/import.
+- **Player Card:** card creation (with starting points), boosters, absorbing creatures, Equipment, items, Auras and the spell list, +1/+1 counters, combat bonuses, cards that transform, and XP and levels are done. Still missing: the other counters (damage, mana) and export/import.
   - [DECIDED] A browser can keep several player cards, for whoever wants more than one game. Going to Player Card with no cards starts a new one; with some, it shows a menu of the cards ("Your cards") to play one, delete one or make another.
   - Chosen while implementing, not confirmed: each card on the menu shows its photo, name, type line, power/toughness and how many cards it absorbed. From a card, "Your cards" (next to "Back to start") goes back to the menu, and coming to Player Card always opens on the menu. "Start over" became "Delete card", which goes back to the menu.
-  - [DECIDED] On the flavor text screen, the "Open your first booster pack!" button opens the first booster.
+  - [DECIDED] A new card doesn't open a booster: its first card is picked from every card in `akashicos.txt` (`data/akashicos.json`). On the flavor text screen, the "Choose your first card!" button shows them all. (This replaces the earlier rule, where that button opened the first booster.)
+    - [DECIDED] The card lists have no search field.
+    - [DECIDED] The first card is mandatory: the list has no "Close" button and Escape doesn't close it, so the player can only leave it by absorbing a card (reloading the page brings them back to the "Choose your first card!" button). After it come the spells (starting points) and then the boosters levels earn (section 4).
+  - [DECIDED] **Starting points:** a new card has 5 points to spend. Each card costs its mana value in points. First the player picks one creature from `akashicos.txt`; then, on another screen, spells from `akashicos_spells.txt` of that creature's colors, as many as their points allow.
+    - [DECIDED] "Of its colors" means every color of the spell is one of the creature's: a blue creature gets blue spells, but not Agony Warp (blue and black); a blue and black creature gets both. (This replaces the earlier rule, where sharing one color was enough.) The rules are in `js/player/start.js`.
+    - [DECIDED] For a creature with {X} in its cost, X costs points too: X can go up to the points left (Mikaeus with X = 2 costs 3).
+    - [DECIDED] The player can stop with "Done" whenever they want, and it ends by itself when no spell they can afford is left. Points left over are lost.
+    - Chosen while implementing, not confirmed: the color has to be the creature's, not one a spell added later. A spell with {X} costs its mana value without X (Banefire costs 1), since X is paid when it's cast. Each spell can be picked once. The spell screen opens by itself after each absorption while points are left; closed, it opens again from "Choose a spell" under the card. "Open a booster" is hidden until the points are spent. The absorb screen shows the points before and after.
   - The booster deals 3 cards from `data/level1.json`. Every card in the pool can come up. The player picks one, confirms it, sees how their card turns out and absorbs it.
   - [DECIDED] When absorbing, the values can be seen loading into the card: the creature flies into the card and each value that changes (power/toughness, colors, cost, types, abilities) updates in turn, with a caption saying what changed. With "reduce motion" turned on in the system, the card changes all at once.
   - [DECIDED] After the first absorption, the Player Card page shows only the current card.
+  - [DECIDED] **Status:** the XP, +1/+1 counters, bonus power and toughness and "Combat over" are in an accordion called "Status". On wide screens (860px and up) it's on the left of the card; on phones it stays under the card, where the trackers were.
+  - [DECIDED] **Spells:** the spell list is an accordion too, below "Text on card" and above "Status". It only shows once the card has a spell. Equipment, Auras and items stay under the card.
+  - [DECIDED] **Text on card:** another accordion, above "Status", shows all the card's text at a size that's easy to read, because the card's own text shrinks as the card gains more: name, power/toughness, the full type line, keywords, abilities (with the same tooltips as on the card) and flavor text. It follows the card, transformed face included.
+    - [DECIDED] The accordions ("Text on card", "Spells", "Status") start closed.
+    - Chosen while implementing, not confirmed: they don't remember being opened after a reload. From 1100px the page widens so the card stays centered, with an empty column on the right.
   - Chosen while implementing, not confirmed: that view keeps the "Back to start" link and a discreet "Start over" under the card, along with the counters, the bonuses and the transform buttons.
-  - [DECIDED] Under the card there's an "Open a booster" button, to keep opening boosters (and test the cards).
-  - [PENDING] Whether that button stays as it is or boosters are earned some other way (on leveling up, section 4), and whether flavor text and art can be edited afterwards, since the card-only view doesn't have those controls.
+  - [DECIDED] Boosters are earned by leveling up (section 4). The free "Open a booster" button that dealt from `level1.txt` was removed; under the card, "Open your level N booster" shows while one is waiting.
+  - [PENDING] Whether flavor text and art can be edited afterwards, since the card-only view doesn't have those controls.
   - An open booster stays saved until a card is absorbed. Closing it or reloading the page shows the same cards.
   - The card paints the player's color circles, and the type line shrinks to fit, like the name.
   - [DECIDED] Step 1: name the card. It stays set (see section 4).
@@ -361,7 +409,7 @@ The code is already split following the architecture in section 9.
   - [DECIDED] Optional flavor text.
   - [DECIDED] The player's basic card has no default text.
   - Chosen while implementing, not confirmed: the photo can be skipped and changed later; flavor text has a maximum of 110 characters; the original photo is kept so it can be cropped again.
-  - The list of cards is saved in `localStorage` under `mtdg.players`, and each card's sheet under `mtdg.player.<id>` (format version 10). The photos go in IndexedDB (database `mtdg`, keys `player.<id>.art` and `player.<id>.artSource`; the other face of a card that transforms uses `player.<id>.transform0.art`, etc.). The keys are in `js/player/roster.js`.
+  - The list of cards is saved in `localStorage` under `mtdg.players`, and each card's sheet under `mtdg.player.<id>` (format version 12). The photos go in IndexedDB (database `mtdg`, keys `player.<id>.art` and `player.<id>.artSource`; the other face of a card that transforms uses `player.<id>.transform0.art`, etc.). The keys are in `js/player/roster.js`.
   - Before there could be several cards, the only card was saved under `mtdg.player` with its photos under `player.art`, `player.artSource` and `player.transform0.art`. When the page opens it becomes the first card of the list; the old keys are removed only once its photos are under the new ones.
   - When a card is made, the page asks the browser to keep the data (`navigator.storage.persist()`), so it isn't cleared when the device runs low on space. Safari on iPhone still clears a site's data after 7 days without visiting it, unless the page was added to the home screen; export/import (section 11) is the real backup.
   - Old saves are migrated automatically when the page opens:
@@ -371,15 +419,21 @@ The code is already split following the architecture in section 9.
     - Version 5 keeps keywords apart from the other abilities.
     - Version 6 adds the card types besides Creature. Saves from before version 6 start without card types, even if they absorbed an artifact or an enchantment.
     - Version 7 adds +1/+1 counters, version 8 combat bonuses, version 9 cards that transform and version 10 Equipment, Auras and the spell list.
+    - Version 11 adds the starting points. A card that absorbed nothing yet gets its 5 points; one that already absorbed something was made before them and gets none.
+    - Version 12 adds the level, XP and the boosters waiting. Every card starts at level 1 with 0 XP. A free booster left open by an older version is dropped, since boosters now come from leveling up.
 - **Game:** empty screen marked "Not built yet".
-- **Boosters:** the Player Card deals 3 different random cards from the `data/level1.json` pool, shows their images from Scryfall and lets the player pick one and confirm it with "Confirm". Each card's name shows on mouse hover, even if the image hasn't loaded. (The `BoosterTest.html` proof of concept, which dealt from the whole pool, was removed.)
+- **First card:** see Player Card above.
+- **Boosters:** a level booster deals 3 different random cards from `data/akashicos_spells.json` (even levels) or `data/akashicos.json` (odd levels); `data/level1.json` is no longer used by the Player Card. It shows their images from Scryfall and lets the player pick one and confirm it with "Confirm". Each card's name shows on mouse hover, even if the image hasn't loaded. (The `BoosterTest.html` proof of concept, which dealt from the whole pool, was removed.)
   - `level1.txt` is the test card list (99 cards). The pool is rebuilt with `node scripts/build-pool.js level1.txt oracle-cards-YYYYMMDD.jsonl data/level1.json`.
+  - `akashicos.txt` is the list of first cards (111). Its pool is rebuilt the same way: `node scripts/build-pool.js akashicos.txt oracle-cards-YYYYMMDD.jsonl data/akashicos.json`.
+  - `akashicos_spells.txt` is the list of starting spells (60, all instants and sorceries costing 1 or 2): `node scripts/build-pool.js akashicos_spells.txt oracle-cards-YYYYMMDD.jsonl data/akashicos_spells.json`.
+  - A marker after the collector number ("*F*", "*E*") is ignored. Printings sold under another name are looked up by their real name (`OTHER_NAMES` in `scripts/build-pool.js`): Benny, Platinum Thief is Tinybones, Trinket Thief, and Renfield, Delusional Minion is Eruth, Tormented Prophet.
   - Cards are looked up by name. Scryfall's file has a single printing per card, so the image may be from a different edition than the one in the list.
   - Images are requested from `cards.scryfall.io` with a plain `<img>` tag. No key is needed and no API calls, and Scryfall allows use from other sites.
 
 ## 11. Next steps
 
-1. Character sheet: manual counters (damage, mana, XP, level), export/import.
+1. Character sheet: manual counters (damage, mana), export/import.
 2. The rules still WIP or pending: Deathtouch, Defender, Menace, "can't block", the formation, "until end of turn".
 3. **Game** view: current room, monsters and room counter.
 

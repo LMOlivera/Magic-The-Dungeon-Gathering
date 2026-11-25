@@ -1,0 +1,2899 @@
+{
+ "source": "Scryfall Oracle Cards",
+ "cards": [
+  {
+   "id": "d2fa85ea-f5d5-4be3-a874-ce246c3e4245",
+   "name": "Adamaro, First to Desire",
+   "layout": "normal",
+   "manaCost": "{1}{R}{R}",
+   "manaValue": 3,
+   "colors": [
+    "R"
+   ],
+   "typeLine": "Legendary Creature — Spirit",
+   "text": "Adamaro's power and toughness are each equal to the number of cards in the hand of the opponent with the most cards in hand.",
+   "power": "*",
+   "toughness": "*",
+   "keywords": [],
+   "artist": "Paolo Parente",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/d/2/d2fa85ea-f5d5-4be3-a874-ce246c3e4245.jpg?1783944150",
+    "normal": "https://cards.scryfall.io/normal/front/d/2/d2fa85ea-f5d5-4be3-a874-ce246c3e4245.jpg?1783944150",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/d/2/d2fa85ea-f5d5-4be3-a874-ce246c3e4245.jpg?1783944150"
+   },
+   "faces": []
+  },
+  {
+   "id": "b3c950e2-a43b-47f8-9ad6-1909ccc7acbf",
+   "name": "Adeliz, the Cinder Wind",
+   "layout": "normal",
+   "manaCost": "{1}{U}{R}",
+   "manaValue": 3,
+   "colors": [
+    "R",
+    "U"
+   ],
+   "typeLine": "Legendary Creature — Human Wizard",
+   "text": "Flying, haste\nWhenever you cast an instant or sorcery spell, Wizards you control get +1/+1 until end of turn.",
+   "power": "2",
+   "toughness": "2",
+   "keywords": [
+    "Flying",
+    "Haste"
+   ],
+   "artist": "Zezhou Chen",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/b/3/b3c950e2-a43b-47f8-9ad6-1909ccc7acbf.jpg?1783934969",
+    "normal": "https://cards.scryfall.io/normal/front/b/3/b3c950e2-a43b-47f8-9ad6-1909ccc7acbf.jpg?1783934969",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/b/3/b3c950e2-a43b-47f8-9ad6-1909ccc7acbf.jpg?1783934969"
+   },
+   "faces": []
+  },
+  {
+   "id": "3b951e0c-a4dd-4a20-87c6-eaa947e33aa4",
+   "name": "Akiri, Line-Slinger",
+   "layout": "normal",
+   "manaCost": "{R}{W}",
+   "manaValue": 2,
+   "colors": [
+    "R",
+    "W"
+   ],
+   "typeLine": "Legendary Creature — Kor Soldier Ally",
+   "text": "First strike, vigilance\nAkiri gets +1/+0 for each artifact you control.\nPartner (You can have two commanders if both have partner.)",
+   "power": "0",
+   "toughness": "3",
+   "keywords": [
+    "Vigilance",
+    "First strike",
+    "Partner"
+   ],
+   "artist": "David Gaillet",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/3/b/3b951e0c-a4dd-4a20-87c6-eaa947e33aa4.jpg?1783937085",
+    "normal": "https://cards.scryfall.io/normal/front/3/b/3b951e0c-a4dd-4a20-87c6-eaa947e33aa4.jpg?1783937085",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/3/b/3b951e0c-a4dd-4a20-87c6-eaa947e33aa4.jpg?1783937085"
+   },
+   "faces": []
+  },
+  {
+   "id": "a93e3406-4e29-4bc0-ae52-cbd2ac1f99a4",
+   "name": "Alesha, Who Laughs at Fate",
+   "layout": "normal",
+   "manaCost": "{1}{B}{R}",
+   "manaValue": 3,
+   "colors": [
+    "B",
+    "R"
+   ],
+   "typeLine": "Legendary Creature — Human Warrior",
+   "text": "First strike\nWhenever Alesha attacks, put a +1/+1 counter on it.\nRaid — At the beginning of your end step, if you attacked this turn, return target creature card with mana value less than or equal to Alesha's power from your graveyard to the battlefield.",
+   "power": "2",
+   "toughness": "2",
+   "keywords": [
+    "First strike",
+    "Raid"
+   ],
+   "artist": "Ekaterina Burmak",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/a/9/a93e3406-4e29-4bc0-ae52-cbd2ac1f99a4.jpg?1783909093",
+    "normal": "https://cards.scryfall.io/normal/front/a/9/a93e3406-4e29-4bc0-ae52-cbd2ac1f99a4.jpg?1783909093",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/a/9/a93e3406-4e29-4bc0-ae52-cbd2ac1f99a4.jpg?1783909093"
+   },
+   "faces": []
+  },
+  {
+   "id": "26f9ebbe-3791-4d19-88d2-d5de95faff48",
+   "name": "Alirios, Enraptured",
+   "layout": "normal",
+   "manaCost": "{2}{U}",
+   "manaValue": 3,
+   "colors": [
+    "U"
+   ],
+   "typeLine": "Legendary Creature — Human",
+   "text": "Alirios enters tapped.\nAlirios doesn't untap during your untap step if you control a Reflection.\nWhen Alirios enters, create a 3/2 blue Reflection creature token.",
+   "power": "2",
+   "toughness": "3",
+   "keywords": [],
+   "artist": "Kieran Yanner",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/2/6/26f9ebbe-3791-4d19-88d2-d5de95faff48.jpg?1783931586",
+    "normal": "https://cards.scryfall.io/normal/front/2/6/26f9ebbe-3791-4d19-88d2-d5de95faff48.jpg?1783931586",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/2/6/26f9ebbe-3791-4d19-88d2-d5de95faff48.jpg?1783931586"
+   },
+   "faces": []
+  },
+  {
+   "id": "ba96f831-02cb-4a74-a2e4-7f76444e3cd7",
+   "name": "Alisaie Leveilleur",
+   "layout": "normal",
+   "manaCost": "{2}{W}",
+   "manaValue": 3,
+   "colors": [
+    "W"
+   ],
+   "typeLine": "Legendary Creature — Elf Wizard",
+   "text": "Partner with Alphinaud Leveilleur (When this creature enters, target player may put Alphinaud Leveilleur into their hand from their library, then shuffle.)\nFirst strike\nDualcast — The second spell you cast each turn costs {2} less to cast.",
+   "power": "3",
+   "toughness": "2",
+   "keywords": [
+    "Dualcast",
+    "Partner with",
+    "First strike",
+    "Partner"
+   ],
+   "artist": "Justyna Dura",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/b/a/ba96f831-02cb-4a74-a2e4-7f76444e3cd7.jpg?1783906371",
+    "normal": "https://cards.scryfall.io/normal/front/b/a/ba96f831-02cb-4a74-a2e4-7f76444e3cd7.jpg?1783906371",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/b/a/ba96f831-02cb-4a74-a2e4-7f76444e3cd7.jpg?1783906371"
+   },
+   "faces": []
+  },
+  {
+   "id": "65331e86-1ff3-45e4-b789-7afec4ca9bd5",
+   "name": "Alphinaud Leveilleur",
+   "layout": "normal",
+   "manaCost": "{3}{U}",
+   "manaValue": 4,
+   "colors": [
+    "U"
+   ],
+   "typeLine": "Legendary Creature — Elf Wizard",
+   "text": "Partner with Alisaie Leveilleur (When this creature enters, target player may put Alisaie Leveilleur into their hand from their library, then shuffle.)\nVigilance\nEukrasia — Whenever you cast your second spell each turn, draw a card.",
+   "power": "2",
+   "toughness": "4",
+   "keywords": [
+    "Partner with",
+    "Vigilance",
+    "Eukrasia",
+    "Partner"
+   ],
+   "artist": "Justyna Dura",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/6/5/65331e86-1ff3-45e4-b789-7afec4ca9bd5.jpg?1783906363",
+    "normal": "https://cards.scryfall.io/normal/front/6/5/65331e86-1ff3-45e4-b789-7afec4ca9bd5.jpg?1783906363",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/6/5/65331e86-1ff3-45e4-b789-7afec4ca9bd5.jpg?1783906363"
+   },
+   "faces": []
+  },
+  {
+   "id": "29957f49-9a6b-42f6-b2fb-b48f653ab725",
+   "name": "Anafenza, Unyielding Lineage",
+   "layout": "normal",
+   "manaCost": "{2}{W}",
+   "manaValue": 3,
+   "colors": [
+    "W"
+   ],
+   "typeLine": "Legendary Creature — Spirit Soldier",
+   "text": "Flash\nFirst strike\nWhenever another nontoken creature you control dies, Anafenza endures 2. (Put two +1/+1 counters on it or create a 2/2 white Spirit creature token.)",
+   "power": "2",
+   "toughness": "2",
+   "keywords": [
+    "First strike",
+    "Flash",
+    "Endure"
+   ],
+   "artist": "Matt Stewart",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/2/9/29957f49-9a6b-42f6-b2fb-b48f653ab725.jpg?1783907422",
+    "normal": "https://cards.scryfall.io/normal/front/2/9/29957f49-9a6b-42f6-b2fb-b48f653ab725.jpg?1783907422",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/2/9/29957f49-9a6b-42f6-b2fb-b48f653ab725.jpg?1783907422"
+   },
+   "faces": []
+  },
+  {
+   "id": "63cb977e-bd42-43b1-83d1-124e7a413aca",
+   "name": "Anax and Cymede",
+   "layout": "normal",
+   "manaCost": "{1}{R}{W}",
+   "manaValue": 3,
+   "colors": [
+    "R",
+    "W"
+   ],
+   "typeLine": "Legendary Creature — Human Soldier",
+   "text": "First strike, vigilance\nHeroic — Whenever you cast a spell that targets Anax and Cymede, creatures you control get +1/+1 and gain trample until end of turn.",
+   "power": "3",
+   "toughness": "2",
+   "keywords": [
+    "Vigilance",
+    "Heroic",
+    "First strike"
+   ],
+   "artist": "Willian Murai",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/6/3/63cb977e-bd42-43b1-83d1-124e7a413aca.jpg?1783939734",
+    "normal": "https://cards.scryfall.io/normal/front/6/3/63cb977e-bd42-43b1-83d1-124e7a413aca.jpg?1783939734",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/6/3/63cb977e-bd42-43b1-83d1-124e7a413aca.jpg?1783939734"
+   },
+   "faces": []
+  },
+  {
+   "id": "295658c4-7ab8-473d-abe1-0b6303b6850f",
+   "name": "Anep, Vizier of Hazoret",
+   "layout": "normal",
+   "manaCost": "{2}{R}",
+   "manaValue": 3,
+   "colors": [
+    "R"
+   ],
+   "typeLine": "Legendary Creature — Jackal Warrior",
+   "text": "Trample\nYou may exert Anep as it attacks. When you do, exile the top two cards of your library. Until the end of your next turn, you may play those cards. (An exerted creature won't untap during your next untap step.)",
+   "power": "4",
+   "toughness": "2",
+   "keywords": [
+    "Trample",
+    "Exert"
+   ],
+   "artist": "Moopic",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/2/9/295658c4-7ab8-473d-abe1-0b6303b6850f.jpg?1783908856",
+    "normal": "https://cards.scryfall.io/normal/front/2/9/295658c4-7ab8-473d-abe1-0b6303b6850f.jpg?1783908856",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/2/9/295658c4-7ab8-473d-abe1-0b6303b6850f.jpg?1783908856"
+   },
+   "faces": []
+  },
+  {
+   "id": "a3da57d0-1ae3-4f05-a52d-eb76ad56cae7",
+   "name": "Animar, Soul of Elements",
+   "layout": "normal",
+   "manaCost": "{G}{U}{R}",
+   "manaValue": 3,
+   "colors": [
+    "G",
+    "R",
+    "U"
+   ],
+   "typeLine": "Legendary Creature — Elemental",
+   "text": "Protection from white and from black\nWhenever you cast a creature spell, put a +1/+1 counter on Animar.\nCreature spells you cast cost {1} less to cast for each +1/+1 counter on Animar.",
+   "power": "1",
+   "toughness": "1",
+   "keywords": [
+    "Protection"
+   ],
+   "artist": "Filip Burburan",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/a/3/a3da57d0-1ae3-4f05-a52d-eb76ad56cae7.jpg?1783921859",
+    "normal": "https://cards.scryfall.io/normal/front/a/3/a3da57d0-1ae3-4f05-a52d-eb76ad56cae7.jpg?1783921859",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/a/3/a3da57d0-1ae3-4f05-a52d-eb76ad56cae7.jpg?1783921859"
+   },
+   "faces": []
+  },
+  {
+   "id": "8b1982ea-686b-4acd-b677-47571430efb0",
+   "name": "April O'Neil, Kunoichi Trainee",
+   "layout": "normal",
+   "manaCost": "{1}{W}",
+   "manaValue": 2,
+   "colors": [
+    "W"
+   ],
+   "typeLine": "Legendary Creature — Human Ninja",
+   "text": "When April O'Neil enters, scry 2. (Look at the top two cards of your library, then put any number of them on the bottom and the rest on top in any order.)\nApril O'Neil can't be blocked by creatures with power 3 or greater.",
+   "power": "2",
+   "toughness": "2",
+   "keywords": [
+    "Scry"
+   ],
+   "artist": "Jo Cordisco",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/8/b/8b1982ea-686b-4acd-b677-47571430efb0.jpg?1783904132",
+    "normal": "https://cards.scryfall.io/normal/front/8/b/8b1982ea-686b-4acd-b677-47571430efb0.jpg?1783904132",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/8/b/8b1982ea-686b-4acd-b677-47571430efb0.jpg?1783904132"
+   },
+   "faces": []
+  },
+  {
+   "id": "e98d5321-ec09-456c-a9ea-c8ca2cfc6205",
+   "name": "Aragorn, the Uniter",
+   "layout": "normal",
+   "manaCost": "{R}{G}{W}{U}",
+   "manaValue": 4,
+   "colors": [
+    "G",
+    "R",
+    "U",
+    "W"
+   ],
+   "typeLine": "Legendary Creature — Human Noble",
+   "text": "Whenever you cast a white spell, create a 1/1 white Human Soldier creature token.\nWhenever you cast a blue spell, scry 2.\nWhenever you cast a red spell, Aragorn deals 3 damage to target opponent.\nWhenever you cast a green spell, target creature gets +4/+4 until end of turn.",
+   "power": "5",
+   "toughness": "5",
+   "keywords": [
+    "Scry"
+   ],
+   "artist": "Javier Charro",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/e/9/e98d5321-ec09-456c-a9ea-c8ca2cfc6205.jpg?1783916262",
+    "normal": "https://cards.scryfall.io/normal/front/e/9/e98d5321-ec09-456c-a9ea-c8ca2cfc6205.jpg?1783916262",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/e/9/e98d5321-ec09-456c-a9ea-c8ca2cfc6205.jpg?1783916262"
+   },
+   "faces": []
+  },
+  {
+   "id": "9fc1ac8a-bbd4-4d17-81d9-fd04876084b1",
+   "name": "Ardbert, Warrior of Darkness",
+   "layout": "normal",
+   "manaCost": "{1}{W}{B}",
+   "manaValue": 3,
+   "colors": [
+    "B",
+    "W"
+   ],
+   "typeLine": "Legendary Creature — Spirit Warrior",
+   "text": "Whenever you cast a white spell, put a +1/+1 counter on each legendary creature you control. They gain vigilance until end of turn.\nWhenever you cast a black spell, put a +1/+1 counter on each legendary creature you control. They gain menace until end of turn.",
+   "power": "2",
+   "toughness": "2",
+   "keywords": [],
+   "artist": "Thanh Tuấn",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/9/f/9fc1ac8a-bbd4-4d17-81d9-fd04876084b1.jpg?1783906348",
+    "normal": "https://cards.scryfall.io/normal/front/9/f/9fc1ac8a-bbd4-4d17-81d9-fd04876084b1.jpg?1783906348",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/9/f/9fc1ac8a-bbd4-4d17-81d9-fd04876084b1.jpg?1783906348"
+   },
+   "faces": []
+  },
+  {
+   "id": "c544e301-13b4-4dec-b65c-d54809bb7736",
+   "name": "Arwen Undómiel",
+   "layout": "normal",
+   "manaCost": "{G}{U}",
+   "manaValue": 2,
+   "colors": [
+    "G",
+    "U"
+   ],
+   "typeLine": "Legendary Creature — Elf Noble",
+   "text": "Whenever you scry, put a +1/+1 counter on target creature.\n{4}{G}{U}: Scry 2.",
+   "power": "2",
+   "toughness": "2",
+   "keywords": [
+    "Scry"
+   ],
+   "artist": "Yongjae Choi",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/c/5/c544e301-13b4-4dec-b65c-d54809bb7736.jpg?1783916258",
+    "normal": "https://cards.scryfall.io/normal/front/c/5/c544e301-13b4-4dec-b65c-d54809bb7736.jpg?1783916258",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/c/5/c544e301-13b4-4dec-b65c-d54809bb7736.jpg?1783916258"
+   },
+   "faces": []
+  },
+  {
+   "id": "4cda3aa2-5fac-4188-bdad-dc369a089d00",
+   "name": "Astrid Peth",
+   "layout": "normal",
+   "manaCost": "{1}{W}",
+   "manaValue": 2,
+   "colors": [
+    "W"
+   ],
+   "typeLine": "Legendary Creature — Human",
+   "text": "Whenever Astrid Peth enters or attacks, create a Food token.\nBrand-new Sky — Whenever you sacrifice a Clue or Food, Astrid Peth explores. (Reveal the top card of your library. Put that card into your hand if it's a land. Otherwise, put a +1/+1 counter on this creature, then put the card back or put it into your graveyard.)",
+   "power": "2",
+   "toughness": "2",
+   "keywords": [
+    "Brand-new Sky",
+    "Food",
+    "Explore"
+   ],
+   "artist": "Ekaterina Burmak",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/4/c/4cda3aa2-5fac-4188-bdad-dc369a089d00.jpg?1783914683",
+    "normal": "https://cards.scryfall.io/normal/front/4/c/4cda3aa2-5fac-4188-bdad-dc369a089d00.jpg?1783914683",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/4/c/4cda3aa2-5fac-4188-bdad-dc369a089d00.jpg?1783914683"
+   },
+   "faces": []
+  },
+  {
+   "id": "135da718-affc-46ba-be57-c12c23b54dad",
+   "name": "Azog, Moria's Ruin",
+   "layout": "normal",
+   "manaCost": "{2}{B}",
+   "manaValue": 3,
+   "colors": [
+    "B"
+   ],
+   "typeLine": "Legendary Creature — Goblin Soldier",
+   "text": "When Azog enters, destroy up to one other target creature. Its controller amasses Goblins X, where X is that creature's power. If you controlled that creature, draw a card. (To amass Goblins X, that player puts X +1/+1 counters on an Army they control. It's also a Goblin. If they don't control an Army, they create a 0/0 black Goblin Army creature token first.)",
+   "power": "1",
+   "toughness": "3",
+   "keywords": [
+    "Amass"
+   ],
+   "artist": "Miklós Ligeti",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/1/3/135da718-affc-46ba-be57-c12c23b54dad.jpg?1784798028",
+    "normal": "https://cards.scryfall.io/normal/front/1/3/135da718-affc-46ba-be57-c12c23b54dad.jpg?1784798028",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/1/3/135da718-affc-46ba-be57-c12c23b54dad.jpg?1784798028"
+   },
+   "faces": []
+  },
+  {
+   "id": "0b84e232-428c-424a-848c-ef95debc6e50",
+   "name": "Bard the Bowman",
+   "layout": "normal",
+   "manaCost": "{1}{W}{U}",
+   "manaValue": 3,
+   "colors": [
+    "U",
+    "W"
+   ],
+   "typeLine": "Legendary Creature — Human Archer",
+   "text": "Reach\nWhenever you draw your second card each turn, put a +1/+1 counter on target creature. It gains lifelink until end of turn.",
+   "power": "1",
+   "toughness": "3",
+   "keywords": [
+    "Reach"
+   ],
+   "artist": "Miklós Ligeti",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/0/b/0b84e232-428c-424a-848c-ef95debc6e50.jpg?1784377009",
+    "normal": "https://cards.scryfall.io/normal/front/0/b/0b84e232-428c-424a-848c-ef95debc6e50.jpg?1784377009",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/0/b/0b84e232-428c-424a-848c-ef95debc6e50.jpg?1784377009"
+   },
+   "faces": []
+  },
+  {
+   "id": "a5bf2146-0843-4e1b-ad07-29e3dc0e842f",
+   "name": "Bard, Heir of Girion",
+   "layout": "normal",
+   "manaCost": "{2}{W}{U}",
+   "manaValue": 4,
+   "colors": [
+    "U",
+    "W"
+   ],
+   "typeLine": "Legendary Creature — Human Archer",
+   "text": "Reach, vigilance\nOther creatures you control get +1/+1.\nWhenever you attack, draw a card.",
+   "power": "4",
+   "toughness": "4",
+   "keywords": [
+    "Reach",
+    "Vigilance"
+   ],
+   "artist": "Narendra Bintara Adi",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/a/5/a5bf2146-0843-4e1b-ad07-29e3dc0e842f.jpg?1785323579",
+    "normal": "https://cards.scryfall.io/normal/front/a/5/a5bf2146-0843-4e1b-ad07-29e3dc0e842f.jpg?1785323579",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/a/5/a5bf2146-0843-4e1b-ad07-29e3dc0e842f.jpg?1785323579"
+   },
+   "faces": []
+  },
+  {
+   "id": "00e93be2-e06b-4774-8ba5-ccf82a6da1d8",
+   "name": "Baylen, the Haymaker",
+   "layout": "normal",
+   "manaCost": "{R}{G}{W}",
+   "manaValue": 3,
+   "colors": [
+    "G",
+    "R",
+    "W"
+   ],
+   "typeLine": "Legendary Creature — Rabbit Warrior",
+   "text": "Tap two untapped tokens you control: Add one mana of any color.\nTap three untapped tokens you control: Draw a card.\nTap four untapped tokens you control: Put three +1/+1 counters on Baylen. It gains trample until end of turn.",
+   "power": "4",
+   "toughness": "3",
+   "keywords": [],
+   "artist": "Ryan Pancoast",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/0/0/00e93be2-e06b-4774-8ba5-ccf82a6da1d8.jpg?1783910800",
+    "normal": "https://cards.scryfall.io/normal/front/0/0/00e93be2-e06b-4774-8ba5-ccf82a6da1d8.jpg?1783910800",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/0/0/00e93be2-e06b-4774-8ba5-ccf82a6da1d8.jpg?1783910800"
+   },
+   "faces": []
+  },
+  {
+   "id": "4063be5b-bfd9-43c5-bc39-09a40bc793bf",
+   "name": "Tinybones, Trinket Thief",
+   "layout": "normal",
+   "manaCost": "{1}{B}",
+   "manaValue": 2,
+   "colors": [
+    "B"
+   ],
+   "typeLine": "Legendary Creature — Skeleton Rogue",
+   "text": "At the beginning of each end step, if an opponent discarded a card this turn, you draw a card and you lose 1 life.\n{4}{B}{B}: Each opponent with no cards in hand loses 10 life.",
+   "power": "1",
+   "toughness": "2",
+   "keywords": [],
+   "artist": "Jason Rainville",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/4/0/4063be5b-bfd9-43c5-bc39-09a40bc793bf.jpg?1783930505",
+    "normal": "https://cards.scryfall.io/normal/front/4/0/4063be5b-bfd9-43c5-bc39-09a40bc793bf.jpg?1783930505",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/4/0/4063be5b-bfd9-43c5-bc39-09a40bc793bf.jpg?1783930505"
+   },
+   "faces": []
+  },
+  {
+   "id": "35a289b9-18da-437a-ad0a-450accb99100",
+   "name": "Beverly Crusher, Ship's Doctor",
+   "layout": "normal",
+   "manaCost": "{2}{W}",
+   "manaValue": 3,
+   "colors": [
+    "W"
+   ],
+   "typeLine": "Legendary Creature — Human Doctor",
+   "text": "Seek out — Whenever you draw your second card each turn, put a +1/+1 counter on each of up to three target creatures.",
+   "power": "2",
+   "toughness": "2",
+   "keywords": [
+    "Seek",
+    "Seek out"
+   ],
+   "artist": "Alex Negrea",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/3/5/35a289b9-18da-437a-ad0a-450accb99100.jpg?1793111677",
+    "normal": "https://cards.scryfall.io/normal/front/3/5/35a289b9-18da-437a-ad0a-450accb99100.jpg?1793111677",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/3/5/35a289b9-18da-437a-ad0a-450accb99100.jpg?1793111677"
+   },
+   "faces": []
+  },
+  {
+   "id": "6a109b3e-9f5b-4625-abb7-6b992c10530b",
+   "name": "Bilbo Baggins, Burglar // Take a Glance",
+   "layout": "adventure",
+   "manaCost": "{2}{U} // {U}",
+   "manaValue": 3,
+   "colors": [
+    "U"
+   ],
+   "typeLine": "Legendary Creature — Halfling Rogue // Sorcery — Adventure",
+   "text": "",
+   "power": "2",
+   "toughness": "1",
+   "keywords": [
+    "Scry"
+   ],
+   "artist": "Kieran Yanner",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/6/a/6a109b3e-9f5b-4625-abb7-6b992c10530b.jpg?1785323194",
+    "normal": "https://cards.scryfall.io/normal/front/6/a/6a109b3e-9f5b-4625-abb7-6b992c10530b.jpg?1785323194",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/6/a/6a109b3e-9f5b-4625-abb7-6b992c10530b.jpg?1785323194"
+   },
+   "faces": [
+    {
+     "name": "Bilbo Baggins, Burglar",
+     "manaCost": "{2}{U}",
+     "typeLine": "Legendary Creature — Halfling Rogue",
+     "text": "When Bilbo Baggins enters, draw a card.",
+     "power": "2",
+     "toughness": "1",
+     "colors": null,
+     "images": null
+    },
+    {
+     "name": "Take a Glance",
+     "manaCost": "{U}",
+     "typeLine": "Sorcery — Adventure",
+     "text": "Scry 2. (Then exile this card. You may cast the creature later from exile.)",
+     "power": null,
+     "toughness": null,
+     "colors": null,
+     "images": null
+    }
+   ]
+  },
+  {
+   "id": "8bff0aa6-16d9-4c83-b598-ef00a3b33d2c",
+   "name": "Bilbo, Luckwearer // Burglar's Plot",
+   "layout": "adventure",
+   "manaCost": "{1}{U} // {4}{U}",
+   "manaValue": 2,
+   "colors": [
+    "U"
+   ],
+   "typeLine": "Legendary Creature — Halfling Rogue // Sorcery — Adventure",
+   "text": "",
+   "power": "1",
+   "toughness": "1",
+   "keywords": [],
+   "artist": "Anna Steinbauer",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/8/b/8bff0aa6-16d9-4c83-b598-ef00a3b33d2c.jpg?1783902786",
+    "normal": "https://cards.scryfall.io/normal/front/8/b/8bff0aa6-16d9-4c83-b598-ef00a3b33d2c.jpg?1783902786",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/8/b/8bff0aa6-16d9-4c83-b598-ef00a3b33d2c.jpg?1783902786"
+   },
+   "faces": [
+    {
+     "name": "Bilbo, Luckwearer",
+     "manaCost": "{1}{U}",
+     "typeLine": "Legendary Creature — Halfling Rogue",
+     "text": "Bilbo can't be blocked.\nWhenever Bilbo deals combat damage to a player, draw a card, then discard a card.",
+     "power": "1",
+     "toughness": "1",
+     "colors": null,
+     "images": null
+    },
+    {
+     "name": "Burglar's Plot",
+     "manaCost": "{4}{U}",
+     "typeLine": "Sorcery — Adventure",
+     "text": "Exchange control of two target nonland permanents that share a card type. (Then exile this card. You may cast the creature later from exile.)",
+     "power": null,
+     "toughness": null,
+     "colors": null,
+     "images": null
+    }
+   ]
+  },
+  {
+   "id": "484c7f83-8339-4ae1-8350-68ce1f7d05a3",
+   "name": "Bilbo, Thief in the Night",
+   "layout": "normal",
+   "manaCost": "{1}{U}",
+   "manaValue": 2,
+   "colors": [
+    "U"
+   ],
+   "typeLine": "Legendary Creature — Halfling Rogue",
+   "text": "Spells you cast from anywhere other than your hand cost {1} less to cast.\nWhenever Bilbo attacks, you may cast an artifact, instant, or sorcery spell from your graveyard. If an instant or sorcery spell cast this way would be put into your graveyard, exile it instead.",
+   "power": "2",
+   "toughness": "2",
+   "keywords": [],
+   "artist": "Nia Kovalevski",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/4/8/484c7f83-8339-4ae1-8350-68ce1f7d05a3.jpg?1783902786",
+    "normal": "https://cards.scryfall.io/normal/front/4/8/484c7f83-8339-4ae1-8350-68ce1f7d05a3.jpg?1783902786",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/4/8/484c7f83-8339-4ae1-8350-68ce1f7d05a3.jpg?1783902786"
+   },
+   "faces": []
+  },
+  {
+   "id": "fe86e41b-b0f6-4aa1-8827-c095c721f304",
+   "name": "Black Waltz No. 3",
+   "layout": "normal",
+   "manaCost": "{2}{B}{R}",
+   "manaValue": 4,
+   "colors": [
+    "B",
+    "R"
+   ],
+   "typeLine": "Legendary Creature — Wizard",
+   "text": "Flying, deathtouch\nWhenever you cast a noncreature spell, Black Waltz No. 3 deals 2 damage to each opponent.",
+   "power": "2",
+   "toughness": "2",
+   "keywords": [
+    "Deathtouch",
+    "Flying"
+   ],
+   "artist": "Lordigan",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/f/e/fe86e41b-b0f6-4aa1-8827-c095c721f304.jpg?1783906575",
+    "normal": "https://cards.scryfall.io/normal/front/f/e/fe86e41b-b0f6-4aa1-8827-c095c721f304.jpg?1783906575",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/f/e/fe86e41b-b0f6-4aa1-8827-c095c721f304.jpg?1783906575"
+   },
+   "faces": []
+  },
+  {
+   "id": "63c317e7-432c-4817-8db4-3670a1d84be3",
+   "name": "Bombur, Gentle Dreamer",
+   "layout": "normal",
+   "manaCost": "{2}{R}",
+   "manaValue": 3,
+   "colors": [
+    "R"
+   ],
+   "typeLine": "Legendary Creature — Dwarf Bard",
+   "text": "Storied (If you control three or more artifacts, legendaries, and/or Sagas, you have an enduring story for the rest of the game.)\nBombur doesn't untap during your untap step unless you have an enduring story.",
+   "power": "5",
+   "toughness": "3",
+   "keywords": [
+    "Storied"
+   ],
+   "artist": "Eric Deschamps",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/6/3/63c317e7-432c-4817-8db4-3670a1d84be3.jpg?1785496185",
+    "normal": "https://cards.scryfall.io/normal/front/6/3/63c317e7-432c-4817-8db4-3670a1d84be3.jpg?1785496185",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/6/3/63c317e7-432c-4817-8db4-3670a1d84be3.jpg?1785496185"
+   },
+   "faces": []
+  },
+  {
+   "id": "f6bc3720-2892-4dda-8f30-079a1ac8e1e2",
+   "name": "Boromir, Warden of the Tower",
+   "layout": "normal",
+   "manaCost": "{2}{W}",
+   "manaValue": 3,
+   "colors": [
+    "W"
+   ],
+   "typeLine": "Legendary Creature — Human Soldier",
+   "text": "Vigilance\nWhenever an opponent casts a spell, if no mana was spent to cast it, counter that spell.\nSacrifice Boromir: Creatures you control gain indestructible until end of turn. The Ring tempts you.",
+   "power": "3",
+   "toughness": "3",
+   "keywords": [
+    "Vigilance"
+   ],
+   "artist": "Yigit Koroglu",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/f/6/f6bc3720-2892-4dda-8f30-079a1ac8e1e2.jpg?1783916338",
+    "normal": "https://cards.scryfall.io/normal/front/f/6/f6bc3720-2892-4dda-8f30-079a1ac8e1e2.jpg?1783916338",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/f/6/f6bc3720-2892-4dda-8f30-079a1ac8e1e2.jpg?1783916338"
+   },
+   "faces": []
+  },
+  {
+   "id": "20ecadef-8aa3-4bca-8744-adbc809083c3",
+   "name": "Brigone, Soldier of Meletis",
+   "layout": "normal",
+   "manaCost": "{1}{W}",
+   "manaValue": 2,
+   "colors": [
+    "W"
+   ],
+   "typeLine": "Legendary Creature — Human Soldier",
+   "text": "Vigilance\nHeroic — Whenever you cast a spell that targets Brigone, put a +1/+1 counter on Brigone.\n{T}, Remove a +1/+1 counter from Brigone: Draw a card.",
+   "power": "2",
+   "toughness": "2",
+   "keywords": [
+    "Vigilance",
+    "Heroic"
+   ],
+   "artist": "Daisuke Tatsuma",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/2/0/20ecadef-8aa3-4bca-8744-adbc809083c3.jpg?1783908862",
+    "normal": "https://cards.scryfall.io/normal/front/2/0/20ecadef-8aa3-4bca-8744-adbc809083c3.jpg?1783908862",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/2/0/20ecadef-8aa3-4bca-8744-adbc809083c3.jpg?1783908862"
+   },
+   "faces": []
+  },
+  {
+   "id": "bcc67204-59dc-4cd9-8809-e85fba85fd7d",
+   "name": "Brothers Yamazaki",
+   "layout": "normal",
+   "manaCost": "{2}{R}",
+   "manaValue": 3,
+   "colors": [
+    "R"
+   ],
+   "typeLine": "Legendary Creature — Human Samurai",
+   "text": "Bushido 1 (Whenever this creature blocks or becomes blocked, it gets +1/+1 until end of turn.)\nIf there are exactly two permanents named Brothers Yamazaki on the battlefield, the \"legend rule\" doesn't apply to them.\nEach other creature named Brothers Yamazaki gets +2/+2 and has haste.",
+   "power": "2",
+   "toughness": "1",
+   "keywords": [
+    "Bushido"
+   ],
+   "artist": "Dai-XT",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/b/c/bcc67204-59dc-4cd9-8809-e85fba85fd7d.jpg?1783908848",
+    "normal": "https://cards.scryfall.io/normal/front/b/c/bcc67204-59dc-4cd9-8809-e85fba85fd7d.jpg?1783908848",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/b/c/bcc67204-59dc-4cd9-8809-e85fba85fd7d.jpg?1783908848"
+   },
+   "faces": []
+  },
+  {
+   "id": "e8654e38-4230-4094-b815-778bfb5d06f2",
+   "name": "Caelorna, Coral Tyrant",
+   "layout": "normal",
+   "manaCost": "{1}{U}",
+   "manaValue": 2,
+   "colors": [
+    "U"
+   ],
+   "typeLine": "Legendary Creature — Octopus",
+   "text": "",
+   "power": "0",
+   "toughness": "8",
+   "keywords": [],
+   "artist": "Deruchenko Alexander",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/e/8/e8654e38-4230-4094-b815-778bfb5d06f2.jpg?1783907911",
+    "normal": "https://cards.scryfall.io/normal/front/e/8/e8654e38-4230-4094-b815-778bfb5d06f2.jpg?1783907911",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/e/8/e8654e38-4230-4094-b815-778bfb5d06f2.jpg?1783907911"
+   },
+   "faces": []
+  },
+  {
+   "id": "0a707ab3-b9b5-422a-8b0f-e963d3ad6606",
+   "name": "Calix, Guided by Fate",
+   "layout": "normal",
+   "manaCost": "{1}{G}{W}",
+   "manaValue": 3,
+   "colors": [
+    "G",
+    "W"
+   ],
+   "typeLine": "Legendary Enchantment Creature — Human Druid",
+   "text": "Constellation — Whenever Calix or another enchantment you control enters, put a +1/+1 counter on target creature.\nWhenever Calix or an enchanted creature you control deals combat damage to a player, you may create a token that's a copy of a nonlegendary enchantment you control. Do this only once each turn.",
+   "power": "2",
+   "toughness": "2",
+   "keywords": [
+    "Constellation"
+   ],
+   "artist": "PINDURSKI",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/0/a/0a707ab3-b9b5-422a-8b0f-e963d3ad6606.jpg?1783916516",
+    "normal": "https://cards.scryfall.io/normal/front/0/a/0a707ab3-b9b5-422a-8b0f-e963d3ad6606.jpg?1783916516",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/0/a/0a707ab3-b9b5-422a-8b0f-e963d3ad6606.jpg?1783916516"
+   },
+   "faces": []
+  },
+  {
+   "id": "c5d433f2-0a3b-4f45-83a3-ed600a6d10b1",
+   "name": "Callaphe, Beloved of the Sea",
+   "layout": "normal",
+   "manaCost": "{1}{U}{U}",
+   "manaValue": 3,
+   "colors": [
+    "U"
+   ],
+   "typeLine": "Legendary Enchantment Creature — Demigod",
+   "text": "Callaphe's power is equal to your devotion to blue. (Each {U} in the mana costs of permanents you control counts toward your devotion to blue.)\nCreatures and enchantments you control have \"Spells your opponents cast that target this permanent cost {1} more to cast.\"",
+   "power": "*",
+   "toughness": "3",
+   "keywords": [],
+   "artist": "Zack Stella",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/c/5/c5d433f2-0a3b-4f45-83a3-ed600a6d10b1.jpg?1783931586",
+    "normal": "https://cards.scryfall.io/normal/front/c/5/c5d433f2-0a3b-4f45-83a3-ed600a6d10b1.jpg?1783931586",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/c/5/c5d433f2-0a3b-4f45-83a3-ed600a6d10b1.jpg?1783931586"
+   },
+   "faces": []
+  },
+  {
+   "id": "026e7167-d665-43d0-a51e-8df2d68cdb5e",
+   "name": "Cecil, Dark Knight // Cecil, Redeemed Paladin",
+   "layout": "transform",
+   "manaCost": "{B}",
+   "manaValue": 1,
+   "colors": [
+    "B"
+   ],
+   "typeLine": "Legendary Creature — Human Knight // Legendary Creature — Human Knight",
+   "text": "",
+   "power": "2",
+   "toughness": "3",
+   "keywords": [
+    "Lifelink",
+    "Protect",
+    "Transform",
+    "Darkness",
+    "Deathtouch"
+   ],
+   "artist": "Josu Hernaiz",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/0/2/026e7167-d665-43d0-a51e-8df2d68cdb5e.jpg?1783906631",
+    "normal": "https://cards.scryfall.io/normal/front/0/2/026e7167-d665-43d0-a51e-8df2d68cdb5e.jpg?1783906631",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/0/2/026e7167-d665-43d0-a51e-8df2d68cdb5e.jpg?1783906631"
+   },
+   "faces": [
+    {
+     "name": "Cecil, Dark Knight",
+     "manaCost": "{B}",
+     "typeLine": "Legendary Creature — Human Knight",
+     "text": "Deathtouch\nDarkness — Whenever Cecil deals damage, you lose that much life. Then if your life total is less than or equal to half your starting life total, untap Cecil and transform it.",
+     "power": "2",
+     "toughness": "3",
+     "colors": [
+      "B"
+     ],
+     "images": {
+      "small": "https://cards.scryfall.io/small/front/0/2/026e7167-d665-43d0-a51e-8df2d68cdb5e.jpg?1783906631",
+      "normal": "https://cards.scryfall.io/normal/front/0/2/026e7167-d665-43d0-a51e-8df2d68cdb5e.jpg?1783906631",
+      "artCrop": "https://cards.scryfall.io/art_crop/front/0/2/026e7167-d665-43d0-a51e-8df2d68cdb5e.jpg?1783906631"
+     }
+    },
+    {
+     "name": "Cecil, Redeemed Paladin",
+     "manaCost": "",
+     "typeLine": "Legendary Creature — Human Knight",
+     "text": "Lifelink\nProtect — Whenever Cecil attacks, other attacking creatures gain indestructible until end of turn.",
+     "power": "4",
+     "toughness": "4",
+     "colors": [
+      "W"
+     ],
+     "images": {
+      "small": "https://cards.scryfall.io/small/back/0/2/026e7167-d665-43d0-a51e-8df2d68cdb5e.jpg?1783906631",
+      "normal": "https://cards.scryfall.io/normal/back/0/2/026e7167-d665-43d0-a51e-8df2d68cdb5e.jpg?1783906631",
+      "artCrop": "https://cards.scryfall.io/art_crop/back/0/2/026e7167-d665-43d0-a51e-8df2d68cdb5e.jpg?1783906631"
+     }
+    }
+   ]
+  },
+  {
+   "id": "e793fae6-ca9a-49e7-b90d-fe7e9c72de0d",
+   "name": "Cleon, Merry Champion",
+   "layout": "normal",
+   "manaCost": "{2}{R}",
+   "manaValue": 3,
+   "colors": [
+    "R"
+   ],
+   "typeLine": "Legendary Creature — Human Soldier",
+   "text": "Double strike\nHeroic — Whenever you cast a spell that targets Cleon, exile the top card of your library. You may play that card until the end of your next turn.",
+   "power": "2",
+   "toughness": "2",
+   "keywords": [
+    "Heroic",
+    "Double strike"
+   ],
+   "artist": "Mebaru",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/e/7/e793fae6-ca9a-49e7-b90d-fe7e9c72de0d.jpg?1783908856",
+    "normal": "https://cards.scryfall.io/normal/front/e/7/e793fae6-ca9a-49e7-b90d-fe7e9c72de0d.jpg?1783908856",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/e/7/e793fae6-ca9a-49e7-b90d-fe7e9c72de0d.jpg?1783908856"
+   },
+   "faces": []
+  },
+  {
+   "id": "8bffc505-608e-4a5b-9ed9-2321e4cab484",
+   "name": "Colleen Wing, Street Samurai",
+   "layout": "normal",
+   "manaCost": "{1}{W}",
+   "manaValue": 2,
+   "colors": [
+    "W"
+   ],
+   "typeLine": "Legendary Creature — Human Samurai Hero",
+   "text": "Whenever you cast a spell that targets a creature you control, put a +1/+1 counter on Colleen Wing. Scry 1. (Look at the top card of your library. You may put that card on the bottom.)",
+   "power": "2",
+   "toughness": "2",
+   "keywords": [
+    "Scry"
+   ],
+   "artist": "Jurijus Chitrovas",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/8/b/8bffc505-608e-4a5b-9ed9-2321e4cab484.jpg?1783902974",
+    "normal": "https://cards.scryfall.io/normal/front/8/b/8bffc505-608e-4a5b-9ed9-2321e4cab484.jpg?1783902974",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/8/b/8bffc505-608e-4a5b-9ed9-2321e4cab484.jpg?1783902974"
+   },
+   "faces": []
+  },
+  {
+   "id": "6489814b-3d10-423e-988c-324740d36748",
+   "name": "Danitha, Spear of Agony",
+   "layout": "normal",
+   "manaCost": "{2}{B}",
+   "manaValue": 3,
+   "colors": [
+    "B"
+   ],
+   "typeLine": "Legendary Creature — Human Knight",
+   "text": "First strike\nWhenever you cast a spell that targets an opponent or a creature an opponent controls, put a +1/+1 counter on Danitha.",
+   "power": "2",
+   "toughness": "2",
+   "keywords": [
+    "First strike"
+   ],
+   "artist": "Bryan Sola",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/6/4/6489814b-3d10-423e-988c-324740d36748.jpg?1789127194",
+    "normal": "https://cards.scryfall.io/normal/front/6/4/6489814b-3d10-423e-988c-324740d36748.jpg?1789127194",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/6/4/6489814b-3d10-423e-988c-324740d36748.jpg?1789127194"
+   },
+   "faces": []
+  },
+  {
+   "id": "d5cb9810-3c2d-4ae4-b8b6-0155ca3f47ad",
+   "name": "Danitha, Sword of Hope",
+   "layout": "normal",
+   "manaCost": "{2}{W}",
+   "manaValue": 3,
+   "colors": [
+    "W"
+   ],
+   "typeLine": "Legendary Creature — Human Knight",
+   "text": "First strike\nWhenever you cast an Equipment spell or a spell that targets a creature you control, draw a card. This ability triggers only once each turn.",
+   "power": "2",
+   "toughness": "2",
+   "keywords": [
+    "First strike"
+   ],
+   "artist": "Bryan Sola",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/d/5/d5cb9810-3c2d-4ae4-b8b6-0155ca3f47ad.jpg?1789127178",
+    "normal": "https://cards.scryfall.io/normal/front/d/5/d5cb9810-3c2d-4ae4-b8b6-0155ca3f47ad.jpg?1789127178",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/d/5/d5cb9810-3c2d-4ae4-b8b6-0155ca3f47ad.jpg?1789127178"
+   },
+   "faces": []
+  },
+  {
+   "id": "0fd2adb3-a6f4-448e-af2a-15ca92b1de63",
+   "name": "Daxos, Blessed by the Sun",
+   "layout": "normal",
+   "manaCost": "{W}{W}",
+   "manaValue": 2,
+   "colors": [
+    "W"
+   ],
+   "typeLine": "Legendary Enchantment Creature — Demigod",
+   "text": "Daxos's toughness is equal to your devotion to white. (Each {W} in the mana costs of permanents you control counts toward your devotion to white.)\nWhenever another creature you control enters or dies, you gain 1 life.",
+   "power": "2",
+   "toughness": "*",
+   "keywords": [],
+   "artist": "Lius Lasahido",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/0/f/0fd2adb3-a6f4-448e-af2a-15ca92b1de63.jpg?1783931602",
+    "normal": "https://cards.scryfall.io/normal/front/0/f/0fd2adb3-a6f4-448e-af2a-15ca92b1de63.jpg?1783931602",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/0/f/0fd2adb3-a6f4-448e-af2a-15ca92b1de63.jpg?1783931602"
+   },
+   "faces": []
+  },
+  {
+   "id": "568aa70a-6765-486a-bd37-5d38b16c46de",
+   "name": "Doran, Besieged by Time",
+   "layout": "normal",
+   "manaCost": "{1}{W}{B}{G}",
+   "manaValue": 4,
+   "colors": [
+    "B",
+    "G",
+    "W"
+   ],
+   "typeLine": "Legendary Creature — Treefolk Druid",
+   "text": "Each creature spell you cast with toughness greater than its power costs {1} less to cast.\nWhenever a creature you control attacks or blocks, it gets +X/+X until end of turn, where X is the difference between its power and toughness.",
+   "power": "0",
+   "toughness": "5",
+   "keywords": [],
+   "artist": "Carl Critchlow",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/5/6/568aa70a-6765-486a-bd37-5d38b16c46de.jpg?1783904413",
+    "normal": "https://cards.scryfall.io/normal/front/5/6/568aa70a-6765-486a-bd37-5d38b16c46de.jpg?1783904413",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/5/6/568aa70a-6765-486a-bd37-5d38b16c46de.jpg?1783904413"
+   },
+   "faces": []
+  },
+  {
+   "id": "e0ad8e7f-cda0-4529-94fc-dd3709158a94",
+   "name": "Doran, the Siege Tower",
+   "layout": "normal",
+   "manaCost": "{W}{B}{G}",
+   "manaValue": 3,
+   "colors": [
+    "B",
+    "G",
+    "W"
+   ],
+   "typeLine": "Legendary Creature — Treefolk Shaman",
+   "text": "Each creature assigns combat damage equal to its toughness rather than its power.",
+   "power": "0",
+   "toughness": "5",
+   "keywords": [],
+   "artist": "Mark Zug",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/e/0/e0ad8e7f-cda0-4529-94fc-dd3709158a94.jpg?1783921840",
+    "normal": "https://cards.scryfall.io/normal/front/e/0/e0ad8e7f-cda0-4529-94fc-dd3709158a94.jpg?1783921840",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/e/0/e0ad8e7f-cda0-4529-94fc-dd3709158a94.jpg?1783921840"
+   },
+   "faces": []
+  },
+  {
+   "id": "cd9b9be6-0143-467c-8a2a-937ecafe0473",
+   "name": "Echo, Perceptive Prodigy",
+   "layout": "normal",
+   "manaCost": "{2}{U}",
+   "manaValue": 3,
+   "colors": [
+    "U"
+   ],
+   "typeLine": "Legendary Creature — Human Hero",
+   "text": "Vigilance\n{1}, {T}: Copy target activated or triggered ability you control from a creature source. You may choose new targets for the copy. (Mana abilities can't be targeted.)",
+   "power": "1",
+   "toughness": "4",
+   "keywords": [
+    "Vigilance"
+   ],
+   "artist": "Jurijus Chitrovas",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/c/d/cd9b9be6-0143-467c-8a2a-937ecafe0473.jpg?1783902961",
+    "normal": "https://cards.scryfall.io/normal/front/c/d/cd9b9be6-0143-467c-8a2a-937ecafe0473.jpg?1783902961",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/c/d/cd9b9be6-0143-467c-8a2a-937ecafe0473.jpg?1783902961"
+   },
+   "faces": []
+  },
+  {
+   "id": "75cf4eb8-33e7-4dfc-b890-a7e3b5c1b9d5",
+   "name": "Emet-Selch, Unsundered // Hades, Sorcerer of Eld",
+   "layout": "transform",
+   "manaCost": "{1}{U}{B}",
+   "manaValue": 3,
+   "colors": [
+    "B",
+    "U"
+   ],
+   "typeLine": "Legendary Creature — Elder Wizard // Legendary Creature — Avatar",
+   "text": "",
+   "power": "2",
+   "toughness": "4",
+   "keywords": [
+    "Vigilance",
+    "Echo of the Lost",
+    "Transform"
+   ],
+   "artist": "Néstor Ossandón Leal",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/7/5/75cf4eb8-33e7-4dfc-b890-a7e3b5c1b9d5.jpg?1783906579",
+    "normal": "https://cards.scryfall.io/normal/front/7/5/75cf4eb8-33e7-4dfc-b890-a7e3b5c1b9d5.jpg?1783906579",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/7/5/75cf4eb8-33e7-4dfc-b890-a7e3b5c1b9d5.jpg?1783906579"
+   },
+   "faces": [
+    {
+     "name": "Emet-Selch, Unsundered",
+     "manaCost": "{1}{U}{B}",
+     "typeLine": "Legendary Creature — Elder Wizard",
+     "text": "Vigilance\nWhenever Emet-Selch enters or attacks, draw a card, then discard a card.\nAt the beginning of your upkeep, if there are fourteen or more cards in your graveyard, you may transform Emet-Selch.",
+     "power": "2",
+     "toughness": "4",
+     "colors": [
+      "B",
+      "U"
+     ],
+     "images": {
+      "small": "https://cards.scryfall.io/small/front/7/5/75cf4eb8-33e7-4dfc-b890-a7e3b5c1b9d5.jpg?1783906579",
+      "normal": "https://cards.scryfall.io/normal/front/7/5/75cf4eb8-33e7-4dfc-b890-a7e3b5c1b9d5.jpg?1783906579",
+      "artCrop": "https://cards.scryfall.io/art_crop/front/7/5/75cf4eb8-33e7-4dfc-b890-a7e3b5c1b9d5.jpg?1783906579"
+     }
+    },
+    {
+     "name": "Hades, Sorcerer of Eld",
+     "manaCost": "",
+     "typeLine": "Legendary Creature — Avatar",
+     "text": "Vigilance\nEcho of the Lost — During your turn, you may play cards from your graveyard.\nIf a card or token would be put into your graveyard from anywhere, exile it instead.",
+     "power": "6",
+     "toughness": "6",
+     "colors": [
+      "B",
+      "U"
+     ],
+     "images": {
+      "small": "https://cards.scryfall.io/small/back/7/5/75cf4eb8-33e7-4dfc-b890-a7e3b5c1b9d5.jpg?1783906579",
+      "normal": "https://cards.scryfall.io/normal/back/7/5/75cf4eb8-33e7-4dfc-b890-a7e3b5c1b9d5.jpg?1783906579",
+      "artCrop": "https://cards.scryfall.io/art_crop/back/7/5/75cf4eb8-33e7-4dfc-b890-a7e3b5c1b9d5.jpg?1783906579"
+     }
+    }
+   ]
+  },
+  {
+   "id": "0b61d772-2d8b-4acf-9dd2-b2e8b03538c8",
+   "name": "Erayo, Soratami Ascendant // Erayo's Essence",
+   "layout": "flip",
+   "manaCost": "{1}{U}",
+   "manaValue": 2,
+   "colors": [
+    "U"
+   ],
+   "typeLine": "Legendary Creature — Moonfolk Monk // Legendary Enchantment",
+   "text": "",
+   "power": "1",
+   "toughness": "1",
+   "keywords": [
+    "Flying"
+   ],
+   "artist": "Matt Cavotta",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/0/b/0b61d772-2d8b-4acf-9dd2-b2e8b03538c8.jpg?1783944164",
+    "normal": "https://cards.scryfall.io/normal/front/0/b/0b61d772-2d8b-4acf-9dd2-b2e8b03538c8.jpg?1783944164",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/0/b/0b61d772-2d8b-4acf-9dd2-b2e8b03538c8.jpg?1783944164"
+   },
+   "faces": [
+    {
+     "name": "Erayo, Soratami Ascendant",
+     "manaCost": "{1}{U}",
+     "typeLine": "Legendary Creature — Moonfolk Monk",
+     "text": "Flying\nWhenever the fourth spell of a turn is cast, flip Erayo.",
+     "power": "1",
+     "toughness": "1",
+     "colors": null,
+     "images": null
+    },
+    {
+     "name": "Erayo's Essence",
+     "manaCost": "",
+     "typeLine": "Legendary Enchantment",
+     "text": "Whenever an opponent casts their first spell each turn, counter that spell.",
+     "power": null,
+     "toughness": null,
+     "colors": null,
+     "images": null
+    }
+   ]
+  },
+  {
+   "id": "86958821-76eb-43a5-974b-7c945e826a66",
+   "name": "Esior, Wardwing Familiar",
+   "layout": "normal",
+   "manaCost": "{1}{U}",
+   "manaValue": 2,
+   "colors": [
+    "U"
+   ],
+   "typeLine": "Legendary Creature — Bird",
+   "text": "Flying\nSpells your opponents cast that target one or more commanders you control cost {3} more to cast.\nPartner (You can have two commanders if both have partner.)",
+   "power": "1",
+   "toughness": "3",
+   "keywords": [
+    "Flying",
+    "Partner"
+   ],
+   "artist": "Jesper Ejsing",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/8/6/86958821-76eb-43a5-974b-7c945e826a66.jpg?1783928863",
+    "normal": "https://cards.scryfall.io/normal/front/8/6/86958821-76eb-43a5-974b-7c945e826a66.jpg?1783928863",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/8/6/86958821-76eb-43a5-974b-7c945e826a66.jpg?1783928863"
+   },
+   "faces": []
+  },
+  {
+   "id": "41e58eb8-e5b9-4ef6-be1f-00e28cebb998",
+   "name": "Flubs, the Fool",
+   "layout": "normal",
+   "manaCost": "{G}{U}{R}",
+   "manaValue": 3,
+   "colors": [
+    "G",
+    "R",
+    "U"
+   ],
+   "typeLine": "Legendary Creature — Frog Scout",
+   "text": "You may play an additional land on each of your turns.\nWhenever you play a land or cast a spell, draw a card if you have no cards in hand. Otherwise, discard a card.",
+   "power": "0",
+   "toughness": "5",
+   "keywords": [],
+   "artist": "Adam Rex",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/4/1/41e58eb8-e5b9-4ef6-be1f-00e28cebb998.jpg?1783910621",
+    "normal": "https://cards.scryfall.io/normal/front/4/1/41e58eb8-e5b9-4ef6-be1f-00e28cebb998.jpg?1783910621",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/4/1/41e58eb8-e5b9-4ef6-be1f-00e28cebb998.jpg?1783910621"
+   },
+   "faces": []
+  },
+  {
+   "id": "9c334530-0880-46b5-a358-9603eee3cecf",
+   "name": "Geist of Saint Thalia",
+   "layout": "normal",
+   "manaCost": "{1}{U}",
+   "manaValue": 2,
+   "colors": [
+    "U"
+   ],
+   "typeLine": "Legendary Creature — Spirit Cleric",
+   "text": "Flying\nNoncreature spells you cast cost {1} less to cast.",
+   "power": "1",
+   "toughness": "2",
+   "keywords": [
+    "Flying"
+   ],
+   "artist": "Ryan Pancoast",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/9/c/9c334530-0880-46b5-a358-9603eee3cecf.jpg?1789128026",
+    "normal": "https://cards.scryfall.io/normal/front/9/c/9c334530-0880-46b5-a358-9603eee3cecf.jpg?1789128026",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/9/c/9c334530-0880-46b5-a358-9603eee3cecf.jpg?1789128026"
+   },
+   "faces": []
+  },
+  {
+   "id": "3b3e889a-5865-4464-9923-bffa25c50cd2",
+   "name": "Gluntch, the Bestower",
+   "layout": "normal",
+   "manaCost": "{1}{G}{W}",
+   "manaValue": 3,
+   "colors": [
+    "G",
+    "W"
+   ],
+   "typeLine": "Legendary Creature — Jellyfish",
+   "text": "Flying\nAt the beginning of your end step, choose a player. They put two +1/+1 counters on a creature they control. Choose a second player to draw a card. Then choose a third player to create two Treasure tokens.",
+   "power": "0",
+   "toughness": "5",
+   "keywords": [
+    "Flying",
+    "Treasure"
+   ],
+   "artist": "Olivier Bernard",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/3/b/3b3e889a-5865-4464-9923-bffa25c50cd2.jpg?1783922694",
+    "normal": "https://cards.scryfall.io/normal/front/3/b/3b3e889a-5865-4464-9923-bffa25c50cd2.jpg?1783922694",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/3/b/3b3e889a-5865-4464-9923-bffa25c50cd2.jpg?1783922694"
+   },
+   "faces": []
+  },
+  {
+   "id": "ee47f23a-3ba9-4615-b170-c89d8ab99d78",
+   "name": "Goreclaw, Terror of Qal Sisma",
+   "layout": "normal",
+   "manaCost": "{3}{G}",
+   "manaValue": 4,
+   "colors": [
+    "G"
+   ],
+   "typeLine": "Legendary Creature — Bear",
+   "text": "Creature spells you cast with power 4 or greater cost {2} less to cast.\nWhenever Goreclaw attacks, each creature you control with power 4 or greater gets +1/+1 and gains trample until end of turn.",
+   "power": "4",
+   "toughness": "3",
+   "keywords": [],
+   "artist": "Svetlin Velinov",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/e/e/ee47f23a-3ba9-4615-b170-c89d8ab99d78.jpg?1783915630",
+    "normal": "https://cards.scryfall.io/normal/front/e/e/ee47f23a-3ba9-4615-b170-c89d8ab99d78.jpg?1783915630",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/e/e/ee47f23a-3ba9-4615-b170-c89d8ab99d78.jpg?1783915630"
+   },
+   "faces": []
+  },
+  {
+   "id": "fa434b41-e5f7-4989-865a-95db67b05cb1",
+   "name": "Gran-Gran",
+   "layout": "normal",
+   "manaCost": "{U}",
+   "manaValue": 1,
+   "colors": [
+    "U"
+   ],
+   "typeLine": "Legendary Creature — Human Peasant Ally",
+   "text": "Whenever Gran-Gran becomes tapped, draw a card, then discard a card.\nNoncreature spells you cast cost {1} less to cast as long as there are three or more Lesson cards in your graveyard.",
+   "power": "1",
+   "toughness": "2",
+   "keywords": [],
+   "artist": "Arou",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/f/a/fa434b41-e5f7-4989-865a-95db67b05cb1.jpg?1786399175",
+    "normal": "https://cards.scryfall.io/normal/front/f/a/fa434b41-e5f7-4989-865a-95db67b05cb1.jpg?1786399175",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/f/a/fa434b41-e5f7-4989-865a-95db67b05cb1.jpg?1786399175"
+   },
+   "faces": []
+  },
+  {
+   "id": "2cfd365e-34d1-4224-b925-119000311934",
+   "name": "Greta, Sweettooth Scourge",
+   "layout": "normal",
+   "manaCost": "{1}{B}{G}",
+   "manaValue": 3,
+   "colors": [
+    "B",
+    "G"
+   ],
+   "typeLine": "Legendary Creature — Human Warrior",
+   "text": "When Greta enters, create a Food token. (It's an artifact with \"{2}, {T}, Sacrifice this token: You gain 3 life.\")\n{G}, Sacrifice a Food: Put a +1/+1 counter on target creature. Activate only as a sorcery.\n{1}{B}, Sacrifice a Food: You draw a card and you lose 1 life.",
+   "power": "3",
+   "toughness": "3",
+   "keywords": [
+    "Food"
+   ],
+   "artist": "Steve Prescott",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/2/c/2cfd365e-34d1-4224-b925-119000311934.jpg?1783915071",
+    "normal": "https://cards.scryfall.io/normal/front/2/c/2cfd365e-34d1-4224-b925-119000311934.jpg?1783915071",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/2/c/2cfd365e-34d1-4224-b925-119000311934.jpg?1783915071"
+   },
+   "faces": []
+  },
+  {
+   "id": "8df64c80-9e98-4429-b869-7ac824fe9580",
+   "name": "Grismold, the Dreadsower",
+   "layout": "normal",
+   "manaCost": "{1}{B}{G}",
+   "manaValue": 3,
+   "colors": [
+    "B",
+    "G"
+   ],
+   "typeLine": "Legendary Creature — Troll Shaman",
+   "text": "Trample\nAt the beginning of your end step, each player creates a 1/1 green Plant creature token.\nWhenever a creature token dies, put a +1/+1 counter on Grismold.",
+   "power": "3",
+   "toughness": "3",
+   "keywords": [
+    "Trample"
+   ],
+   "artist": "Filip Burburan",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/8/d/8df64c80-9e98-4429-b869-7ac824fe9580.jpg?1783932797",
+    "normal": "https://cards.scryfall.io/normal/front/8/d/8df64c80-9e98-4429-b869-7ac824fe9580.jpg?1783932797",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/8/d/8df64c80-9e98-4429-b869-7ac824fe9580.jpg?1783932797"
+   },
+   "faces": []
+  },
+  {
+   "id": "d19e17fc-ae3e-4533-ab94-70d5f2e1b8cd",
+   "name": "Hapatra, Vizier of Poisons",
+   "layout": "normal",
+   "manaCost": "{B}{G}",
+   "manaValue": 2,
+   "colors": [
+    "B",
+    "G"
+   ],
+   "typeLine": "Legendary Creature — Human Cleric",
+   "text": "Whenever Hapatra deals combat damage to a player, you may put a -1/-1 counter on target creature.\nWhenever you put one or more -1/-1 counters on a creature, create a 1/1 green Snake creature token with deathtouch.",
+   "power": "2",
+   "toughness": "2",
+   "keywords": [],
+   "artist": "Tyler Jacobson",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/d/1/d19e17fc-ae3e-4533-ab94-70d5f2e1b8cd.jpg?1783904539",
+    "normal": "https://cards.scryfall.io/normal/front/d/1/d19e17fc-ae3e-4533-ab94-70d5f2e1b8cd.jpg?1783904539",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/d/1/d19e17fc-ae3e-4533-ab94-70d5f2e1b8cd.jpg?1783904539"
+   },
+   "faces": []
+  },
+  {
+   "id": "ec6889e2-14ad-4193-9272-c1c758f61724",
+   "name": "Hawkeye, Bowslinger",
+   "layout": "normal",
+   "manaCost": "{2}{W}",
+   "manaValue": 3,
+   "colors": [
+    "W"
+   ],
+   "typeLine": "Legendary Creature — Human Archer Hero",
+   "text": "Reach, vigilance\nWhenever you cast a spell that targets a creature, put a +1/+1 counter on Hawkeye. Scry 1. (Look at the top card of your library. You may put that card on the bottom.)",
+   "power": "3",
+   "toughness": "3",
+   "keywords": [
+    "Reach",
+    "Vigilance",
+    "Scry"
+   ],
+   "artist": "Nanna Marie Steffensen",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/e/c/ec6889e2-14ad-4193-9272-c1c758f61724.jpg?1783903084",
+    "normal": "https://cards.scryfall.io/normal/front/e/c/ec6889e2-14ad-4193-9272-c1c758f61724.jpg?1783903084",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/e/c/ec6889e2-14ad-4193-9272-c1c758f61724.jpg?1783903084"
+   },
+   "faces": []
+  },
+  {
+   "id": "a4dafd5a-e9eb-48b3-b3ec-8d6a9fd92116",
+   "name": "Hobgoblin, Mantled Marauder",
+   "layout": "normal",
+   "manaCost": "{1}{R}",
+   "manaValue": 2,
+   "colors": [
+    "R"
+   ],
+   "typeLine": "Legendary Creature — Goblin Human Villain",
+   "text": "Flying, haste\nWhenever you discard a card, Hobgoblin gets +2/+0 until end of turn.",
+   "power": "1",
+   "toughness": "2",
+   "keywords": [
+    "Flying",
+    "Haste"
+   ],
+   "artist": "Dave DeVries",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/a/4/a4dafd5a-e9eb-48b3-b3ec-8d6a9fd92116.jpg?1783903009",
+    "normal": "https://cards.scryfall.io/normal/front/a/4/a4dafd5a-e9eb-48b3-b3ec-8d6a9fd92116.jpg?1783903009",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/a/4/a4dafd5a-e9eb-48b3-b3ec-8d6a9fd92116.jpg?1783903009"
+   },
+   "faces": []
+  },
+  {
+   "id": "6afead32-3542-44c4-82d6-b6a81beb9f90",
+   "name": "Isamaru, Hound of Konda",
+   "layout": "normal",
+   "manaCost": "{W}",
+   "manaValue": 1,
+   "colors": [
+    "W"
+   ],
+   "typeLine": "Legendary Creature — Dog",
+   "text": "",
+   "power": "2",
+   "toughness": "2",
+   "keywords": [],
+   "artist": "Christopher Moeller",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/6/a/6afead32-3542-44c4-82d6-b6a81beb9f90.jpg?1783930470",
+    "normal": "https://cards.scryfall.io/normal/front/6/a/6afead32-3542-44c4-82d6-b6a81beb9f90.jpg?1783930470",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/6/a/6afead32-3542-44c4-82d6-b6a81beb9f90.jpg?1783930470"
+   },
+   "faces": []
+  },
+  {
+   "id": "c0ab07d6-b7c3-4129-9aef-cfdcfabec4b2",
+   "name": "Jackal, Genius Geneticist",
+   "layout": "normal",
+   "manaCost": "{G}{U}",
+   "manaValue": 2,
+   "colors": [
+    "G",
+    "U"
+   ],
+   "typeLine": "Legendary Creature — Human Scientist Villain",
+   "text": "Trample\nWhenever you cast a creature spell with mana value equal to Jackal's power, copy that spell, except the copy isn't legendary. Then put a +1/+1 counter on Jackal. (The copy becomes a token.)",
+   "power": "1",
+   "toughness": "1",
+   "keywords": [
+    "Trample"
+   ],
+   "artist": "Pavel Kolomeyets",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/c/0/c0ab07d6-b7c3-4129-9aef-cfdcfabec4b2.jpg?1783905318",
+    "normal": "https://cards.scryfall.io/normal/front/c/0/c0ab07d6-b7c3-4129-9aef-cfdcfabec4b2.jpg?1783905318",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/c/0/c0ab07d6-b7c3-4129-9aef-cfdcfabec4b2.jpg?1783905318"
+   },
+   "faces": []
+  },
+  {
+   "id": "6fde1e41-bb06-457e-8c61-4a41535e3a73",
+   "name": "Jacques le Vert",
+   "layout": "normal",
+   "manaCost": "{1}{R}{G}{W}",
+   "manaValue": 4,
+   "colors": [
+    "G",
+    "R",
+    "W"
+   ],
+   "typeLine": "Legendary Creature — Human Warrior",
+   "text": "Green creatures you control get +0/+2.",
+   "power": "3",
+   "toughness": "2",
+   "keywords": [],
+   "artist": "Andi Rusu",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/6/f/6fde1e41-bb06-457e-8c61-4a41535e3a73.jpg?1783942931",
+    "normal": "https://cards.scryfall.io/normal/front/6/f/6fde1e41-bb06-457e-8c61-4a41535e3a73.jpg?1783942931",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/6/f/6fde1e41-bb06-457e-8c61-4a41535e3a73.jpg?1783942931"
+   },
+   "faces": []
+  },
+  {
+   "id": "49d5d62b-72ed-446a-b280-ad04c38bdd0c",
+   "name": "Jadar, Ghoulcaller of Nephalia",
+   "layout": "normal",
+   "manaCost": "{1}{B}",
+   "manaValue": 2,
+   "colors": [
+    "B"
+   ],
+   "typeLine": "Legendary Creature — Human Wizard",
+   "text": "At the beginning of your end step, if you control no creatures with decayed, create a 2/2 black Zombie creature token with decayed. (It can't block. When it attacks, sacrifice it at end of combat.)",
+   "power": "1",
+   "toughness": "1",
+   "keywords": [],
+   "artist": "Yongjae Choi",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/4/9/49d5d62b-72ed-446a-b280-ad04c38bdd0c.jpg?1783903786",
+    "normal": "https://cards.scryfall.io/normal/front/4/9/49d5d62b-72ed-446a-b280-ad04c38bdd0c.jpg?1783903786",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/4/9/49d5d62b-72ed-446a-b280-ad04c38bdd0c.jpg?1783903786"
+   },
+   "faces": []
+  },
+  {
+   "id": "1214fc6d-ae47-418d-88cc-58633ec2ac7a",
+   "name": "Kalakscion, Hunger Tyrant",
+   "layout": "normal",
+   "manaCost": "{1}{B}{B}",
+   "manaValue": 3,
+   "colors": [
+    "B"
+   ],
+   "typeLine": "Legendary Creature — Crocodile",
+   "text": "",
+   "power": "7",
+   "toughness": "2",
+   "keywords": [],
+   "artist": "John Tedrick",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/1/2/1214fc6d-ae47-418d-88cc-58633ec2ac7a.jpg?1783907893",
+    "normal": "https://cards.scryfall.io/normal/front/1/2/1214fc6d-ae47-418d-88cc-58633ec2ac7a.jpg?1783907893",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/1/2/1214fc6d-ae47-418d-88cc-58633ec2ac7a.jpg?1783907893"
+   },
+   "faces": []
+  },
+  {
+   "id": "17a278d0-f601-4d57-bc3d-2972f8602a69",
+   "name": "Kalitas, Traitor of Ghet",
+   "layout": "normal",
+   "manaCost": "{2}{B}{B}",
+   "manaValue": 4,
+   "colors": [
+    "B"
+   ],
+   "typeLine": "Legendary Creature — Vampire Warrior",
+   "text": "Lifelink\nIf a nontoken creature an opponent controls would die, instead exile that card and create a 2/2 black Zombie creature token.\n{2}{B}, Sacrifice another Vampire or Zombie: Put two +1/+1 counters on Kalitas.",
+   "power": "3",
+   "toughness": "4",
+   "keywords": [
+    "Lifelink"
+   ],
+   "artist": "Todd Lockwood",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/1/7/17a278d0-f601-4d57-bc3d-2972f8602a69.jpg?1783937911",
+    "normal": "https://cards.scryfall.io/normal/front/1/7/17a278d0-f601-4d57-bc3d-2972f8602a69.jpg?1783937911",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/1/7/17a278d0-f601-4d57-bc3d-2972f8602a69.jpg?1783937911"
+   },
+   "faces": []
+  },
+  {
+   "id": "07e18994-d08b-4a8e-abfb-b5531fd6f816",
+   "name": "Kiku, Night's Flower",
+   "layout": "normal",
+   "manaCost": "{B}{B}",
+   "manaValue": 2,
+   "colors": [
+    "B"
+   ],
+   "typeLine": "Legendary Creature — Human Assassin",
+   "text": "{2}{B}{B}, {T}: Target creature deals damage to itself equal to its power.",
+   "power": "1",
+   "toughness": "1",
+   "keywords": [],
+   "artist": "Jim Murray",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/0/7/07e18994-d08b-4a8e-abfb-b5531fd6f816.jpg?1783944312",
+    "normal": "https://cards.scryfall.io/normal/front/0/7/07e18994-d08b-4a8e-abfb-b5531fd6f816.jpg?1783944312",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/0/7/07e18994-d08b-4a8e-abfb-b5531fd6f816.jpg?1783944312"
+   },
+   "faces": []
+  },
+  {
+   "id": "c8ff751a-ec64-41d5-b22c-2a483ad9a9b2",
+   "name": "Kitsa, Otterball Elite",
+   "layout": "normal",
+   "manaCost": "{1}{U}",
+   "manaValue": 2,
+   "colors": [
+    "U"
+   ],
+   "typeLine": "Legendary Creature — Otter Wizard",
+   "text": "Vigilance\nProwess (Whenever you cast a noncreature spell, this creature gets +1/+1 until end of turn.)\n{T}: Draw a card, then discard a card.\n{2}, {T}: Copy target instant or sorcery spell you control. You may choose new targets for the copy. Activate only if Kitsa's power is 3 or greater.",
+   "power": "1",
+   "toughness": "3",
+   "keywords": [
+    "Prowess",
+    "Vigilance"
+   ],
+   "artist": "Zoltan Boros",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/c/8/c8ff751a-ec64-41d5-b22c-2a483ad9a9b2.jpg?1783910847",
+    "normal": "https://cards.scryfall.io/normal/front/c/8/c8ff751a-ec64-41d5-b22c-2a483ad9a9b2.jpg?1783910847",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/c/8/c8ff751a-ec64-41d5-b22c-2a483ad9a9b2.jpg?1783910847"
+   },
+   "faces": []
+  },
+  {
+   "id": "06a981cd-1951-438e-95c9-68294795638e",
+   "name": "Krark, the Thumbless",
+   "layout": "normal",
+   "manaCost": "{1}{R}",
+   "manaValue": 2,
+   "colors": [
+    "R"
+   ],
+   "typeLine": "Legendary Creature — Goblin Wizard",
+   "text": "Whenever you cast an instant or sorcery spell, flip a coin. If you lose the flip, return that spell to its owner's hand. If you win the flip, copy that spell, and you may choose new targets for the copy.\nPartner (You can have two commanders if both have partner.)",
+   "power": "2",
+   "toughness": "2",
+   "keywords": [
+    "Partner"
+   ],
+   "artist": "Mathias Kollros",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/0/6/06a981cd-1951-438e-95c9-68294795638e.jpg?1783928810",
+    "normal": "https://cards.scryfall.io/normal/front/0/6/06a981cd-1951-438e-95c9-68294795638e.jpg?1783928810",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/0/6/06a981cd-1951-438e-95c9-68294795638e.jpg?1783928810"
+   },
+   "faces": []
+  },
+  {
+   "id": "0f961cec-2f1f-4cd5-bcc3-72e1deb8779e",
+   "name": "Kydele, Chosen of Kruphix",
+   "layout": "normal",
+   "manaCost": "{2}{G}{U}",
+   "manaValue": 4,
+   "colors": [
+    "G",
+    "U"
+   ],
+   "typeLine": "Legendary Creature — Human Wizard",
+   "text": "{T}: Add {C} for each card you've drawn this turn.\nPartner (You can have two commanders if both have partner.)",
+   "power": "2",
+   "toughness": "3",
+   "keywords": [
+    "Partner"
+   ],
+   "artist": "Bastien L. Deharme",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/0/f/0f961cec-2f1f-4cd5-bcc3-72e1deb8779e.jpg?1783937084",
+    "normal": "https://cards.scryfall.io/normal/front/0/f/0f961cec-2f1f-4cd5-bcc3-72e1deb8779e.jpg?1783937084",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/0/f/0f961cec-2f1f-4cd5-bcc3-72e1deb8779e.jpg?1783937084"
+   },
+   "faces": []
+  },
+  {
+   "id": "2cb16354-1211-4230-90e2-4858ba68f348",
+   "name": "Laelia, the Blade Reforged",
+   "layout": "normal",
+   "manaCost": "{2}{R}",
+   "manaValue": 3,
+   "colors": [
+    "R"
+   ],
+   "typeLine": "Legendary Creature — Spirit Warrior",
+   "text": "Haste\nWhenever Laelia attacks, exile the top card of your library. You may play that card this turn.\nWhenever one or more cards are put into exile from your library and/or your graveyard, put a +1/+1 counter on Laelia.",
+   "power": "2",
+   "toughness": "2",
+   "keywords": [
+    "Haste"
+   ],
+   "artist": "Wisnu Tan",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/2/c/2cb16354-1211-4230-90e2-4858ba68f348.jpg?1783903774",
+    "normal": "https://cards.scryfall.io/normal/front/2/c/2cb16354-1211-4230-90e2-4858ba68f348.jpg?1783903774",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/2/c/2cb16354-1211-4230-90e2-4858ba68f348.jpg?1783903774"
+   },
+   "faces": []
+  },
+  {
+   "id": "1eb25a6c-d6b4-465d-990e-f1ab86b26b69",
+   "name": "Liliana the Repentant",
+   "layout": "normal",
+   "manaCost": "{1}{B}",
+   "manaValue": 2,
+   "colors": [
+    "B"
+   ],
+   "typeLine": "Legendary Creature — Human Warlock",
+   "text": "Whenever another creature or planeswalker you control enters, mill two cards.\nExhaust — {5}{B}: Return target creature or planeswalker card from your graveyard to the battlefield. Put a +1/+1 counter on Liliana. Activate only as a sorcery. (Activate each exhaust ability only once.)",
+   "power": "2",
+   "toughness": "2",
+   "keywords": [
+    "Exhaust",
+    "Mill"
+   ],
+   "artist": "Marta Nael",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/1/e/1eb25a6c-d6b4-465d-990e-f1ab86b26b69.jpg?1788329273",
+    "normal": "https://cards.scryfall.io/normal/front/1/e/1eb25a6c-d6b4-465d-990e-f1ab86b26b69.jpg?1788329273",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/1/e/1eb25a6c-d6b4-465d-990e-f1ab86b26b69.jpg?1788329273"
+   },
+   "faces": []
+  },
+  {
+   "id": "296f1127-14a0-42c4-9e4a-c0d929720748",
+   "name": "Locutus, the One Who Speaks",
+   "layout": "normal",
+   "manaCost": "{W}{B}",
+   "manaValue": 2,
+   "colors": [
+    "B",
+    "W"
+   ],
+   "typeLine": "Legendary Artifact Creature — Borg",
+   "text": "Artifact creatures you control get +1/+1.\n{W}{B}, Discard this card: It deals 2 damage to target creature. You gain 2 life.",
+   "power": "1",
+   "toughness": "1",
+   "keywords": [],
+   "artist": "Ariel Orea",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/2/9/296f1127-14a0-42c4-9e4a-c0d929720748.jpg?1792508366",
+    "normal": "https://cards.scryfall.io/normal/front/2/9/296f1127-14a0-42c4-9e4a-c0d929720748.jpg?1792508366",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/2/9/296f1127-14a0-42c4-9e4a-c0d929720748.jpg?1792508366"
+   },
+   "faces": []
+  },
+  {
+   "id": "b36efbe2-3798-43e5-8640-f003c77440a1",
+   "name": "Longshot, Rebel Bowman",
+   "layout": "normal",
+   "manaCost": "{3}{R}",
+   "manaValue": 4,
+   "colors": [
+    "R"
+   ],
+   "typeLine": "Legendary Creature — Human Rebel Ally",
+   "text": "Reach (This creature can block creatures with flying.)\nNoncreature spells you cast cost {1} less to cast.\nWhenever you cast a noncreature spell, Longshot deals 2 damage to each opponent.",
+   "power": "3",
+   "toughness": "3",
+   "keywords": [
+    "Reach"
+   ],
+   "artist": "Morry Hollowell",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/b/3/b36efbe2-3798-43e5-8640-f003c77440a1.jpg?1783904820",
+    "normal": "https://cards.scryfall.io/normal/front/b/3/b36efbe2-3798-43e5-8640-f003c77440a1.jpg?1783904820",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/b/3/b36efbe2-3798-43e5-8640-f003c77440a1.jpg?1783904820"
+   },
+   "faces": []
+  },
+  {
+   "id": "4f6fd2fa-8bc8-4743-bbc8-b56475d64eff",
+   "name": "Loot, the Anomaly",
+   "layout": "normal",
+   "manaCost": "{2}{B}",
+   "manaValue": 3,
+   "colors": [
+    "B"
+   ],
+   "typeLine": "Legendary Creature — Beast Horror",
+   "text": "If Loot's power is negative, he assigns combat damage as though his power were positive.\nThreshold — Sacrifice another creature or planeswalker: Loot gets -2/-0 until end of turn. Activate only if there are seven or more cards in your graveyard.",
+   "power": "-2",
+   "toughness": "4",
+   "keywords": [
+    "Threshold"
+   ],
+   "artist": "Filip Burburan",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/4/f/4f6fd2fa-8bc8-4743-bbc8-b56475d64eff.jpg?1789568430",
+    "normal": "https://cards.scryfall.io/normal/front/4/f/4f6fd2fa-8bc8-4743-bbc8-b56475d64eff.jpg?1789568430",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/4/f/4f6fd2fa-8bc8-4743-bbc8-b56475d64eff.jpg?1789568430"
+   },
+   "faces": []
+  },
+  {
+   "id": "ce01ff8f-a037-484f-9148-c847ffaabc5a",
+   "name": "Lotho, Corrupt Shirriff",
+   "layout": "normal",
+   "manaCost": "{W}{B}",
+   "manaValue": 2,
+   "colors": [
+    "B",
+    "W"
+   ],
+   "typeLine": "Legendary Creature — Halfling Rogue",
+   "text": "Whenever a player casts their second spell each turn, you lose 1 life and create a Treasure token. (It's an artifact with \"{T}, Sacrifice this token: Add one mana of any color.\")",
+   "power": "2",
+   "toughness": "1",
+   "keywords": [
+    "Treasure"
+   ],
+   "artist": "Ilker Yildiz",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/c/e/ce01ff8f-a037-484f-9148-c847ffaabc5a.jpg?1783916251",
+    "normal": "https://cards.scryfall.io/normal/front/c/e/ce01ff8f-a037-484f-9148-c847ffaabc5a.jpg?1783916251",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/c/e/ce01ff8f-a037-484f-9148-c847ffaabc5a.jpg?1783916251"
+   },
+   "faces": []
+  },
+  {
+   "id": "c3da2b1a-76c5-4d36-bdf8-025b86f61eb5",
+   "name": "Mahadi, Emporium Master",
+   "layout": "normal",
+   "manaCost": "{1}{B}{R}",
+   "manaValue": 3,
+   "colors": [
+    "B",
+    "R"
+   ],
+   "typeLine": "Legendary Creature — Devil",
+   "text": "At the beginning of your end step, create a Treasure token for each creature that died this turn. (It's an artifact with \"{T}, Sacrifice this token: Add one mana of any color.\")",
+   "power": "3",
+   "toughness": "3",
+   "keywords": [
+    "Treasure"
+   ],
+   "artist": "Ilse Gort",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/c/3/c3da2b1a-76c5-4d36-bdf8-025b86f61eb5.jpg?1783922689",
+    "normal": "https://cards.scryfall.io/normal/front/c/3/c3da2b1a-76c5-4d36-bdf8-025b86f61eb5.jpg?1783922689",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/c/3/c3da2b1a-76c5-4d36-bdf8-025b86f61eb5.jpg?1783922689"
+   },
+   "faces": []
+  },
+  {
+   "id": "74dd4c0e-27b8-4c47-b7a6-a281413cd6b4",
+   "name": "Mai, Scornful Striker",
+   "layout": "normal",
+   "manaCost": "{1}{B}",
+   "manaValue": 2,
+   "colors": [
+    "B"
+   ],
+   "typeLine": "Legendary Creature — Human Noble Ally",
+   "text": "First strike\nWhenever a player casts a noncreature spell, they lose 2 life.",
+   "power": "2",
+   "toughness": "2",
+   "keywords": [
+    "First strike"
+   ],
+   "artist": "Hori Airi",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/7/4/74dd4c0e-27b8-4c47-b7a6-a281413cd6b4.jpg?1783904968",
+    "normal": "https://cards.scryfall.io/normal/front/7/4/74dd4c0e-27b8-4c47-b7a6-a281413cd6b4.jpg?1783904968",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/7/4/74dd4c0e-27b8-4c47-b7a6-a281413cd6b4.jpg?1783904968"
+   },
+   "faces": []
+  },
+  {
+   "id": "521dffaa-813b-41e4-b7c2-a8c407167875",
+   "name": "Malcolm, the Eyes",
+   "layout": "normal",
+   "manaCost": "{U}{R}",
+   "manaValue": 2,
+   "colors": [
+    "R",
+    "U"
+   ],
+   "typeLine": "Legendary Creature — Siren Pirate",
+   "text": "Flying, haste\nWhenever you cast your second spell each turn, investigate. (Create a Clue token. It's an artifact with \"{2}, Sacrifice this token: Draw a card.\")",
+   "power": "2",
+   "toughness": "2",
+   "keywords": [
+    "Flying",
+    "Investigate",
+    "Haste"
+   ],
+   "artist": "Dmitry Burmak",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/5/2/521dffaa-813b-41e4-b7c2-a8c407167875.jpg?1783911788",
+    "normal": "https://cards.scryfall.io/normal/front/5/2/521dffaa-813b-41e4-b7c2-a8c407167875.jpg?1783911788",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/5/2/521dffaa-813b-41e4-b7c2-a8c407167875.jpg?1783911788"
+   },
+   "faces": []
+  },
+  {
+   "id": "49d0d7ec-4bee-47d3-91a6-43510be65402",
+   "name": "Mangara, the Diplomat",
+   "layout": "normal",
+   "manaCost": "{3}{W}",
+   "manaValue": 4,
+   "colors": [
+    "W"
+   ],
+   "typeLine": "Legendary Creature — Human Cleric",
+   "text": "Lifelink\nWhenever an opponent attacks with creatures, if two or more of those creatures are attacking you and/or planeswalkers you control, draw a card.\nWhenever an opponent casts their second spell each turn, draw a card.",
+   "power": "2",
+   "toughness": "4",
+   "keywords": [
+    "Lifelink"
+   ],
+   "artist": "Howard Lyon",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/4/9/49d0d7ec-4bee-47d3-91a6-43510be65402.jpg?1783903806",
+    "normal": "https://cards.scryfall.io/normal/front/4/9/49d0d7ec-4bee-47d3-91a6-43510be65402.jpg?1783903806",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/4/9/49d0d7ec-4bee-47d3-91a6-43510be65402.jpg?1783903806"
+   },
+   "faces": []
+  },
+  {
+   "id": "885a3277-ef10-4dcf-ac63-eb8971cd627c",
+   "name": "Meriadoc Brandybuck",
+   "layout": "normal",
+   "manaCost": "{1}{G}",
+   "manaValue": 2,
+   "colors": [
+    "G"
+   ],
+   "typeLine": "Legendary Creature — Halfling Citizen",
+   "text": "Whenever one or more Halflings you control attack a player, create a Food token. (It's an artifact with \"{2}, {T}, Sacrifice this token: You gain 3 life.\")",
+   "power": "2",
+   "toughness": "2",
+   "keywords": [
+    "Food"
+   ],
+   "artist": "Marie Magny",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/8/8/885a3277-ef10-4dcf-ac63-eb8971cd627c.jpg?1783916264",
+    "normal": "https://cards.scryfall.io/normal/front/8/8/885a3277-ef10-4dcf-ac63-eb8971cd627c.jpg?1783916264",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/8/8/885a3277-ef10-4dcf-ac63-eb8971cd627c.jpg?1783916264"
+   },
+   "faces": []
+  },
+  {
+   "id": "4d2e132e-9698-4bf4-927e-994015ec0410",
+   "name": "Mikaeus, the Lunarch",
+   "layout": "normal",
+   "manaCost": "{X}{W}",
+   "manaValue": 1,
+   "colors": [
+    "W"
+   ],
+   "typeLine": "Legendary Creature — Human Cleric",
+   "text": "Mikaeus enters with X +1/+1 counters on it.\n{T}: Put a +1/+1 counter on Mikaeus.\n{T}, Remove a +1/+1 counter from Mikaeus: Put a +1/+1 counter on each other creature you control.",
+   "power": "0",
+   "toughness": "0",
+   "keywords": [],
+   "artist": "Steven Belledin",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/4/d/4d2e132e-9698-4bf4-927e-994015ec0410.jpg?1783908799",
+    "normal": "https://cards.scryfall.io/normal/front/4/d/4d2e132e-9698-4bf4-927e-994015ec0410.jpg?1783908799",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/4/d/4d2e132e-9698-4bf4-927e-994015ec0410.jpg?1783908799"
+   },
+   "faces": []
+  },
+  {
+   "id": "e65ff1f4-a061-4c31-a78e-92af6e7bc56f",
+   "name": "Oroku Saki, Shredder Rising",
+   "layout": "normal",
+   "manaCost": "{2}{B}",
+   "manaValue": 3,
+   "colors": [
+    "B"
+   ],
+   "typeLine": "Legendary Creature — Human Ninja",
+   "text": "Sneak {1}{B} (You may cast this spell for {1}{B} if you also return an unblocked attacker you control to hand during the declare blockers step. He enters tapped and attacking.)\nWhenever Oroku Saki deals combat damage to a player, you draw a card and lose 1 life.",
+   "power": "3",
+   "toughness": "1",
+   "keywords": [
+    "Sneak"
+   ],
+   "artist": "Randy Gallegos",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/e/6/e65ff1f4-a061-4c31-a78e-92af6e7bc56f.jpg?1783904105",
+    "normal": "https://cards.scryfall.io/normal/front/e/6/e65ff1f4-a061-4c31-a78e-92af6e7bc56f.jpg?1783904105",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/e/6/e65ff1f4-a061-4c31-a78e-92af6e7bc56f.jpg?1783904105"
+   },
+   "faces": []
+  },
+  {
+   "id": "08b7a4d8-1183-430e-8ea4-016844f33200",
+   "name": "Pippin, Guard of the Citadel",
+   "layout": "normal",
+   "manaCost": "{W}{U}",
+   "manaValue": 2,
+   "colors": [
+    "U",
+    "W"
+   ],
+   "typeLine": "Legendary Creature — Halfling Soldier",
+   "text": "Vigilance, ward {1}\n{T}: Another target creature you control gains protection from the card type of your choice until end of turn. (It can't be blocked, targeted, dealt damage, enchanted, or equipped by anything of that type.)",
+   "power": "2",
+   "toughness": "2",
+   "keywords": [
+    "Vigilance",
+    "Ward"
+   ],
+   "artist": "Bartłomiej Gaweł",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/0/8/08b7a4d8-1183-430e-8ea4-016844f33200.jpg?1783916249",
+    "normal": "https://cards.scryfall.io/normal/front/0/8/08b7a4d8-1183-430e-8ea4-016844f33200.jpg?1783916249",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/0/8/08b7a4d8-1183-430e-8ea4-016844f33200.jpg?1783916249"
+   },
+   "faces": []
+  },
+  {
+   "id": "a0a7a648-125a-4cf4-bf8b-e1773d8723ff",
+   "name": "Pippin, Warden of Isengard",
+   "layout": "normal",
+   "manaCost": "{B}{G}",
+   "manaValue": 2,
+   "colors": [
+    "B",
+    "G"
+   ],
+   "typeLine": "Legendary Creature — Halfling Advisor",
+   "text": "Partner with Merry, Warden of Isengard (When this creature enters, target player may put Merry into their hand from their library, then shuffle.)\n{1}, {T}: Create a Food token.\n{T}, Sacrifice four Foods: Other creatures you control get +3/+3 and gain haste until end of turn. Activate only as a sorcery.",
+   "power": "2",
+   "toughness": "2",
+   "keywords": [
+    "Partner with",
+    "Food",
+    "Partner"
+   ],
+   "artist": "Viko Menezes",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/a/0/a0a7a648-125a-4cf4-bf8b-e1773d8723ff.jpg?1783916017",
+    "normal": "https://cards.scryfall.io/normal/front/a/0/a0a7a648-125a-4cf4-bf8b-e1773d8723ff.jpg?1783916017",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/a/0/a0a7a648-125a-4cf4-bf8b-e1773d8723ff.jpg?1783916017"
+   },
+   "faces": []
+  },
+  {
+   "id": "27baccc0-7e25-4f39-be0d-31cd98ca0dc5",
+   "name": "Professor Zei, Anthropologist",
+   "layout": "normal",
+   "manaCost": "{U/R}{U/R}",
+   "manaValue": 2,
+   "colors": [
+    "R",
+    "U"
+   ],
+   "typeLine": "Legendary Creature — Human Advisor Ally",
+   "text": "{T}, Discard a card: Draw a card.\n{1}, {T}, Sacrifice Professor Zei: Return target instant or sorcery card from your graveyard to your hand. Activate only during your turn.",
+   "power": "0",
+   "toughness": "3",
+   "keywords": [],
+   "artist": "Pauline Voss",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/2/7/27baccc0-7e25-4f39-be0d-31cd98ca0dc5.jpg?1783904921",
+    "normal": "https://cards.scryfall.io/normal/front/2/7/27baccc0-7e25-4f39-be0d-31cd98ca0dc5.jpg?1783904921",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/2/7/27baccc0-7e25-4f39-be0d-31cd98ca0dc5.jpg?1783904921"
+   },
+   "faces": []
+  },
+  {
+   "id": "4c617bcd-05f8-40c2-bb38-489bc863ce6b",
+   "name": "Prompto Argentum",
+   "layout": "normal",
+   "manaCost": "{1}{R}",
+   "manaValue": 2,
+   "colors": [
+    "R"
+   ],
+   "typeLine": "Legendary Creature — Human Scout",
+   "text": "Haste\nSelfie Shot — Whenever you cast a noncreature spell, if at least four mana was spent to cast it, create a Treasure token.",
+   "power": "2",
+   "toughness": "2",
+   "keywords": [
+    "Selfie Shot",
+    "Treasure",
+    "Haste"
+   ],
+   "artist": "Billy Christian",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/4/c/4c617bcd-05f8-40c2-bb38-489bc863ce6b.jpg?1783906601",
+    "normal": "https://cards.scryfall.io/normal/front/4/c/4c617bcd-05f8-40c2-bb38-489bc863ce6b.jpg?1783906601",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/4/c/4c617bcd-05f8-40c2-bb38-489bc863ce6b.jpg?1783906601"
+   },
+   "faces": []
+  },
+  {
+   "id": "9f764077-df2d-4ac7-b507-2c8e08386d49",
+   "name": "Eruth, Tormented Prophet",
+   "layout": "normal",
+   "manaCost": "{1}{U}{R}",
+   "manaValue": 3,
+   "colors": [
+    "R",
+    "U"
+   ],
+   "typeLine": "Legendary Creature — Human Wizard",
+   "text": "If you would draw a card, exile the top two cards of your library instead. You may play those cards this turn.",
+   "power": "2",
+   "toughness": "4",
+   "keywords": [],
+   "artist": "Ekaterina Burmak",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/9/f/9f764077-df2d-4ac7-b507-2c8e08386d49.jpg?1783924793",
+    "normal": "https://cards.scryfall.io/normal/front/9/f/9f764077-df2d-4ac7-b507-2c8e08386d49.jpg?1783924793",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/9/f/9f764077-df2d-4ac7-b507-2c8e08386d49.jpg?1783924793"
+   },
+   "faces": []
+  },
+  {
+   "id": "90307dd6-196d-4d51-9b3f-6ff339882d31",
+   "name": "Reyav, Master Smith",
+   "layout": "normal",
+   "manaCost": "{R}{W}",
+   "manaValue": 2,
+   "colors": [
+    "R",
+    "W"
+   ],
+   "typeLine": "Legendary Creature — Dwarf Artificer",
+   "text": "Whenever a creature you control that's enchanted or equipped attacks, that creature gains double strike until end of turn.",
+   "power": "2",
+   "toughness": "2",
+   "keywords": [],
+   "artist": "Scott Murphy",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/9/0/90307dd6-196d-4d51-9b3f-6ff339882d31.jpg?1783928769",
+    "normal": "https://cards.scryfall.io/normal/front/9/0/90307dd6-196d-4d51-9b3f-6ff339882d31.jpg?1783928769",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/9/0/90307dd6-196d-4d51-9b3f-6ff339882d31.jpg?1783928769"
+   },
+   "faces": []
+  },
+  {
+   "id": "f487b582-e73f-4325-939f-95fc5a9aba49",
+   "name": "Rona, Herald of Invasion // Rona, Tolarian Obliterator",
+   "layout": "transform",
+   "manaCost": "{1}{U}",
+   "manaValue": 2,
+   "colors": [
+    "U"
+   ],
+   "typeLine": "Legendary Creature — Human Wizard // Legendary Creature — Phyrexian Wizard",
+   "text": "",
+   "power": "1",
+   "toughness": "3",
+   "keywords": [
+    "Transform",
+    "Trample"
+   ],
+   "artist": "Victor Adame Minguez",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/f/4/f487b582-e73f-4325-939f-95fc5a9aba49.jpg?1783917031",
+    "normal": "https://cards.scryfall.io/normal/front/f/4/f487b582-e73f-4325-939f-95fc5a9aba49.jpg?1783917031",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/f/4/f487b582-e73f-4325-939f-95fc5a9aba49.jpg?1783917031"
+   },
+   "faces": [
+    {
+     "name": "Rona, Herald of Invasion",
+     "manaCost": "{1}{U}",
+     "typeLine": "Legendary Creature — Human Wizard",
+     "text": "Whenever you cast a legendary spell, untap Rona.\n{T}: Draw a card, then discard a card.\n{5}{B/P}: Transform Rona. Activate only as a sorcery. ({B/P} can be paid with either {B} or 2 life.)",
+     "power": "1",
+     "toughness": "3",
+     "colors": [
+      "U"
+     ],
+     "images": {
+      "small": "https://cards.scryfall.io/small/front/f/4/f487b582-e73f-4325-939f-95fc5a9aba49.jpg?1783917031",
+      "normal": "https://cards.scryfall.io/normal/front/f/4/f487b582-e73f-4325-939f-95fc5a9aba49.jpg?1783917031",
+      "artCrop": "https://cards.scryfall.io/art_crop/front/f/4/f487b582-e73f-4325-939f-95fc5a9aba49.jpg?1783917031"
+     }
+    },
+    {
+     "name": "Rona, Tolarian Obliterator",
+     "manaCost": "",
+     "typeLine": "Legendary Creature — Phyrexian Wizard",
+     "text": "Trample\nWhenever a source deals damage to Rona, that source's controller exiles a card from their hand at random. If it's a land card, you may put it onto the battlefield under your control. Otherwise, you may cast it without paying its mana cost.",
+     "power": "5",
+     "toughness": "5",
+     "colors": [
+      "B",
+      "U"
+     ],
+     "images": {
+      "small": "https://cards.scryfall.io/small/back/f/4/f487b582-e73f-4325-939f-95fc5a9aba49.jpg?1783917031",
+      "normal": "https://cards.scryfall.io/normal/back/f/4/f487b582-e73f-4325-939f-95fc5a9aba49.jpg?1783917031",
+      "artCrop": "https://cards.scryfall.io/art_crop/back/f/4/f487b582-e73f-4325-939f-95fc5a9aba49.jpg?1783917031"
+     }
+    }
+   ]
+  },
+  {
+   "id": "a0f3fdb0-47ad-4df6-a95c-a2c81aaf7af5",
+   "name": "Samut, Vizier of Naktamun",
+   "layout": "normal",
+   "manaCost": "{1}{R}{G}",
+   "manaValue": 3,
+   "colors": [
+    "G",
+    "R"
+   ],
+   "typeLine": "Legendary Creature — Human Warrior Cleric",
+   "text": "First strike, vigilance, haste\nWhenever a creature you control deals combat damage to a player, if that creature entered this turn, draw a card.",
+   "power": "2",
+   "toughness": "3",
+   "keywords": [
+    "Vigilance",
+    "First strike",
+    "Haste"
+   ],
+   "artist": "Jarel Threat",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/a/0/a0f3fdb0-47ad-4df6-a95c-a2c81aaf7af5.jpg?1783916508",
+    "normal": "https://cards.scryfall.io/normal/front/a/0/a0f3fdb0-47ad-4df6-a95c-a2c81aaf7af5.jpg?1783916508",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/a/0/a0f3fdb0-47ad-4df6-a95c-a2c81aaf7af5.jpg?1783916508"
+   },
+   "faces": []
+  },
+  {
+   "id": "01f40e07-f565-4b9e-87a5-5b28b4e9fb0b",
+   "name": "Sergeant John Benton",
+   "layout": "normal",
+   "manaCost": "{1}{G}{W}",
+   "manaValue": 3,
+   "colors": [
+    "G",
+    "W"
+   ],
+   "typeLine": "Legendary Creature — Human Soldier",
+   "text": "Trample, haste\nShare Intelligence — Whenever Sergeant John Benton deals combat damage to a player, you and that player each draw that many cards.",
+   "power": "2",
+   "toughness": "4",
+   "keywords": [
+    "Haste",
+    "Trample",
+    "Share Intelligence"
+   ],
+   "artist": "Wei Guan",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/0/1/01f40e07-f565-4b9e-87a5-5b28b4e9fb0b.jpg?1783914623",
+    "normal": "https://cards.scryfall.io/normal/front/0/1/01f40e07-f565-4b9e-87a5-5b28b4e9fb0b.jpg?1783914623",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/0/1/01f40e07-f565-4b9e-87a5-5b28b4e9fb0b.jpg?1783914623"
+   },
+   "faces": []
+  },
+  {
+   "id": "8d6288b7-c959-437b-9a3f-eb85c306c9f2",
+   "name": "Shang-Chi and the Ten Rings",
+   "layout": "normal",
+   "manaCost": "{1}{W}{U}",
+   "manaValue": 3,
+   "colors": [
+    "U",
+    "W"
+   ],
+   "typeLine": "Legendary Creature — Human Warrior Hero",
+   "text": "First strike\nWhenever you draw a card, put a +1/+1 counter on Shang-Chi.\nWhen the tenth +1/+1 counter is put on Shang-Chi, you draw five cards and gain 5 life.",
+   "power": "2",
+   "toughness": "2",
+   "keywords": [
+    "First strike"
+   ],
+   "artist": "Carissa Susilo",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/8/d/8d6288b7-c959-437b-9a3f-eb85c306c9f2.jpg?1783903264",
+    "normal": "https://cards.scryfall.io/normal/front/8/d/8d6288b7-c959-437b-9a3f-eb85c306c9f2.jpg?1783903264",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/8/d/8d6288b7-c959-437b-9a3f-eb85c306c9f2.jpg?1783903264"
+   },
+   "faces": []
+  },
+  {
+   "id": "42ca7f13-df00-4904-a7be-44f94272bfee",
+   "name": "Shay Cormac",
+   "layout": "normal",
+   "manaCost": "{W}{B}",
+   "manaValue": 2,
+   "colors": [
+    "B",
+    "W"
+   ],
+   "typeLine": "Legendary Creature — Human Knight Rogue",
+   "text": "{1}: Permanents your opponents control lose hexproof, indestructible, protection, shroud, and ward until end of turn.\nWhenever a creature an opponent controls becomes the target of a spell or ability you control, put a bounty counter on that creature.\nWhenever a creature with a bounty counter on it dies, put two +1/+1 counters on Shay Cormac.",
+   "power": "1",
+   "toughness": "1",
+   "keywords": [],
+   "artist": "Axel Sauerwald",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/4/2/42ca7f13-df00-4904-a7be-44f94272bfee.jpg?1783910967",
+    "normal": "https://cards.scryfall.io/normal/front/4/2/42ca7f13-df00-4904-a7be-44f94272bfee.jpg?1783910967",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/4/2/42ca7f13-df00-4904-a7be-44f94272bfee.jpg?1783910967"
+   },
+   "faces": []
+  },
+  {
+   "id": "b2e5435c-52f3-42d7-bcee-5aa13afd6626",
+   "name": "Sundial, Dawn Tyrant",
+   "layout": "normal",
+   "manaCost": "{1}{W}",
+   "manaValue": 2,
+   "colors": [
+    "W"
+   ],
+   "typeLine": "Legendary Artifact Creature — Construct",
+   "text": "",
+   "power": "3",
+   "toughness": "3",
+   "keywords": [],
+   "artist": "Bruce Brenneise",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/b/2/b2e5435c-52f3-42d7-bcee-5aa13afd6626.jpg?1783907914",
+    "normal": "https://cards.scryfall.io/normal/front/b/2/b2e5435c-52f3-42d7-bcee-5aa13afd6626.jpg?1783907914",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/b/2/b2e5435c-52f3-42d7-bcee-5aa13afd6626.jpg?1783907914"
+   },
+   "faces": []
+  },
+  {
+   "id": "e4775a26-0b66-40e9-8f64-41d9308ca032",
+   "name": "Surrak, Elusive Hunter",
+   "layout": "normal",
+   "manaCost": "{2}{G}",
+   "manaValue": 3,
+   "colors": [
+    "G"
+   ],
+   "typeLine": "Legendary Creature — Human Warrior",
+   "text": "This spell can't be countered.\nTrample\nWhenever a creature you control or a creature spell you control becomes the target of a spell or ability an opponent controls, draw a card.",
+   "power": "4",
+   "toughness": "3",
+   "keywords": [
+    "Trample"
+   ],
+   "artist": "Dan Murayama Scott",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/e/4/e4775a26-0b66-40e9-8f64-41d9308ca032.jpg?1783907332",
+    "normal": "https://cards.scryfall.io/normal/front/e/4/e4775a26-0b66-40e9-8f64-41d9308ca032.jpg?1783907332",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/e/4/e4775a26-0b66-40e9-8f64-41d9308ca032.jpg?1783907332"
+   },
+   "faces": []
+  },
+  {
+   "id": "1b10e23a-7cf5-47dc-9c51-5cbe444a99c7",
+   "name": "Sygg, River Cutthroat",
+   "layout": "normal",
+   "manaCost": "{U/B}{U/B}",
+   "manaValue": 2,
+   "colors": [
+    "B",
+    "U"
+   ],
+   "typeLine": "Legendary Creature — Merfolk Rogue",
+   "text": "At the beginning of each end step, if an opponent lost 3 or more life this turn, you may draw a card. (Damage causes loss of life.)",
+   "power": "1",
+   "toughness": "3",
+   "keywords": [],
+   "artist": "Jeremy Enecio",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/1/b/1b10e23a-7cf5-47dc-9c51-5cbe444a99c7.jpg?1783929454",
+    "normal": "https://cards.scryfall.io/normal/front/1/b/1b10e23a-7cf5-47dc-9c51-5cbe444a99c7.jpg?1783929454",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/1/b/1b10e23a-7cf5-47dc-9c51-5cbe444a99c7.jpg?1783929454"
+   },
+   "faces": []
+  },
+  {
+   "id": "6cb0f825-b75b-4f2a-803c-08142ca07e76",
+   "name": "Tam, Mindful First-Year",
+   "layout": "normal",
+   "manaCost": "{1}{G/U}",
+   "manaValue": 2,
+   "colors": [
+    "G",
+    "U"
+   ],
+   "typeLine": "Legendary Creature — Gorgon Wizard",
+   "text": "Each other creature you control has hexproof from each of its colors.\n{T}: Target creature you control becomes all colors until end of turn.",
+   "power": "2",
+   "toughness": "2",
+   "keywords": [],
+   "artist": "Zoltan Boros",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/6/c/6cb0f825-b75b-4f2a-803c-08142ca07e76.jpg?1783904402",
+    "normal": "https://cards.scryfall.io/normal/front/6/c/6cb0f825-b75b-4f2a-803c-08142ca07e76.jpg?1783904402",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/6/c/6cb0f825-b75b-4f2a-803c-08142ca07e76.jpg?1783904402"
+   },
+   "faces": []
+  },
+  {
+   "id": "c9f8b8fb-1cd8-450e-a1fe-892e7a323479",
+   "name": "Thalia, Guardian of Thraben",
+   "layout": "normal",
+   "manaCost": "{1}{W}",
+   "manaValue": 2,
+   "colors": [
+    "W"
+   ],
+   "typeLine": "Legendary Creature — Human Soldier",
+   "text": "First strike\nNoncreature spells cost {1} more to cast.",
+   "power": "2",
+   "toughness": "1",
+   "keywords": [
+    "First strike"
+   ],
+   "artist": "Magali Villeneuve",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/c/9/c9f8b8fb-1cd8-450e-a1fe-892e7a323479.jpg?1783924909",
+    "normal": "https://cards.scryfall.io/normal/front/c/9/c9f8b8fb-1cd8-450e-a1fe-892e7a323479.jpg?1783924909",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/c/9/c9f8b8fb-1cd8-450e-a1fe-892e7a323479.jpg?1783924909"
+   },
+   "faces": []
+  },
+  {
+   "id": "3d75e8fd-6139-4b10-9ce3-195b47d72e0c",
+   "name": "The Emperor of Palamecia // The Lord Master of Hell",
+   "layout": "transform",
+   "manaCost": "{U}{R}",
+   "manaValue": 2,
+   "colors": [
+    "R",
+    "U"
+   ],
+   "typeLine": "Legendary Creature — Human Noble Wizard // Legendary Creature — Demon Noble Wizard",
+   "text": "",
+   "power": "2",
+   "toughness": "2",
+   "keywords": [
+    "Starfall",
+    "Transform"
+   ],
+   "artist": "Heonhwa",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/3/d/3d75e8fd-6139-4b10-9ce3-195b47d72e0c.jpg?1783906579",
+    "normal": "https://cards.scryfall.io/normal/front/3/d/3d75e8fd-6139-4b10-9ce3-195b47d72e0c.jpg?1783906579",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/3/d/3d75e8fd-6139-4b10-9ce3-195b47d72e0c.jpg?1783906579"
+   },
+   "faces": [
+    {
+     "name": "The Emperor of Palamecia",
+     "manaCost": "{U}{R}",
+     "typeLine": "Legendary Creature — Human Noble Wizard",
+     "text": "{T}: Add {U} or {R}. Spend this mana only to cast a noncreature spell.\nWhenever you cast a noncreature spell, if at least four mana was spent to cast it, put a +1/+1 counter on The Emperor of Palamecia. Then if it has three or more +1/+1 counters on it, transform it.",
+     "power": "2",
+     "toughness": "2",
+     "colors": [
+      "R",
+      "U"
+     ],
+     "images": {
+      "small": "https://cards.scryfall.io/small/front/3/d/3d75e8fd-6139-4b10-9ce3-195b47d72e0c.jpg?1783906579",
+      "normal": "https://cards.scryfall.io/normal/front/3/d/3d75e8fd-6139-4b10-9ce3-195b47d72e0c.jpg?1783906579",
+      "artCrop": "https://cards.scryfall.io/art_crop/front/3/d/3d75e8fd-6139-4b10-9ce3-195b47d72e0c.jpg?1783906579"
+     }
+    },
+    {
+     "name": "The Lord Master of Hell",
+     "manaCost": "",
+     "typeLine": "Legendary Creature — Demon Noble Wizard",
+     "text": "Starfall — Whenever The Lord Master of Hell attacks, it deals X damage to each opponent, where X is the number of noncreature, nonland cards in your graveyard.",
+     "power": "3",
+     "toughness": "3",
+     "colors": [
+      "R",
+      "U"
+     ],
+     "images": {
+      "small": "https://cards.scryfall.io/small/back/3/d/3d75e8fd-6139-4b10-9ce3-195b47d72e0c.jpg?1783906579",
+      "normal": "https://cards.scryfall.io/normal/back/3/d/3d75e8fd-6139-4b10-9ce3-195b47d72e0c.jpg?1783906579",
+      "artCrop": "https://cards.scryfall.io/art_crop/back/3/d/3d75e8fd-6139-4b10-9ce3-195b47d72e0c.jpg?1783906579"
+     }
+    }
+   ]
+  },
+  {
+   "id": "a094fa16-256f-4fb1-9738-3025085d1941",
+   "name": "The Goose Mother",
+   "layout": "normal",
+   "manaCost": "{X}{G}{U}",
+   "manaValue": 2,
+   "colors": [
+    "G",
+    "U"
+   ],
+   "typeLine": "Legendary Creature — Bird Hydra",
+   "text": "Flying\nThe Goose Mother enters with X +1/+1 counters on it.\nWhen The Goose Mother enters, create half X Food tokens, rounded up.\nWhenever The Goose Mother attacks, you may sacrifice a Food. If you do, draw a card.",
+   "power": "2",
+   "toughness": "2",
+   "keywords": [
+    "Flying",
+    "Food"
+   ],
+   "artist": "Jesper Ejsing",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/a/0/a094fa16-256f-4fb1-9738-3025085d1941.jpg?1783903751",
+    "normal": "https://cards.scryfall.io/normal/front/a/0/a094fa16-256f-4fb1-9738-3025085d1941.jpg?1783903751",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/a/0/a094fa16-256f-4fb1-9738-3025085d1941.jpg?1783903751"
+   },
+   "faces": []
+  },
+  {
+   "id": "6e761fb2-ae4f-4d72-a142-f7e9bd681303",
+   "name": "The Raven Man",
+   "layout": "normal",
+   "manaCost": "{1}{B}",
+   "manaValue": 2,
+   "colors": [
+    "B"
+   ],
+   "typeLine": "Legendary Creature — Human Wizard",
+   "text": "At the beginning of each end step, if a player discarded a card this turn, create a 1/1 black Bird creature token with flying and \"This token can't block.\"\n{3}{B}, {T}: Each opponent discards a card. Activate only as a sorcery.",
+   "power": "2",
+   "toughness": "1",
+   "keywords": [],
+   "artist": "Chris Rahn",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/6/e/6e761fb2-ae4f-4d72-a142-f7e9bd681303.jpg?1783921327",
+    "normal": "https://cards.scryfall.io/normal/front/6/e/6e761fb2-ae4f-4d72-a142-f7e9bd681303.jpg?1783921327",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/6/e/6e761fb2-ae4f-4d72-a142-f7e9bd681303.jpg?1783921327"
+   },
+   "faces": []
+  },
+  {
+   "id": "ff3d85bc-ef2d-4251-baf4-a14bd0cee61e",
+   "name": "Tinybones, Bauble Burglar",
+   "layout": "normal",
+   "manaCost": "{1}{B}",
+   "manaValue": 2,
+   "colors": [
+    "B"
+   ],
+   "typeLine": "Legendary Creature — Skeleton Rogue",
+   "text": "Whenever an opponent discards a card, exile it from their graveyard with a stash counter on it.\nDuring your turn, you may play cards you don't own with stash counters on them from exile, and mana of any type can be spent to cast those spells.\n{3}{B}, {T}: Each opponent discards a card. Activate only as a sorcery.",
+   "power": "1",
+   "toughness": "3",
+   "keywords": [],
+   "artist": "Leonardo Santanna",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/f/f/ff3d85bc-ef2d-4251-baf4-a14bd0cee61e.jpg?1783909107",
+    "normal": "https://cards.scryfall.io/normal/front/f/f/ff3d85bc-ef2d-4251-baf4-a14bd0cee61e.jpg?1783909107",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/f/f/ff3d85bc-ef2d-4251-baf4-a14bd0cee61e.jpg?1783909107"
+   },
+   "faces": []
+  },
+  {
+   "id": "2f47ddf7-35b6-4205-8045-f057914c5f64",
+   "name": "Tinybones, Pocket Nuisance",
+   "layout": "normal",
+   "manaCost": "{2}{B}",
+   "manaValue": 3,
+   "colors": [
+    "B"
+   ],
+   "typeLine": "Legendary Creature — Skeleton Rogue",
+   "text": "When Tinybones enters, each opponent discards a card.\nWhenever a player discards one or more cards, Tinybones deals 1 damage to each opponent.",
+   "power": "2",
+   "toughness": "1",
+   "keywords": [],
+   "artist": "Jesper Ejsing",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/2/f/2f47ddf7-35b6-4205-8045-f057914c5f64.jpg?1788329294",
+    "normal": "https://cards.scryfall.io/normal/front/2/f/2f47ddf7-35b6-4205-8045-f057914c5f64.jpg?1788329294",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/2/f/2f47ddf7-35b6-4205-8045-f057914c5f64.jpg?1788329294"
+   },
+   "faces": []
+  },
+  {
+   "id": "5c5afd5f-6f37-4c3e-83f0-68fdcea98810",
+   "name": "Tomik, Izzet Sparkmage",
+   "layout": "normal",
+   "manaCost": "{1}{R}",
+   "manaValue": 2,
+   "colors": [
+    "R"
+   ],
+   "typeLine": "Legendary Creature — Human Wizard",
+   "text": "Prowess (Whenever you cast a noncreature spell, this creature gets +1/+1 until end of turn.)\nIf a source you control would deal noncombat damage to an opponent or a permanent an opponent controls, it deals that much damage plus 1 instead.",
+   "power": "1",
+   "toughness": "2",
+   "keywords": [
+    "Prowess"
+   ],
+   "artist": "Randy Vargas",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/5/c/5c5afd5f-6f37-4c3e-83f0-68fdcea98810.jpg?1789729773",
+    "normal": "https://cards.scryfall.io/normal/front/5/c/5c5afd5f-6f37-4c3e-83f0-68fdcea98810.jpg?1789729773",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/5/c/5c5afd5f-6f37-4c3e-83f0-68fdcea98810.jpg?1789729773"
+   },
+   "faces": []
+  },
+  {
+   "id": "f6a4b54c-a8fa-464e-a3dd-f3f3a08606f5",
+   "name": "Trelasarra, Moon Dancer",
+   "layout": "normal",
+   "manaCost": "{G}{W}",
+   "manaValue": 2,
+   "colors": [
+    "G",
+    "W"
+   ],
+   "typeLine": "Legendary Creature — Elf Cleric",
+   "text": "Whenever you gain life, put a +1/+1 counter on Trelasarra and scry 1. (Look at the top card of your library. You may put that card on the bottom.)",
+   "power": "2",
+   "toughness": "2",
+   "keywords": [
+    "Scry"
+   ],
+   "artist": "Kieran Yanner",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/f/6/f6a4b54c-a8fa-464e-a3dd-f3f3a08606f5.jpg?1783926442",
+    "normal": "https://cards.scryfall.io/normal/front/f/6/f6a4b54c-a8fa-464e-a3dd-f3f3a08606f5.jpg?1783926442",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/f/6/f6a4b54c-a8fa-464e-a3dd-f3f3a08606f5.jpg?1783926442"
+   },
+   "faces": []
+  },
+  {
+   "id": "14b28eae-e8ed-4b99-b6ec-86d0716ec473",
+   "name": "Tymaret, Chosen from Death",
+   "layout": "normal",
+   "manaCost": "{B}{B}",
+   "manaValue": 2,
+   "colors": [
+    "B"
+   ],
+   "typeLine": "Legendary Enchantment Creature — Demigod",
+   "text": "Tymaret's toughness is equal to your devotion to black. (Each {B} in the mana costs of permanents you control counts toward your devotion to black.)\n{1}{B}: Exile up to two target cards from graveyards. You gain 1 life for each creature card exiled this way.",
+   "power": "2",
+   "toughness": "*",
+   "keywords": [],
+   "artist": "Chase Stone",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/1/4/14b28eae-e8ed-4b99-b6ec-86d0716ec473.jpg?1783931559",
+    "normal": "https://cards.scryfall.io/normal/front/1/4/14b28eae-e8ed-4b99-b6ec-86d0716ec473.jpg?1783931559",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/1/4/14b28eae-e8ed-4b99-b6ec-86d0716ec473.jpg?1783931559"
+   },
+   "faces": []
+  },
+  {
+   "id": "159dc5a8-5cba-4c20-8c07-28a3d86c8411",
+   "name": "Tyrox, Saurid Tyrant",
+   "layout": "normal",
+   "manaCost": "{1}{R}",
+   "manaValue": 2,
+   "colors": [
+    "R"
+   ],
+   "typeLine": "Legendary Creature — Dinosaur Warrior",
+   "text": "",
+   "power": "4",
+   "toughness": "1",
+   "keywords": [],
+   "artist": "John Tedrick",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/1/5/159dc5a8-5cba-4c20-8c07-28a3d86c8411.jpg?1783907876",
+    "normal": "https://cards.scryfall.io/normal/front/1/5/159dc5a8-5cba-4c20-8c07-28a3d86c8411.jpg?1783907876",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/1/5/159dc5a8-5cba-4c20-8c07-28a3d86c8411.jpg?1783907876"
+   },
+   "faces": []
+  },
+  {
+   "id": "14379198-9a0a-4853-9d51-fb074a24b1c0",
+   "name": "Ultros, Obnoxious Octopus",
+   "layout": "normal",
+   "manaCost": "{1}{U}",
+   "manaValue": 2,
+   "colors": [
+    "U"
+   ],
+   "typeLine": "Legendary Creature — Octopus",
+   "text": "Whenever you cast a noncreature spell, if at least four mana was spent to cast it, tap target creature an opponent controls and put a stun counter on it. (If a permanent with a stun counter would become untapped, remove one from it instead.)\nWhenever you cast a noncreature spell, if at least eight mana was spent to cast it, put eight +1/+1 counters on Ultros.",
+   "power": "2",
+   "toughness": "1",
+   "keywords": [],
+   "artist": "Domenico Cava",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/1/4/14379198-9a0a-4853-9d51-fb074a24b1c0.jpg?1783906626",
+    "normal": "https://cards.scryfall.io/normal/front/1/4/14379198-9a0a-4853-9d51-fb074a24b1c0.jpg?1783906626",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/1/4/14379198-9a0a-4853-9d51-fb074a24b1c0.jpg?1783906626"
+   },
+   "faces": []
+  },
+  {
+   "id": "f239682a-2b81-4f62-a474-60e8db343200",
+   "name": "Urdnan, Dromoka Warrior",
+   "layout": "normal",
+   "manaCost": "{1}{W}",
+   "manaValue": 2,
+   "colors": [
+    "W"
+   ],
+   "typeLine": "Legendary Creature — Human Warrior",
+   "text": "When Urdnan enters, put a +1/+1 counter on target creature.\nWhenever you attack, target attacking creature with a +1/+1 counter on it gains first strike until end of turn. If that creature has two or more +1/+1 counters on it, it gains double strike until end of turn instead.",
+   "power": "1",
+   "toughness": "1",
+   "keywords": [],
+   "artist": "Yakotakos",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/f/2/f239682a-2b81-4f62-a474-60e8db343200.jpg?1783908860",
+    "normal": "https://cards.scryfall.io/normal/front/f/2/f239682a-2b81-4f62-a474-60e8db343200.jpg?1783908860",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/f/2/f239682a-2b81-4f62-a474-60e8db343200.jpg?1783908860"
+   },
+   "faces": []
+  },
+  {
+   "id": "828b5855-af5a-46a6-8fd4-0a2e28f3bb01",
+   "name": "Vadmir, New Blood",
+   "layout": "normal",
+   "manaCost": "{1}{B}",
+   "manaValue": 2,
+   "colors": [
+    "B"
+   ],
+   "typeLine": "Legendary Creature — Vampire Rogue",
+   "text": "Whenever you commit a crime, put a +1/+1 counter on Vadmir. This ability triggers only once each turn. (Targeting opponents, anything they control, and/or cards in their graveyards is a crime.)\nAs long as Vadmir has four or more +1/+1 counters on it, it has menace and lifelink.",
+   "power": "2",
+   "toughness": "2",
+   "keywords": [],
+   "artist": "Andreas Zafiratos",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/8/2/828b5855-af5a-46a6-8fd4-0a2e28f3bb01.jpg?1783911825",
+    "normal": "https://cards.scryfall.io/normal/front/8/2/828b5855-af5a-46a6-8fd4-0a2e28f3bb01.jpg?1783911825",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/8/2/828b5855-af5a-46a6-8fd4-0a2e28f3bb01.jpg?1783911825"
+   },
+   "faces": []
+  },
+  {
+   "id": "893254c7-64cc-4cb9-b79f-2c41a8935ea0",
+   "name": "Vnwxt, Verbose Host",
+   "layout": "normal",
+   "manaCost": "{1}{U}",
+   "manaValue": 2,
+   "colors": [
+    "U"
+   ],
+   "typeLine": "Legendary Creature — Homunculus",
+   "text": "Start your engines! (If you have no speed, it starts at 1. It increases once on each of your turns when an opponent loses life. Max speed is 4.)\nYou have no maximum hand size.\nMax speed — If you would draw a card, draw two cards instead.",
+   "power": "0",
+   "toughness": "4",
+   "keywords": [
+    "Max speed",
+    "Start your engines!"
+   ],
+   "artist": "Izzy",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/8/9/893254c7-64cc-4cb9-b79f-2c41a8935ea0.jpg?1783907900",
+    "normal": "https://cards.scryfall.io/normal/front/8/9/893254c7-64cc-4cb9-b79f-2c41a8935ea0.jpg?1783907900",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/8/9/893254c7-64cc-4cb9-b79f-2c41a8935ea0.jpg?1783907900"
+   },
+   "faces": []
+  },
+  {
+   "id": "e20da6b5-1057-4a28-9e85-07de714e262f",
+   "name": "Wan Shi Tong, Librarian",
+   "layout": "normal",
+   "manaCost": "{X}{U}{U}",
+   "manaValue": 2,
+   "colors": [
+    "U"
+   ],
+   "typeLine": "Legendary Creature — Bird Spirit",
+   "text": "Flash\nFlying, vigilance\nWhen Wan Shi Tong enters, put X +1/+1 counters on him. Then draw half X cards, rounded down.\nWhenever an opponent searches their library, put a +1/+1 counter on Wan Shi Tong and draw a card.",
+   "power": "1",
+   "toughness": "1",
+   "keywords": [
+    "Flying",
+    "Vigilance",
+    "Flash"
+   ],
+   "artist": "Ryota Murayama",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/e/2/e20da6b5-1057-4a28-9e85-07de714e262f.jpg?1783904979",
+    "normal": "https://cards.scryfall.io/normal/front/e/2/e20da6b5-1057-4a28-9e85-07de714e262f.jpg?1783904979",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/e/2/e20da6b5-1057-4a28-9e85-07de714e262f.jpg?1783904979"
+   },
+   "faces": []
+  },
+  {
+   "id": "dfe0daf8-43da-484b-baa1-76f8313c5a0c",
+   "name": "Wilson, Refined Grizzly",
+   "layout": "normal",
+   "manaCost": "{1}{G}",
+   "manaValue": 2,
+   "colors": [
+    "G"
+   ],
+   "typeLine": "Legendary Creature — Bear Warrior",
+   "text": "This spell can't be countered.\nReach, vigilance, trample\nWard {2} (Whenever this creature becomes the target of a spell or ability an opponent controls, counter it unless that player pays {2}.)\nChoose a Background (You can have a Background as a second commander.)",
+   "power": "2",
+   "toughness": "2",
+   "keywords": [
+    "Reach",
+    "Vigilance",
+    "Choose a background",
+    "Trample",
+    "Ward"
+   ],
+   "artist": "Ilse Gort",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/d/f/dfe0daf8-43da-484b-baa1-76f8313c5a0c.jpg?1783922700",
+    "normal": "https://cards.scryfall.io/normal/front/d/f/dfe0daf8-43da-484b-baa1-76f8313c5a0c.jpg?1783922700",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/d/f/dfe0daf8-43da-484b-baa1-76f8313c5a0c.jpg?1783922700"
+   },
+   "faces": []
+  },
+  {
+   "id": "ebf71ffc-6e3e-4ca0-a84a-3c1ebd2b64b1",
+   "name": "Winter Soldier, Icy Assassin",
+   "layout": "normal",
+   "manaCost": "{W}{B}",
+   "manaValue": 2,
+   "colors": [
+    "B",
+    "W"
+   ],
+   "typeLine": "Legendary Creature — Human Assassin Villain",
+   "text": "Vigilance, menace\nWinter Soldier gets +2/+0 for each Equipment attached to him.\n{3}{W}{B}: Return this card from your graveyard to the battlefield with a finality counter on him. Then you may attach an Equipment you control to him. (If a creature with a finality counter on it would die, exile it instead.)",
+   "power": "2",
+   "toughness": "2",
+   "keywords": [
+    "Vigilance",
+    "Menace"
+   ],
+   "artist": "Riccardo Federici",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/e/b/ebf71ffc-6e3e-4ca0-a84a-3c1ebd2b64b1.jpg?1783902893",
+    "normal": "https://cards.scryfall.io/normal/front/e/b/ebf71ffc-6e3e-4ca0-a84a-3c1ebd2b64b1.jpg?1783902893",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/e/b/ebf71ffc-6e3e-4ca0-a84a-3c1ebd2b64b1.jpg?1783902893"
+   },
+   "faces": []
+  },
+  {
+   "id": "1aea14a7-ef88-4d88-9b9b-a450d3507414",
+   "name": "Yume, Chronicler of Valor",
+   "layout": "normal",
+   "manaCost": "{1}{W}",
+   "manaValue": 2,
+   "colors": [
+    "W"
+   ],
+   "typeLine": "Legendary Creature — Human Druid",
+   "text": "The first spell you cast during each of your turns has assist. When you cast that spell, if another player spent mana to cast it, you and that player each draw a card. (As you cast a spell with assist, you may choose another player. They may pay some or all of the generic mana in the spell's cost.)",
+   "power": "1",
+   "toughness": "2",
+   "keywords": [],
+   "artist": "Hendry Iwanaga",
+   "images": {
+    "small": "https://cards.scryfall.io/small/front/1/a/1aea14a7-ef88-4d88-9b9b-a450d3507414.jpg?1792739704",
+    "normal": "https://cards.scryfall.io/normal/front/1/a/1aea14a7-ef88-4d88-9b9b-a450d3507414.jpg?1792739704",
+    "artCrop": "https://cards.scryfall.io/art_crop/front/1/a/1aea14a7-ef88-4d88-9b9b-a450d3507414.jpg?1792739704"
+   },
+   "faces": []
+  }
+ ]
+}
